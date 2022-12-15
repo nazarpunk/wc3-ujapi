@@ -105,7 +105,7 @@ D:\Warcraft III
 
 ```lua
 -- war3map.lua
-require 'main'
+require 'lua/MyAwesomeMap/main'
 ```
 
 Добавляем что нибуть для проверки работоспособности в **main.lua**. 
