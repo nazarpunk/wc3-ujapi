@@ -1,3 +1,7 @@
+<p align="center">
+<a href="https://xgm.guru/p/wc3/ujapi-lua">XGM</a>
+</p>
+
 Предисловие
 =
 
