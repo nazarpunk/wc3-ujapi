@@ -115,7 +115,7 @@ require 'lua.MyAwesomeMap.main'
 Добавляем что нибуть для проверки работоспособности в **main.lua**. 
 
 ```lua
--- main.lua
+-- D:\Warcraft III\lua\MyAwesomeMap\main.lua
 print('Теперь я могу писать карты на lua!')
 ```
 
