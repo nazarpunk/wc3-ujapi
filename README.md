@@ -35,8 +35,9 @@ mkdir "D:\Warcraft III\lua"
 
 Осталось дело за малым, скопировать нужные файлы из [репозитория](https://github.com/nazarpunk/wc3-ujapi).
 
-```
+```shell
 cd /D "D:\Warcraft III\lua"
+rmdir /s /q ujapi
 git clone https://github.com/nazarpunk/wc3-ujapi.git ujapi
 ```
 
@@ -58,8 +59,8 @@ Warcraft III - Lua
 
 Если вы успешно клонировали репозиторий, то все эти пляски можно пропустить. Нужные файлы будут находиться по адресу:
 
-```
-start "D:\Warcraft III\lua\ujapi\sdk"
+```shell
+explorer "D:\Warcraft III\lua\ujapi\sdk"
 ```
 
 Как настроить подсветку в IDE прекрасно описано в этой [статье](https://xgm.guru/p/wc3/lua-highlight).
@@ -119,11 +120,7 @@ require 'lua.MyAwesomeMap.main'
 print('Теперь я могу писать карты на lua!')
 ```
 
-Осталось только запустить игру через лаунчер [UjAPI](https://xgm.guru/p/ujapi/UjAPI-Resource). Обязательно удостоверьтесь, что выбраны нужные опции в графе **Lua Settings**:
-
-- **Dev Mode** - позволяет запускать скрипты из папки варкрафта, даёт возможность работать с такими выключенными функциями, как **execute**, а также снимает ограничение на работу с файлами.
-- **No Warning** -  убирает варнинги при работе с чистым **handle**, т.е. если вы в функцию, где принимается юнит, запихнули **handle**.
-- **Concole** - запускает консоль параллельно с игрой, в которую можно выводить данные с помощью **printc()**
+Осталось только [настроить](https://xgm.guru/p/ujapi/UjAPI-Resource) лаунчер уделив особое внимание графе [lua settings](https://xgm.guru/p/wc3/ujapi-lua-settings).
 
 *Поздравляю, Вы великолепны!*
 
