@@ -113,7 +113,7 @@ D:\Warcraft III
 require 'lua.MyAwesomeMap.main'
 ```
 
-Добавляем что нибуть для проверки работоспособности в **main.lua**. 
+Добавляем что нибудь для проверки работоспособности в **main.lua**. 
 
 ```lua
 -- D:\Warcraft III\lua\MyAwesomeMap\main.lua
