@@ -8,3 +8,7 @@
 function FourCC(raw) end
 
 function printc(...) end
+
+---@param fromRoot boolean
+---@return string
+function GetMapFileName(fromRoot) end
