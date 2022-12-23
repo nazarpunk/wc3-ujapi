@@ -7,4 +7,4 @@
 ---@return integer
 function FourCC(raw) end
 
-function printс(...) end
+function printc(...) end
