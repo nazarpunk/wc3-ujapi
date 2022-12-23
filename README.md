@@ -35,8 +35,9 @@ mkdir "D:\Warcraft III\lua"
 
 Осталось дело за малым, скопировать нужные файлы из [репозитория](https://github.com/nazarpunk/wc3-ujapi).
 
-```
+```shell
 cd /D "D:\Warcraft III\lua"
+rmdir /s /q ujapi
 git clone https://github.com/nazarpunk/wc3-ujapi.git ujapi
 ```
 
@@ -54,12 +55,12 @@ Warcraft III - Lua
 - common.ai.j
 - common.j
 
-Файл **UjAPI.j** скачиваем из [репозитория](https://github.com/UnryzeC/UjAPI), кладём всё это дело в отдельную папку и натравливаем на неё [cJass2Lua](https://xgm.guru/p/wc3/237543).
+Файл **UjAPI.j** скачиваем из [репозитория](https://github.com/UnryzeC/UjAPI), кладём всё это дело в отдельную папку и натравливаем на неё [cJass2Lua](https://xgm.guru/p/wc3/237543) по этой [инструкции](https://xgm.guru/p/wc3/237543).
 
 Если вы успешно клонировали репозиторий, то все эти пляски можно пропустить. Нужные файлы будут находиться по адресу:
 
-```
-start "D:\Warcraft III\lua\ujapi\sdk"
+```shell
+explorer "D:\Warcraft III\lua\ujapi\sdk"
 ```
 
 Как настроить подсветку в IDE прекрасно описано в этой [статье](https://xgm.guru/p/wc3/lua-highlight).
@@ -103,23 +104,23 @@ D:\Warcraft III
 
 Осталось подключить lua к карте.
 
-И тут нам открывается вся мощь [Warcraft III - Lua](https://xgm.guru/p/war3-lua/index) - он умеет запускать lua из папки с игрой. Тоесть вы можете просто запустить игру и перезапускать карту. При каждом перезапуске в карте будут обновлённые lua файлы.
+И тут нам открывается вся мощь [Warcraft III - Lua](https://xgm.guru/p/war3-lua/index) - он умеет запускать lua из папки с игрой с включённым [DevMode](https://xgm.guru/p/wc3/ujapi-lua-settings#h1). То есть вы можете просто запустить игру и перезапускать карту. При каждом перезапуске в карте будут обновлённые lua файлы.
 
 Посему просто пишем в **war3map.lua** волшебные строчки и импортируем в корень карты.
 
 ```lua
 -- war3map.lua
-require 'lua/MyAwesomeMap/main'
+require 'lua.MyAwesomeMap.main'
 ```
 
-Добавляем что нибуть для проверки работоспособности в **main.lua**. 
+Добавляем что нибудь для проверки работоспособности в **main.lua**. 
 
 ```lua
--- main.lua
+-- D:\Warcraft III\lua\MyAwesomeMap\main.lua
 print('Теперь я могу писать карты на lua!')
 ```
 
-И обязательно запускаем игру через лаунчер.
+Осталось только [настроить](https://xgm.guru/p/ujapi/UjAPI-Resource) лаунчер уделив особое внимание графе [lua settings](https://xgm.guru/p/wc3/ujapi-lua-settings).
 
 *Поздравляю, Вы великолепны!*
 

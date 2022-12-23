@@ -21,6 +21,7 @@
 ---@class  pathingflag:handle 
 ---@class  timetype:handle 
 ---@class  variabletype:handle 
+---@class  playermissileevent:eventid 
 
 ---@param i integer
 ---@return animtype
@@ -112,7 +113,7 @@ function ConvertTimeType(i) end	-- (native)
 function ConvertVariableType(i) end	-- (native)
 
 -- ===================================================
---  Game Constants    
+--  Game Constants
 -- ===================================================
 RARITY_QUEUE = ConvertRarityControl(2)	---@type raritycontrol	
 ANIM_TYPE_BIRTH = ConvertAnimType(0)	---@type animtype	
@@ -197,6 +198,11 @@ EVENT_PLAYER_UNIT_DAMAGING = ConvertPlayerUnitEvent(315)	---@type playeruniteven
 --  For use with TriggerRegisterUnitEvent
 -- ===================================================
 EVENT_UNIT_DAMAGING = ConvertUnitEvent(314)	---@type unitevent	
+-- ===================================================
+--  For use with TriggerRegisterPlayerMissileEvent
+-- ===================================================
+EVENT_PLAYER_MISSILE_LAUNCH = ConvertPlayerMissileEvent(600)	---@type playermissileevent	
+EVENT_PLAYER_MISSILE_HIT = ConvertPlayerMissileEvent(601)	---@type playermissileevent	
 -- ===================================================
 --  Custom UI API constants
 -- ===================================================
@@ -5417,7 +5423,7 @@ function SetUnitSelectable(whichUnit, selectable) end	-- (native)
 ---@param isinventory boolean
 ---@return nothing
 function SetUnitControl(whichUnit, flagValue, isSetFlagValue, ismove, isattack, isinventory) end	-- (native)
---  flagValue = 0x200 and isSetFlagValue = true to emulate pause 
+--  flagValue = 0x200 and isSetFlagValue = true to emulate pause
 
 ---@param whichUnit unit
 ---@param flag integer
@@ -5854,8 +5860,9 @@ function GetUnitMoveAIType(whichUnit) end	-- (native)
 
 ---@param whichUnit unit
 ---@param moveAIType integer
+---@param flag boolean
 ---@return nothing
-function SetUnitMoveAIType(whichUnit, moveAIType) end	-- (native)
+function SetUnitMoveAIType(whichUnit, moveAIType, flag) end	-- (native)
 
 
 ---@param whichUnit unit
@@ -7057,7 +7064,17 @@ function SendSyncData(prefix, data) end	-- (native)
 ---@return event
 function TriggerRegisterPlayerSyncEvent(whichTrigger, whichPlayer, prefix, fromServer) end	-- (native)
 --  
---  Key Event API
+--  Key/KeyEvent API
+
+---@param key oskeytype
+---@return boolean
+function IsKeyPressed(key) end	-- (native)
+
+
+---@param mouseKey mousebuttontype
+---@return boolean
+function IsMouseKeyPressed(mouseKey) end	-- (native)
+
 ---@return oskeytype
 function GetTriggerPlayerKey() end	-- (native)
 
@@ -7157,4 +7174,3 @@ function GetEventPreDamage() end	-- (native)
 ---@param damage real
 ---@return nothing
 function SetEventDamage(damage) end	-- (native)
---  

@@ -21,6 +21,7 @@ type unitcategory                   					extends handle
 type pathingflag                    					extends handle
 type timetype											extends handle
 type variabletype										extends handle
+type playermissileevent    								extends eventid
 
 constant native ConvertAnimType             			takes integer i returns animtype
 constant native ConvertSubAnimType          			takes integer i returns subanimtype
@@ -44,7 +45,7 @@ constant native ConvertVariableType						takes integer i returns variabletype
 globals
 
 //===================================================
-// Game Constants    
+// Game Constants
 //===================================================
 	constant raritycontrol  			RARITY_QUEUE                     							= ConvertRarityControl(2)
 
@@ -131,13 +132,19 @@ globals
 
     constant playerunitevent 			EVENT_PLAYER_UNIT_DAMAGED                  					= ConvertPlayerUnitEvent(308)
     constant playerunitevent 			EVENT_PLAYER_UNIT_DAMAGING                 					= ConvertPlayerUnitEvent(315)
-    
+
     //===================================================
     // For use with TriggerRegisterUnitEvent
     //===================================================
 
 	constant unitevent 					EVENT_UNIT_DAMAGING                              			= ConvertUnitEvent(314)
 
+    //===================================================
+    // For use with TriggerRegisterPlayerMissileEvent
+    //===================================================
+
+	constant playermissileevent			EVENT_PLAYER_MISSILE_LAUNCH									= ConvertPlayerMissileEvent(600)
+	constant playermissileevent			EVENT_PLAYER_MISSILE_HIT									= ConvertPlayerMissileEvent(601)
 
 //===================================================
 // Custom UI API constants
@@ -419,7 +426,7 @@ globals
 //===================================================
 // Instanced Object Operation API constants
 //===================================================
-    
+
     // Ability
     constant abilityintegerfield 		ABILITY_IF_BUTTON_POSITION_NORMAL_X        					= ConvertAbilityIntegerField('abpx')
     constant abilityintegerfield 		ABILITY_IF_BUTTON_POSITION_NORMAL_Y        					= ConvertAbilityIntegerField('abpy')
@@ -433,7 +440,7 @@ globals
     constant abilityintegerfield 		ABILITY_IF_PRIORITY                        					= ConvertAbilityIntegerField('apri')
     constant abilityintegerfield 		ABILITY_IF_LEVELS                          					= ConvertAbilityIntegerField('alev')
     constant abilityintegerfield 		ABILITY_IF_REQUIRED_LEVEL                  					= ConvertAbilityIntegerField('arlv')
-    constant abilityintegerfield 		ABILITY_IF_LEVEL_SKIP_REQUIREMENT          					= ConvertAbilityIntegerField('alsk') 
+    constant abilityintegerfield 		ABILITY_IF_LEVEL_SKIP_REQUIREMENT          					= ConvertAbilityIntegerField('alsk')
 
     constant abilitybooleanfield 		ABILITY_BF_HERO_ABILITY                    					= ConvertAbilityBooleanField('aher') // Get only
     constant abilitybooleanfield 		ABILITY_BF_ITEM_ABILITY                    					= ConvertAbilityBooleanField('aite')
@@ -806,7 +813,7 @@ globals
     constant abilityreallevelfield 		ABILITY_RLF_EXTRA_DAMAGE_POA1                               = ConvertAbilityRealLevelField('Poa1')
     constant abilityreallevelfield 		ABILITY_RLF_DAMAGE_PER_SECOND_POA2                          = ConvertAbilityRealLevelField('Poa2')
     constant abilityreallevelfield 		ABILITY_RLF_ATTACK_SPEED_FACTOR_POA3                        = ConvertAbilityRealLevelField('Poa3')
-    constant abilityreallevelfield 		ABILITY_RLF_MOVEMENT_SPEED_FACTOR_POA4                      = ConvertAbilityRealLevelField('Poa4')   
+    constant abilityreallevelfield 		ABILITY_RLF_MOVEMENT_SPEED_FACTOR_POA4                      = ConvertAbilityRealLevelField('Poa4')
     constant abilityreallevelfield 		ABILITY_RLF_DAMAGE_AMPLIFICATION                            = ConvertAbilityRealLevelField('Pos2')
     constant abilityreallevelfield 		ABILITY_RLF_CHANCE_TO_STOMP_PERCENT                         = ConvertAbilityRealLevelField('War1')
     constant abilityreallevelfield 		ABILITY_RLF_DAMAGE_DEALT_WAR2                               = ConvertAbilityRealLevelField('War2')
@@ -1295,7 +1302,7 @@ globals
     constant unitweaponbooleanfield 	UNIT_WEAPON_BF_ATTACK_SHOW_UI                   			= ConvertUnitWeaponBooleanField('uwu1')
     constant unitweaponbooleanfield 	UNIT_WEAPON_BF_ATTACKS_ENABLED                  			= ConvertUnitWeaponBooleanField('uaen')
     constant unitweaponbooleanfield 	UNIT_WEAPON_BF_ATTACK_PROJECTILE_HOMING_ENABLED 			= ConvertUnitWeaponBooleanField('umh1')
-    
+
     constant unitweaponstringfield 		UNIT_WEAPON_SF_ATTACK_PROJECTILE_ART             			= ConvertUnitWeaponStringField('ua1m')
 
     // Move Type
@@ -1307,7 +1314,7 @@ globals
     constant movetype       			MOVE_TYPE_FLOAT                 							= ConvertMoveType(16)
     constant movetype       			MOVE_TYPE_AMPHIBIOUS            							= ConvertMoveType(32)
     constant movetype       			MOVE_TYPE_UNBUILDABLE           							= ConvertMoveType(64)
-  
+
     // Target Flag
     constant targetflag     			TARGET_FLAG_NONE                							= ConvertTargetFlag(1)
     constant targetflag     			TARGET_FLAG_GROUND              							= ConvertTargetFlag(2)
@@ -1383,7 +1390,7 @@ globals
 	constant timetype					TIME_TYPE_MINUTE											= ConvertTimeType( 5 )
 	constant timetype					TIME_TYPE_SECOND											= ConvertTimeType( 6 )
 	constant timetype					TIME_TYPE_MILLISECOND										= ConvertTimeType( 7 )
-	
+
 	constant variabletype				VARIABLE_TYPE_NOTHING										= ConvertVariableType(0)
 	constant variabletype				VARIABLE_TYPE_UNKNOWN										= ConvertVariableType(1)
 	constant variabletype				VARIABLE_TYPE_NULL											= ConvertVariableType(2)
@@ -1397,7 +1404,7 @@ globals
 	constant variabletype				VARIABLE_TYPE_REAL_ARRAY									= ConvertVariableType(10)
 	constant variabletype				VARIABLE_TYPE_STRING_ARRAY									= ConvertVariableType(11)
 	constant variabletype				VARIABLE_TYPE_HANDLE_ARRAY									= ConvertVariableType(12)
-	constant variabletype				VARIABLE_TYPE_BOOLEAN_ARRAY									= ConvertVariableType(13)	
+	constant variabletype				VARIABLE_TYPE_BOOLEAN_ARRAY									= ConvertVariableType(13)
 endglobals
 
 //================Custom natives=====================
@@ -2158,7 +2165,7 @@ native SetUnitBaseReviveTip 							takes unit whichUnit, string revivetip return
 native GetUnitBaseShadowTex 							takes unit whichUnit returns string
 native SetUnitBaseShadowTex 							takes unit whichUnit, string shadowTexture returns nothing
 native GetUnitBaseMissileArt 							takes unit whichUnit, integer attackIndex returns string
-native SetUnitBaseMissileArt 							takes unit whichUnit, integer attackIndex, string missleArt returns nothing   
+native SetUnitBaseMissileArt 							takes unit whichUnit, integer attackIndex, string missleArt returns nothing
 native GetUnitBaseMissileSpeed 							takes unit whichUnit, integer attackIndex returns real
 native SetUnitBaseMissileSpeed 							takes unit whichUnit, integer attackIndex, real missleSpeed returns nothing
 native GetUnitBaseSelectionScale 						takes unit whichUnit returns real
@@ -2205,13 +2212,13 @@ native IsUnitAbilityVisible 							takes unit whichUnit, integer abilityId retur
 native ShowUnitAbility 									takes unit whichUnit, integer abilityId, boolean show returns nothing
 native IsUnitSelectable 								takes unit whichUnit returns boolean
 native SetUnitSelectable 								takes unit whichUnit, boolean selectable returns nothing
-native SetUnitControl 									takes unit whichUnit, integer flagValue, boolean isSetFlagValue, boolean ismove, boolean isattack, boolean isinventory returns nothing // flagValue = 0x200 and isSetFlagValue = true to emulate pause 
+native SetUnitControl 									takes unit whichUnit, integer flagValue, boolean isSetFlagValue, boolean ismove, boolean isattack, boolean isinventory returns nothing // flagValue = 0x200 and isSetFlagValue = true to emulate pause
 native SetUnitLocustFlag 								takes unit whichUnit, integer flag, integer mode returns nothing
 native SetUnitTruesightImmuneState 						takes unit whichUnit, boolean state returns nothing
 native GetUnitDamageReduction 							takes unit whichUnit returns real
 native GetUnitMagicResistByType 						takes unit whichUnit, integer resistType returns real
 native GetUnitEluneMagicResist 							takes unit whichUnit returns real
-native GetUnitRunicMagicResist 							takes unit whichUnit returns real 
+native GetUnitRunicMagicResist 							takes unit whichUnit returns real
 native GetUnitTotalMagicResist 							takes unit whichUnit returns real
 native IsUnitGatherer 									takes unit whichUnit returns boolean
 native GetUnitCurrentResources 							takes unit whichUnit returns integer
@@ -2279,7 +2286,7 @@ native SetUnitMaterialTexture 							takes unit whichUnit, string textureName, i
 native SetUnitTexture 									takes unit whichUnit, string textureName, integer textureIndex returns nothing
 native SetUnitReplaceableTexture 						takes unit whichUnit, string textureName, integer textureIndex returns nothing
 native GetUnitMoveAIType 								takes unit whichUnit returns integer
-native SetUnitMoveAIType 								takes unit whichUnit, integer moveAIType returns nothing
+native SetUnitMoveAIType 								takes unit whichUnit, integer moveAIType, boolean flag returns nothing
 native GetUnitMoveType 									takes unit whichUnit returns integer
 native SetUnitMoveType 									takes unit whichUnit, integer moveType returns nothing
 native SetUnitMoveTypeByIndex 							takes unit whichUnit, integer moveIndex returns nothing
@@ -2537,7 +2544,10 @@ native SendSyncData                             		takes string prefix, string da
 native TriggerRegisterPlayerSyncEvent           		takes trigger whichTrigger, player whichPlayer, string prefix, boolean fromServer returns event
 //
 
-// Key Event API
+// Key/KeyEvent API
+native IsKeyPressed										takes oskeytype key returns boolean
+native IsMouseKeyPressed								takes mousebuttontype mouseKey returns boolean
+
 native GetTriggerPlayerKey                      		takes nothing returns oskeytype
 native GetTriggerPlayerMouseButton             			takes nothing returns mousebuttontype
 native GetTriggerPlayerMetaKey                  		takes nothing returns integer
