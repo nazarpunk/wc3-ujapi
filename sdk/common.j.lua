@@ -1007,8 +1007,8 @@ EVENT_UNIT_HIDDEN = ConvertUnitEvent(56)	---@type unitevent
 EVENT_UNIT_SELECTED = ConvertUnitEvent(57)	---@type unitevent	
 EVENT_UNIT_DESELECTED = ConvertUnitEvent(58)	---@type unitevent	
 EVENT_UNIT_STATE_LIMIT = ConvertUnitEvent(59)	---@type unitevent	
---  Events which may have a filter for the "other unit"              
---                                                                   
+--  Events which may have a filter for the "other unit"
+-- 
 EVENT_UNIT_ACQUIRED_TARGET = ConvertUnitEvent(60)	---@type unitevent	
 EVENT_UNIT_TARGET_IN_RANGE = ConvertUnitEvent(61)	---@type unitevent	
 EVENT_UNIT_ATTACKED = ConvertUnitEvent(62)	---@type unitevent	
@@ -1018,9 +1018,9 @@ EVENT_UNIT_CONSTRUCT_FINISH = ConvertUnitEvent(65)	---@type unitevent
 EVENT_UNIT_UPGRADE_START = ConvertUnitEvent(66)	---@type unitevent	
 EVENT_UNIT_UPGRADE_CANCEL = ConvertUnitEvent(67)	---@type unitevent	
 EVENT_UNIT_UPGRADE_FINISH = ConvertUnitEvent(68)	---@type unitevent	
---  Events which involve the specified unit performing               
---  training of other units                                          
---                                                                   
+--  Events which involve the specified unit performing
+--  training of other units
+-- 
 EVENT_UNIT_TRAIN_START = ConvertUnitEvent(69)	---@type unitevent	
 EVENT_UNIT_TRAIN_CANCEL = ConvertUnitEvent(70)	---@type unitevent	
 EVENT_UNIT_TRAIN_FINISH = ConvertUnitEvent(71)	---@type unitevent	
@@ -1049,8 +1049,8 @@ EVENT_DIALOG_CLICK = ConvertDialogEvent(91)	---@type dialogevent
 --  Need to be added here to preserve compat
 -- ===================================================
 -- ===================================================
---  For use with TriggerRegisterGameEvent    
--- ===================================================    
+--  For use with TriggerRegisterGameEvent
+-- ===================================================
 EVENT_GAME_LOADED = ConvertGameEvent(256)	---@type gameevent	
 EVENT_GAME_TOURNAMENT_FINISH_SOON = ConvertGameEvent(257)	---@type gameevent	
 EVENT_GAME_TOURNAMENT_FINISH_NOW = ConvertGameEvent(258)	---@type gameevent	
@@ -1103,7 +1103,7 @@ EVENT_UNIT_PAWN_ITEM = ConvertUnitEvent(294)	---@type unitevent
 EVENT_PLAYER_MISSILE_LAUNCH = ConvertPlayerMissileEvent(600)	---@type playermissileevent	
 EVENT_PLAYER_MISSILE_HIT = ConvertPlayerMissileEvent(601)	---@type playermissileevent	
 -- ===================================================
---  Limit Event API constants    
+--  Limit Event API constants
 --  variable, player state, game state, and unit state events
 --  ( do NOT change the order of these... )
 -- ===================================================
@@ -1475,8 +1475,11 @@ META_KEY_WINDOWS = 8	---@type integer
 --  Ability
 ABILITY_IF_BUTTON_POSITION_NORMAL_X = ConvertAbilityIntegerField(FourCC('abpx'))	---@type abilityintegerfield	
 ABILITY_IF_BUTTON_POSITION_NORMAL_Y = ConvertAbilityIntegerField(FourCC('abpy'))	---@type abilityintegerfield	
+ABILITY_IF_BUTTON_HOTKEY_NORMAL = ConvertAbilityIntegerField(FourCC('ahky'))	---@type abilityintegerfield	
+ABILITY_IF_BUTTON_HOTKEY_ACTIVATED = ConvertAbilityIntegerField(FourCC('auhk'))	---@type abilityintegerfield	
 ABILITY_IF_BUTTON_POSITION_ACTIVATED_X = ConvertAbilityIntegerField(FourCC('aubx'))	---@type abilityintegerfield	
 ABILITY_IF_BUTTON_POSITION_ACTIVATED_Y = ConvertAbilityIntegerField(FourCC('auby'))	---@type abilityintegerfield	
+ABILITY_IF_BUTTON_HOTKEY_RESEARCH = ConvertAbilityIntegerField(FourCC('auhk'))	---@type abilityintegerfield	
 ABILITY_IF_BUTTON_POSITION_RESEARCH_X = ConvertAbilityIntegerField(FourCC('arpx'))	---@type abilityintegerfield	
 ABILITY_IF_BUTTON_POSITION_RESEARCH_Y = ConvertAbilityIntegerField(FourCC('arpy'))	---@type abilityintegerfield	
 ABILITY_IF_MISSILE_SPEED = ConvertAbilityIntegerField(FourCC('amsp'))	---@type abilityintegerfield	
@@ -2226,6 +2229,9 @@ UNIT_IF_DEFENSE_TYPE = ConvertUnitIntegerField(FourCC('udty'))	---@type unitinte
 UNIT_IF_ARMOR_TYPE = ConvertUnitIntegerField(FourCC('uarm'))	---@type unitintegerfield	
 UNIT_IF_LOOPING_FADE_IN_RATE = ConvertUnitIntegerField(FourCC('ulfi'))	---@type unitintegerfield	
 UNIT_IF_LOOPING_FADE_OUT_RATE = ConvertUnitIntegerField(FourCC('ulfo'))	---@type unitintegerfield	
+UNIT_IF_AGILITY_BASE = ConvertUnitIntegerField(FourCC('ustr'))	---@type unitintegerfield	
+UNIT_IF_INTELLIGENCE_BASE = ConvertUnitIntegerField(FourCC('uagi'))	---@type unitintegerfield	
+UNIT_IF_STRENGTH_BASE = ConvertUnitIntegerField(FourCC('uint'))	---@type unitintegerfield	
 UNIT_IF_AGILITY = ConvertUnitIntegerField(FourCC('uagc'))	---@type unitintegerfield	
 UNIT_IF_INTELLIGENCE = ConvertUnitIntegerField(FourCC('uinc'))	---@type unitintegerfield	
 UNIT_IF_STRENGTH = ConvertUnitIntegerField(FourCC('ustc'))	---@type unitintegerfield	
@@ -2235,9 +2241,13 @@ UNIT_IF_STRENGTH_PERMANENT = ConvertUnitIntegerField(FourCC('ustm'))	---@type un
 UNIT_IF_AGILITY_WITH_BONUS = ConvertUnitIntegerField(FourCC('uagb'))	---@type unitintegerfield	
 UNIT_IF_INTELLIGENCE_WITH_BONUS = ConvertUnitIntegerField(FourCC('uinb'))	---@type unitintegerfield	
 UNIT_IF_STRENGTH_WITH_BONUS = ConvertUnitIntegerField(FourCC('ustb'))	---@type unitintegerfield	
+UNIT_IF_FOOD_USED = ConvertUnitIntegerField(FourCC('ufoo'))	---@type unitintegerfield	
+UNIT_IF_FOOD_PRODUCED = ConvertUnitIntegerField(FourCC('ufma'))	---@type unitintegerfield	
+UNIT_IF_GOLD_COST = ConvertUnitIntegerField(FourCC('ugol'))	---@type unitintegerfield	
 UNIT_IF_GOLD_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ubdi'))	---@type unitintegerfield	
 UNIT_IF_GOLD_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ubba'))	---@type unitintegerfield	
 UNIT_IF_GOLD_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ubsi'))	---@type unitintegerfield	
+UNIT_IF_LUMBER_COST = ConvertUnitIntegerField(FourCC('ulum'))	---@type unitintegerfield	
 UNIT_IF_LUMBER_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ulbd'))	---@type unitintegerfield	
 UNIT_IF_LUMBER_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ulba'))	---@type unitintegerfield	
 UNIT_IF_LUMBER_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ulbs'))	---@type unitintegerfield	
@@ -2304,6 +2314,7 @@ UNIT_SF_PROPER_NAMES = ConvertUnitStringField(FourCC('upro'))	---@type unitstrin
 UNIT_SF_GROUND_TEXTURE = ConvertUnitStringField(FourCC('uubs'))	---@type unitstringfield	
 UNIT_SF_SHADOW_IMAGE_UNIT = ConvertUnitStringField(FourCC('ushu'))	---@type unitstringfield	
 --  Unit Weapon
+UNIT_WEAPON_IF_ATTACKS_ENABLED = ConvertUnitWeaponIntegerField(FourCC('uaen'))	---@type unitweaponintegerfield	
 UNIT_WEAPON_IF_ATTACK_DAMAGE_NUMBER_OF_DICE = ConvertUnitWeaponIntegerField(FourCC('ua1d'))	---@type unitweaponintegerfield	
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE = ConvertUnitWeaponIntegerField(FourCC('ua1b'))	---@type unitweaponintegerfield	
 UNIT_WEAPON_IF_ATTACK_DAMAGE_SIDES_PER_DIE = ConvertUnitWeaponIntegerField(FourCC('ua1s'))	---@type unitweaponintegerfield	
@@ -3813,7 +3824,7 @@ function GetEventDamageSource() end	-- (native)
 --  EVENT_UNIT_DEATH
 --  EVENT_UNIT_DECAY
 --  Use the GetDyingUnit and GetDecayingUnit funcs above
---  EVENT_UNIT_DETECTED 
+--  EVENT_UNIT_DETECTED
 ---@return player
 function GetEventDetectingPlayer() end	-- (native)
 
@@ -8371,7 +8382,7 @@ function SetSoundVolume(soundHandle, volume) end	-- (native)
 ---@param pitch real
 ---@return nothing
 function SetSoundPitch(soundHandle, pitch) end	-- (native)
---  the following method must be called immediately after calling "StartSound" 
+--  the following method must be called immediately after calling "StartSound"
 
 ---@param soundHandle sound
 ---@param millisecs integer
@@ -9700,6 +9711,15 @@ function HandleToAnimType(h) end	-- (native)
 function HandleToSubAnimType(h) end	-- (native)
 --  
 -- ============================================================================
+--  Jass Data API
+-- 
+---@return integer
+function GetHandleCount() end	-- (native)
+
+---@return integer
+function GetNextHandleIndex() end	-- (native)
+--  
+-- ============================================================================
 --  Execution API
 -- 
 ---@return boolean
@@ -9833,6 +9853,44 @@ function GetSystemTime(whichTimeType) end	-- (native)
 ---@return integer
 function GetLocalTime(whichTimeType) end	-- (native)
 --  
+--  Screen/Window API
+
+---@param fov real
+---@return nothing
+function SetScreenFieldOfView(fov) end	-- (native)
+
+
+---@param flag boolean
+---@return nothing
+function SetWidescreenState(flag) end	-- (native)
+
+---@return boolean
+function IsWindowActive() end	-- (native)
+
+---@return integer
+function GetWindowWidth() end	-- (native)
+
+---@return integer
+function GetWindowHeight() end	-- (native)
+
+---@return integer
+function GetClientWidth() end	-- (native)
+
+---@return integer
+function GetClientHeight() end	-- (native)
+
+---@return integer
+function GetWindowX() end	-- (native)
+
+---@return integer
+function GetWindowY() end	-- (native)
+
+---@return integer
+function GetWindowCenterX() end	-- (native)
+
+---@return integer
+function GetWindowCenterY() end	-- (native)
+--  
 --  Mouse API
 ---@return real
 function GetMouseScreenX() end	-- (native)
@@ -9901,6 +9959,13 @@ function ForceHasPlayer(whichForce, whichPlayer) end	-- (native)
 ---@return integer
 function ForceCountPlayers(whichForce) end	-- (native)
 --  
+-- ============================================================================
+--  Player API
+-- 
+---@return player
+function GetHostPlayer() end	-- (native)
+--  
+-- ============================================================================
 --  Group API
 
 ---@param whichGroup group
@@ -9939,6 +10004,7 @@ function GroupRemoveGroupEx(destGroup, sourceGroup) end	-- (native)
 -- ============================================================================
 --  Ability API
 -- 
+--  Base API
 
 ---@param aid integer
 ---@param level integer
@@ -9968,167 +10034,167 @@ function SetAbilityBaseCooldownById(aid, level, cooldown) end	-- (native)
 
 ---@param aid integer
 ---@return oskeytype
-function GetAbilityHotkeyById(aid) end	-- (native)
+function GetAbilityBaseHotkeyById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param whichKey oskeytype
 ---@return nothing
-function SetAbilityHotkeyById(aid, whichKey) end	-- (native)
+function SetAbilityBaseHotkeyById(aid, whichKey) end	-- (native)
 
 
 ---@param aid integer
 ---@return oskeytype
-function GetAbilityUnHotkeyById(aid) end	-- (native)
+function GetAbilityBaseUnHotkeyById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param whichKey oskeytype
 ---@return nothing
-function SetAbilityUnHotkeyById(aid, whichKey) end	-- (native)
+function SetAbilityBaseUnHotkeyById(aid, whichKey) end	-- (native)
 
 
 ---@param aid integer
 ---@return oskeytype
-function GetAbilityResearchHotkeyById(aid) end	-- (native)
+function GetAbilityBaseResearchHotkeyById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param whichKey oskeytype
 ---@return nothing
-function SetAbilityResearchHotkeyById(aid, whichKey) end	-- (native)
+function SetAbilityBaseResearchHotkeyById(aid, whichKey) end	-- (native)
 
 
 ---@param aid integer
 ---@return string
-function GetAbilityEffectSoundById(aid) end	-- (native)
+function GetAbilityBaseEffectSoundById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param text string
 ---@return nothing
-function SetAbilityEffectSoundById(aid, text) end	-- (native)
+function SetAbilityBaseEffectSoundById(aid, text) end	-- (native)
 
 
 ---@param aid integer
 ---@return string
-function GetAbilityGlobalMessageById(aid) end	-- (native)
+function GetAbilityBaseGlobalMessageById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param text string
 ---@return nothing
-function SetAbilityGlobalMessageById(aid, text) end	-- (native)
+function SetAbilityBaseGlobalMessageById(aid, text) end	-- (native)
 
 
 ---@param aid integer
 ---@return string
-function GetAbilityGlobalSoundById(aid) end	-- (native)
+function GetAbilityBaseGlobalSoundById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param text string
 ---@return nothing
-function SetAbilityGlobalSoundById(aid, text) end	-- (native)
+function SetAbilityBaseGlobalSoundById(aid, text) end	-- (native)
 
 
 ---@param aid integer
 ---@return integer
-function GetAbilityButtonXById(aid) end	-- (native)
+function GetAbilityBaseButtonXById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param positionX integer
 ---@return nothing
-function SetAbilityButtonXById(aid, positionX) end	-- (native)
+function SetAbilityBaseButtonXById(aid, positionX) end	-- (native)
 
 
 ---@param aid integer
 ---@return integer
-function GetAbilityButtonYById(aid) end	-- (native)
+function GetAbilityBaseButtonYById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param positionY integer
 ---@return nothing
-function SetAbilityButtonYById(aid, positionY) end	-- (native)
+function SetAbilityBaseButtonYById(aid, positionY) end	-- (native)
 
 
 ---@param aid integer
 ---@return integer
-function GetAbilityUnButtonXById(aid) end	-- (native)
+function GetAbilityBaseUnButtonXById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param positionX integer
 ---@return nothing
-function SetAbilityUnButtonXById(aid, positionX) end	-- (native)
+function SetAbilityBaseUnButtonXById(aid, positionX) end	-- (native)
 
 
 ---@param aid integer
 ---@return integer
-function GetAbilityUnButtonYById(aid) end	-- (native)
+function GetAbilityBaseUnButtonYById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param positionY integer
 ---@return nothing
-function SetAbilityUnButtonYById(aid, positionY) end	-- (native)
+function SetAbilityBaseUnButtonYById(aid, positionY) end	-- (native)
 
 
 ---@param aid integer
 ---@return integer
-function GetAbilityResearchButtonXById(aid) end	-- (native)
+function GetAbilityBaseResearchButtonXById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param positionX integer
 ---@return nothing
-function SetAbilityResearchButtonXById(aid, positionX) end	-- (native)
+function SetAbilityBaseResearchButtonXById(aid, positionX) end	-- (native)
 
 
 ---@param aid integer
 ---@return integer
-function GetAbilityResearchButtonYById(aid) end	-- (native)
+function GetAbilityBaseResearchButtonYById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param positionY integer
 ---@return nothing
-function SetAbilityResearchButtonYById(aid, positionY) end	-- (native)
+function SetAbilityBaseResearchButtonYById(aid, positionY) end	-- (native)
 
 
 ---@param aid integer
 ---@return real
-function GetAbilityMissileSpeedById(aid) end	-- (native)
+function GetAbilityBaseMissileSpeedById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param missileSpeed real
 ---@return nothing
-function SetAbilityMissileSpeedById(aid, missileSpeed) end	-- (native)
+function SetAbilityBaseMissileSpeedById(aid, missileSpeed) end	-- (native)
 
 
 ---@param aid integer
 ---@return real
-function GetAbilityMissileArcById(aid) end	-- (native)
+function GetAbilityBaseMissileArcById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param missileArc real
 ---@return nothing
-function SetAbilityMissileArcById(aid, missileArc) end	-- (native)
+function SetAbilityBaseMissileArcById(aid, missileArc) end	-- (native)
 
 
 ---@param aid integer
 ---@return boolean
-function GetAbilityIsMissileHomingById(aid) end	-- (native)
+function GetAbilityBaseIsMissileHomingById(aid) end	-- (native)
 
 
 ---@param aid integer
 ---@param ishoming boolean
 ---@return nothing
-function SetAbilityIsMissileHomingById(aid, ishoming) end	-- (native)
+function SetAbilityBaseIsMissileHomingById(aid, ishoming) end	-- (native)
 
 
 ---@param aid integer
@@ -10197,242 +10263,254 @@ function SetAbilityBaseUnUberTipById(aid, level, text) end	-- (native)
 ---@param aid integer
 ---@param whichKey oskeytype
 ---@return nothing
-function SetAbilityHotkeyByIdEx(aid, whichKey) end	-- (native)
-
-
----@param whichAbility ability
----@return oskeytype
-function GetAbilityHotkey(whichAbility) end	-- (native)
-
+function SetAbilityBaseHotkeyByIdEx(aid, whichKey) end	-- (native)
+--  
+--  Field API
 
 ---@param whichAbility ability
----@param whichKey oskeytype
----@return nothing
-function SetAbilityHotkey(whichAbility, whichKey) end	-- (native)
-
-
----@param whichAbility ability
----@return oskeytype
-function GetAbilityUnHotkey(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param whichKey oskeytype
----@return nothing
-function SetAbilityUnHotkey(whichAbility, whichKey) end	-- (native)
-
-
----@param whichAbility ability
----@return oskeytype
-function GetAbilityResearchHotkey(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param whichKey oskeytype
----@return nothing
-function SetAbilityResearchHotkey(whichAbility, whichKey) end	-- (native)
-
-
----@param whichAbility ability
----@return string
-function GetAbilityEffectSound(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param text string
----@return nothing
-function SetAbilityEffectSound(whichAbility, text) end	-- (native)
-
-
----@param whichAbility ability
----@return string
-function GetAbilityGlobalMessage(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param text string
----@return nothing
-function SetAbilityGlobalMessage(whichAbility, text) end	-- (native)
-
-
----@param whichAbility ability
----@return string
-function GetAbilityGlobalSound(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param text string
----@return nothing
-function SetAbilityGlobalSound(whichAbility, text) end	-- (native)
-
-
----@param whichAbility ability
+---@param whichField abilityintegerfield
 ---@return integer
-function GetAbilityButtonX(whichAbility) end	-- (native)
+function GetAbilityIntegerField(whichAbility, whichField) end	-- (native)
 
 
 ---@param whichAbility ability
----@param positionX integer
----@return nothing
-function SetAbilityButtonX(whichAbility, positionX) end	-- (native)
-
-
----@param whichAbility ability
----@return integer
-function GetAbilityButtonY(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param positionY integer
----@return nothing
-function SetAbilityButtonY(whichAbility, positionY) end	-- (native)
-
-
----@param whichAbility ability
----@return integer
-function GetAbilityUnButtonX(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param positionX integer
----@return nothing
-function SetAbilityUnButtonX(whichAbility, positionX) end	-- (native)
-
-
----@param whichAbility ability
----@return integer
-function GetAbilityUnButtonY(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param positionY integer
----@return nothing
-function SetAbilityUnButtonY(whichAbility, positionY) end	-- (native)
-
-
----@param whichAbility ability
----@return integer
-function GetAbilityResearchButtonX(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param positionX integer
----@return nothing
-function SetAbilityResearchButtonX(whichAbility, positionX) end	-- (native)
-
-
----@param whichAbility ability
----@return integer
-function GetAbilityResearchButtonY(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param positionY integer
----@return nothing
-function SetAbilityResearchButtonY(whichAbility, positionY) end	-- (native)
-
-
----@param whichAbility ability
----@return real
-function GetAbilityMissileSpeed(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param missileSpeed real
----@return nothing
-function SetAbilityMissileSpeed(whichAbility, missileSpeed) end	-- (native)
-
-
----@param whichAbility ability
----@return real
-function GetAbilityMissileArc(whichAbility) end	-- (native)
-
-
----@param whichAbility ability
----@param missileArc real
----@return nothing
-function SetAbilityMissileArc(whichAbility, missileArc) end	-- (native)
-
-
----@param whichAbility ability
+---@param whichField abilityintegerfield
+---@param value integer
 ---@return boolean
-function GetAbilityIsMissileHoming(whichAbility) end	-- (native)
+function SetAbilityIntegerField(whichAbility, whichField, value) end	-- (native)
 
 
 ---@param whichAbility ability
----@param ishoming boolean
----@return nothing
-function SetAbilityIsMissileHoming(whichAbility, ishoming) end	-- (native)
+---@param whichField abilitybooleanfield
+---@return boolean
+function GetAbilityBooleanField(whichAbility, whichField) end	-- (native)
 
 
 ---@param whichAbility ability
+---@param whichField abilitybooleanfield
+---@param value boolean
+---@return boolean
+function SetAbilityBooleanField(whichAbility, whichField, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityrealfield
+---@return real
+function GetAbilityRealField(whichAbility, whichField) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityrealfield
+---@param value real
+---@return boolean
+function SetAbilityRealField(whichAbility, whichField, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitystringfield
+---@return string
+function GetAbilityStringField(whichAbility, whichField) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitystringfield
+---@param value string
+---@return boolean
+function SetAbilityStringField(whichAbility, whichField, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityintegerlevelfield
+---@param level integer
 ---@return integer
-function GetAbilityBaseSpellDetails(whichAbility) end	-- (native)
+function GetAbilityIntegerLevelField(whichAbility, whichField, level) end	-- (native)
 
 
 ---@param whichAbility ability
+---@param whichField abilityintegerlevelfield
 ---@param level integer
----@return nothing
-function SetAbilityBaseSpellDetails(whichAbility, level) end	-- (native)
+---@param value integer
+---@return boolean
+function SetAbilityIntegerLevelField(whichAbility, whichField, level, value) end	-- (native)
 
 
 ---@param whichAbility ability
+---@param whichField abilitybooleanlevelfield
 ---@param level integer
----@return string
-function GetAbilityBaseTip(whichAbility, level) end	-- (native)
+---@return boolean
+function GetAbilityBooleanLevelField(whichAbility, whichField, level) end	-- (native)
 
 
 ---@param whichAbility ability
+---@param whichField abilitybooleanlevelfield
 ---@param level integer
----@param text string
----@return nothing
-function SetAbilityBaseTip(whichAbility, level, text) end	-- (native)
+---@param value boolean
+---@return boolean
+function SetAbilityBooleanLevelField(whichAbility, whichField, level, value) end	-- (native)
 
 
 ---@param whichAbility ability
+---@param whichField abilityreallevelfield
 ---@param level integer
----@return string
-function GetAbilityBaseUnTip(whichAbility, level) end	-- (native)
+---@return real
+function GetAbilityRealLevelField(whichAbility, whichField, level) end	-- (native)
 
 
 ---@param whichAbility ability
+---@param whichField abilityreallevelfield
 ---@param level integer
----@param text string
----@return nothing
-function SetAbilityBaseUnTip(whichAbility, level, text) end	-- (native)
+---@param value real
+---@return boolean
+function SetAbilityRealLevelField(whichAbility, whichField, level, value) end	-- (native)
 
 
 ---@param whichAbility ability
----@param level integer
----@return string
-function GetAbilityBaseUberTip(whichAbility, level) end	-- (native)
-
-
----@param whichAbility ability
----@param level integer
----@param text string
----@return nothing
-function SetAbilityBaseUberTip(whichAbility, level, text) end	-- (native)
-
-
----@param whichAbility ability
+---@param whichField abilitystringlevelfield
 ---@param level integer
 ---@return string
-function GetAbilityBaseUnUberTip(whichAbility, level) end	-- (native)
+function GetAbilityStringLevelField(whichAbility, whichField, level) end	-- (native)
 
 
 ---@param whichAbility ability
+---@param whichField abilitystringlevelfield
 ---@param level integer
----@param text string
----@return nothing
-function SetAbilityBaseUnUberTip(whichAbility, level, text) end	-- (native)
+---@param value string
+---@return boolean
+function SetAbilityStringLevelField(whichAbility, whichField, level, value) end	-- (native)
 
 
 ---@param whichAbility ability
----@param whichKey oskeytype
----@return nothing
-function SetAbilityHotkeyEx(whichAbility, whichKey) end	-- (native)
+---@param whichField abilityintegerlevelarrayfield
+---@param level integer
+---@param index integer
+---@return integer
+function GetAbilityIntegerLevelArrayField(whichAbility, whichField, level, index) end	-- (native)
 
+
+---@param whichAbility ability
+---@param whichField abilityintegerlevelarrayfield
+---@param level integer
+---@param index integer
+---@param value integer
+---@return boolean
+function SetAbilityIntegerLevelArrayField(whichAbility, whichField, level, index, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityintegerlevelarrayfield
+---@param level integer
+---@param value integer
+---@return boolean
+function AddAbilityIntegerLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityintegerlevelarrayfield
+---@param level integer
+---@param value integer
+---@return boolean
+function RemoveAbilityIntegerLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitybooleanlevelarrayfield
+---@param level integer
+---@param index integer
+---@return boolean
+function GetAbilityBooleanLevelArrayField(whichAbility, whichField, level, index) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitybooleanlevelarrayfield
+---@param level integer
+---@param index integer
+---@param value boolean
+---@return boolean
+function SetAbilityBooleanLevelArrayField(whichAbility, whichField, level, index, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitybooleanlevelarrayfield
+---@param level integer
+---@param value boolean
+---@return boolean
+function AddAbilityBooleanLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitybooleanlevelarrayfield
+---@param level integer
+---@param value boolean
+---@return boolean
+function RemoveAbilityBooleanLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityreallevelarrayfield
+---@param level integer
+---@param index integer
+---@return real
+function GetAbilityRealLevelArrayField(whichAbility, whichField, level, index) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityreallevelarrayfield
+---@param level integer
+---@param index integer
+---@param value real
+---@return boolean
+function SetAbilityRealLevelArrayField(whichAbility, whichField, level, index, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityreallevelarrayfield
+---@param level integer
+---@param value real
+---@return boolean
+function AddAbilityRealLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilityreallevelarrayfield
+---@param level integer
+---@param value real
+---@return boolean
+function RemoveAbilityRealLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitystringlevelarrayfield
+---@param level integer
+---@param index integer
+---@return string
+function GetAbilityStringLevelArrayField(whichAbility, whichField, level, index) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitystringlevelarrayfield
+---@param level integer
+---@param index integer
+---@param value string
+---@return boolean
+function SetAbilityStringLevelArrayField(whichAbility, whichField, level, index, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitystringlevelarrayfield
+---@param level integer
+---@param value string
+---@return boolean
+function AddAbilityStringLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+
+
+---@param whichAbility ability
+---@param whichField abilitystringlevelarrayfield
+---@param level integer
+---@param value string
+---@return boolean
+function RemoveAbilityStringLevelArrayField(whichAbility, whichField, level, value) end	-- (native)
+--  
+--  Ability API
 
 ---@param whichAbility ability
 ---@return integer
@@ -10860,6 +10938,12 @@ function QueueSpecialEffectAnimationByIndex(whichEffect, animIndex) end	-- (nati
 ---@param animation string
 ---@return nothing
 function QueueSpecialEffectAnimation(whichEffect, animation) end	-- (native)
+
+
+---@param whichEffect effect
+---@param percent real
+---@return boolean
+function SetSpecialEffectAnimationOffsetPercent(whichEffect, percent) end	-- (native)
 --  
 -- ============================================================================
 --  Trackable API
@@ -11110,6 +11194,12 @@ function QueueTrackableAnimationByIndex(whichTrackable, animIndex) end	-- (nativ
 ---@param animation string
 ---@return nothing
 function QueueTrackableAnimation(whichTrackable, animation) end	-- (native)
+
+
+---@param whichTrackable trackable
+---@param percent real
+---@return boolean
+function SetTrackableAnimationOffsetPercent(whichTrackable, percent) end	-- (native)
 --  
 -- ============================================================================
 --  Widget API
@@ -11336,6 +11426,12 @@ function QueueWidgetAnimationByIndex(whichWidget, animIndex) end	-- (native)
 ---@param animation string
 ---@return nothing
 function QueueWidgetAnimation(whichWidget, animation) end	-- (native)
+
+
+---@param whichWidget widget
+---@param percent real
+---@return boolean
+function SetWidgetAnimationOffsetPercent(whichWidget, percent) end	-- (native)
 --  
 -- ============================================================================
 --  Destructable API
@@ -11528,10 +11624,17 @@ function SetDestructableAnimationByIndex(whichDestructable, animIndex) end	-- (n
 ---@param animIndex integer
 ---@return nothing
 function QueueDestructableAnimationByIndex(whichDestructable, animIndex) end	-- (native)
+
+
+---@param whichDestructable destructable
+---@param percent real
+---@return boolean
+function SetDestructableAnimationOffsetPercent(whichDestructable, percent) end	-- (native)
 --  
 -- ============================================================================
 --  Item API
 -- 
+--  Base API
 
 ---@param itemId integer
 ---@return string
@@ -11597,72 +11700,6 @@ function GetItemBaseUberTipById(itemId) end	-- (native)
 ---@param tip string
 ---@return nothing
 function SetItemBaseUberTipById(itemId, tip) end	-- (native)
-
-
----@param whichItem item
----@return string
-function GetItemBaseName(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param name string
----@return nothing
-function SetItemBaseName(whichItem, name) end	-- (native)
-
-
----@param whichItem item
----@return string
-function GetItemBaseDescription(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param name string
----@return nothing
-function SetItemBaseDescription(whichItem, name) end	-- (native)
-
-
----@param whichItem item
----@return string
-function GetItemBaseIcon(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param path string
----@return nothing
-function SetItemBaseIcon(whichItem, path) end	-- (native)
-
-
----@param whichItem item
----@return oskeytype
-function GetItemBaseHotkey(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param whichKey oskeytype
----@return nothing
-function SetItemBaseHotkey(whichItem, whichKey) end	-- (native)
-
-
----@param whichItem item
----@return string
-function GetItemBaseTip(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param tip string
----@return nothing
-function SetItemBaseTip(whichItem, tip) end	-- (native)
-
-
----@param whichItem item
----@return string
-function GetItemBaseUberTip(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param tip string
----@return nothing
-function SetItemBaseUberTip(whichItem, tip) end	-- (native)
 
 
 ---@param itemId integer
@@ -11894,238 +11931,61 @@ function GetItemBaseIsSellableById(itemId) end	-- (native)
 ---@param flag boolean
 ---@return nothing
 function SetItemBaseIsSellableById(itemId, flag) end	-- (native)
-
+--  
+--  Field API
 
 ---@param whichItem item
+---@param whichField itemintegerfield
 ---@return integer
-function GetItemBaseGoldCost(whichItem) end	-- (native)
+function GetItemIntegerField(whichItem, whichField) end	-- (native)
 
 
 ---@param whichItem item
----@param goldcost integer
----@return nothing
-function SetItemBaseGoldCost(whichItem, goldcost) end	-- (native)
+---@param whichField itemintegerfield
+---@param value integer
+---@return boolean
+function SetItemIntegerField(whichItem, whichField, value) end	-- (native)
 
 
 ---@param whichItem item
----@return integer
-function GetItemBaseLumberCost(whichItem) end	-- (native)
+---@param whichField itembooleanfield
+---@return boolean
+function GetItemBooleanField(whichItem, whichField) end	-- (native)
 
 
 ---@param whichItem item
----@param lumbercost integer
----@return nothing
-function SetItemBaseLumberCost(whichItem, lumbercost) end	-- (native)
+---@param whichField itembooleanfield
+---@param value boolean
+---@return boolean
+function SetItemBooleanField(whichItem, whichField, value) end	-- (native)
 
 
 ---@param whichItem item
----@return integer
-function GetItemBaseStockMaximum(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param stockMax integer
----@return nothing
-function SetItemBaseStockMaximum(whichItem, stockMax) end	-- (native)
-
-
----@param whichItem item
+---@param whichField itemrealfield
 ---@return real
-function GetItemBaseStockReplenishInterval(whichItem) end	-- (native)
+function GetItemRealField(whichItem, whichField) end	-- (native)
 
 
 ---@param whichItem item
----@param replenishInterval real
----@return nothing
-function SetItemBaseStockReplenishInterval(whichItem, replenishInterval) end	-- (native)
-
-
----@param whichItem item
----@return real
-function GetItemBaseStockStartDelay(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param stockStartDelay real
----@return nothing
-function SetItemBaseStockStartDelay(whichItem, stockStartDelay) end	-- (native)
-
-
----@param whichItem item
----@return integer
-function GetItemBasePriority(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param priority integer
----@return nothing
-function SetItemBasePriority(whichItem, priority) end	-- (native)
-
-
----@param whichItem item
----@return integer
-function GetItemBaseLevel(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param level integer
----@return nothing
-function SetItemBaseLevel(whichItem, level) end	-- (native)
-
-
----@param whichItem item
----@return integer
-function GetItemBaseOldLevel(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param oldlevel integer
----@return nothing
-function SetItemBaseOldLevel(whichItem, oldlevel) end	-- (native)
-
-
----@param whichItem item
----@return integer
-function GetItemBaseClassification(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param classifictaionId integer
----@return nothing
-function SetItemBaseClassification(whichItem, classifictaionId) end	-- (native)
-
-
----@param whichItem item
+---@param whichField itemrealfield
+---@param value real
 ---@return boolean
-function GetItemBaseIsMorph(whichItem) end	-- (native)
+function SetItemRealField(whichItem, whichField, value) end	-- (native)
 
 
 ---@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsMorph(whichItem, flag) end	-- (native)
+---@param whichField itemstringfield
+---@return string
+function GetItemStringField(whichItem, whichField) end	-- (native)
 
 
 ---@param whichItem item
+---@param whichField itemstringfield
+---@param value string
 ---@return boolean
-function GetItemBaseIsPickRandom(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsPickRandom(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return integer
-function GetItemBaseCharges(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param charges integer
----@return nothing
-function SetItemBaseCharges(whichItem, charges) end	-- (native)
-
-
----@param whichItem item
----@return integer
-function GetItemBaseCooldownId(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param cooldownId integer
----@return nothing
-function SetItemBaseCooldownId(whichItem, cooldownId) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsIgnoreCooldown(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsIgnoreCooldown(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsPowerUp(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsPowerUp(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsPawnable(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsPawnable(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsUsable(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsUsable(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsPerishable(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsPerishable(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsDroppable(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsDroppable(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsDroppableOnDeath(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsDroppableOnDeath(whichItem, flag) end	-- (native)
-
-
----@param whichItem item
----@return boolean
-function GetItemBaseIsSellable(whichItem) end	-- (native)
-
-
----@param whichItem item
----@param flag boolean
----@return nothing
-function SetItemBaseIsSellable(whichItem, flag) end	-- (native)
-
+function SetItemStringField(whichItem, whichField, value) end	-- (native)
+--  
+--  Normal API
 
 ---@param whichItem item
 ---@return real
@@ -12359,10 +12219,18 @@ function QueueItemAnimationByIndex(whichItem, animIndex) end	-- (native)
 ---@param animation string
 ---@return nothing
 function QueueItemAnimation(whichItem, animation) end	-- (native)
+
+
+---@param whichItem item
+---@param percent real
+---@return boolean
+function SetItemAnimationOffsetPercent(whichItem, percent) end	-- (native)
 --  
+-- 
 -- ============================================================================
 --  Unit API
 -- 
+--  Base API
 
 ---@param unitTypeId integer
 ---@return heroattribute
@@ -12645,277 +12513,122 @@ function GetUnitBaseSelectionScaleById(unitTypeId) end	-- (native)
 ---@param realValue real
 ---@return nothing
 function SetUnitBaseSelectionScaleById(unitTypeId, realValue) end	-- (native)
-
-
----@param whichUnit unit
----@return heroattribute
-function GetHeroBasePrimaryStat(whichUnit) end	-- (native)
-
+--  
+--  Field API
+--  Unit
 
 ---@param whichUnit unit
----@param whichHeroAttribute heroattribute
----@return nothing
-function SetHeroBasePrimaryStat(whichUnit, whichHeroAttribute) end	-- (native)
-
-
----@param whichUnit unit
+---@param whichField unitintegerfield
 ---@return integer
-function GetUnitBaseGoldCost(whichUnit) end	-- (native)
+function GetUnitIntegerField(whichUnit, whichField) end	-- (native)
 
 
 ---@param whichUnit unit
----@param goldCost integer
----@return nothing
-function SetUnitBaseGoldCost(whichUnit, goldCost) end	-- (native)
+---@param whichField unitintegerfield
+---@param value integer
+---@return boolean
+function SetUnitIntegerField(whichUnit, whichField, value) end	-- (native)
 
 
 ---@param whichUnit unit
+---@param whichField unitbooleanfield
+---@return boolean
+function GetUnitBooleanField(whichUnit, whichField) end	-- (native)
+
+
+---@param whichUnit unit
+---@param whichField unitbooleanfield
+---@param value boolean
+---@return boolean
+function SetUnitBooleanField(whichUnit, whichField, value) end	-- (native)
+
+
+---@param whichUnit unit
+---@param whichField unitrealfield
 ---@return real
-function GetUnitBaseDaySight(whichUnit) end	-- (native)
+function GetUnitRealField(whichUnit, whichField) end	-- (native)
 
 
 ---@param whichUnit unit
----@param dsight real
----@return nothing
-function SetUnitBaseDaySight(whichUnit, dsight) end	-- (native)
+---@param whichField unitrealfield
+---@param value real
+---@return boolean
+function SetUnitRealField(whichUnit, whichField, value) end	-- (native)
 
 
 ---@param whichUnit unit
+---@param whichField unitstringfield
+---@return string
+function GetUnitStringField(whichUnit, whichField) end	-- (native)
+
+
+---@param whichUnit unit
+---@param whichField unitstringfield
+---@param value string
+---@return boolean
+function SetUnitStringField(whichUnit, whichField, value) end	-- (native)
+--  Unit Weapon
+
+---@param whichUnit unit
+---@param whichField unitweaponintegerfield
+---@param index integer
+---@return integer
+function GetUnitWeaponIntegerField(whichUnit, whichField, index) end	-- (native)
+
+
+---@param whichUnit unit
+---@param whichField unitweaponintegerfield
+---@param index integer
+---@param value integer
+---@return boolean
+function SetUnitWeaponIntegerField(whichUnit, whichField, index, value) end	-- (native)
+
+
+---@param whichUnit unit
+---@param whichField unitweaponbooleanfield
+---@param index integer
+---@return boolean
+function GetUnitWeaponBooleanField(whichUnit, whichField, index) end	-- (native)
+
+
+---@param whichUnit unit
+---@param whichField unitweaponbooleanfield
+---@param index integer
+---@param value boolean
+---@return boolean
+function SetUnitWeaponBooleanField(whichUnit, whichField, index, value) end	-- (native)
+
+
+---@param whichUnit unit
+---@param whichField unitweaponrealfield
+---@param index integer
 ---@return real
-function GetUnitBaseNightSight(whichUnit) end	-- (native)
+function GetUnitWeaponRealField(whichUnit, whichField, index) end	-- (native)
 
 
 ---@param whichUnit unit
----@param nsight real
----@return nothing
-function SetUnitBaseNightSight(whichUnit, nsight) end	-- (native)
+---@param whichField unitweaponrealfield
+---@param index integer
+---@param value real
+---@return boolean
+function SetUnitWeaponRealField(whichUnit, whichField, index, value) end	-- (native)
 
 
 ---@param whichUnit unit
----@return integer
-function GetUnitBaseColour(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param colour integer
----@return nothing
-function SetUnitBaseColour(whichUnit, colour) end	-- (native)
-
-
----@param whichUnit unit
----@return integer
-function GetUnitBaseColourA(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param alpha integer
----@return nothing
-function SetUnitBaseColourA(whichUnit, alpha) end	-- (native)
-
-
----@param whichUnit unit
----@return integer
-function GetUnitBaseColourR(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param red integer
----@return nothing
-function SetUnitBaseColourR(whichUnit, red) end	-- (native)
-
-
----@param whichUnit unit
----@return integer
-function GetUnitBaseColourG(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param green integer
----@return nothing
-function SetUnitBaseColourG(whichUnit, green) end	-- (native)
-
-
----@param whichUnit unit
----@return integer
-function GetUnitBaseColourB(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param blue integer
----@return nothing
-function SetUnitBaseColourB(whichUnit, blue) end	-- (native)
-
-
----@param whichUnit unit
+---@param whichField unitweaponstringfield
+---@param index integer
 ---@return string
-function GetUnitBaseName(whichUnit) end	-- (native)
+function GetUnitWeaponStringField(whichUnit, whichField, index) end	-- (native)
 
 
 ---@param whichUnit unit
----@param name string
----@return nothing
-function SetUnitBaseName(whichUnit, name) end	-- (native)
-
-
----@param whichUnit unit
----@param nameIndex integer
----@return string
-function GetHeroBaseProperName(whichUnit, nameIndex) end	-- (native)
-
-
----@param whichUnit unit
----@param nameIndex integer
----@param properName string
----@return nothing
-function SetHeroBaseProperName(whichUnit, nameIndex, properName) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseDescription(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param name string
----@return nothing
-function SetUnitBaseDescription(whichUnit, name) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseModel(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param model string
----@return nothing
-function SetUnitBaseModel(whichUnit, model) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBasePortrait(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param portrait string
----@return nothing
-function SetUnitBasePortrait(whichUnit, portrait) end	-- (native)
-
-
----@param whichUnit unit
----@return oskeytype
-function GetUnitBaseHotkey(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param whichKey oskeytype
----@return nothing
-function SetUnitBaseHotkey(whichUnit, whichKey) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseIcon(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param name string
----@return nothing
-function SetUnitBaseIcon(whichUnit, name) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseAwakenTip(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param awakenTip string
----@return nothing
-function SetUnitBaseAwakenTip(whichUnit, awakenTip) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseTip(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param tip string
----@return nothing
-function SetUnitBaseTip(whichUnit, tip) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseUberTip(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param ubertip string
----@return nothing
-function SetUnitBaseUberTip(whichUnit, ubertip) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseReviveTip(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param revivetip string
----@return nothing
-function SetUnitBaseReviveTip(whichUnit, revivetip) end	-- (native)
-
-
----@param whichUnit unit
----@return string
-function GetUnitBaseShadowTex(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param shadowTexture string
----@return nothing
-function SetUnitBaseShadowTex(whichUnit, shadowTexture) end	-- (native)
-
-
----@param whichUnit unit
----@param attackIndex integer
----@return string
-function GetUnitBaseMissileArt(whichUnit, attackIndex) end	-- (native)
-
-
----@param whichUnit unit
----@param attackIndex integer
----@param missleArt string
----@return nothing
-function SetUnitBaseMissileArt(whichUnit, attackIndex, missleArt) end	-- (native)
-
-
----@param whichUnit unit
----@param attackIndex integer
----@return real
-function GetUnitBaseMissileSpeed(whichUnit, attackIndex) end	-- (native)
-
-
----@param whichUnit unit
----@param attackIndex integer
----@param missleSpeed real
----@return nothing
-function SetUnitBaseMissileSpeed(whichUnit, attackIndex, missleSpeed) end	-- (native)
-
-
----@param whichUnit unit
----@return real
-function GetUnitBaseSelectionScale(whichUnit) end	-- (native)
-
-
----@param whichUnit unit
----@param selectionScale real
----@return nothing
-function SetUnitBaseSelectionScale(whichUnit, selectionScale) end	-- (native)
-
+---@param whichField unitweaponstringfield
+---@param index integer
+---@param value string
+---@return boolean
+function SetUnitWeaponStringField(whichUnit, whichField, index, value) end	-- (native)
+--  
+--  Normal API
 
 ---@param whichUnit unit
 ---@param newId integer
@@ -13148,7 +12861,7 @@ function SetUnitSelectable(whichUnit, selectable) end	-- (native)
 ---@param isinventory boolean
 ---@return nothing
 function SetUnitControl(whichUnit, flagValue, isSetFlagValue, ismove, isattack, isinventory) end	-- (native)
---  flagValue = 0x200 and isSetFlagValue = true to emulate pause 
+--  flagValue = 0x200 and isSetFlagValue = true to emulate pause
 
 ---@param whichUnit unit
 ---@param flag integer
@@ -13224,132 +12937,144 @@ function SetUnitNextAttackTimeStampByIndex(whichUnit, attackIndex, time) end	-- 
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param attackState integer
 ---@return integer
-function SetUnitAttackState(whichUnit, atttackIndex, attackState) end	-- (native)
+function SetUnitAttackState(whichUnit, attackIndex, attackState) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return integer
-function UnitCancelCurrentAttackByIndex(whichUnit, atttackIndex) end	-- (native)
+function UnitCancelCurrentAttackByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return boolean
-function UnitResetAttackCooldownByIndex(whichUnit, atttackIndex) end	-- (native)
+function UnitResetAttackCooldownByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return boolean
-function UnitAddExtraAttackByIndex(whichUnit, atttackIndex) end	-- (native)
+function UnitAddExtraAttackByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return attacktype
-function GetUnitAttackTypeByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitAttackTypeByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param whichAttackType attacktype
 ---@return nothing
-function SetUnitAttackTypeByIndex(whichUnit, atttackIndex, whichAttackType) end	-- (native)
+function SetUnitAttackTypeByIndex(whichUnit, attackIndex, whichAttackType) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return weapontype
-function GetUnitWeaponTypeByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitWeaponTypeByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param whichWeaponType weapontype
 ---@return nothing
-function SetUnitWeaponTypeByIndex(whichUnit, atttackIndex, whichWeaponType) end	-- (native)
+function SetUnitWeaponTypeByIndex(whichUnit, attackIndex, whichWeaponType) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return integer
-function GetUnitWeaponSoundByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitWeaponSoundByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param weaponSound integer
 ---@return nothing
-function SetUnitWeaponSoundByIndex(whichUnit, atttackIndex, weaponSound) end	-- (native)
+function SetUnitWeaponSoundByIndex(whichUnit, attackIndex, weaponSound) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return integer
-function GetUnitBaseDamageByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitBaseDamageByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param damage integer
 ---@return nothing
-function SetUnitBaseDamageByIndex(whichUnit, atttackIndex, damage) end	-- (native)
+function SetUnitBaseDamageByIndex(whichUnit, attackIndex, damage) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return integer
-function GetUnitBonusDamageByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitBonusDamageByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param bonusDamage integer
 ---@return nothing
-function SetUnitBonusDamageByIndex(whichUnit, atttackIndex, bonusDamage) end	-- (native)
+function SetUnitBonusDamageByIndex(whichUnit, attackIndex, bonusDamage) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return integer
-function GetUnitDamageDicesSideByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitDamageDicesSideByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param dicesSides integer
 ---@return nothing
-function SetUnitDamageDicesSideByIndex(whichUnit, atttackIndex, dicesSides) end	-- (native)
+function SetUnitDamageDicesSideByIndex(whichUnit, attackIndex, dicesSides) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return integer
-function GetUnitDamageDicesByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitDamageDicesByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param dices integer
 ---@return nothing
-function SetUnitDamageDicesByIndex(whichUnit, atttackIndex, dices) end	-- (native)
+function SetUnitDamageDicesByIndex(whichUnit, attackIndex, dices) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
+---@return integer
+function GetUnitMinimumDamageByIndex(whichUnit, attackIndex) end	-- (native)
+
+
+---@param whichUnit unit
+---@param attackIndex integer
+---@return integer
+function GetUnitMaximumDamageByIndex(whichUnit, attackIndex) end	-- (native)
+
+
+---@param whichUnit unit
+---@param attackIndex integer
 ---@return real
-function GetUnitAttackRangeByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitAttackRangeByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param range real
 ---@return nothing
-function SetUnitAttackRangeByIndex(whichUnit, atttackIndex, range) end	-- (native)
+function SetUnitAttackRangeByIndex(whichUnit, attackIndex, range) end	-- (native)
 
 
 ---@param whichUnit unit
@@ -13364,42 +13089,42 @@ function SetUnitAttackSpeed(whichUnit, attackSpeed) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return real
-function GetUnitAttackCooldownByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitAttackCooldownByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param attackCooldown real
 ---@return nothing
-function SetUnitAttackCooldownByIndex(whichUnit, atttackIndex, attackCooldown) end	-- (native)
+function SetUnitAttackCooldownByIndex(whichUnit, attackIndex, attackCooldown) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return real
-function GetUnitBackswingPointByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitBackswingPointByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param backswing real
 ---@return nothing
-function SetUnitBackswingPointByIndex(whichUnit, atttackIndex, backswing) end	-- (native)
+function SetUnitBackswingPointByIndex(whichUnit, attackIndex, backswing) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@return real
-function GetUnitDamagePointByIndex(whichUnit, atttackIndex) end	-- (native)
+function GetUnitDamagePointByIndex(whichUnit, attackIndex) end	-- (native)
 
 
 ---@param whichUnit unit
----@param atttackIndex integer
+---@param attackIndex integer
 ---@param damagePoint real
 ---@return nothing
-function SetUnitDamagePointByIndex(whichUnit, atttackIndex, damagePoint) end	-- (native)
+function SetUnitDamagePointByIndex(whichUnit, attackIndex, damagePoint) end	-- (native)
 
 
 ---@param whichUnit unit
@@ -13585,8 +13310,9 @@ function GetUnitMoveAIType(whichUnit) end	-- (native)
 
 ---@param whichUnit unit
 ---@param moveAIType integer
+---@param flag boolean
 ---@return nothing
-function SetUnitMoveAIType(whichUnit, moveAIType) end	-- (native)
+function SetUnitMoveAIType(whichUnit, moveAIType, flag) end	-- (native)
 
 
 ---@param whichUnit unit
@@ -13705,7 +13431,14 @@ function MorphUnitToTypeIdEx(whichUnit, uid, unitFlags, updateHealthState, updat
 ---@param uid integer
 ---@return nothing
 function MorphUnitToTypeId(whichUnit, uid) end	-- (native)
+
+
+---@param whichUnit unit
+---@param percent real
+---@return boolean
+function SetUnitAnimationOffsetPercent(whichUnit, percent) end	-- (native)
 --  
+-- 
 -- ============================================================================
 --  Missile API
 -- 
@@ -13992,6 +13725,12 @@ function QueueMissileAnimation(whichMissile, animation) end	-- (native)
 
 
 ---@param whichMissile missile
+---@param percent real
+---@return boolean
+function SetMissileAnimationOffsetPercent(whichMissile, percent) end	-- (native)
+
+
+---@param whichMissile missile
 ---@return unit
 function GetMissileSource(whichMissile) end	-- (native)
 
@@ -14214,7 +13953,7 @@ function ClearFrameAllPoints(whichFrame) end	-- (native)
 
 ---@param whichFrame framehandle
 ---@param relativeFrame framehandle
----@return nothing
+---@return boolean
 function SetFrameAllPoints(whichFrame, relativeFrame) end	-- (native)
 
 
@@ -14233,6 +13972,33 @@ function IsFrameVisible(whichFrame) end	-- (native)
 ---@param createContext integer
 ---@return framehandle
 function GetFrameByName(frameName, createContext) end	-- (native)
+--  searches for any frame, priority is as follows: CFrame > CSimpleFrame > CSimpleFontString > CSimpleTexture
+
+---@param frameName string
+---@param createContext integer
+---@return framehandle
+function GetCFrameByName(frameName, createContext) end	-- (native)
+
+
+---@param frameName string
+---@param createContext integer
+---@return framehandle
+function GetCSimpleFontStringByName(frameName, createContext) end	-- (native)
+
+
+---@param frameName string
+---@param createContext integer
+---@return framehandle
+function GetCSimpleTextureByName(frameName, createContext) end	-- (native)
+
+
+---@param frameName string
+---@param createContext integer
+---@return framehandle
+function GetCSimpleFrameByName(frameName, createContext) end	-- (native)
+
+---@return framehandle
+function GetFrameUnderMouse() end	-- (native)
 
 
 ---@param whichFrame framehandle
@@ -14287,7 +14053,7 @@ function SetFrameTextColour(whichFrame, colour) end	-- (native)
 
 ---@param whichFrame framehandle
 ---@param isFocus boolean
----@return nothing
+---@return boolean
 function SetFrameFocus(whichFrame, isFocus) end	-- (native)
 
 
@@ -14654,6 +14420,12 @@ function SetFrameSpriteAnimation(whichFrame, animationName) end	-- (native)
 ---@param animationName string
 ---@return nothing
 function QueueFrameSpriteAnimation(whichFrame, animationName) end	-- (native)
+
+
+---@param whichFrame framehandle
+---@param percent real
+---@return boolean
+function SetFrameSpriteAnimationOffsetPercent(whichFrame, percent) end	-- (native)
 --  
 -- ============================================================================
 --  Sync API
@@ -14788,7 +14560,17 @@ function SendSyncData(prefix, data) end	-- (native)
 ---@return event
 function TriggerRegisterPlayerSyncEvent(whichTrigger, whichPlayer, prefix, fromServer) end	-- (native)
 --  
---  Key Event API
+--  Key/KeyEvent API
+
+---@param key oskeytype
+---@return boolean
+function IsKeyPressed(key) end	-- (native)
+
+
+---@param mouseKey mousebuttontype
+---@return boolean
+function IsMouseKeyPressed(mouseKey) end	-- (native)
+
 ---@return oskeytype
 function GetTriggerPlayerKey() end	-- (native)
 
