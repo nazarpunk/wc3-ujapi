@@ -620,6 +620,14 @@ META_KEY_ALT = 4	---@type integer
 META_KEY_WINDOWS = 8	---@type integer	
 --  To make a "meta key combination" simply add the values you need, so ALT + SHIFT => metaKey = META_KEY_ALT + META_KEY_SHIFT
 -- ===================================================
+--  Chat Recipient constants
+-- ===================================================
+CHAT_RECIPIENT_ALL = 0	---@type integer	
+CHAT_RECIPIENT_ALLIES = 1	---@type integer	
+CHAT_RECIPIENT_REFEREES = 2	---@type integer	
+CHAT_RECIPIENT_OBSERVERS = 2	---@type integer	
+CHAT_RECIPIENT_PRIVATE = 3	---@type integer	
+-- ===================================================
 --  Instanced Object Operation API constants
 -- ===================================================
 --  Ability
@@ -2368,6 +2376,22 @@ function GetMouseWorldY() end	-- (native)
 
 ---@return real
 function GetMouseWorldZ() end	-- (native)
+--  
+--  Chat API
+
+---@param whichPlayer player
+---@param recipient integer
+---@param message string
+---@return nothing
+function DisplayChatMessage(whichPlayer, recipient, message) end	-- (native)
+
+
+---@param whichPlayer player
+---@param recipient integer
+---@param duration real
+---@param message string
+---@return nothing
+function DisplayTimedChatMessage(whichPlayer, recipient, duration, message) end	-- (native)
 --  
 -- ============================================================================
 --  Force API

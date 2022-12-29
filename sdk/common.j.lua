@@ -609,7 +609,7 @@ function AbilityId2String(abilityId) end	-- (native)
 function GetObjectName(objectId) end	-- (native)
 
 -- ===================================================
---  Game Constants    
+--  Game Constants
 -- ===================================================
 FALSE = false	---@type boolean	
 TRUE = true	---@type boolean	
@@ -775,7 +775,7 @@ SUBANIM_TYPE_SWIM = ConvertSubAnimType(60)	---@type subanimtype
 SUBANIM_TYPE_ENTANGLE = ConvertSubAnimType(61)	---@type subanimtype	
 SUBANIM_TYPE_BERSERK = ConvertSubAnimType(62)	---@type subanimtype	
 -- ===================================================
---  Map Setup Constants    
+--  Map Setup Constants
 -- ===================================================
 RACE_PREF_HUMAN = ConvertRacePref(1)	---@type racepreference	
 RACE_PREF_ORC = ConvertRacePref(2)	---@type racepreference	
@@ -820,7 +820,7 @@ MAP_RELOADED = ConvertMapFlag(8192 * 64)	---@type mapflag
 MAP_PLACEMENT_RANDOM = ConvertPlacement(0)	---@type placement	--  random among all slots
 MAP_PLACEMENT_FIXED = ConvertPlacement(1)	---@type placement	--  player 0 in start loc 0...
 MAP_PLACEMENT_USE_MAP_SETTINGS = ConvertPlacement(2)	---@type placement	--  whatever was specified by the script
-MAP_PLACEMENT_TEAMS_TOGETHER = ConvertPlacement(3)	---@type placement	--  random with allies next to each other    
+MAP_PLACEMENT_TEAMS_TOGETHER = ConvertPlacement(3)	---@type placement	--  random with allies next to each other
 MAP_LOC_PRIO_LOW = ConvertStartLocPrio(0)	---@type startlocprio	
 MAP_LOC_PRIO_HIGH = ConvertStartLocPrio(1)	---@type startlocprio	
 MAP_LOC_PRIO_NOT = ConvertStartLocPrio(2)	---@type startlocprio	
@@ -932,8 +932,8 @@ PLAYER_SCORE_TOTAL = ConvertPlayerScore(24)	---@type playerscore
 -- 
 -- ===================================================
 -- ===================================================
---  For use with TriggerRegisterGameEvent    
--- ===================================================    
+--  For use with TriggerRegisterGameEvent
+-- ===================================================
 EVENT_GAME_VICTORY = ConvertGameEvent(0)	---@type gameevent	
 EVENT_GAME_END_LEVEL = ConvertGameEvent(1)	---@type gameevent	
 EVENT_GAME_VARIABLE_LIMIT = ConvertGameEvent(2)	---@type gameevent	
@@ -1469,6 +1469,14 @@ META_KEY_CONTROL = 2	---@type integer
 META_KEY_ALT = 4	---@type integer	
 META_KEY_WINDOWS = 8	---@type integer	
 --  To make a "meta key combination" simply add the values you need, so ALT + SHIFT => metaKey = META_KEY_ALT + META_KEY_SHIFT
+-- ===================================================
+--  Chat Recipient constants
+-- ===================================================
+CHAT_RECIPIENT_ALL = 0	---@type integer	
+CHAT_RECIPIENT_ALLIES = 1	---@type integer	
+CHAT_RECIPIENT_REFEREES = 2	---@type integer	
+CHAT_RECIPIENT_OBSERVERS = 2	---@type integer	
+CHAT_RECIPIENT_PRIVATE = 3	---@type integer	
 -- ===================================================
 --  Instanced Object Operation API constants
 -- ===================================================
@@ -9944,6 +9952,22 @@ function GetMouseWorldY() end	-- (native)
 
 ---@return real
 function GetMouseWorldZ() end	-- (native)
+--  
+--  Chat API
+
+---@param whichPlayer player
+---@param recipient integer
+---@param message string
+---@return nothing
+function DisplayChatMessage(whichPlayer, recipient, message) end	-- (native)
+
+
+---@param whichPlayer player
+---@param recipient integer
+---@param duration real
+---@param message string
+---@return nothing
+function DisplayTimedChatMessage(whichPlayer, recipient, duration, message) end	-- (native)
 --  
 -- ============================================================================
 --  Force API
