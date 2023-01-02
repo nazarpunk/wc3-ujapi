@@ -250,7 +250,7 @@ constant native GetObjectName               			takes integer objectId          r
 globals
 
 //===================================================
-// Game Constants    
+// Game Constants
 //===================================================
     constant boolean            		FALSE                           							= false
     constant boolean            		TRUE                            							= true
@@ -429,7 +429,7 @@ globals
 	constant subanimtype        		SUBANIM_TYPE_BERSERK            							= ConvertSubAnimType(62)
 
 //===================================================
-// Map Setup Constants    
+// Map Setup Constants
 //===================================================
 
     constant racepreference     		RACE_PREF_HUMAN                     						= ConvertRacePref(1)
@@ -465,7 +465,7 @@ globals
     constant mapflag            		MAP_OBSERVERS_ON_DEATH              						= ConvertMapFlag(32)
 
     constant mapflag            		MAP_FIXED_COLORS                    						= ConvertMapFlag(128)
-    
+
     constant mapflag 					MAP_LOCK_RESOURCE_TRADING           						= ConvertMapFlag(256)
     constant mapflag 					MAP_RESOURCE_TRADING_ALLIES_ONLY    						= ConvertMapFlag(512)
 
@@ -485,7 +485,7 @@ globals
     constant placement					MAP_PLACEMENT_RANDOM                						= ConvertPlacement(0)   // random among all slots
     constant placement					MAP_PLACEMENT_FIXED                 						= ConvertPlacement(1)   // player 0 in start loc 0...
     constant placement					MAP_PLACEMENT_USE_MAP_SETTINGS      						= ConvertPlacement(2)   // whatever was specified by the script
-    constant placement					MAP_PLACEMENT_TEAMS_TOGETHER        						= ConvertPlacement(3)   // random with allies next to each other    
+    constant placement					MAP_PLACEMENT_TEAMS_TOGETHER        						= ConvertPlacement(3)   // random with allies next to each other
 
     constant startlocprio				MAP_LOC_PRIO_LOW                    						= ConvertStartLocPrio(0)
     constant startlocprio				MAP_LOC_PRIO_HIGH                   						= ConvertStartLocPrio(1)
@@ -600,7 +600,7 @@ globals
     constant playerscore 				PLAYER_SCORE_HERO_TOTAL                						= ConvertPlayerScore(22)
     constant playerscore 				PLAYER_SCORE_RESOURCE_TOTAL            						= ConvertPlayerScore(23)
     constant playerscore 				PLAYER_SCORE_TOTAL                     						= ConvertPlayerScore(24)
-        
+
 //===================================================
 // Game, Player and Unit Events
 //
@@ -617,14 +617,14 @@ globals
 //===================================================
 
     //===================================================
-    // For use with TriggerRegisterGameEvent    
-    //===================================================    
+    // For use with TriggerRegisterGameEvent
+    //===================================================
 
     constant gameevent 					EVENT_GAME_VICTORY                       					= ConvertGameEvent(0)
     constant gameevent 					EVENT_GAME_END_LEVEL                     					= ConvertGameEvent(1)
 
     constant gameevent 					EVENT_GAME_VARIABLE_LIMIT                					= ConvertGameEvent(2)
-    constant gameevent 					EVENT_GAME_STATE_LIMIT                   					= ConvertGameEvent(3)   
+    constant gameevent 					EVENT_GAME_STATE_LIMIT                   					= ConvertGameEvent(3)
 
     constant gameevent 					EVENT_GAME_TIMER_EXPIRED                 					= ConvertGameEvent(4)
 
@@ -634,7 +634,7 @@ globals
     constant gameevent 					EVENT_GAME_TRACKABLE_HIT                 					= ConvertGameEvent(7)
     constant gameevent 					EVENT_GAME_TRACKABLE_TRACK               					= ConvertGameEvent(8)
 
-    constant gameevent 					EVENT_GAME_SHOW_SKILL                    					= ConvertGameEvent(9)    
+    constant gameevent 					EVENT_GAME_SHOW_SKILL                    					= ConvertGameEvent(9)
     constant gameevent 					EVENT_GAME_BUILD_SUBMENU                 					= ConvertGameEvent(10)
 
     //===================================================
@@ -1237,6 +1237,16 @@ globals
     constant integer        			META_KEY_ALT            									= 4
 	constant integer        			META_KEY_WINDOWS            								= 8
 	// To make a "meta key combination" simply add the values you need, so ALT + SHIFT => metaKey = META_KEY_ALT + META_KEY_SHIFT
+
+//===================================================
+// Chat Recipient constants
+//===================================================
+
+	constant integer					CHAT_RECIPIENT_ALL											= 0
+	constant integer					CHAT_RECIPIENT_ALLIES										= 1
+	constant integer					CHAT_RECIPIENT_REFEREES										= 2
+	constant integer					CHAT_RECIPIENT_OBSERVERS									= 2
+	constant integer					CHAT_RECIPIENT_PRIVATE										= 3
 
 //===================================================
 // Instanced Object Operation API constants
@@ -4070,6 +4080,11 @@ native SetMouseScreenPixelPosition             			takes integer x, integer y ret
 native GetMouseWorldX             						takes nothing returns real
 native GetMouseWorldY             						takes nothing returns real
 native GetMouseWorldZ             						takes nothing returns real
+//
+
+// Chat API
+native DisplayChatMessage								takes player whichPlayer, integer recipient, string message returns nothing
+native DisplayTimedChatMessage							takes player whichPlayer, integer recipient, real duration, string message returns nothing
 //
 
 //============================================================================
