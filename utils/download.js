@@ -14,7 +14,8 @@ const download = (url, dest) => {
 
 					const result = data
 					.replace(/\r\n/g, '\n')
-					.replace(/[^\S\r\n]{2,}/g, ' ');
+					.replace(/[^\S\r\n]{2,}/g, ' ')
+					.replace(/\n[^\S\r\n]+/g, '\n');
 
 
 					fs.writeFile(dest, result, 'utf8', err => {
