@@ -8,6 +8,7 @@
   "license": "UNLICENSED",
   "type": "module",
   "devDependencies": {
-    "jass-to-ast": "^2.0.2"
+    "jass-to-ast": "^2.0.2",
+    "@terascope/fetch-github-release": "^0.8.7"
   }
 }

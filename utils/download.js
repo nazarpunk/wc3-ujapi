@@ -1,5 +1,7 @@
 import * as fs from 'fs'
 import * as https from 'https'
+import {downloadRelease} from '@terascope/fetch-github-release'
+
 
 const download = (url, dest) => {
 	const file = fs.createWriteStream(dest);
@@ -31,3 +33,7 @@ const download = (url, dest) => {
 
 download('https://raw.githubusercontent.com/UnryzeC/UjAPI/main/uJAPIFiles/common.j', './../sdk/common.j');
 download('https://raw.githubusercontent.com/UnryzeC/UjAPI/main/uJAPIFiles/UjAPI.j', './../sdk/UjAPI.j');
+
+// https://github.com/UnryzeC/UjAPI
+downloadRelease('UnryzeC', 'UjAPI', './../', () => true, () => true, false, false)
+.catch(err => console.error(err.message));
