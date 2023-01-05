@@ -12,6 +12,7 @@ type textaligntype extends handle
 type frameeventtype extends handle
 type oskeytype extends handle
 type mousebuttontype extends handle
+
 type abilityintegerfield extends handle
 type abilityrealfield extends handle
 type abilitybooleanfield extends handle
@@ -24,6 +25,9 @@ type abilityintegerlevelarrayfield extends handle
 type abilityreallevelarrayfield extends handle
 type abilitybooleanlevelarrayfield extends handle
 type abilitystringlevelarrayfield extends handle
+
+type buffstringfield extends handle
+
 type unitintegerfield extends handle
 type unitrealfield extends handle
 type unitbooleanfield extends handle
@@ -32,6 +36,7 @@ type unitweaponintegerfield extends handle
 type unitweaponrealfield extends handle
 type unitweaponbooleanfield extends handle
 type unitweaponstringfield extends handle
+
 type itemintegerfield extends handle
 type itemrealfield extends handle
 type itembooleanfield extends handle
@@ -73,6 +78,9 @@ constant native ConvertAbilityIntegerLevelArrayField takes integer i returns abi
 constant native ConvertAbilityRealLevelArrayField takes integer i returns abilityreallevelarrayfield
 constant native ConvertAbilityBooleanLevelArrayField takes integer i returns abilitybooleanlevelarrayfield
 constant native ConvertAbilityStringLevelArrayField takes integer i returns abilitystringlevelarrayfield
+
+constant native ConvertBuffStringField takes integer i returns buffstringfield
+
 constant native ConvertUnitIntegerField takes integer i returns unitintegerfield
 constant native ConvertUnitRealField takes integer i returns unitrealfield
 constant native ConvertUnitBooleanField takes integer i returns unitbooleanfield
@@ -81,6 +89,7 @@ constant native ConvertUnitWeaponIntegerField takes integer i returns unitweapon
 constant native ConvertUnitWeaponRealField takes integer i returns unitweaponrealfield
 constant native ConvertUnitWeaponBooleanField takes integer i returns unitweaponbooleanfield
 constant native ConvertUnitWeaponStringField takes integer i returns unitweaponstringfield
+
 constant native ConvertItemIntegerField takes integer i returns itemintegerfield
 constant native ConvertItemRealField takes integer i returns itemrealfield
 constant native ConvertItemBooleanField takes integer i returns itembooleanfield
@@ -1233,6 +1242,11 @@ constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_3 = ConvertAbilityS
 constant abilitystringlevelfield ABILITY_SLF_ABILITY_UPGRADE_4 = ConvertAbilityStringLevelField('Neg6')
 constant abilitystringlevelfield ABILITY_SLF_SPAWN_UNIT_ID_NSY2 = ConvertAbilityStringLevelField('Nsy2')
 
+// Buff
+constant buffstringfield BUFF_SF_ICON_NORMAL = ConvertBuffStringField('fart')
+constant buffstringfield BUFF_SF_TOOLTIP_NORMAL = ConvertBuffStringField('ftip')
+constant buffstringfield BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertBuffStringField('fube')
+
 // Item
 constant itemintegerfield ITEM_IF_LEVEL = ConvertItemIntegerField('ilev')
 constant itemintegerfield ITEM_IF_NUMBER_OF_CHARGES = ConvertItemIntegerField('iuse')
@@ -1350,6 +1364,8 @@ constant unitstringfield UNIT_SF_NAME = ConvertUnitStringField('unam')
 constant unitstringfield UNIT_SF_PROPER_NAMES = ConvertUnitStringField('upro')
 constant unitstringfield UNIT_SF_GROUND_TEXTURE = ConvertUnitStringField('uubs')
 constant unitstringfield UNIT_SF_SHADOW_IMAGE_UNIT = ConvertUnitStringField('ushu')
+constant unitstringfield UNIT_SF_HERO_ABILITY_LIST = ConvertUnitStringField('uhab')
+constant unitstringfield UNIT_SF_ABILITY_LIST = ConvertUnitStringField('uabi')
 
 // Unit Weapon
 constant unitweaponintegerfield UNIT_WEAPON_IF_ATTACK_DAMAGE_NUMBER_OF_DICE = ConvertUnitWeaponIntegerField('ua1d')
@@ -1657,6 +1673,7 @@ native StringFindLastNotOf takes string s, string whichString, boolean caseSensi
 //
 
 // Time API
+native GetUjAPIVersion takes nothing returns string
 native GetSystemTime takes timetype whichTimeType returns integer
 native GetLocalTime takes timetype whichTimeType returns integer
 //
@@ -1725,6 +1742,41 @@ native GroupRemoveGroupEx takes group destGroup, group sourceGroup returns integ
 //
 
 //============================================================================
+// Image API
+//
+
+native CreateImageSimple takes string file, real sizeX, real sizeY, real posX, real posY, real posZ, integer imageType returns image
+native GetImageType takes image whichImage returns integer	
+native GetImageX takes image whichImage returns real	
+native SetImageX takes image whichImage, real sizeX returns nothing	
+native GetImageY takes image whichImage returns real	
+native SetImageY takes image whichImage, real sizeY returns nothing	
+native GetImageZ takes image whichImage returns real	
+native SetImageZ takes image whichImage, real sizeZ returns nothing	
+native GetImagePositionLocation takes image whichImage returns location
+native SetImagePositionLocation takes image whichImage, location whichLocation returns nothing
+native GetImageOriginX takes image whichImage returns real	
+native SetImageOriginX takes image whichImage, real originX returns nothing	
+native GetImageOriginY takes image whichImage returns real	
+native SetImageOriginY takes image whichImage, real originY returns nothing	
+native SetImageOrigin takes image whichImage, real originX, real originY returns nothing	
+native GetImageSizeX takes image whichImage returns real	
+native SetImageSizeX takes image whichImage, real sizeX returns nothing	
+native GetImageSizeY takes image whichImage returns real	
+native SetImageSizeY takes image whichImage, real sizeY returns nothing
+native SetImageSize takes image whichImage, real size returns nothing
+native SetImageSizeEx takes image whichImage, real sizeX, real sizeY returns nothing
+native GetImageColour takes image whichImage returns integer
+native IsImageRendered takes image whichImage returns boolean
+native IsImageRenderAlways takes image whichImage returns boolean
+native IsImageRenderAboveWater takes image whichImage returns boolean
+native IsImageVisible takes image whichImage returns boolean
+native GetImageConstantHeight takes image whichImage returns real
+native GetImageTexture takes image whichImage returns string
+native SetImageTexture takes image whichImage, string imagePath returns nothing
+//
+
+//============================================================================
 // Ability API
 //
 
@@ -1776,6 +1828,52 @@ native SetAbilityBaseUnUberTipById takes integer aid, integer level, string text
 native SetAbilityBaseHotkeyByIdEx takes integer aid, oskeytype whichKey returns nothing
 //
 
+// Base Field API
+native GetAbilityBaseIntegerFieldById takes integer aid, abilityintegerfield whichField returns integer
+native SetAbilityBaseIntegerFieldById takes integer aid, abilityintegerfield whichField, integer value returns boolean
+
+native GetAbilityBaseBooleanFieldById takes integer aid, abilitybooleanfield whichField returns boolean
+native SetAbilityBaseBooleanFieldById takes integer aid, abilitybooleanfield whichField, boolean value returns boolean
+
+native GetAbilityBaseRealFieldById takes integer aid, abilityrealfield whichField returns real
+native SetAbilityBaseRealFieldById takes integer aid, abilityrealfield whichField, real value returns boolean
+
+native GetAbilityBaseStringFieldById takes integer aid, abilitystringfield whichField returns string
+native SetAbilityBaseStringFieldById takes integer aid, abilitystringfield whichField, string value returns boolean
+
+native GetAbilityBaseIntegerLevelFieldById takes integer aid, abilityintegerlevelfield whichField, integer level returns integer
+native SetAbilityBaseIntegerLevelFieldById takes integer aid, abilityintegerlevelfield whichField, integer level, integer value returns boolean
+
+native GetAbilityBaseBooleanLevelFieldById takes integer aid, abilitybooleanlevelfield whichField, integer level returns boolean
+native SetAbilityBaseBooleanLevelFieldById takes integer aid, abilitybooleanlevelfield whichField, integer level, boolean value returns boolean
+
+native GetAbilityBaseRealLevelFieldById takes integer aid, abilityreallevelfield whichField, integer level returns real
+native SetAbilityBaseRealLevelFieldById takes integer aid, abilityreallevelfield whichField, integer level, real value returns boolean
+
+native GetAbilityBaseStringLevelFieldById takes integer aid, abilitystringlevelfield whichField, integer level returns string
+native SetAbilityBaseStringLevelFieldById takes integer aid, abilitystringlevelfield whichField, integer level, string value returns boolean
+
+native GetAbilityBaseIntegerLevelArrayFieldById takes integer aid, abilityintegerlevelarrayfield whichField, integer level, integer index returns integer
+native SetAbilityBaseIntegerLevelArrayFieldById takes integer aid, abilityintegerlevelarrayfield whichField, integer level, integer index, integer value returns boolean
+native AddAbilityBaseIntegerLevelArrayFieldById takes integer aid, abilityintegerlevelarrayfield whichField, integer level, integer value returns boolean
+native RemoveAbilityBaseIntegerLevelArrayFieldById takes integer aid, abilityintegerlevelarrayfield whichField, integer level, integer value returns boolean
+
+native GetAbilityBaseBooleanLevelArrayFieldById takes integer aid, abilitybooleanlevelarrayfield whichField, integer level, integer index returns boolean
+native SetAbilityBaseBooleanLevelArrayFieldById takes integer aid, abilitybooleanlevelarrayfield whichField, integer level, integer index, boolean value returns boolean
+native AddAbilityBaseBooleanLevelArrayFieldById takes integer aid, abilitybooleanlevelarrayfield whichField, integer level, boolean value returns boolean
+native RemoveAbilityBaseBooleanLevelArrayFieldById takes integer aid, abilitybooleanlevelarrayfield whichField, integer level, boolean value returns boolean
+
+native GetAbilityBaseRealLevelArrayFieldById takes integer aid, abilityreallevelarrayfield whichField, integer level, integer index returns real
+native SetAbilityBaseRealLevelArrayFieldById takes integer aid, abilityreallevelarrayfield whichField, integer level, integer index, real value returns boolean
+native AddAbilityBaseRealLevelArrayFieldById takes integer aid, abilityreallevelarrayfield whichField, integer level, real value returns boolean
+native RemoveAbilityBaseRealLevelArrayFieldById takes integer aid, abilityreallevelarrayfield whichField, integer level, real value returns boolean
+
+native GetAbilityBaseStringLevelArrayFieldById takes integer aid, abilitystringlevelarrayfield whichField, integer level, integer index returns string
+native SetAbilityBaseStringLevelArrayFieldById takes integer aid, abilitystringlevelarrayfield whichField, integer level, integer index, string value returns boolean
+native AddAbilityBaseStringLevelArrayFieldById takes integer aid, abilitystringlevelarrayfield whichField, integer level, string value returns boolean
+native RemoveAbilityBaseStringLevelArrayFieldById takes integer aid, abilitystringlevelarrayfield whichField, integer level, string value returns boolean
+//
+
 // Field API
 native GetAbilityIntegerField takes ability whichAbility, abilityintegerfield whichField returns integer
 native SetAbilityIntegerField takes ability whichAbility, abilityintegerfield whichField, integer value returns boolean
@@ -1823,8 +1921,10 @@ native RemoveAbilityStringLevelArrayField takes ability whichAbility, abilitystr
 //
 
 // Ability API
-native GetAbilityOrder takes ability whichAbility returns integer
+native GetAbilityOrderId takes ability whichAbility returns integer
+native SetAbilityOrderId takes ability whichAbility, integer orderId returns boolean // Highly experimental, may be removed if proven unstable.
 native GetAbilityLevel takes ability whichAbility returns integer
+native SetAbilityLevel takes ability whichAbility, integer level returns integer
 native GetAbilityBaseTypeId takes ability whichAbility returns integer
 native GetAbilityTypeId takes ability whichAbility returns integer
 native IsAbilityOnCooldown takes ability whichAbility returns boolean
@@ -1856,10 +1956,22 @@ native CastAbilityTarget takes ability whichAbility, widget target returns boole
 //============================================================================
 // Buff API
 //
+
+// Base Field API
+native GetBuffBaseStringFieldById takes integer aid, buffstringfield whichField returns string
+native SetBuffBaseStringFieldById takes integer aid, buffstringfield whichField, string value returns boolean
+//
+
+// Field API
+native GetBuffStringField takes buff whichBuff, buffstringfield whichField returns string
+native SetBuffStringField takes buff whichBuff, buffstringfield whichField, string value returns boolean
+//
+
+// Normal API
 native GetBuffLevel takes buff whichBuff returns integer
 native GetBuffRemainingDuration takes buff whichBuff returns real
-native RefreshBuff takes buff whichBuff returns boolean
 native SetBuffRemainingDuration takes buff whichBuff, real duration returns boolean
+native RefreshBuff takes buff whichBuff returns boolean
 //
 
 //============================================================================
@@ -2092,6 +2204,20 @@ native GetItemBaseIsSellableById takes integer itemId returns boolean
 native SetItemBaseIsSellableById takes integer itemId, boolean flag returns nothing
 //
 
+// Base Field API
+native GetBaseItemIntegerFieldById takes integer itemId, itemintegerfield whichField returns integer
+native SetBaseItemIntegerFieldById takes integer itemId, itemintegerfield whichField, integer value returns boolean
+
+native GetBaseItemBooleanFieldById takes integer itemId, itembooleanfield whichField returns boolean
+native SetBaseItemBooleanFieldById takes integer itemId, itembooleanfield whichField, boolean value returns boolean
+
+native GetBaseItemRealFieldById takes integer itemId, itemrealfield whichField returns real
+native SetBaseItemRealFieldById takes integer itemId, itemrealfield whichField, real value returns boolean
+
+native GetBaseItemStringFieldById takes integer itemId, itemstringfield whichField returns string
+native SetBaseItemStringFieldById takes integer itemId, itemstringfield whichField, string value returns boolean
+//
+
 // Field API
 native GetItemIntegerField takes item whichItem, itemintegerfield whichField returns integer
 native SetItemIntegerField takes item whichItem, itemintegerfield whichField, integer value returns boolean
@@ -2203,6 +2329,34 @@ native GetUnitBaseMissileArcById takes integer unitTypeId, integer attackIndex r
 native SetUnitBaseMissileArcById takes integer unitTypeId, integer attackIndex, real realValue returns nothing
 native GetUnitBaseSelectionScaleById takes integer unitTypeId returns real
 native SetUnitBaseSelectionScaleById takes integer unitTypeId, real realValue returns nothing
+//
+
+// Base Field API
+// Unit Base
+native GetUnitBaseIntegerFieldById takes integer unitTypeId, unitintegerfield whichField returns integer
+native SetUnitBaseIntegerFieldById takes integer unitTypeId, unitintegerfield whichField, integer value returns boolean
+
+native GetUnitBaseBooleanFieldById takes integer unitTypeId, unitbooleanfield whichField returns boolean
+native SetUnitBaseBooleanFieldById takes integer unitTypeId, unitbooleanfield whichField, boolean value returns boolean
+
+native GetUnitBaseRealFieldById takes integer unitTypeId, unitrealfield whichField returns real
+native SetUnitBaseRealFieldById takes integer unitTypeId, unitrealfield whichField, real value returns boolean
+
+native GetUnitBaseStringFieldById takes integer unitTypeId, unitstringfield whichField returns string
+native SetUnitBaseStringFieldById takes integer unitTypeId, unitstringfield whichField, string value returns boolean
+
+// Unit Base Weapon
+native GetUnitBaseWeaponIntegerFieldById takes integer unitTypeId, unitweaponintegerfield whichField, integer index returns integer
+native SetUnitBaseWeaponIntegerFieldById takes integer unitTypeId, unitweaponintegerfield whichField, integer index, integer value returns boolean
+
+native GetUnitBaseWeaponBooleanFieldById takes integer unitTypeId, unitweaponbooleanfield whichField, integer index returns boolean
+native SetUnitBaseWeaponBooleanFieldById takes integer unitTypeId, unitweaponbooleanfield whichField, integer index, boolean value returns boolean
+
+native GetUnitBaseWeaponRealFieldById takes integer unitTypeId, unitweaponrealfield whichField, integer index returns real
+native SetUnitBaseWeaponRealFieldById takes integer unitTypeId, unitweaponrealfield whichField, integer index, real value returns boolean
+
+native GetUnitBaseWeaponStringFieldById takes integer unitTypeId, unitweaponstringfield whichField, integer index returns string
+native SetUnitBaseWeaponStringFieldById takes integer unitTypeId, unitweaponstringfield whichField, integer index, string value returns boolean
 //
 
 // Field API
@@ -2466,7 +2620,8 @@ native TriggerRegisterPlayerMissileEvent takes trigger whichTrigger, player whic
 //
 native GetOriginFrame takes originframetype whichType, integer index returns framehandle
 // native EnableUIAutoPosition takes boolean flag returns nothing // not active for now
-// native HideOriginFrames takes boolean flag returns nothing // not active for now
+native HideOriginFrames takes boolean flag returns nothing
+native EditBlackBorders takes real upperHeight, real bottomHeight returns nothing
 native LoadTOCFile takes string TOCFile returns boolean
 native CreateFrame takes string templateName, framehandle whichParent, integer priority, integer createContext returns framehandle
 native CreateSimpleFrame takes string templateName, framehandle whichParent, integer createContext returns framehandle
