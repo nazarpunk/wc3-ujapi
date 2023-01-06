@@ -1,0 +1,2 @@
+PlayerMouseWorld = {}
+PlayerMouseScreen = {}

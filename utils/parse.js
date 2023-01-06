@@ -15,16 +15,28 @@ const _raw2s = string =>
 
 const _isPrimitive = node => node instanceof String || ['boolean', 'number', 'string'].indexOf(typeof node) >= 0;
 
-const _primitive = s => {
+/**
+ * @param s
+ * @param {boolean} rawcode
+ * @return {string}
+ * @private
+ */
+const _primitive = (s, rawcode = true) => {
 	if (s instanceof FourCC) {
-		return `FourCC('${s}'--[[${_raw2s(s)}--]])`;
+		return rawcode ? `FourCC('${s}'--[[${_raw2s(s)}--]])` : `${_raw2s(s)}--[[${s}--]]`;
 	}
 	return s;
 };
 
-const _arg = node => {
+/**
+ * @param node
+ * @param {boolean} rawcode
+ * @return {string}
+ * @private
+ */
+const _arg = (node, rawcode = true) => {
 	if (_isPrimitive(node)) {
-		return _primitive(node);
+		return _primitive(node, rawcode);
 	}
 	if (node instanceof BinaryOp) {
 		return `${node.left}${node.operator}${node.right}`;
@@ -32,15 +44,22 @@ const _arg = node => {
 
 	return node;
 };
-const _value = node => {
+
+/**
+ * @param node
+ * @param {boolean} rawcode
+ * @return {string}
+ * @private
+ */
+const _value = (node, rawcode = true) => {
 	if (_isPrimitive(node)) {
-		return _primitive(node);
+		return _primitive(node, rawcode);
 	}
 	if (node instanceof Call) {
 		const args = [];
 		if (node.args) {
 			for (const arg of node.args) {
-				args.push(_arg(arg));
+				args.push(_arg(arg, rawcode));
 			}
 		}
 		return `${node.name}(${args.join(', ')})`;
@@ -49,6 +68,13 @@ const _value = node => {
 	console.log('_value:', node);
 	return node;
 };
+
+const ct = './../asset/ConvertTypeFix.lua';
+fs.writeFileSync(ct, '', {flag: 'w+'});
+
+/** @param {string} content */
+const ctwrite = content => fs.writeFileSync(ct, content, {flag: 'a+'});
+
 
 /**
  * @param {string} path
@@ -80,6 +106,9 @@ const
 
 			if (node instanceof Variable) {
 				write(`${node.name} = ${_value(node.value)} ---@type ${node.type}\r`);
+				if (node.value instanceof Call) {
+					ctwrite(`${node.name} = ${_value(node.value, false)} ---@type ${node.type}\r`);
+				}
 				return true;
 			}
 
