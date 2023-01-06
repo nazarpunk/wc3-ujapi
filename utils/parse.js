@@ -95,19 +95,19 @@ const
 			let s = '';
 
 			if (node instanceof EmptyLine) {
-				write(`\r`);
+				write(`\n`);
 				return true;
 			}
 
 			if (node instanceof String) {
-				write(`-- ${node.trim()}\r`);
+				write(`-- ${node.trim()}\n`);
 				return true;
 			}
 
 			if (node instanceof Variable) {
-				write(`${node.name} = ${_value(node.value)} ---@type ${node.type}\r`);
+				write(`${node.name} = ${_value(node.value)} ---@type ${node.type}\n`);
 				if (node.value instanceof Call) {
-					ctwrite(`${node.name} = ${_value(node.value, false)} ---@type ${node.type}\r`);
+					ctwrite(`${node.name} = ${_value(node.value, false)} ---@type ${node.type}\n`);
 				}
 				return true;
 			}
@@ -117,7 +117,7 @@ const
 				if (node.comment) {
 					s += ` -- ${node.comment}`;
 				}
-				write(`${s.trim()}\r`);
+				write(`${s.trim()}\n`);
 				return true;
 			}
 
@@ -127,11 +127,11 @@ const
 						if (alias[p.name]) {
 							p.name = alias[p.name];
 						}
-						write(`---@param ${p.name} ${p.type}\r`);
+						write(`---@param ${p.name} ${p.type}\n`);
 					}
 				}
 				if (node.returns) {
-					write(`---@return ${node.returns}\r`);
+					write(`---@return ${node.returns}\n`);
 				}
 				write(`function ${node.name} (`);
 				if (node.params) {
@@ -143,7 +143,7 @@ const
 						write(list.join(', '));
 					}
 				}
-				write(') end\r');
+				write(') end\n');
 				return true;
 			}
 
