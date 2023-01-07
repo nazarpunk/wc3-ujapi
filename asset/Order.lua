@@ -1,6 +1,3 @@
-PlayerMouseWorld = {}
-PlayerMouseScreen = {}
-
 Order = {
     absorb = 852529,
     acidbomb = 852662,
