@@ -1,6 +1,10 @@
+-- require 'lua.ujapi.asset.PlayerMouseMove'
+---@type table<number, number[]>
 PlayerMouseWorld = {}
+---@type table<number, number[]>
 PlayerMouseScreen = {}
 
+-- require 'lua.ujapi.asset.Order'
 Order = {
     absorb = 852529,
     acidbomb = 852662,
