@@ -600,6 +600,7 @@ ABILITY_IF_BUTTON_POSITION_ACTIVATED_Y = ConvertAbilityIntegerField(FourCC('auby
 ABILITY_IF_BUTTON_HOTKEY_RESEARCH = ConvertAbilityIntegerField(FourCC('auhk'--[[1635084395--]])) ---@type abilityintegerfield
 ABILITY_IF_BUTTON_POSITION_RESEARCH_X = ConvertAbilityIntegerField(FourCC('arpx'--[[1634889848--]])) ---@type abilityintegerfield
 ABILITY_IF_BUTTON_POSITION_RESEARCH_Y = ConvertAbilityIntegerField(FourCC('arpy'--[[1634889849--]])) ---@type abilityintegerfield
+ABILITY_IF_BUTTON_HOTKEY_ALL = ConvertAbilityIntegerField(FourCC('ahtk'--[[1634235499--]])) ---@type abilityintegerfield
 ABILITY_IF_MISSILE_SPEED = ConvertAbilityIntegerField(FourCC('amsp'--[[1634562928--]])) ---@type abilityintegerfield
 ABILITY_IF_TARGET_ATTACHMENTS = ConvertAbilityIntegerField(FourCC('atac'--[[1635017059--]])) ---@type abilityintegerfield
 ABILITY_IF_CASTER_ATTACHMENTS = ConvertAbilityIntegerField(FourCC('acac'--[[1633902947--]])) ---@type abilityintegerfield
@@ -611,10 +612,12 @@ ABILITY_IF_LEVEL_SKIP_REQUIREMENT = ConvertAbilityIntegerField(FourCC('alsk'--[[
 ABILITY_BF_HERO_ABILITY = ConvertAbilityBooleanField(FourCC('aher'--[[1634231666--]])) ---@type abilitybooleanfield
 ABILITY_BF_ITEM_ABILITY = ConvertAbilityBooleanField(FourCC('aite'--[[1634301029--]])) ---@type abilitybooleanfield
 ABILITY_BF_CHECK_DEPENDENCIES = ConvertAbilityBooleanField(FourCC('achd'--[[1633904740--]])) ---@type abilitybooleanfield
+ABILITY_BF_HOMING = ConvertAbilityBooleanField(FourCC('amho'--[[1634560111--]])) ---@type abilitybooleanfield
 
 ABILITY_RF_ARF_MISSILE_ARC = ConvertAbilityRealField(FourCC('amac'--[[1634558307--]])) ---@type abilityrealfield
 
 ABILITY_SF_NAME = ConvertAbilityStringField(FourCC('anam'--[[1634623853--]])) ---@type abilitystringfield
+ABILITY_SF_ICON_NORMAL = ConvertAbilityStringField(FourCC('aart'--[[1633776244--]])) ---@type abilitystringfield
 ABILITY_SF_ICON_ACTIVATED = ConvertAbilityStringField(FourCC('auar'--[[1635082610--]])) ---@type abilitystringfield
 ABILITY_SF_ICON_RESEARCH = ConvertAbilityStringField(FourCC('arar'--[[1634886002--]])) ---@type abilitystringfield
 ABILITY_SF_EFFECT_SOUND = ConvertAbilityStringField(FourCC('aefs'--[[1634035315--]])) ---@type abilitystringfield
@@ -1335,29 +1338,43 @@ BUFF_SF_TOOLTIP_NORMAL = ConvertBuffStringField(FourCC('ftip'--[[1718905200--]])
 BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertBuffStringField(FourCC('fube'--[[1718968933--]])) ---@type buffstringfield
 
 -- Item
-ITEM_IF_LEVEL = ConvertItemIntegerField(FourCC('ilev'--[[1768711542--]])) ---@type itemintegerfield
-ITEM_IF_NUMBER_OF_CHARGES = ConvertItemIntegerField(FourCC('iuse'--[[1769304933--]])) ---@type itemintegerfield
-ITEM_IF_COOLDOWN_GROUP = ConvertItemIntegerField(FourCC('icid'--[[1768122724--]])) ---@type itemintegerfield
-ITEM_IF_MAX_HIT_POINTS = ConvertItemIntegerField(FourCC('ihtp'--[[1768453232--]])) ---@type itemintegerfield
-ITEM_IF_HIT_POINTS = ConvertItemIntegerField(FourCC('ihpc'--[[1768452195--]])) ---@type itemintegerfield
-ITEM_IF_PRIORITY = ConvertItemIntegerField(FourCC('ipri'--[[1768977001--]])) ---@type itemintegerfield
-ITEM_IF_ARMOR_TYPE = ConvertItemIntegerField(FourCC('iarm'--[[1767993965--]])) ---@type itemintegerfield
+ITEM_IF_TINTING_COLOR = ConvertItemIntegerField(FourCC('icol'--[[1768124268--]])) ---@type itemintegerfield
 ITEM_IF_TINTING_COLOR_RED = ConvertItemIntegerField(FourCC('iclr'--[[1768123506--]])) ---@type itemintegerfield
 ITEM_IF_TINTING_COLOR_GREEN = ConvertItemIntegerField(FourCC('iclg'--[[1768123495--]])) ---@type itemintegerfield
 ITEM_IF_TINTING_COLOR_BLUE = ConvertItemIntegerField(FourCC('iclb'--[[1768123490--]])) ---@type itemintegerfield
 ITEM_IF_TINTING_COLOR_ALPHA = ConvertItemIntegerField(FourCC('ical'--[[1768120684--]])) ---@type itemintegerfield
+ITEM_IF_ARMOR_TYPE = ConvertItemIntegerField(FourCC('iarm'--[[1767993965--]])) ---@type itemintegerfield
+ITEM_IF_COOLDOWN_GROUP = ConvertItemIntegerField(FourCC('icid'--[[1768122724--]])) ---@type itemintegerfield
+ITEM_IF_GOLD_COST = ConvertItemIntegerField(FourCC('igol'--[[1768386412--]])) ---@type itemintegerfield
+ITEM_IF_HIT_POINTS = ConvertItemIntegerField(FourCC('ihpc'--[[1768452195--]])) ---@type itemintegerfield
+ITEM_IF_LEVEL_UNCLASSIFIED = ConvertItemIntegerField(FourCC('ilvo'--[[1768715887--]])) ---@type itemintegerfield
+ITEM_IF_LEVEL = ConvertItemIntegerField(FourCC('ilev'--[[1768711542--]])) ---@type itemintegerfield
+ITEM_IF_LUMBER_COST = ConvertItemIntegerField(FourCC('ilum'--[[1768715629--]])) ---@type itemintegerfield
+ITEM_IF_NUMBER_OF_CHARGES = ConvertItemIntegerField(FourCC('iuse'--[[1769304933--]])) ---@type itemintegerfield
+ITEM_IF_PRIORITY = ConvertItemIntegerField(FourCC('ipri'--[[1768977001--]])) ---@type itemintegerfield
+ITEM_IF_STOCK_MAXIMUM = ConvertItemIntegerField(FourCC('isto'--[[1769174127--]])) ---@type itemintegerfield
+ITEM_IF_STOCK_REPLENISH_INTERVAL = ConvertItemIntegerField(FourCC('istr'--[[1769174130--]])) ---@type itemintegerfield
+ITEM_IF_STOCK_START_DELAY = ConvertItemIntegerField(FourCC('isst'--[[1769173876--]])) ---@type itemintegerfield
+ITEM_IF_MAX_HIT_POINTS = ConvertItemIntegerField(FourCC('ihtp'--[[1768453232--]])) ---@type itemintegerfield
 
 ITEM_RF_SCALING_VALUE = ConvertItemRealField(FourCC('isca'--[[1769169761--]])) ---@type itemrealfield
+ITEM_RF_SELECTION_SIZE = ConvertItemRealField(FourCC('issc'--[[1769173859--]])) ---@type itemrealfield
 
-ITEM_BF_DROPPED_WHEN_CARRIER_DIES = ConvertItemBooleanField(FourCC('idrp'--[[1768190576--]])) ---@type itembooleanfield
-ITEM_BF_CAN_BE_DROPPED = ConvertItemBooleanField(FourCC('idro'--[[1768190575--]])) ---@type itembooleanfield
-ITEM_BF_PERISHABLE = ConvertItemBooleanField(FourCC('iper'--[[1768973682--]])) ---@type itembooleanfield
-ITEM_BF_INCLUDE_AS_RANDOM_CHOICE = ConvertItemBooleanField(FourCC('iprn'--[[1768977006--]])) ---@type itembooleanfield
-ITEM_BF_USE_AUTOMATICALLY_WHEN_ACQUIRED = ConvertItemBooleanField(FourCC('ipow'--[[1768976247--]])) ---@type itembooleanfield
-ITEM_BF_CAN_BE_SOLD_TO_MERCHANTS = ConvertItemBooleanField(FourCC('ipaw'--[[1768972663--]])) ---@type itembooleanfield
 ITEM_BF_ACTIVELY_USED = ConvertItemBooleanField(FourCC('iusa'--[[1769304929--]])) ---@type itembooleanfield
+ITEM_BF_CAN_BE_DROPPED = ConvertItemBooleanField(FourCC('idro'--[[1768190575--]])) ---@type itembooleanfield
+ITEM_BF_CAN_BE_SOLD_TO_MERCHANTS = ConvertItemBooleanField(FourCC('ipaw'--[[1768972663--]])) ---@type itembooleanfield
+ITEM_BF_DROPPED_WHEN_CARRIER_DIES = ConvertItemBooleanField(FourCC('idrp'--[[1768190576--]])) ---@type itembooleanfield
+ITEM_BF_IGNORE_COOLDOWN = ConvertItemBooleanField(FourCC('iicd'--[[1768514404--]])) ---@type itembooleanfield
+ITEM_BF_INCLUDE_AS_RANDOM_CHOICE = ConvertItemBooleanField(FourCC('iprn'--[[1768977006--]])) ---@type itembooleanfield
+ITEM_BF_PERISHABLE = ConvertItemBooleanField(FourCC('iper'--[[1768973682--]])) ---@type itembooleanfield
+ITEM_BF_USE_AUTOMATICALLY_WHEN_ACQUIRED = ConvertItemBooleanField(FourCC('ipow'--[[1768976247--]])) ---@type itembooleanfield
+ITEM_BF_VALID_FOR_TRANSFORMATION = ConvertItemBooleanField(FourCC('imor'--[[1768779634--]])) ---@type itembooleanfield
 
+ITEM_SF_NAME = ConvertItemStringField(FourCC('unam'--[[1970168173--]])) ---@type itemstringfield
+ITEM_SF_DESCRIPTION = ConvertItemStringField(FourCC('ides'--[[1768187251--]])) ---@type itemstringfield
 ITEM_SF_MODEL_USED = ConvertItemStringField(FourCC('ifil'--[[1768319340--]])) ---@type itemstringfield
+ITEM_SF_TOOLTIP_NORMAL = ConvertItemStringField(FourCC('utip'--[[1970563440--]])) ---@type itemstringfield
+ITEM_SF_TOOLTIP_EXTENDED = ConvertItemStringField(FourCC('utub'--[[1970566498--]])) ---@type itemstringfield
 
 -- Unit
 UNIT_IF_DEFENSE_TYPE = ConvertUnitIntegerField(FourCC('udty'--[[1969517689--]])) ---@type unitintegerfield
@@ -1382,7 +1399,6 @@ UNIT_IF_GOLD_COST = ConvertUnitIntegerField(FourCC('ugol'--[[1969713004--]])) --
 UNIT_IF_GOLD_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ubdi'--[[1969382505--]])) ---@type unitintegerfield
 UNIT_IF_GOLD_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ubba'--[[1969381985--]])) ---@type unitintegerfield
 UNIT_IF_GOLD_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ubsi'--[[1969386345--]])) ---@type unitintegerfield
-UNIT_IF_LUMBER_COST = ConvertUnitIntegerField(FourCC('ulum'--[[1970042221--]])) ---@type unitintegerfield
 UNIT_IF_LUMBER_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ulbd'--[[1970037348--]])) ---@type unitintegerfield
 UNIT_IF_LUMBER_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ulba'--[[1970037345--]])) ---@type unitintegerfield
 UNIT_IF_LUMBER_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ulbs'--[[1970037363--]])) ---@type unitintegerfield
@@ -1390,6 +1406,9 @@ UNIT_IF_LEVEL = ConvertUnitIntegerField(FourCC('ulev'--[[1970038134--]])) ---@ty
 UNIT_IF_FORMATION_RANK = ConvertUnitIntegerField(FourCC('ufor'--[[1969647474--]])) ---@type unitintegerfield
 UNIT_IF_ORIENTATION_INTERPOLATION = ConvertUnitIntegerField(FourCC('uori'--[[1970238057--]])) ---@type unitintegerfield
 UNIT_IF_ELEVATION_SAMPLE_POINTS = ConvertUnitIntegerField(FourCC('uept'--[[1969582196--]])) ---@type unitintegerfield
+UNIT_IF_PROPER_NAMES_COUNT = ConvertUnitIntegerField(FourCC('upru'--[[1970303605--]])) ---@type unitintegerfield
+
+UNIT_IF_TINTING_COLOR = ConvertUnitIntegerField(FourCC('ucol'--[[1969450860--]])) ---@type unitintegerfield
 UNIT_IF_TINTING_COLOR_RED = ConvertUnitIntegerField(FourCC('uclr'--[[1969450098--]])) ---@type unitintegerfield
 UNIT_IF_TINTING_COLOR_GREEN = ConvertUnitIntegerField(FourCC('uclg'--[[1969450087--]])) ---@type unitintegerfield
 UNIT_IF_TINTING_COLOR_BLUE = ConvertUnitIntegerField(FourCC('uclb'--[[1969450082--]])) ---@type unitintegerfield
@@ -1424,6 +1443,8 @@ UNIT_RF_SHADOW_IMAGE_CENTER_Y = ConvertUnitRealField(FourCC('ushy'--[[1970497657
 UNIT_RF_ANIMATION_WALK_SPEED = ConvertUnitRealField(FourCC('uwal'--[[1970757996--]])) ---@type unitrealfield
 UNIT_RF_DEFENSE = ConvertUnitRealField(FourCC('udfc'--[[1969514083--]])) ---@type unitrealfield
 UNIT_RF_SIGHT_RADIUS = ConvertUnitRealField(FourCC('usir'--[[1970497906--]])) ---@type unitrealfield
+UNIT_RF_SIGHT_RADIUS_DAY = ConvertUnitRealField(FourCC('usid'--[[1970497892--]])) ---@type unitrealfield
+UNIT_RF_SIGHT_RADIUS_NIGHT = ConvertUnitRealField(FourCC('usin'--[[1970497902--]])) ---@type unitrealfield
 UNIT_RF_PRIORITY = ConvertUnitRealField(FourCC('upri'--[[1970303593--]])) ---@type unitrealfield
 UNIT_RF_SPEED = ConvertUnitRealField(FourCC('umvc'--[[1970108003--]])) ---@type unitrealfield
 UNIT_RF_OCCLUDER_HEIGHT = ConvertUnitRealField(FourCC('uocc'--[[1970234211--]])) ---@type unitrealfield
@@ -1448,13 +1469,17 @@ UNIT_BF_SELECTION_CIRCLE_ON_WATER = ConvertUnitBooleanField(FourCC('usew'--[[197
 UNIT_BF_HAS_WATER_SHADOW = ConvertUnitBooleanField(FourCC('ushr'--[[1970497650--]])) ---@type unitbooleanfield
 
 UNIT_SF_NAME = ConvertUnitStringField(FourCC('unam'--[[1970168173--]])) ---@type unitstringfield
+UNIT_SF_TOOLTIP_NORMAL = ConvertUnitStringField(FourCC('utip'--[[1970563440--]])) ---@type unitstringfield
+UNIT_SF_TOOLTIP_EXTENDED = ConvertUnitStringField(FourCC('utub'--[[1970566498--]])) ---@type unitstringfield
 UNIT_SF_PROPER_NAMES = ConvertUnitStringField(FourCC('upro'--[[1970303599--]])) ---@type unitstringfield
+UNIT_SF_PROPER_NAME = ConvertUnitStringField(FourCC('uprn'--[[1970303598--]])) ---@type unitstringfield
 UNIT_SF_GROUND_TEXTURE = ConvertUnitStringField(FourCC('uubs'--[[1970627187--]])) ---@type unitstringfield
 UNIT_SF_SHADOW_IMAGE_UNIT = ConvertUnitStringField(FourCC('ushu'--[[1970497653--]])) ---@type unitstringfield
 UNIT_SF_HERO_ABILITY_LIST = ConvertUnitStringField(FourCC('uhab'--[[1969774946--]])) ---@type unitstringfield
 UNIT_SF_ABILITY_LIST = ConvertUnitStringField(FourCC('uabi'--[[1969316457--]])) ---@type unitstringfield
 
 -- Unit Weapon
+UNIT_WEAPON_IF_ATTACKS_ENABLED = ConvertUnitWeaponIntegerField(FourCC('uaen'--[[1969317230--]])) ---@type unitweaponintegerfield
 UNIT_WEAPON_IF_ATTACK_DAMAGE_NUMBER_OF_DICE = ConvertUnitWeaponIntegerField(FourCC('ua1d'--[[1969303908--]])) ---@type unitweaponintegerfield
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE = ConvertUnitWeaponIntegerField(FourCC('ua1b'--[[1969303906--]])) ---@type unitweaponintegerfield
 UNIT_WEAPON_IF_ATTACK_DAMAGE_SIDES_PER_DIE = ConvertUnitWeaponIntegerField(FourCC('ua1s'--[[1969303923--]])) ---@type unitweaponintegerfield
@@ -2117,6 +2142,29 @@ function DisplayChatMessage (whichPlayer, recipient, message) end
 function DisplayTimedChatMessage (whichPlayer, recipient, duration, message) end
 -- 
 
+-- Handle API
+-- This function is meant mostly for debugging, for example, to get all units in the map pass '+w3u' as agentBaseTypeId, '+ply' for players, '+mdb' for multiboards, '+frm' for frames accessed/created from jass/lua.
+---@param whichHandle handle
+---@return integer
+function GetHandleReferenceCount (whichHandle) end
+---@param whichHandle handle
+---@return integer
+function GetHandleBaseTypeId (whichHandle) end
+---@param whichHandle handle
+---@return string
+function GetHandleBaseTypeName (whichHandle) end
+
+---@return handle
+function GetFilterHandle () end
+---@return handle
+function GetEnumHandle () end
+
+---@param handleBaseTypeId integer
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumHandlesOfType (handleBaseTypeId, filter, handlerFunc) end
+-- 
+
 -- ============================================================================
 -- Force API
 -- 
@@ -2215,9 +2263,12 @@ function GetImageOriginY (whichImage) end
 ---@param originY real
 function SetImageOriginY (whichImage, originY) end
 ---@param whichImage image
+---@param origin real
+function SetImageOrigin (whichImage, origin) end
+---@param whichImage image
 ---@param originX real
 ---@param originY real
-function SetImageOrigin (whichImage, originX, originY) end
+function SetImageOriginEx (whichImage, originX, originY) end
 ---@param whichImage image
 ---@return real
 function GetImageSizeX (whichImage) end
@@ -2265,156 +2316,6 @@ function SetImageTexture (whichImage, imagePath) end
 
 -- ============================================================================
 -- Ability API
--- 
-
--- Base API
----@param aid integer
----@param level integer
----@return integer
-function GetAbilityBaseManaCostById (aid, level) end
----@param aid integer
----@param level integer
----@param manaCost integer
-function SetAbilityBaseManaCostById (aid, level, manaCost) end
----@param aid integer
----@param level integer
----@return real
-function GetAbilityBaseCooldownById (aid, level) end
----@param aid integer
----@param level integer
----@param cooldown real
-function SetAbilityBaseCooldownById (aid, level, cooldown) end
----@param aid integer
----@return oskeytype
-function GetAbilityBaseHotkeyById (aid) end
----@param aid integer
----@param whichKey oskeytype
-function SetAbilityBaseHotkeyById (aid, whichKey) end
----@param aid integer
----@return oskeytype
-function GetAbilityBaseUnHotkeyById (aid) end
----@param aid integer
----@param whichKey oskeytype
-function SetAbilityBaseUnHotkeyById (aid, whichKey) end
----@param aid integer
----@return oskeytype
-function GetAbilityBaseResearchHotkeyById (aid) end
----@param aid integer
----@param whichKey oskeytype
-function SetAbilityBaseResearchHotkeyById (aid, whichKey) end
----@param aid integer
----@return string
-function GetAbilityBaseEffectSoundById (aid) end
----@param aid integer
----@param text string
-function SetAbilityBaseEffectSoundById (aid, text) end
----@param aid integer
----@return string
-function GetAbilityBaseGlobalMessageById (aid) end
----@param aid integer
----@param text string
-function SetAbilityBaseGlobalMessageById (aid, text) end
----@param aid integer
----@return string
-function GetAbilityBaseGlobalSoundById (aid) end
----@param aid integer
----@param text string
-function SetAbilityBaseGlobalSoundById (aid, text) end
----@param aid integer
----@return integer
-function GetAbilityBaseButtonXById (aid) end
----@param aid integer
----@param positionX integer
-function SetAbilityBaseButtonXById (aid, positionX) end
----@param aid integer
----@return integer
-function GetAbilityBaseButtonYById (aid) end
----@param aid integer
----@param positionY integer
-function SetAbilityBaseButtonYById (aid, positionY) end
----@param aid integer
----@return integer
-function GetAbilityBaseUnButtonXById (aid) end
----@param aid integer
----@param positionX integer
-function SetAbilityBaseUnButtonXById (aid, positionX) end
----@param aid integer
----@return integer
-function GetAbilityBaseUnButtonYById (aid) end
----@param aid integer
----@param positionY integer
-function SetAbilityBaseUnButtonYById (aid, positionY) end
----@param aid integer
----@return integer
-function GetAbilityBaseResearchButtonXById (aid) end
----@param aid integer
----@param positionX integer
-function SetAbilityBaseResearchButtonXById (aid, positionX) end
----@param aid integer
----@return integer
-function GetAbilityBaseResearchButtonYById (aid) end
----@param aid integer
----@param positionY integer
-function SetAbilityBaseResearchButtonYById (aid, positionY) end
----@param aid integer
----@return real
-function GetAbilityBaseMissileSpeedById (aid) end
----@param aid integer
----@param missileSpeed real
-function SetAbilityBaseMissileSpeedById (aid, missileSpeed) end
----@param aid integer
----@return real
-function GetAbilityBaseMissileArcById (aid) end
----@param aid integer
----@param missileArc real
-function SetAbilityBaseMissileArcById (aid, missileArc) end
----@param aid integer
----@return boolean
-function GetAbilityBaseIsMissileHomingById (aid) end
----@param aid integer
----@param ishoming boolean
-function SetAbilityBaseIsMissileHomingById (aid, ishoming) end
----@param aid integer
----@return integer
-function GetAbilityBaseSpellDetailsById (aid) end
----@param aid integer
----@param level integer
-function SetAbilityBaseSpellDetailsById (aid, level) end
----@param aid integer
----@param level integer
----@return string
-function GetAbilityBaseTipById (aid, level) end
----@param aid integer
----@param level integer
----@param text string
-function SetAbilityBaseTipById (aid, level, text) end
----@param aid integer
----@param level integer
----@return string
-function GetAbilityBaseUnTipById (aid, level) end
----@param aid integer
----@param level integer
----@param text string
-function SetAbilityBaseUnTipById (aid, level, text) end
----@param aid integer
----@param level integer
----@return string
-function GetAbilityBaseUberTipById (aid, level) end
----@param aid integer
----@param level integer
----@param text string
-function SetAbilityBaseUberTipById (aid, level, text) end
----@param aid integer
----@param level integer
----@return string
-function GetAbilityBaseUnUberTipById (aid, level) end
----@param aid integer
----@param level integer
----@param text string
-function SetAbilityBaseUnUberTipById (aid, level, text) end
----@param aid integer
----@param whichKey oskeytype
-function SetAbilityBaseHotkeyByIdEx (aid, whichKey) end
 -- 
 
 -- Base Field API
@@ -2805,7 +2706,11 @@ function AddAbilityStringLevelArrayField (whichAbility, whichField, level, value
 function RemoveAbilityStringLevelArrayField (whichAbility, whichField, level, value) end
 -- 
 
--- Ability API
+---@param whichAbility ability
+---@return boolean
+function ResetAbilityFieldData (whichAbility) end
+
+-- Normal API
 ---@param whichAbility ability
 ---@return integer
 function GetAbilityOrderId (whichAbility) end
@@ -2880,6 +2785,10 @@ function SetAbilityCooldown (whichAbility, cooldown) end
 ---@param whichAbility ability
 ---@return real
 function GetAbilityRemainingCooldown (whichAbility) end
+---@param whichAbility ability
+---@param cooldown real
+---@return boolean
+function SetAbilityRemainingCooldown (whichAbility, cooldown) end
 ---@param whichAbility ability
 ---@param cooldown real
 ---@return boolean
@@ -3097,6 +3006,24 @@ function QueueSpecialEffectAnimationByIndex (whichEffect, animIndex) end
 ---@param whichEffect effect
 ---@param animation string
 function QueueSpecialEffectAnimation (whichEffect, animation) end
+---@param whichEffect effect
+---@param percent real
+---@return boolean
+function SetSpecialEffectAnimationOffsetPercent (whichEffect, percent) end
+
+---@return effect
+function GetTriggerSpecialEffect () end
+---@return effect
+function GetFilterSpecialEffect () end
+---@return effect
+function GetEnumSpecialEffect () end
+
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumSpecialEffectsInRange (x, y, radius, filter, handlerFunc) end
 -- 
 
 -- ============================================================================
@@ -3247,6 +3174,24 @@ function QueueTrackableAnimationByIndex (whichTrackable, animIndex) end
 ---@param whichTrackable trackable
 ---@param animation string
 function QueueTrackableAnimation (whichTrackable, animation) end
+---@param whichTrackable trackable
+---@param percent real
+---@return boolean
+function SetTrackableAnimationOffsetPercent (whichTrackable, percent) end
+
+---@return trackable
+function GetTriggerTrackable () end
+---@return trackable
+function GetFilterTrackable () end
+---@return trackable
+function GetEnumTrackable () end
+
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumTrackablesInRange (x, y, radius, filter, handlerFunc) end
 -- 
 
 -- ============================================================================
@@ -3377,6 +3322,10 @@ function QueueWidgetAnimationByIndex (whichWidget, animIndex) end
 ---@param whichWidget widget
 ---@param animation string
 function QueueWidgetAnimation (whichWidget, animation) end
+---@param whichWidget widget
+---@param percent real
+---@return boolean
+function SetWidgetAnimationOffsetPercent (whichWidget, percent) end
 -- 
 
 -- ============================================================================
@@ -3489,175 +3438,21 @@ function SetDestructableAnimationByIndex (whichDestructable, animIndex) end
 ---@param whichDestructable destructable
 ---@param animIndex integer
 function QueueDestructableAnimationByIndex (whichDestructable, animIndex) end
+---@param whichDestructable destructable
+---@param percent real
+---@return boolean
+function SetDestructableAnimationOffsetPercent (whichDestructable, percent) end
+
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDestructablesInRange (x, y, radius, filter, handlerFunc) end
 -- 
 
 -- ============================================================================
 -- Item API
--- 
-
--- Base API
----@param itemId integer
----@return string
-function GetItemBaseNameById (itemId) end
----@param itemId integer
----@param name string
-function SetItemBaseNameById (itemId, name) end
----@param itemId integer
----@return string
-function GetItemBaseDescriptionById (itemId) end
----@param itemId integer
----@param name string
-function SetItemBaseDescriptionById (itemId, name) end
----@param itemId integer
----@return string
-function GetItemBaseIconById (itemId) end
----@param itemId integer
----@param path string
-function SetItemBaseIconById (itemId, path) end
----@param itemId integer
----@return oskeytype
-function GetItemBaseHotkeyById (itemId) end
----@param itemId integer
----@param whichKey oskeytype
-function SetItemBaseHotkeyById (itemId, whichKey) end
----@param itemId integer
----@return string
-function GetItemBaseTipById (itemId) end
----@param itemId integer
----@param tip string
-function SetItemBaseTipById (itemId, tip) end
----@param itemId integer
----@return string
-function GetItemBaseUberTipById (itemId) end
----@param itemId integer
----@param tip string
-function SetItemBaseUberTipById (itemId, tip) end
----@param itemId integer
----@return integer
-function GetItemBaseGoldCostById (itemId) end
----@param itemId integer
----@param goldcost integer
-function SetItemBaseGoldCostById (itemId, goldcost) end
----@param itemId integer
----@return integer
-function GetItemBaseLumberCostById (itemId) end
----@param itemId integer
----@param lumbercost integer
-function SetItemBaseLumberCostById (itemId, lumbercost) end
----@param itemId integer
----@return integer
-function GetItemBaseStockMaximumById (itemId) end
----@param itemId integer
----@param stockMax integer
-function SetItemBaseStockMaximumById (itemId, stockMax) end
----@param itemId integer
----@return real
-function GetItemBaseStockReplenishIntervalById (itemId) end
----@param itemId integer
----@param replenishInterval real
-function SetItemBaseStockReplenishIntervalById (itemId, replenishInterval) end
----@param itemId integer
----@return real
-function GetItemBaseStockStartDelayById (itemId) end
----@param itemId integer
----@param stockStartDelay real
-function SetItemBaseStockStartDelayById (itemId, stockStartDelay) end
----@param itemId integer
----@return integer
-function GetItemBasePriorityById (itemId) end
----@param itemId integer
----@param priority integer
-function SetItemBasePriorityById (itemId, priority) end
----@param itemId integer
----@return integer
-function GetItemBaseLevelById (itemId) end
----@param itemId integer
----@param level integer
-function SetItemBaseLevelById (itemId, level) end
----@param itemId integer
----@return integer
-function GetItemBaseOldLevelById (itemId) end
----@param itemId integer
----@param oldlevel integer
-function SetItemBaseOldLevelById (itemId, oldlevel) end
----@param itemId integer
----@return integer
-function GetItemBaseClassificationById (itemId) end
----@param itemId integer
----@param classifictaionId integer
-function SetItemBaseClassificationById (itemId, classifictaionId) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsMorphById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsMorphById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsPickRandomById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsPickRandomById (itemId, flag) end
----@param itemId integer
----@return integer
-function GetItemBaseChargesById (itemId) end
----@param itemId integer
----@param charges integer
-function SetItemBaseChargesById (itemId, charges) end
----@param itemId integer
----@return integer
-function GetItemBaseCooldownIdById (itemId) end
----@param itemId integer
----@param cooldownId integer
-function SetItemBaseCooldownIdById (itemId, cooldownId) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsIgnoreCooldownById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsIgnoreCooldownById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsPowerUpById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsPowerUpById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsPawnableById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsPawnableById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsUsableById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsUsableById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsPerishableById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsPerishableById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsDroppableById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsDroppableById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsDroppableOnDeathById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsDroppableOnDeathById (itemId, flag) end
----@param itemId integer
----@return boolean
-function GetItemBaseIsSellableById (itemId) end
----@param itemId integer
----@param flag boolean
-function SetItemBaseIsSellableById (itemId, flag) end
 -- 
 
 -- Base Field API
@@ -3878,172 +3673,22 @@ function QueueItemAnimationByIndex (whichItem, animIndex) end
 ---@param whichItem item
 ---@param animation string
 function QueueItemAnimation (whichItem, animation) end
+---@param whichItem item
+---@param percent real
+---@return boolean
+function SetItemAnimationOffsetPercent (whichItem, percent) end
+
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumItemsInRange (x, y, radius, filter, handlerFunc) end
 -- 
 -- 
 
 -- ============================================================================
 -- Unit API
--- 
-
--- Base API
----@param unitTypeId integer
----@return heroattribute
-function GetUnitBasePrimaryStatById (unitTypeId) end
----@param unitTypeId integer
----@param whichHeroAttribute heroattribute
-function SetUnitBasePrimaryStatById (unitTypeId, whichHeroAttribute) end
----@param unitTypeId integer
----@return integer
-function GetUnitBaseGoldCostById (unitTypeId) end
----@param unitTypeId integer
----@param goldCost integer
-function SetUnitBaseGoldCostById (unitTypeId, goldCost) end
----@param unitTypeId integer
----@return real
-function GetUnitBaseDaySightById (unitTypeId) end
----@param unitTypeId integer
----@param daySight real
-function SetUnitBaseDaySightById (unitTypeId, daySight) end
----@param unitTypeId integer
----@return real
-function GetUnitBaseNightSightById (unitTypeId) end
----@param unitTypeId integer
----@param nightSight real
-function SetUnitBaseNightSightById (unitTypeId, nightSight) end
----@param unitTypeId integer
----@return integer
-function GetUnitBaseColourById (unitTypeId) end
----@param unitTypeId integer
----@param colour integer
-function SetUnitBaseColourById (unitTypeId, colour) end
----@param unitTypeId integer
----@return integer
-function GetUnitBaseColourAById (unitTypeId) end
----@param unitTypeId integer
----@param colourA integer
-function SetUnitBaseColourAById (unitTypeId, colourA) end
----@param unitTypeId integer
----@return integer
-function GetUnitBaseColourRById (unitTypeId) end
----@param unitTypeId integer
----@param colourR integer
-function SetUnitBaseColourRById (unitTypeId, colourR) end
----@param unitTypeId integer
----@return integer
-function GetUnitBaseColourGById (unitTypeId) end
----@param unitTypeId integer
----@param colourG integer
-function SetUnitBaseColourGById (unitTypeId, colourG) end
----@param unitTypeId integer
----@return integer
-function GetUnitBaseColourBById (unitTypeId) end
----@param unitTypeId integer
----@param colourB integer
-function SetUnitBaseColourBById (unitTypeId, colourB) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseNameById (unitTypeId) end
----@param unitTypeId integer
----@param name string
-function SetUnitBaseNameById (unitTypeId, name) end
----@param unitTypeId integer
----@param properNameIndex integer
----@return string
-function GetUnitBaseProperNameById (unitTypeId, properNameIndex) end
----@param unitTypeId integer
----@param properNameIndex integer
----@param properName string
-function SetUnitBaseProperNameById (unitTypeId, properNameIndex, properName) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseDescriptionById (unitTypeId) end
----@param unitTypeId integer
----@param name string
-function SetUnitBaseDescriptionById (unitTypeId, name) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseModelById (unitTypeId) end
----@param unitTypeId integer
----@param modelName string
-function SetUnitBaseModelById (unitTypeId, modelName) end
----@param unitTypeId integer
----@return string
-function GetUnitBasePortraitById (unitTypeId) end
----@param unitTypeId integer
----@param portraitName string
-function SetUnitBasePortraitById (unitTypeId, portraitName) end
----@param unitTypeId integer
----@return oskeytype
-function GetUnitBaseHotkeyById (unitTypeId) end
----@param unitTypeId integer
----@param whichKey oskeytype
-function SetUnitBaseHotkeyById (unitTypeId, whichKey) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseIconById (unitTypeId) end
----@param unitTypeId integer
----@param name string
-function SetUnitBaseIconById (unitTypeId, name) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseAwakenTipById (unitTypeId) end
----@param unitTypeId integer
----@param awakenTip string
-function SetUnitBaseAwakenTipById (unitTypeId, awakenTip) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseTipById (unitTypeId) end
----@param unitTypeId integer
----@param tip string
-function SetUnitBaseTipById (unitTypeId, tip) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseUberTipById (unitTypeId) end
----@param unitTypeId integer
----@param uberTip string
-function SetUnitBaseUberTipById (unitTypeId, uberTip) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseReviveTipById (unitTypeId) end
----@param unitTypeId integer
----@param reviveTip string
-function SetUnitBaseReviveTipById (unitTypeId, reviveTip) end
----@param unitTypeId integer
----@return string
-function GetUnitBaseShadowTexById (unitTypeId) end
----@param unitTypeId integer
----@param shadowTexture string
-function SetUnitBaseShadowTexById (unitTypeId, shadowTexture) end
----@param unitTypeId integer
----@param attackIndex integer
----@return string
-function GetUnitBaseMissileArtById (unitTypeId, attackIndex) end
----@param unitTypeId integer
----@param attackIndex integer
----@param missleArt string
-function SetUnitBaseMissileArtById (unitTypeId, attackIndex, missleArt) end
----@param unitTypeId integer
----@param attackIndex integer
----@return real
-function GetUnitBaseMissileSpeedById (unitTypeId, attackIndex) end
----@param unitTypeId integer
----@param attackIndex integer
----@param realValue real
-function SetUnitBaseMissileSpeedById (unitTypeId, attackIndex, realValue) end
----@param unitTypeId integer
----@param attackIndex integer
----@return real
-function GetUnitBaseMissileArcById (unitTypeId, attackIndex) end
----@param unitTypeId integer
----@param attackIndex integer
----@param realValue real
-function SetUnitBaseMissileArcById (unitTypeId, attackIndex, realValue) end
----@param unitTypeId integer
----@return real
-function GetUnitBaseSelectionScaleById (unitTypeId) end
----@param unitTypeId integer
----@param realValue real
-function SetUnitBaseSelectionScaleById (unitTypeId, realValue) end
 -- 
 
 -- Base Field API
@@ -4406,30 +4051,29 @@ function GetUnitCurrentSight (whichUnit) end
 ---@param realValue real
 function SetUnitCurrentSight (whichUnit, realValue) end
 ---@param whichUnit unit
----@param attackIndex integer
 ---@return real
-function GetUnitNextAttackTimeStampByIndex (whichUnit, attackIndex) end
+function GetUnitAttackRemainingCooldown (whichUnit) end
 ---@param whichUnit unit
----@param attackIndex integer
 ---@param time real
-function SetUnitNextAttackTimeStampByIndex (whichUnit, attackIndex, time) end
+function SetUnitAttackRemainingCooldown (whichUnit, time) end
 ---@param whichUnit unit
----@param attackIndex integer
----@param attackState integer
----@return integer
-function SetUnitAttackState (whichUnit, attackIndex, attackState) end
+---@return real
+function GetUnitAttackRemainingDamagePoint (whichUnit) end
 ---@param whichUnit unit
----@param attackIndex integer
----@return integer
-function UnitCancelCurrentAttackByIndex (whichUnit, attackIndex) end
+---@param time real
+function SetUnitAttackRemainingDamagePoint (whichUnit, time) end
 ---@param whichUnit unit
----@param attackIndex integer
+---@return real
+function GetUnitAttackRemainingBackswing (whichUnit) end
+---@param whichUnit unit
+---@param time real
+function SetUnitAttackRemainingBackswing (whichUnit, time) end
+---@param whichUnit unit
 ---@return boolean
-function UnitResetAttackCooldownByIndex (whichUnit, attackIndex) end
+function UnitResetAttack (whichUnit) end
 ---@param whichUnit unit
----@param attackIndex integer
 ---@return boolean
-function UnitAddExtraAttackByIndex (whichUnit, attackIndex) end
+function UnitFinishAttack (whichUnit) end
 ---@param whichUnit unit
 ---@param attackIndex integer
 ---@return attacktype
@@ -4705,6 +4349,10 @@ function MorphUnitToTypeIdEx (whichUnit, uid, unitFlags, updateHealthState, upda
 ---@param whichUnit unit
 ---@param uid integer
 function MorphUnitToTypeId (whichUnit, uid) end
+---@param whichUnit unit
+---@param percent real
+---@return boolean
+function SetUnitAnimationOffsetPercent (whichUnit, percent) end
 -- 
 -- 
 
@@ -4731,6 +4379,9 @@ function LaunchTargetMissile (whichMissile, whichWidget) end
 ---@param whichMissile missile
 function LaunchMissile (whichMissile) end
 
+---@param whichMissile missile
+---@return boolean
+function IsMissileAlive (whichMissile) end
 ---@param whichMissile missile
 ---@return boolean
 function IsMissileVisible (whichMissile) end
@@ -4875,6 +4526,10 @@ function QueueMissileAnimationByIndex (whichMissile, animIndex) end
 ---@param whichMissile missile
 ---@param animation string
 function QueueMissileAnimation (whichMissile, animation) end
+---@param whichMissile missile
+---@param percent real
+---@return boolean
+function SetMissileAnimationOffsetPercent (whichMissile, percent) end
 
 ---@param whichMissile missile
 ---@return unit
@@ -4954,6 +4609,10 @@ function LoadMissileHandle (whichHashtable, parentKey, childKey) end
 
 ---@return missile
 function GetTriggerMissile () end
+---@return missile
+function GetFilterMissile () end
+---@return missile
+function GetEnumMissile () end
 ---@return unit
 function GetTriggerMissileSource () end
 ---@return widget
@@ -4970,6 +4629,13 @@ function GetTriggerMissileTargetDestructable () end
 ---@param whichMissileEvent playermissileevent
 ---@return event
 function TriggerRegisterPlayerMissileEvent (whichTrigger, whichPlayer, whichMissileEvent) end
+
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumMissilesInRange (x, y, radius, filter, handlerFunc) end
 -- 
 
 -- ============================================================================
@@ -5315,7 +4981,7 @@ function QueueFrameSpriteAnimation (whichFrame, animationName) end
 ---@param whichFrame framehandle
 ---@param percent real
 ---@return boolean
-function SetFrameSpriteAnimationOffset (whichFrame, percent) end
+function SetFrameSpriteAnimationOffsetPercent (whichFrame, percent) end
 -- 
 
 -- ============================================================================
