@@ -1370,9 +1370,11 @@ ITEM_BF_PERISHABLE = ConvertItemBooleanField(FourCC('iper'--[[1768973682--]])) -
 ITEM_BF_USE_AUTOMATICALLY_WHEN_ACQUIRED = ConvertItemBooleanField(FourCC('ipow'--[[1768976247--]])) ---@type itembooleanfield
 ITEM_BF_VALID_FOR_TRANSFORMATION = ConvertItemBooleanField(FourCC('imor'--[[1768779634--]])) ---@type itembooleanfield
 
-ITEM_SF_NAME = ConvertItemStringField(FourCC('unam'--[[1970168173--]])) ---@type itemstringfield
-ITEM_SF_DESCRIPTION = ConvertItemStringField(FourCC('ides'--[[1768187251--]])) ---@type itemstringfield
+ITEM_SF_ABILITY_LIST = ConvertItemStringField(FourCC('iabi'--[[1767989865--]])) ---@type itemstringfield
+ITEM_SF_ICON = ConvertItemStringField(FourCC('iico'--[[1768514415--]])) ---@type itemstringfield
 ITEM_SF_MODEL_USED = ConvertItemStringField(FourCC('ifil'--[[1768319340--]])) ---@type itemstringfield
+ITEM_SF_DESCRIPTION = ConvertItemStringField(FourCC('ides'--[[1768187251--]])) ---@type itemstringfield
+ITEM_SF_NAME = ConvertItemStringField(FourCC('unam'--[[1970168173--]])) ---@type itemstringfield
 ITEM_SF_TOOLTIP_NORMAL = ConvertItemStringField(FourCC('utip'--[[1970563440--]])) ---@type itemstringfield
 ITEM_SF_TOOLTIP_EXTENDED = ConvertItemStringField(FourCC('utub'--[[1970566498--]])) ---@type itemstringfield
 
@@ -1468,15 +1470,22 @@ UNIT_BF_SCALE_PROJECTILES = ConvertUnitBooleanField(FourCC('uscb'--[[1970496354-
 UNIT_BF_SELECTION_CIRCLE_ON_WATER = ConvertUnitBooleanField(FourCC('usew'--[[1970496887--]])) ---@type unitbooleanfield
 UNIT_BF_HAS_WATER_SHADOW = ConvertUnitBooleanField(FourCC('ushr'--[[1970497650--]])) ---@type unitbooleanfield
 
-UNIT_SF_NAME = ConvertUnitStringField(FourCC('unam'--[[1970168173--]])) ---@type unitstringfield
-UNIT_SF_TOOLTIP_NORMAL = ConvertUnitStringField(FourCC('utip'--[[1970563440--]])) ---@type unitstringfield
-UNIT_SF_TOOLTIP_EXTENDED = ConvertUnitStringField(FourCC('utub'--[[1970566498--]])) ---@type unitstringfield
-UNIT_SF_PROPER_NAMES = ConvertUnitStringField(FourCC('upro'--[[1970303599--]])) ---@type unitstringfield
-UNIT_SF_PROPER_NAME = ConvertUnitStringField(FourCC('uprn'--[[1970303598--]])) ---@type unitstringfield
-UNIT_SF_GROUND_TEXTURE = ConvertUnitStringField(FourCC('uubs'--[[1970627187--]])) ---@type unitstringfield
-UNIT_SF_SHADOW_IMAGE_UNIT = ConvertUnitStringField(FourCC('ushu'--[[1970497653--]])) ---@type unitstringfield
 UNIT_SF_HERO_ABILITY_LIST = ConvertUnitStringField(FourCC('uhab'--[[1969774946--]])) ---@type unitstringfield
 UNIT_SF_ABILITY_LIST = ConvertUnitStringField(FourCC('uabi'--[[1969316457--]])) ---@type unitstringfield
+UNIT_SF_ICON_NORMAL = ConvertUnitStringField(FourCC('uico'--[[1969841007--]])) ---@type unitstringfield
+UNIT_SF_ICON_SCORE_SCREEN = ConvertUnitStringField(FourCC('ussi'--[[1970500457--]])) ---@type unitstringfield
+UNIT_SF_MODEL = ConvertUnitStringField(FourCC('umdl'--[[1970103404--]])) ---@type unitstringfield
+UNIT_SF_PORTRAIT = ConvertUnitStringField(FourCC('upor'--[[1970302834--]])) ---@type unitstringfield
+UNIT_SF_SHADOW_IMAGE_UNIT = ConvertUnitStringField(FourCC('ushu'--[[1970497653--]])) ---@type unitstringfield
+UNIT_SF_GROUND_TEXTURE = ConvertUnitStringField(FourCC('uubs'--[[1970627187--]])) ---@type unitstringfield
+UNIT_SF_SPECIAL = ConvertUnitStringField(FourCC('uspa'--[[1970499681--]])) ---@type unitstringfield
+UNIT_SF_NAME = ConvertUnitStringField(FourCC('unam'--[[1970168173--]])) ---@type unitstringfield
+UNIT_SF_PROPER_NAMES = ConvertUnitStringField(FourCC('upro'--[[1970303599--]])) ---@type unitstringfield
+UNIT_SF_PROPER_NAME = ConvertUnitStringField(FourCC('uprn'--[[1970303598--]])) ---@type unitstringfield
+UNIT_SF_TOOLTIP_AWAKEN = ConvertUnitStringField(FourCC('uawt'--[[1969321844--]])) ---@type unitstringfield
+UNIT_SF_TOOLTIP_NORMAL = ConvertUnitStringField(FourCC('utip'--[[1970563440--]])) ---@type unitstringfield
+UNIT_SF_TOOLTIP_EXTENDED = ConvertUnitStringField(FourCC('utub'--[[1970566498--]])) ---@type unitstringfield
+UNIT_SF_TOOLTIP_REVIVE = ConvertUnitStringField(FourCC('utpr'--[[1970565234--]])) ---@type unitstringfield
 
 -- Unit Weapon
 UNIT_WEAPON_IF_ATTACKS_ENABLED = ConvertUnitWeaponIntegerField(FourCC('uaen'--[[1969317230--]])) ---@type unitweaponintegerfield
@@ -1682,6 +1691,9 @@ function I2C (i) end
 ---@param c code
 ---@return integer
 function C2I (c) end
+---@param h handle
+---@return handle
+function HandleToHandle (h) end
 ---@param h handle
 ---@return agent
 function HandleToAgent (h) end
@@ -2024,6 +2036,7 @@ function MathIntegerLn (i) end
 ---@param y real
 ---@return real
 function GetAxisZ (x, y) end
+-- 
 
 -- String API
 ---@param s string
@@ -2058,9 +2071,15 @@ function StringFindLastOf (s, whichString, caseSensitive) end
 function StringFindLastNotOf (s, whichString, caseSensitive) end
 -- 
 
--- Time API
+-- Misc API
 ---@return string
 function GetUjAPIVersion () end
+---@param whichAnim animtype
+---@return string
+function GetAnimationName (whichAnim) end
+-- 
+
+-- Time API
 ---@param whichTimeType timetype
 ---@return integer
 function GetSystemTime (whichTimeType) end
@@ -2163,6 +2182,78 @@ function GetEnumHandle () end
 ---@param filter boolexpr
 ---@param handlerFunc code
 function EnumHandlesOfType (handleBaseTypeId, filter, handlerFunc) end
+-- 
+
+-- ============================================================================
+-- Hashtable API
+-- 
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichHandle handle
+---@return boolean
+function SaveHandle (table, parentKey, childKey, whichHandle) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichAttackType attacktype
+---@return boolean
+function SaveAttackTypeHandle (table, parentKey, childKey, whichAttackType) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichDamageType damagetype
+---@return boolean
+function SaveDamageTypeHandle (table, parentKey, childKey, whichDamageType) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichWeaponType weapontype
+---@return boolean
+function SaveWeaponTypeHandle (table, parentKey, childKey, whichWeaponType) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichMissile missile
+---@return boolean
+function SaveMissileHandle (table, parentKey, childKey, whichMissile) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichFrame framehandle
+---@return boolean
+function SaveFrameHandle (table, parentKey, childKey, whichFrame) end
+
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return handle
+function LoadHandle (table, parentKey, childKey) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return attacktype
+function LoadAttackTypeHandle (table, parentKey, childKey) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return damagetype
+function LoadDamageTypeHandle (table, parentKey, childKey) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return weapontype
+function LoadWeaponTypeHandle (table, parentKey, childKey) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return missile
+function LoadMissileHandle (table, parentKey, childKey) end
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return framehandle
+function LoadFrameHandle (table, parentKey, childKey) end
 -- 
 
 -- ============================================================================
@@ -4354,6 +4445,74 @@ function MorphUnitToTypeId (whichUnit, uid) end
 ---@return boolean
 function SetUnitAnimationOffsetPercent (whichUnit, percent) end
 -- 
+
+-- Order API
+---@param whichUnit unit
+---@param order integer
+---@return boolean
+function QueueImmediateOrderById (whichUnit, order) end
+---@param whichUnit unit
+---@param order integer
+---@param x real
+---@param y real
+---@return boolean
+function QueuePointOrderById (whichUnit, order, x, y) end
+---@param whichUnit unit
+---@param order integer
+---@param targetWidget widget
+---@return boolean
+function QueueTargetOrderById (whichUnit, order, targetWidget) end
+---@param whichUnit unit
+---@param order integer
+---@param x real
+---@param y real
+---@param instantTargetWidget widget
+---@return boolean
+function QueueInstantPointOrderById (whichUnit, order, x, y, instantTargetWidget) end
+---@param whichUnit unit
+---@param order integer
+---@param targetWidget widget
+---@param instantTargetWidget widget
+---@return boolean
+function QueueInstantTargetOrderById (whichUnit, order, targetWidget, instantTargetWidget) end
+---@param whichPeon unit
+---@param unitId integer
+---@param x real
+---@param y real
+---@return boolean
+function QueueBuildOrderById (whichPeon, unitId, x, y) end
+---@param forWhichPlayer player
+---@param neutralStructure unit
+---@param unitId integer
+---@return boolean
+function QueueNeutralImmediateOrderById (forWhichPlayer, neutralStructure, unitId) end
+---@param forWhichPlayer player
+---@param neutralStructure unit
+---@param unitId integer
+---@param x real
+---@param y real
+---@return boolean
+function QueueNeutralPointOrderById (forWhichPlayer, neutralStructure, unitId, x, y) end
+---@param forWhichPlayer player
+---@param neutralStructure unit
+---@param unitId integer
+---@param target widget
+---@return boolean
+function QueueNeutralTargetOrderById (forWhichPlayer, neutralStructure, unitId, target) end
+---@param whichUnit unit
+---@return integer
+function GetUnitOrderCount (whichUnit) end
+---@param whichUnit unit
+---@param index integer
+---@return integer
+function GetUnitOrderIdByIndex (whichUnit, index) end
+---@param whichUnit unit
+---@param onlyQueued boolean
+function UnitClearOrders (whichUnit, onlyQueued) end
+---@param whichUnit unit
+---@param clearQueue boolean
+function UnitForceStopOrder (whichUnit, clearQueue) end
+-- 
 -- 
 
 -- ============================================================================
@@ -4595,18 +4754,6 @@ function GetMissileDamageFlags (whichMissile) end
 ---@param flags integer
 function SetMissileDamageFlags (whichMissile, flags) end
 
----@param whichHashtable hashtable
----@param parentKey integer
----@param childKey integer
----@param whichMissile missile
----@return boolean
-function SaveMissileHandle (whichHashtable, parentKey, childKey, whichMissile) end
----@param whichHashtable hashtable
----@param parentKey integer
----@param childKey integer
----@return missile
-function LoadMissileHandle (whichHashtable, parentKey, childKey) end
-
 ---@return missile
 function GetTriggerMissile () end
 ---@return missile
@@ -4840,18 +4987,6 @@ function GetFrameChildrenCount (whichFrame) end
 ---@param index integer
 ---@return framehandle
 function GetFrameChild (whichFrame, index) end
-
----@param table hashtable
----@param parentKey integer
----@param childKey integer
----@param whichFrame framehandle
----@return boolean
-function SaveFrameHandle (table, parentKey, childKey, whichFrame) end
----@param table hashtable
----@param parentKey integer
----@param childKey integer
----@return framehandle
-function LoadFrameHandle (table, parentKey, childKey) end
 -- 
 
 -- Trigger Frame API
