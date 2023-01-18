@@ -75,6 +75,7 @@ fs.writeFileSync(ct, '', {flag: 'w+'});
 /** @param {string} content */
 const ctwrite = content => fs.writeFileSync(ct, content, {flag: 'a+'});
 
+const ctmap = {};
 
 /**
  * @param {string} path
@@ -107,6 +108,10 @@ const
 			if (node instanceof Variable) {
 				write(`${node.name} = ${_value(node.value)} ---@type ${node.type}\n`);
 				if (node.value instanceof Call) {
+					if (ctmap[node.name] !== undefined) {
+						return true;
+					}
+					ctmap[node.name] = true;
 					ctwrite(`${node.name} = ${_value(node.value, false)} ---@type ${node.type}\n`);
 				}
 				return true;
