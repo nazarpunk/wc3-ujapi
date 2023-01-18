@@ -3,8 +3,8 @@ PlayerMouseScreen = {}
 
 local trig = CreateTrigger()
 for i = 0, bj_MAX_PLAYER_SLOTS - 1, 1 do
-    PlayerMouseWorld[i] = { 0, 0, 0 }
-    PlayerMouseScreen[i] = { 0, 0 }
+    table.insert(PlayerMouseWorld, { 0, 0, 0 })
+    table.insert(PlayerMouseScreen, { 0, 0 })
     TriggerRegisterPlayerEvent(trig, Player(i), ConvertPlayerEvent(307)) -- EVENT_PLAYER_MOUSE_MOVE
 end
 
