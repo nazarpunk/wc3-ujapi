@@ -69,113 +69,134 @@ const _value = (node, rawcode = true) => {
 	return node;
 };
 
-const ct = './../asset/ConvertTypeFix.lua';
-fs.writeFileSync(ct, '', {flag: 'w+'});
+const typeFixPath = './../asset/ConvertTypeFix.lua';
+fs.writeFileSync(typeFixPath, '', {flag: 'w+'});
 
 /** @param {string} content */
-const ctwrite = content => fs.writeFileSync(ct, content, {flag: 'a+'});
+const typeFixWrite = content => fs.writeFileSync(typeFixPath, content, {flag: 'a+'});
 
-const ctmap = {};
+const ujapiMap = {};
 
 /**
  * @param {string} path
+ * @param {boolean} ujapi
  */
-const
-	tolua = path => {
-		const ast = parse(fs.readFileSync(path, {encoding: 'utf8', flag: 'r'}));
+const tolua = (path, {ujapi = false} = {}) => {
+	const ast = parse(fs.readFileSync(path, {encoding: 'utf8', flag: 'r'}));
+	if (!ujapi) {
 		fs.writeFileSync(`${path}.lua`, '', {flag: 'w+'});
+	}
 
-		/** @param {string} content */
-		const write = content => fs.writeFileSync(`${path}.lua`, content, {flag: 'a+'});
+	/** @param {string} content */
+	const write = content => ujapi ? null : fs.writeFileSync(`${path}.lua`, content, {flag: 'a+'});
 
-		/**
-		 * @param node
-		 * @return boolean
-		 */
-		const convert = node => {
-			let s = '';
+	/**
+	 * @param node
+	 * @return boolean
+	 */
+	const convert = node => {
+		let s = '';
 
-			if (node instanceof EmptyLine) {
-				write(`\n`);
-				return true;
-			}
-
-			if (node instanceof String) {
-				write(`-- ${node.trim()}\n`);
-				return true;
-			}
-
-			if (node instanceof Variable) {
-				write(`${node.name} = ${_value(node.value)} ---@type ${node.type}\n`);
-				if (node.value instanceof Call) {
-					if (ctmap[node.name] !== undefined) {
-						return true;
-					}
-					ctmap[node.name] = true;
-					ctwrite(`${node.name} = ${_value(node.value, false)} ---@type ${node.type}\n`);
-				}
-				return true;
-			}
-
-			if (node instanceof Type) {
-				s = `---@class ${node.base}:${node.super}`;
-				if (node.comment) {
-					s += ` -- ${node.comment}`;
-				}
-				write(`${s.trim()}\n`);
-				return true;
-			}
-
-			if (node instanceof Native) {
-				if (node.params) {
-					for (const p of node.params) {
-						if (alias[p.name]) {
-							p.name = alias[p.name];
-						}
-						write(`---@param ${p.name} ${p.type}\n`);
-					}
-				}
-				if (node.returns) {
-					write(`---@return ${node.returns}\n`);
-				}
-				write(`function ${node.name} (`);
-				if (node.params) {
-					const list = [];
-					for (const p of node.params) {
-						list.push(p.name);
-					}
-					if (list.length) {
-						write(list.join(', '));
-					}
-				}
-				write(') end\n');
-				return true;
-			}
-
-			console.log(node);
-			return false;
-		};
-
-		for (const node of ast) {
-			if (node instanceof Globals) {
-				if (node.globals) {
-					for (const global of node.globals) {
-						if (!convert(global)) {
-							break;
-						}
-					}
-				}
-				continue;
-			}
-
-			if (!convert(node)) {
-				break;
-			}
+		if (node instanceof EmptyLine) {
+			write(`\n`);
+			return true;
 		}
+
+		if (node instanceof String) {
+			write(`-- ${node.trim()}\n`);
+			return true;
+		}
+
+		/** Variable */
+		if (node instanceof Variable) {
+			if (ujapi) {
+				return ujapiMap[node.name] = true;
+			}
+			const t = `---@type ${node.type}${ujapiMap[node.name] ? ' @ujapi' : ''}`;
+			write(`${node.name} = ${_value(node.value)} ${t}\n`);
+			if (node.value instanceof Call) {
+				typeFixWrite(`${node.name} = ${_value(node.value, false)} ${t}\n`);
+			}
+			return true;
+		}
+
+		/** Type */
+		if (node instanceof Type) {
+			if (ujapi) {
+				return ujapiMap[node.base] = true;
+			}
+			s = `---@class ${node.base}:${node.super}`;
+			const list = [];
+			if (ujapiMap[node.base]) {
+				list.push('ujapi');
+			}
+			if (node.comment) {
+				list.push(node.comment.trim());
+			}
+			if (list.length) {
+				s += ` @${list.join(' ')}`;
+			}
+			write(`${s.trim()}\n`);
+			return true;
+		}
+
+		/** Native */
+		if (node instanceof Native) {
+			if (ujapi) {
+				return ujapiMap[node.name] = true;
+			}
+			if (ujapiMap[node.name]) {
+				write(`---@author ujapi\n`);
+			}
+			if (node.params) {
+				for (const p of node.params) {
+					if (alias[p.name]) {
+						p.name = alias[p.name];
+					}
+					write(`---@param ${p.name} ${p.type}\n`);
+				}
+			}
+			if (node.returns) {
+				write(`---@return ${node.returns}\n`);
+			}
+			write(`function ${node.name} (`);
+			if (node.params) {
+				const list = [];
+				for (const p of node.params) {
+					list.push(p.name);
+				}
+				if (list.length) {
+					write(list.join(', '));
+				}
+			}
+			write(') end\n');
+			return true;
+		}
+
+		console.log(node);
+		return false;
 	};
 
+	for (const node of ast) {
+		if (node instanceof Globals) {
+			if (node.globals) {
+				for (const global of node.globals) {
+					if (!convert(global)) {
+						break;
+					}
+				}
+			}
+			continue;
+		}
+
+		if (!convert(node)) {
+			break;
+		}
+	}
+};
+
+tolua('./../sdk/UjAPI.j', {ujapi: true});
 tolua('./../sdk/common.j');
-tolua('./../sdk/UjAPI.j');
 
 
 // noinspection JSUnusedLocalSymbols
