@@ -76,9 +76,9 @@ fs.writeFileSync(typeFixPath, '', {flag: 'w+'});
 /** @param {string} content */
 const typeFixWrite = content => fs.writeFileSync(typeFixPath, content, {flag: 'a+'});
 
-const techPath = './../jngp/tesh_keywords.db';
+const techPath = './../jngp/tech/data/tesh_keywords.db';
 
-fs.copyFileSync('./../jngp/default/tesh_keywords.db', techPath);
+fs.copyFileSync('./../jngp/default/tech/data/tesh_keywords.db', techPath);
 
 const db = new Database(techPath, {
 	fileMustExist: true,
