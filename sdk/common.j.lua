@@ -37,7 +37,6 @@
 ---@class playergameresult:handle
 ---@class unitstate:handle
 ---@class aidifficulty:handle
-
 ---@class eventid:handle
 ---@class gameevent:eventid
 ---@class playerevent:eventid
@@ -48,7 +47,6 @@
 ---@class dialogevent:eventid
 ---@class playermissileevent:eventid @UjAPI
 ---@class unittype:handle
-
 ---@class gamespeed:handle
 ---@class gamedifficulty:handle
 ---@class gametype:handle
@@ -57,6 +55,7 @@
 ---@class mapsetting:handle
 ---@class mapdensity:handle
 ---@class mapcontrol:handle
+---@class minimapicon:handle @UjAPI
 ---@class playerslotstate:handle
 ---@class volumegroup:handle
 ---@class camerafield:handle
@@ -106,7 +105,6 @@
 ---@class frameeventtype:handle @UjAPI
 ---@class oskeytype:handle @UjAPI
 ---@class mousebuttontype:handle @UjAPI
-
 ---@class abilityintegerfield:handle @UjAPI
 ---@class abilityrealfield:handle @UjAPI
 ---@class abilitybooleanfield:handle @UjAPI
@@ -119,9 +117,7 @@
 ---@class abilityreallevelarrayfield:handle @UjAPI
 ---@class abilitybooleanlevelarrayfield:handle @UjAPI
 ---@class abilitystringlevelarrayfield:handle @UjAPI
-
 ---@class buffstringfield:handle @UjAPI
-
 ---@class unitintegerfield:handle @UjAPI
 ---@class unitrealfield:handle @UjAPI
 ---@class unitbooleanfield:handle @UjAPI
@@ -130,12 +126,10 @@
 ---@class unitweaponrealfield:handle @UjAPI
 ---@class unitweaponbooleanfield:handle @UjAPI
 ---@class unitweaponstringfield:handle @UjAPI
-
 ---@class itemintegerfield:handle @UjAPI
 ---@class itemrealfield:handle @UjAPI
 ---@class itembooleanfield:handle @UjAPI
 ---@class itemstringfield:handle @UjAPI
-
 ---@class movetype:handle @UjAPI
 ---@class targetflag:handle @UjAPI
 ---@class armortype:handle @UjAPI
@@ -144,7 +138,7 @@
 ---@class regentype:handle @UjAPI
 ---@class unitcategory:handle @UjAPI
 ---@class pathingflag:handle @UjAPI
-
+---@class commandbuttoneffect:handle @UjAPI
 ---@class timetype:handle @UjAPI
 ---@class variabletype:handle @UjAPI
 
@@ -316,7 +310,6 @@ function ConvertOsKeyType (i) end
 ---@param i integer
 ---@return mousebuttontype
 function ConvertMouseButtonType (i) end
-
 ---@author UjAPI
 ---@param i integer
 ---@return abilityintegerfield
@@ -365,12 +358,10 @@ function ConvertAbilityBooleanLevelArrayField (i) end
 ---@param i integer
 ---@return abilitystringlevelarrayfield
 function ConvertAbilityStringLevelArrayField (i) end
-
 ---@author UjAPI
 ---@param i integer
 ---@return buffstringfield
 function ConvertBuffStringField (i) end
-
 ---@author UjAPI
 ---@param i integer
 ---@return unitintegerfield
@@ -403,7 +394,6 @@ function ConvertUnitWeaponBooleanField (i) end
 ---@param i integer
 ---@return unitweaponstringfield
 function ConvertUnitWeaponStringField (i) end
-
 ---@author UjAPI
 ---@param i integer
 ---@return itemintegerfield
@@ -420,7 +410,6 @@ function ConvertItemBooleanField (i) end
 ---@param i integer
 ---@return itemstringfield
 function ConvertItemStringField (i) end
-
 ---@author UjAPI
 ---@param i integer
 ---@return movetype
@@ -453,7 +442,6 @@ function ConvertUnitCategory (i) end
 ---@param i integer
 ---@return pathingflag
 function ConvertPathingFlag (i) end
-
 ---@author UjAPI
 ---@param i integer
 ---@return timetype
@@ -1224,6 +1212,32 @@ ORIGIN_FRAME_UNIT_MSG = ConvertOriginFrameType(14) ---@type originframetype @UjA
 ORIGIN_FRAME_TOP_MSG = ConvertOriginFrameType(15) ---@type originframetype @UjAPI
 ORIGIN_FRAME_PORTRAIT = ConvertOriginFrameType(16) ---@type originframetype @UjAPI
 ORIGIN_FRAME_WORLD_FRAME = ConvertOriginFrameType(17) ---@type originframetype @UjAPI
+ORIGIN_FRAME_CONSOLE_UI = ConvertOriginFrameType(18) ---@type originframetype @UjAPI
+ORIGIN_FRAME_PORTRAIT_TEXT = ConvertOriginFrameType(19) ---@type originframetype @UjAPI
+ORIGIN_FRAME_BUFF_BAR = ConvertOriginFrameType(20) ---@type originframetype @UjAPI
+ORIGIN_FRAME_BUFF_BAR_TEXT = ConvertOriginFrameType(21) ---@type originframetype @UjAPI
+ORIGIN_FRAME_BUFF_BAR_INDICATOR = ConvertOriginFrameType(22) ---@type originframetype @UjAPI
+ORIGIN_FRAME_TIME_OF_DAY_INDICATOR = ConvertOriginFrameType(23) ---@type originframetype @UjAPI
+ORIGIN_FRAME_LEADERBOARD = ConvertOriginFrameType(24) ---@type originframetype @UjAPI
+ORIGIN_FRAME_MULTIBOARD = ConvertOriginFrameType(25) ---@type originframetype @UjAPI
+ORIGIN_FRAME_INFO_BAR = ConvertOriginFrameType(26) ---@type originframetype @UjAPI
+ORIGIN_FRAME_COMMAND_BAR = ConvertOriginFrameType(27) ---@type originframetype @UjAPI
+ORIGIN_FRAME_RESOURCE_BAR = ConvertOriginFrameType(28) ---@type originframetype @UjAPI
+ORIGIN_FRAME_RESOURCE_BAR_TEXTURE = ConvertOriginFrameType(29) ---@type originframetype @UjAPI
+ORIGIN_FRAME_RESOURCE_BAR_TEXT = ConvertOriginFrameType(30) ---@type originframetype @UjAPI
+ORIGIN_FRAME_UPPERBUTTON_BAR = ConvertOriginFrameType(31) ---@type originframetype @UjAPI
+ORIGIN_FRAME_UPPERBUTTON_BAR_BUTTON = ConvertOriginFrameType(32) ---@type originframetype @UjAPI
+ORIGIN_FRAME_PEON_BAR = ConvertOriginFrameType(33) ---@type originframetype @UjAPI
+ORIGIN_FRAME_PLAYER_MESSAGE = ConvertOriginFrameType(34) ---@type originframetype @UjAPI
+ORIGIN_FRAME_UNIT_MESSAGE = ConvertOriginFrameType(35) ---@type originframetype @UjAPI
+ORIGIN_FRAME_CHAT_MESSAGE = ConvertOriginFrameType(36) ---@type originframetype @UjAPI
+ORIGIN_FRAME_TOP_MESSAGE = ConvertOriginFrameType(37) ---@type originframetype @UjAPI
+ORIGIN_FRAME_CHAT_EDITBAR = ConvertOriginFrameType(38) ---@type originframetype @UjAPI
+ORIGIN_FRAME_CINEMATIC_PANEL = ConvertOriginFrameType(39) ---@type originframetype @UjAPI
+ORIGIN_FRAME_COMMAND_BUTTON_COOLDOWN_INDICATOR = ConvertOriginFrameType(40) ---@type originframetype @UjAPI
+ORIGIN_FRAME_COMMAND_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(41) ---@type originframetype @UjAPI
+ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(42) ---@type originframetype @UjAPI
+ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(43) ---@type originframetype @UjAPI
 
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
@@ -2241,7 +2255,7 @@ BUFF_SF_TOOLTIP_NORMAL = ConvertBuffStringField(FourCC('ftip'--[[1718905200--]])
 BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertBuffStringField(FourCC('fube'--[[1718968933--]])) ---@type buffstringfield @UjAPI
 
 -- Item
-ITEM_IF_TINTING_COLOR = ConvertItemIntegerField(FourCC('icol'--[[1768124268--]])) ---@type itemintegerfield @UjAPI
+ITEM_IF_TINTING_COLOR = ConvertItemIntegerField(FourCC('iclt'--[[1768123508--]])) ---@type itemintegerfield @UjAPI
 ITEM_IF_TINTING_COLOR_RED = ConvertItemIntegerField(FourCC('iclr'--[[1768123506--]])) ---@type itemintegerfield @UjAPI
 ITEM_IF_TINTING_COLOR_GREEN = ConvertItemIntegerField(FourCC('iclg'--[[1768123495--]])) ---@type itemintegerfield @UjAPI
 ITEM_IF_TINTING_COLOR_BLUE = ConvertItemIntegerField(FourCC('iclb'--[[1768123490--]])) ---@type itemintegerfield @UjAPI
@@ -2304,6 +2318,7 @@ UNIT_IF_GOLD_COST = ConvertUnitIntegerField(FourCC('ugol'--[[1969713004--]])) --
 UNIT_IF_GOLD_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ubdi'--[[1969382505--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_GOLD_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ubba'--[[1969381985--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_GOLD_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ubsi'--[[1969386345--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_LUMBER_COST = ConvertUnitIntegerField(FourCC('ulum'--[[1970042221--]])) ---@type unitintegerfield
 UNIT_IF_LUMBER_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ulbd'--[[1970037348--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_LUMBER_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ulba'--[[1970037345--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_LUMBER_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ulbs'--[[1970037363--]])) ---@type unitintegerfield @UjAPI
@@ -2312,8 +2327,8 @@ UNIT_IF_FORMATION_RANK = ConvertUnitIntegerField(FourCC('ufor'--[[1969647474--]]
 UNIT_IF_ORIENTATION_INTERPOLATION = ConvertUnitIntegerField(FourCC('uori'--[[1970238057--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_ELEVATION_SAMPLE_POINTS = ConvertUnitIntegerField(FourCC('uept'--[[1969582196--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_PROPER_NAMES_COUNT = ConvertUnitIntegerField(FourCC('upru'--[[1970303605--]])) ---@type unitintegerfield @UjAPI
-
-UNIT_IF_TINTING_COLOR = ConvertUnitIntegerField(FourCC('ucol'--[[1969450860--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_HOTKEY = ConvertUnitIntegerField(FourCC('uhot'--[[1969778548--]])) ---@type unitintegerfield
+UNIT_IF_TINTING_COLOR = ConvertUnitIntegerField(FourCC('uclt'--[[1969450100--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR_RED = ConvertUnitIntegerField(FourCC('uclr'--[[1969450098--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR_GREEN = ConvertUnitIntegerField(FourCC('uclg'--[[1969450087--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR_BLUE = ConvertUnitIntegerField(FourCC('uclb'--[[1969450082--]])) ---@type unitintegerfield @UjAPI
@@ -2359,6 +2374,7 @@ UNIT_RF_ACQUISITION_RANGE = ConvertUnitRealField(FourCC('uacq'--[[1969316721--]]
 UNIT_RF_CAST_BACK_SWING = ConvertUnitRealField(FourCC('ucbs'--[[1969447539--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_CAST_POINT = ConvertUnitRealField(FourCC('ucpt'--[[1969451124--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_MINIMUM_ATTACK_RANGE = ConvertUnitRealField(FourCC('uamn'--[[1969319278--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_COLLISION_SIZE = ConvertUnitRealField(FourCC('ucol'--[[1969450860--]])) ---@type unitrealfield @UjAPI
 
 UNIT_BF_RAISABLE = ConvertUnitBooleanField(FourCC('urai'--[[1970430313--]])) ---@type unitbooleanfield @UjAPI
 UNIT_BF_DECAYABLE = ConvertUnitBooleanField(FourCC('udec'--[[1969513827--]])) ---@type unitbooleanfield @UjAPI
@@ -2397,6 +2413,7 @@ UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE = ConvertUnitWeaponIntegerField(FourCC('ua1b'-
 UNIT_WEAPON_IF_ATTACK_DAMAGE_SIDES_PER_DIE = ConvertUnitWeaponIntegerField(FourCC('ua1s'--[[1969303923--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_MAXIMUM_NUMBER_OF_TARGETS = ConvertUnitWeaponIntegerField(FourCC('utc1'--[[1970561841--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_ATTACK_TYPE = ConvertUnitWeaponIntegerField(FourCC('ua1t'--[[1969303924--]])) ---@type unitweaponintegerfield @UjAPI
+UNIT_WEAPON_IF_ATTACK_WEAPON_TYPE = ConvertUnitWeaponIntegerField(FourCC('ua1w'--[[1969303927--]])) ---@type unitweaponintegerfield
 UNIT_WEAPON_IF_ATTACK_WEAPON_SOUND = ConvertUnitWeaponIntegerField(FourCC('ucs1'--[[1969451825--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_AREA_OF_EFFECT_TARGETS = ConvertUnitWeaponIntegerField(FourCC('ua1p'--[[1969303920--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_TARGETS_ALLOWED = ConvertUnitWeaponIntegerField(FourCC('ua1g'--[[1969303911--]])) ---@type unitweaponintegerfield @UjAPI
@@ -7598,6 +7615,20 @@ function MathRealLog (r) end
 ---@param r real
 ---@return real
 function MathRealLn (r) end
+---@author UjAPI
+---@param a real
+---@param b real
+---@return real
+function MathRealMin (a, b) end
+---@author UjAPI
+---@param a real
+---@param b real
+---@return real
+function MathRealMax (a, b) end
+---@author UjAPI
+---@param r real
+---@return integer
+function MathRealSign (r) end
 
 ---@author UjAPI
 ---@param i integer
@@ -7611,6 +7642,73 @@ function MathIntegerLog (i) end
 ---@param i integer
 ---@return real
 function MathIntegerLn (i) end
+---@author UjAPI
+---@param a integer
+---@param b integer
+---@return integer
+function MathIntegerMin (a, b) end
+---@author UjAPI
+---@param a integer
+---@param b integer
+---@return integer
+function MathIntegerMax (a, b) end
+---@author UjAPI
+---@param i integer
+---@return integer
+function MathIntegerSign (i) end
+
+-- Angle / Axis / Point API | All natives operate in Degrees!
+
+-- These natives act identical to basic Sinc/Cos/Tan/etc. but they take degrees instead of radians, so you won't need to do Ded2Rad or Rad2Deg in multiple functions.
+---@author UjAPI
+---@param r real
+---@return real
+function MathSinDeg (r) end
+---@author UjAPI
+---@param r real
+---@return real
+function MathCosDeg (r) end
+---@author UjAPI
+---@param r real
+---@return real
+function MathTanDeg (r) end
+
+---@author UjAPI
+---@param x real
+---@param angle real
+---@param distance real
+---@return real
+function MathPointProjectionX (x, angle, distance) end
+---@author UjAPI
+---@param y real
+---@param angle real
+---@param distance real
+---@return real
+function MathPointProjectionY (y, angle, distance) end
+---@author UjAPI
+---@param fromX real
+---@param fromY real
+---@param toX real
+---@param toY real
+---@return real
+function MathAngleBetweenPoints (fromX, fromY, toX, toY) end
+---@author UjAPI
+---@param fromX real
+---@param fromY real
+---@param toX real
+---@param toY real
+---@return real
+function MathDistanceBetweenPoints (fromX, fromY, toX, toY) end
+---@author UjAPI
+---@param fromLoc location
+---@param toLoc location
+---@return real
+function MathAngleBetweenLocations (fromLoc, toLoc) end
+---@author UjAPI
+---@param fromLoc location
+---@param toLoc location
+---@return real
+function MathDistanceBetweenLocations (fromLoc, toLoc) end
 
 ---@author UjAPI
 ---@param x real
@@ -7948,7 +8046,6 @@ function GroupRemoveGroupEx (destGroup, sourceGroup) end
 -- ============================================================================
 -- Image API
 -- 
-
 ---@author UjAPI
 ---@param file string
 ---@param sizeX real
@@ -8653,12 +8750,12 @@ function StartAbilityCooldown (whichAbility, cooldown) end
 ---@param whichAbility ability
 ---@param hide boolean
 ---@param disable boolean
-function SilenceAbility (whichAbility, hide, disable) end
+function DisableAbility (whichAbility, hide, disable) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@param show boolean
 ---@param enable boolean
-function UnsilenceAbility (whichAbility, show, enable) end
+function EnableAbility (whichAbility, show, enable) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return boolean
@@ -8828,6 +8925,12 @@ function SetSpecialEffectAlpha (whichEffect, alpha) end
 ---@param alpha integer
 ---@return boolean
 function SetSpecialEffectVertexColour (whichEffect, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichEffect effect
+---@param x real
+---@param y real
+---@param z real
+function SetSpecialEffectMatrixScale (whichEffect, x, y, z) end
 ---@author UjAPI
 ---@param whichEffect effect
 function ResetSpecialEffectetMatrix (whichEffect) end
@@ -10109,14 +10212,12 @@ function RedrawUnit (whichUnit) end
 ---@param whichUnit unit
 ---@return integer
 function UpdateUnitInfoBar (whichUnit) end
----@author UjAPI
 ---@param whichUnit unit
 ---@return integer
-function UnitUnapplyUpdates (whichUnit) end
----@author UjAPI
+function UnitUnapplyUpgrades (whichUnit) end
 ---@param whichUnit unit
 ---@return integer
-function UnitApplyUpdates (whichUnit) end
+function UnitApplyUpgrades (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param aid integer
@@ -10132,6 +10233,11 @@ function GetUnitAbilityByIndex (whichUnit, index) end
 ---@param buffId integer
 ---@return buff
 function GetUnitBuff (whichUnit, buffId) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+---@return buff
+function GetUnitBuffByIndex (whichUnit, index) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param buffId integer
@@ -10161,6 +10267,18 @@ function IsUnitAbilityVisible (whichUnit, abilityId) end
 function ShowUnitAbility (whichUnit, abilityId, show) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@param abilityId integer
+---@param hide boolean
+---@param disable boolean
+function DisableUnitAbility (whichUnit, abilityId, hide, disable) end
+---@author UjAPI
+---@param whichUnit unit
+---@param abilityId integer
+---@param show boolean
+---@param enable boolean
+function EnableUnitAbility (whichUnit, abilityId, show, enable) end
+---@author UjAPI
+---@param whichUnit unit
 ---@return boolean
 function IsUnitSelectable (whichUnit) end
 ---@author UjAPI
@@ -10184,6 +10302,9 @@ function SetUnitLocustFlag (whichUnit, flag, mode) end
 ---@param whichUnit unit
 ---@param state boolean
 function SetUnitTruesightImmuneState (whichUnit, state) end
+---@param whichUnit unit
+---@return real
+function GetUnitZ (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
@@ -11088,6 +11209,18 @@ function CreateSimpleFrame (templateName, whichParent, createContext) end
 function CreateFrameByType (frameType, name, whichParent, templateName, createContext) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@return boolean
+function IsFrameRegion (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return boolean
+function IsFrameSimple (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return boolean
+function IsFrameComplex (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
 function DestroyFrame (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
@@ -11304,6 +11437,11 @@ function GetFrameChildrenCount (whichFrame) end
 ---@return framehandle
 function GetFrameChild (whichFrame, index) end
 -- 
+
+---@author UjAPI
+---@param texturePath string
+---@return boolean
+function SetMiniMapTexture (texturePath) end
 
 -- Trigger Frame API
 ---@author UjAPI
@@ -11709,3 +11847,192 @@ function GetEventPreDamage () end
 ---@param damage real
 function SetEventDamage (damage) end
 -- 
+
+-- ============================================================================
+-- BlzNatives Start
+-- 
+---@param whichStartLoc integer
+---@param prioSlotCount integer
+function SetEnemyStartLocPrioCount (whichStartLoc, prioSlotCount) end
+---@param whichStartLoc integer
+---@param prioSlotIndex integer
+---@param otherStartLocIndex integer
+---@param priority startlocprio
+function SetEnemyStartLocPrio (whichStartLoc, prioSlotIndex, otherStartLocIndex, priority) end
+
+
+---@param taggedString string
+---@return string
+function ParseTags (taggedString) end
+
+-- EVENT_COMMAND_BUTTON_CLICK
+---@param whichTrigger trigger
+---@param whichAbility integer
+---@param order string
+---@return event
+function TriggerRegisterCommandEvent (whichTrigger, whichAbility, order) end
+---@param whichTrigger trigger
+---@param whichUpgrade integer
+---@return event
+function TriggerRegisterUpgradeCommandEvent (whichTrigger, whichUpgrade) end
+
+-- For EVENT_PLAYER_UNIT_PICKUP_ITEM, returns the item absorbing the picked up item in case it is stacking.
+-- Returns null if the item was a powerup and not a stacking item.
+
+-- EVENT_PLAYER_UNIT_STACK_ITEM
+-- Source is the item that is losing charges, Target is the item getting charges.
+
+---@param whichPlayer player
+---@return real
+function GetPlayerHandicapReviveTime (whichPlayer) end
+---@param whichPlayer player
+---@return real
+function GetPlayerHandicapDamage (whichPlayer) end
+---@param whichPlayer player
+---@param handicap real
+function SetPlayerHandicapReviveTime (whichPlayer, handicap) end
+---@param whichPlayer player
+---@param handicap real
+function SetPlayerHandicapDamage (whichPlayer, handicap) end
+
+---@param maxCheckpointSaves integer
+function SetMaxCheckpointSaves (maxCheckpointSaves) end
+---@param saveFileName string
+---@param showWindow boolean
+function SaveGameCheckpoint (saveFileName, showWindow) end
+
+---@param portraitDNCFile string
+function SetPortraitLight (portraitDNCFile) end
+---@param whichUnit unit
+---@param red integer
+---@param green integer
+---@param blue integer
+---@param pingPath string
+---@param fogVisibility fogstate
+---@return minimapicon
+function CreateMinimapIconOnUnit (whichUnit, red, green, blue, pingPath, fogVisibility) end
+---@param where location
+---@param red integer
+---@param green integer
+---@param blue integer
+---@param pingPath string
+---@param fogVisibility fogstate
+---@return minimapicon
+function CreateMinimapIconAtLoc (where, red, green, blue, pingPath, fogVisibility) end
+---@param x real
+---@param y real
+---@param red integer
+---@param green integer
+---@param blue integer
+---@param pingPath string
+---@param fogVisibility fogstate
+---@return minimapicon
+function CreateMinimapIcon (x, y, red, green, blue, pingPath, fogVisibility) end
+---@param key string
+---@return string
+function SkinManagerGetLocalPath (key) end
+---@param pingId minimapicon
+function DestroyMinimapIcon (pingId) end
+---@param whichMinimapIcon minimapicon
+---@param visible boolean
+function SetMinimapIconVisible (whichMinimapIcon, visible) end
+---@param whichMinimapIcon minimapicon
+---@param doDestroy boolean
+function SetMinimapIconOrphanDestroy (whichMinimapIcon, doDestroy) end
+
+
+---@param distance real
+function CameraSetFocalDistance (distance) end
+---@param scale real
+function CameraSetDepthOfFieldScale (scale) end
+
+---@param cinematicAudio boolean
+function SetCinematicAudio (cinematicAudio) end
+
+---@param soundHandle sound
+---@param fadeIn boolean
+function StartSoundEx (soundHandle, fadeIn) end
+
+---@param volume integer
+function SetThematicMusicVolume (volume) end
+
+---@param soundHandle sound
+---@param animationLabel string
+---@return boolean
+function SetSoundFacialAnimationLabel (soundHandle, animationLabel) end
+---@param soundHandle sound
+---@param groupLabel string
+---@return boolean
+function SetSoundFacialAnimationGroupLabel (soundHandle, groupLabel) end
+---@param soundHandle sound
+---@param animationSetFilepath string
+---@return boolean
+function SetSoundFacialAnimationSetFilepath (soundHandle, animationSetFilepath) end
+
+-- Subtitle support that is attached to the soundHandle rather than as disperate data with the legacy UI
+---@param soundHandle sound
+---@param speakerName string
+---@return boolean
+function SetDialogueSpeakerNameKey (soundHandle, speakerName) end
+---@param soundHandle sound
+---@return string
+function GetDialogueSpeakerNameKey (soundHandle) end
+---@param soundHandle sound
+---@param dialogueText string
+---@return boolean
+function SetDialogueTextKey (soundHandle, dialogueText) end
+---@param soundHandle sound
+---@return string
+function GetDialogueTextKey (soundHandle) end
+
+-- ============================================================================
+-- Machinima API
+-- ============================================================================
+
+-- Automation Test
+---@param testType string
+function AutomationSetTestType (testType) end
+---@param testName string
+function AutomationTestStart (testName) end
+function AutomationTestEnd () end
+function AutomationTestingFinished () end
+
+-- JAPI Functions
+
+-- native BlzFourCC2S takes integer value returns string
+-- native BlzS2FourCC takes string value returns integer
+
+---@param abilityId integer
+---@param order string
+---@return commandbuttoneffect
+function CreateCommandButtonEffect (abilityId, order) end
+---@param whichUprgade integer
+---@return commandbuttoneffect
+function CreateUpgradeCommandButtonEffect (whichUprgade) end
+---@param abilityId integer
+---@return commandbuttoneffect
+function CreateLearnCommandButtonEffect (abilityId) end
+---@param whichEffect commandbuttoneffect
+function DestroyCommandButtonEffect (whichEffect) end
+
+-- Bit Operations
+
+-- Intanced Object Operations
+-- Ability
+
+-- Item
+
+-- Unit
+
+-- Unit Weapon
+
+-- Skin
+-- native BlzGetDestructableSkin takes destructable whichDestructable returns integer
+-- native BlzSetDestructableSkin takes destructable whichDestructable, integer skinId returns nothing
+
+
+
+-- returns the number of orders the unit currently has queued up
+-- clears either all orders or only queued up orders
+-- stops the current order and optionally clears the queue
+-- BlzNatives End
