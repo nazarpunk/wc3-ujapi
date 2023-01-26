@@ -4,6 +4,46 @@ PlayerMouseWorld = {}
 ---@type table<number, number[]>
 PlayerMouseScreen = {}
 
+-- require 'ujapi.asset.DefaultTextTag'
+---@class DefaultTextTag
+DefaultTextTag = {}
+
+---@return DefaultTextTag
+function DefaultTextTag:new() end
+
+---@param x number
+---@param y number
+---@return DefaultTextTag
+function DefaultTextTag:position(x, y) end
+
+---@param w widget
+---@return DefaultTextTag
+function DefaultTextTag:widget(w) end
+
+---@param color number[] @[red, green, blue, alpha]
+---@param setting number[] @[xvel, yvel, fadepoint, lifespan, offsetX]
+---@param text string
+---@return DefaultTextTag
+function DefaultTextTag:create(color, setting, text) end
+
+---@param text string
+function DefaultTextTag:goldBounty(text) end
+
+---@param text string
+function DefaultTextTag:lumberBounty(text) end
+
+---@param text string
+function DefaultTextTag:miss(text) end
+
+---@param text string
+function DefaultTextTag:criticalStrike(text) end
+
+---@param text string
+function DefaultTextTag:manaBurn(text) end
+
+---@param text string
+function DefaultTextTag:shadowStrike(text) end
+
 -- require 'ujapi.asset.Order'
 Order = {
     absorb = 852529,
