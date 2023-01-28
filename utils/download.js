@@ -1,8 +1,6 @@
 import * as fs from 'fs'
 import * as https from 'https'
 import {downloadRelease} from '@terascope/fetch-github-release'
-
-
 const download = (url, dest) => {
 	const file = fs.createWriteStream(dest);
 	https.get(url, function (response) {
