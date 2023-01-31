@@ -1,3 +1,4 @@
+---@class DefaultTextTag
 DefaultTextTag = {}
 DefaultTextTag.__index = DefaultTextTag;
 
@@ -68,8 +69,4 @@ end
 ---@param text string
 function DefaultTextTag:shadowStrike(text)
     return self:create({ 160, 255, 0, 255 }, { 0, .04, 2, 5, 0 }, text);
-end
-
-function DefaultTextTag:test()
-    return print(self.x, self.y);
 end
