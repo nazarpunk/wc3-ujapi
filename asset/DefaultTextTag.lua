@@ -1,4 +1,3 @@
----@class DefaultTextTag
 DefaultTextTag = {}
 DefaultTextTag.__index = DefaultTextTag;
 
