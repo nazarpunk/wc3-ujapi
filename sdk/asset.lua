@@ -5,7 +5,6 @@ PlayerMouseWorld = {}
 PlayerMouseScreen = {}
 
 -- require 'ujapi.asset.DefaultTextTag'
----@class DefaultTextTag
 DefaultTextTag = {}
 
 ---@return DefaultTextTag

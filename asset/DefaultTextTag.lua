@@ -1,17 +1,12 @@
 ---@class DefaultTextTag
 DefaultTextTag = {}
-DefaultTextTag.__index = DefaultTextTag
-
----@return DefaultTextTag
-function DefaultTextTag:new()
-    local self = setmetatable({}, DefaultTextTag)
-    return self
-end
+DefaultTextTag.__index = DefaultTextTag;
 
 ---@param x number
 ---@param y number
 ---@return DefaultTextTag
 function DefaultTextTag:position(x, y)
+    local self = setmetatable({}, DefaultTextTag)
     self.x = x
     self.y = y
     return self;
@@ -20,6 +15,7 @@ end
 ---@param w widget
 ---@return DefaultTextTag
 function DefaultTextTag:widget(w)
+    local self = setmetatable({}, DefaultTextTag)
     self.x = GetWidgetX(w);
     self.y = GetWidgetY(w);
     return self;
@@ -73,4 +69,8 @@ end
 ---@param text string
 function DefaultTextTag:shadowStrike(text)
     return self:create({ 160, 255, 0, 255 }, { 0, .04, 2, 5, 0 }, text);
+end
+
+function DefaultTextTag:test()
+    return print(self.x, self.y);
 end
