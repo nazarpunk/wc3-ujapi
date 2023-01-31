@@ -1238,6 +1238,7 @@ ORIGIN_FRAME_COMMAND_BUTTON_COOLDOWN_INDICATOR = ConvertOriginFrameType(40) ---@
 ORIGIN_FRAME_COMMAND_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(41) ---@type originframetype @UjAPI
 ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(42) ---@type originframetype @UjAPI
 ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(43) ---@type originframetype @UjAPI
+ORIGIN_FRAME_CURSOR_FRAME = ConvertOriginFrameType(44) ---@type originframetype @UjAPI
 
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
@@ -7098,10 +7099,24 @@ function Preloader (filename) end
 -- ===================================================
 -- Conversion API
 -- 
+
+-- integers in jass use 4 bytes, that is 32 bits so you can do something like this: BitwiseGetBit( 0xFF001122, 31 ), this will return 1 (as 4th byte is 0xFF which is 11111111 in bits).
 ---@author UjAPI
----@param i integer
+---@param bit integer
+---@param bitIndex integer
 ---@return integer
-function BitwiseNOT (i) end
+function BitwiseGetBit (bit, bitIndex) end
+-- integers in jass use 4 bytes, so you can do something like this: BitwiseGetByte( 0xFF001122, 3 ), this will return 0xFF and to get 0x22 you need to: BitwiseGetByte( 0xFF001122, 0 ).
+---@author UjAPI
+---@param bit integer
+---@param byteIndex integer
+---@return integer
+function BitwiseGetByte (bit, byteIndex) end
+
+---@author UjAPI
+---@param bit integer
+---@return integer
+function BitwiseNOT (bit) end
 ---@author UjAPI
 ---@param bit1 integer
 ---@param bit2 integer
@@ -7118,15 +7133,15 @@ function BitwiseOR (bit1, bit2) end
 ---@return integer
 function BitwiseXOR (bit1, bit2) end
 ---@author UjAPI
----@param bit1 integer
+---@param bit integer
 ---@param bitsToShift integer
 ---@return integer
-function BitwiseShiftLeft (bit1, bitsToShift) end
+function BitwiseShiftLeft (bit, bitsToShift) end
 ---@author UjAPI
----@param bit1 integer
+---@param bit integer
 ---@param bitsToShift integer
 ---@return integer
-function BitwiseShiftRight (bit1, bitsToShift) end
+function BitwiseShiftRight (bit, bitsToShift) end
 
 ---@author UjAPI
 ---@param i integer
@@ -7754,6 +7769,46 @@ function StringFindLastOf (s, whichString, caseSensitive) end
 ---@param caseSensitive boolean
 ---@return integer
 function StringFindLastNotOf (s, whichString, caseSensitive) end
+---@author UjAPI
+---@param s string
+---@param whichString string
+---@param caseSensitive boolean
+---@return integer
+function StringCount (s, whichString, caseSensitive) end
+---@author UjAPI
+---@param s string
+---@param caseSensitive boolean
+---@return string
+function StringTrimLeft (s, caseSensitive) end
+---@author UjAPI
+---@param s string
+---@param caseSensitive boolean
+---@return string
+function StringTrimRight (s, caseSensitive) end
+---@author UjAPI
+---@param s string
+---@param caseSensitive boolean
+---@return string
+function StringTrim (s, caseSensitive) end
+---@author UjAPI
+---@param s string
+---@param caseSensitive boolean
+---@return string
+function StringReverse (s, caseSensitive) end
+---@author UjAPI
+---@param s string
+---@param whichString string
+---@param replaceWith string
+---@param caseSensitive boolean
+---@return string
+function StringReplace (s, whichString, replaceWith, caseSensitive) end
+---@author UjAPI
+---@param s string
+---@param whichString string
+---@param whichPosition integer
+---@param caseSensitive boolean
+---@return string
+function StringInsert (s, whichString, whichPosition, caseSensitive) end
 -- 
 
 -- Misc API
@@ -8041,6 +8096,130 @@ function GroupAddGroupEx (destGroup, sourceGroup) end
 ---@param sourceGroup group
 ---@return integer
 function GroupRemoveGroupEx (destGroup, sourceGroup) end
+-- 
+
+-- ============================================================================
+-- TextTag API
+-- 
+---@author UjAPI
+---@param whichTextTag texttag
+---@return boolean
+function IsTextTagVisible (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return boolean
+function IsTextTagSuspended (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function IsTextTagPermanent (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagX (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param x real
+function SetTextTagX (whichTextTag, x) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagY (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param y real
+function SetTextTagY (whichTextTag, y) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagZ (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param z real
+function SetTextTagZ (whichTextTag, z) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagHeight (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param height real
+function SetTextTagHeight (whichTextTag, height) end
+---@param whichTextTag texttag
+---@return location
+function GetTextTagPositionLocation (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param whichLocation location
+function SetTextTagPositionLocation (whichTextTag, whichLocation) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return integer
+function GetTextTagColour (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return integer
+function GetTextTagAlpha (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param alpha integer
+function SetTextTagAlpha (whichTextTag, alpha) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagVelocityX (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param velX real
+function SetTextTagVelocityX (whichTextTag, velX) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagVelocityY (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param velY real
+function SetTextTagVelocityY (whichTextTag, velY) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagVelocityZ (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param velZ real
+function SetTextTagVelocityZ (whichTextTag, velZ) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagAge (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagLifespan (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagFadepoint (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return integer
+function GetTextTagShadowColour (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param colour integer
+function SetTextTagShadowColour (whichTextTag, colour) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return integer
+function GetTextTagShadowAlpha (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@param alpha integer
+function SetTextTagShadowAlpha (whichTextTag, alpha) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return string
+function GetTextTagText (whichTextTag) end
 -- 
 
 -- ============================================================================
@@ -9145,6 +9324,12 @@ function SetTrackableAlpha (whichTrackable, alpha) end
 ---@param alpha integer
 ---@return boolean
 function SetTrackableVertexColour (whichTrackable, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@param x real
+---@param y real
+---@param z real
+function SetTrackableEffectMatrixScale (whichTrackable, x, y, z) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 function ResetTrackableetMatrix (whichTrackable) end
@@ -10302,6 +10487,7 @@ function SetUnitLocustFlag (whichUnit, flag, mode) end
 ---@param whichUnit unit
 ---@param state boolean
 function SetUnitTruesightImmuneState (whichUnit, state) end
+---@author UjAPI
 ---@param whichUnit unit
 ---@return real
 function GetUnitZ (whichUnit) end
@@ -11564,7 +11750,6 @@ function SetFrameSpriteRoll (whichFrame, roll) end
 ---@param pitch real
 ---@param roll real
 function SetFrameSpriteOrientation (whichFrame, yaw, pitch, roll) end
-
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param modelName string
@@ -11574,7 +11759,6 @@ function SetFrameSpriteModel (whichFrame, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetFrameSpriteModelEx (whichFrame, modelName, playerColour) end
-
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param animIndex integer
@@ -11611,6 +11795,10 @@ function SetFrameSpriteAnimationOffsetPercent (whichFrame, percent) end
 -- ============================================================================
 -- Sync API
 -- 
+
+---@author UjAPI
+---@return player
+function GetTriggerSyncPlayer () end
 
 -- Variable Sync API
 ---@author UjAPI

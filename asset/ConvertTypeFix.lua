@@ -535,6 +535,7 @@ ORIGIN_FRAME_COMMAND_BUTTON_COOLDOWN_INDICATOR = ConvertOriginFrameType(40) ---@
 ORIGIN_FRAME_COMMAND_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(41) ---@type originframetype @UjAPI
 ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(42) ---@type originframetype @UjAPI
 ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(43) ---@type originframetype @UjAPI
+ORIGIN_FRAME_CURSOR_FRAME = ConvertOriginFrameType(44) ---@type originframetype @UjAPI
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOPRIGHT = ConvertFramePointType(2) ---@type framepointtype @UjAPI
