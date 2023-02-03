@@ -2,11 +2,15 @@
 DefaultTextTag = {}
 DefaultTextTag.__index = DefaultTextTag;
 
+---@return DefaultTextTag
+function DefaultTextTag:new()
+    return setmetatable({}, DefaultTextTag);
+end
+
 ---@param x number
 ---@param y number
 ---@return DefaultTextTag
 function DefaultTextTag:position(x, y)
-    local self = setmetatable({}, DefaultTextTag)
     self.x = x
     self.y = y
     return self;
@@ -15,7 +19,6 @@ end
 ---@param w widget
 ---@return DefaultTextTag
 function DefaultTextTag:widget(w)
-    local self = setmetatable({}, DefaultTextTag)
     self.x = GetWidgetX(w);
     self.y = GetWidgetY(w);
     return self;
