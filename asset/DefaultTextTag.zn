@@ -1,0 +1,71 @@
+//! zinc
+    library DefaultTextTag {
+        public {
+            constant integer TextTagGoldBounty = 0;
+            constant integer TextTagLumberBounty = 1;
+            constant integer TextTagMiss = 2;
+            constant integer TextTagCriticalStrike = 3;
+            constant integer TextTagManaBurn = 4;
+            constant integer TextTagShadowStrike = 5;
+
+            function DefaultTextTag(integer index, real x, real y, string text) -> texttag {
+                tt = CreateTextTag();
+                SetTextTagText(tt, text, fontSize);
+                SetTextTagPos(tt, x + setting[index][4], y, 0);
+                SetTextTagColor(tt, color[index][0], color[index][1], color[index][2], color[index][3]);
+                SetTextTagVelocity(tt, setting[index][0], setting[index][1]);
+                SetTextTagFadepoint(tt, setting[index][2]);
+                SetTextTagLifespan(tt, setting[index][3]);
+                SetTextTagVisibility(tt, IsVisibleToPlayer(x, y, GetLocalPlayer()));
+                SetTextTagPermanent(tt, false);
+                return tt;
+            }
+
+            function DefaultTextTagWidget(integer index, widget target, string text) -> texttag {
+                return DefaultTextTag(index, GetWidgetX(target), GetWidgetY(target), text);
+            }
+        }
+
+        constant real fontSize = .024;
+        integer color[16][4];
+        real setting[16][4];
+        texttag tt;
+
+        function addColor(integer index, integer c0, integer c1, integer c2, integer c3) {
+            color[index][0] = c0;
+            color[index][1] = c1;
+            color[index][2] = c2;
+            color[index][3] = c3;
+        }
+
+        function addSetting(integer index, real s0, real s1, real s2, real s3, real s4) {
+            setting[index][0] = s0; // velocity 1
+            setting[index][1] = s1; // velocity 2
+            setting[index][2] = s2; // fadepoint
+            setting[index][3] = s3; // lifespan
+            setting[index][4] = s4; // offsetX
+        }
+
+        function onInit() {
+            integer index;
+
+            addColor(TextTagGoldBounty, 255, 220, 0, 255);
+            addSetting(TextTagGoldBounty, .0, .03, 2, 3, - 16);
+
+            addColor(TextTagLumberBounty, 0, 200, 80, 255);
+            addSetting(TextTagLumberBounty, 0, .03, 2, 3, - 16);
+
+            addColor(TextTagMiss, 255, 0, 0, 255);
+            addSetting(TextTagMiss, 0, .03, 1, 3, 0);
+
+            addColor(TextTagCriticalStrike, 255, 0, 0, 255);
+            addSetting(TextTagCriticalStrike, 0, .04, 2, 5, 0);
+
+            addColor(TextTagManaBurn, 82, 82 , 255 , 255);
+            addSetting(TextTagManaBurn, 0, .04, 2, 5, 0);
+
+            addColor(TextTagShadowStrike, 160, 255, 0, 255);
+            addSetting(TextTagShadowStrike, 0, .04, 2, 5, 0);
+        }
+    }
+//! endzinc
