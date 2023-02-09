@@ -43,6 +43,42 @@ function DefaultTextTag:manaBurn(text) end
 ---@param text string
 function DefaultTextTag:shadowStrike(text) end
 
+-- require 'ujapi.asset.RandomSeed'
+RandomSeed = {};
+
+---@param seed number
+---@return RandomSeed
+function RandomSeed:new(seed) end
+
+---@return number
+function RandomSeed:uniform() end
+
+---@param min number
+---@param max number
+---@return number
+function RandomSeed:uniformInt(min, max) end
+
+---@param min number
+---@param max number
+---@return number
+function RandomSeed:uniformReal(min, max) end
+
+---@param factor number
+---@return number
+function RandomSeed:normal(factor) end
+
+---@param min number
+---@param max number
+---@param factor number
+---@return number
+function RandomSeed:normalInt(min, max, factor) end
+
+---@param min number
+---@param max number
+---@param factor number
+---@return number
+function RandomSeed:normalReal(min, max, factor) end
+
 -- require 'ujapi.asset.Order'
 Order = {
     absorb = 852529,
