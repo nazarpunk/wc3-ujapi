@@ -70,15 +70,16 @@ const _value = (node, rawcode = true) => {
 	return node;
 };
 
+// typeFix
 const typeFixPath = './../asset/ConvertTypeFix.lua';
 fs.writeFileSync(typeFixPath, '', {flag: 'w+'});
-
 /** @param {string} content */
 const typeFixWrite = content => fs.writeFileSync(typeFixPath, content, {flag: 'a+'});
 
 const techPath = './../jngp/tesh/data/tesh_keywords.db';
-
 fs.copyFileSync('./../jngp/default/tesh/data/tesh_keywords.db', techPath);
+
+const testNativeNames = [];
 
 const db = new Database(techPath, {
 	fileMustExist: true,
@@ -184,6 +185,8 @@ const tolua = (path, {ujapi = false} = {}) => {
 
 		/** Native */
 		if (node instanceof Native) {
+			testNativeNames.push(`'${node.name}'`);
+
 			if (node.name.startsWith('Blz')) {
 				return true;
 			}
@@ -264,6 +267,14 @@ tolua('./../sdk/UjAPI.j', {ujapi: true});
 tolua('./../sdk/common.j');
 db.close();
 console.log(error);
+
+fs.writeFileSync('./../test/native.lua',
+	`local natives = {${testNativeNames.join(',')}};
+for _, v in pairs(natives) do
+	if _G[v] == nil then
+		printc(v);
+	end
+end`, {flag: 'w+'});
 
 // noinspection JSUnusedLocalSymbols
 const intToString = number =>
