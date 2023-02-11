@@ -272,7 +272,7 @@ fs.writeFileSync('./../test/native.lua',
 	`local natives = {${testNativeNames.join(',')}};
 for _, v in pairs(natives) do
 	if _G[v] == nil then
-		printc(v);
+		printc('Native function missing: ' .. v);
 	end
 end`, {flag: 'w+'});
 
