@@ -141,6 +141,7 @@
 ---@class commandbuttoneffect:handle @UjAPI
 ---@class timetype:handle @UjAPI
 ---@class variabletype:handle @UjAPI
+---@class jassthread:handle @UjAPI
 
 ---@param i integer
 ---@return race
@@ -991,7 +992,17 @@ EVENT_UNIT_USE_ITEM = ConvertUnitEvent(87) ---@type unitevent
 
 EVENT_UNIT_LOADED = ConvertUnitEvent(88) ---@type unitevent
 
+-- ===================================================
+-- For use with TriggerRegisterPlayerEvent
+-- ===================================================
+
 EVENT_WIDGET_DEATH = ConvertWidgetEvent(89) ---@type widgetevent
+EVENT_WIDGET_DAMAGING = ConvertWidgetEvent(400) ---@type widgetevent @UjAPI
+EVENT_WIDGET_DAMAGED = ConvertWidgetEvent(401) ---@type widgetevent @UjAPI
+
+-- ===================================================
+-- For use with TriggerRegisterDialogEvent
+-- ===================================================
 
 EVENT_DIALOG_BUTTON_CLICK = ConvertDialogEvent(90) ---@type dialogevent
 EVENT_DIALOG_CLICK = ConvertDialogEvent(91) ---@type dialogevent
@@ -1293,15 +1304,15 @@ OSKEY_SHIFT = ConvertOsKeyType(16) ---@type oskeytype @UjAPI
 OSKEY_CONTROL = ConvertOsKeyType(17) ---@type oskeytype @UjAPI
 OSKEY_ALT = ConvertOsKeyType(18) ---@type oskeytype @UjAPI
 OSKEY_PAUSE = ConvertOsKeyType(19) ---@type oskeytype @UjAPI
-OOSKEY_CAPSLOCK = ConvertOsKeyType(20) ---@type oskeytype
-OOSKEY_KANA = ConvertOsKeyType(21) ---@type oskeytype
-OOSKEY_HANGUL = ConvertOsKeyType(21) ---@type oskeytype
-SOKEY_JUNJA = ConvertOsKeyType(23) ---@type oskeytype
-SOKEY_FINAL = ConvertOsKeyType(24) ---@type oskeytype
-SOKEY_HANJA = ConvertOsKeyType(25) ---@type oskeytype
-SKEY_KANJI = ConvertOsKeyType(25) ---@type oskeytype
-SKEY_ESCAPE = ConvertOsKeyType(27) ---@type oskeytype
-SKEY_CONVERT = ConvertOsKeyType(28) ---@type oskeytype
+OSKEY_CAPSLOCK = ConvertOsKeyType(20) ---@type oskeytype @UjAPI
+OSKEY_KANA = ConvertOsKeyType(21) ---@type oskeytype @UjAPI
+OSKEY_HANGUL = ConvertOsKeyType(21) ---@type oskeytype @UjAPI
+OSKEY_JUNJA = ConvertOsKeyType(23) ---@type oskeytype @UjAPI
+OSKEY_FINAL = ConvertOsKeyType(24) ---@type oskeytype @UjAPI
+OSKEY_HANJA = ConvertOsKeyType(25) ---@type oskeytype @UjAPI
+OSKEY_KANJI = ConvertOsKeyType(25) ---@type oskeytype @UjAPI
+OSKEY_ESCAPE = ConvertOsKeyType(27) ---@type oskeytype @UjAPI
+OSKEY_CONVERT = ConvertOsKeyType(28) ---@type oskeytype @UjAPI
 OSKEY_NONCONVERT = ConvertOsKeyType(29) ---@type oskeytype @UjAPI
 OSKEY_ACCEPT = ConvertOsKeyType(30) ---@type oskeytype @UjAPI
 OSKEY_MODECHANGE = ConvertOsKeyType(31) ---@type oskeytype @UjAPI
@@ -1727,6 +1738,8 @@ ABILITY_ILF_DESTRUCTIBLE_ID = ConvertAbilityIntegerLevelField(FourCC('Nvcu'--[[1
 ABILITY_ILF_UPGRADE_TYPE = ConvertAbilityIntegerLevelField(FourCC('Iglu'--[[1231514741--]])) ---@type abilityintegerlevelfield @UjAPI
 
 ABILITY_RLF_CASTING_TIME = ConvertAbilityRealLevelField(FourCC('acas'--[[1633902963--]])) ---@type abilityreallevelfield @UjAPI
+ABILITY_RLF_CAST_BACK_SWING = ConvertAbilityRealLevelField(FourCC('acbs'--[[1633903219--]])) ---@type abilityreallevelfield @UjAPI
+ABILITY_RLF_CAST_POINT = ConvertAbilityRealLevelField(FourCC('acpt'--[[1633906804--]])) ---@type abilityreallevelfield @UjAPI
 ABILITY_RLF_DURATION_NORMAL = ConvertAbilityRealLevelField(FourCC('adur'--[[1633973618--]])) ---@type abilityreallevelfield @UjAPI
 ABILITY_RLF_DURATION_HERO = ConvertAbilityRealLevelField(FourCC('ahdu'--[[1634231413--]])) ---@type abilityreallevelfield @UjAPI
 ABILITY_RLF_COOLDOWN = ConvertAbilityRealLevelField(FourCC('acdn'--[[1633903726--]])) ---@type abilityreallevelfield @UjAPI
@@ -2313,13 +2326,16 @@ UNIT_IF_STRENGTH_PERMANENT = ConvertUnitIntegerField(FourCC('ustm'--[[1970500717
 UNIT_IF_AGILITY_WITH_BONUS = ConvertUnitIntegerField(FourCC('uagb'--[[1969317730--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_INTELLIGENCE_WITH_BONUS = ConvertUnitIntegerField(FourCC('uinb'--[[1969843810--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_STRENGTH_WITH_BONUS = ConvertUnitIntegerField(FourCC('ustb'--[[1970500706--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_AGILITY_BONUS = ConvertUnitIntegerField(FourCC('uag+'--[[1969317675--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_INTELLIGENCE_BONUS = ConvertUnitIntegerField(FourCC('uin+'--[[1969843755--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_STRENGTH_BONUS = ConvertUnitIntegerField(FourCC('ust+'--[[1970500651--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_FOOD_USED = ConvertUnitIntegerField(FourCC('ufoo'--[[1969647471--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_FOOD_PRODUCED = ConvertUnitIntegerField(FourCC('ufma'--[[1969646945--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_GOLD_COST = ConvertUnitIntegerField(FourCC('ugol'--[[1969713004--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_GOLD_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ubdi'--[[1969382505--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_GOLD_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ubba'--[[1969381985--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_GOLD_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ubsi'--[[1969386345--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_LUMBER_COST = ConvertUnitIntegerField(FourCC('ulum'--[[1970042221--]])) ---@type unitintegerfield
+UNIT_IF_LUMBER_COST = ConvertUnitIntegerField(FourCC('ulum'--[[1970042221--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_LUMBER_BOUNTY_AWARDED_NUMBER_OF_DICE = ConvertUnitIntegerField(FourCC('ulbd'--[[1970037348--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_LUMBER_BOUNTY_AWARDED_BASE = ConvertUnitIntegerField(FourCC('ulba'--[[1970037345--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_LUMBER_BOUNTY_AWARDED_SIDES_PER_DIE = ConvertUnitIntegerField(FourCC('ulbs'--[[1970037363--]])) ---@type unitintegerfield @UjAPI
@@ -2328,7 +2344,7 @@ UNIT_IF_FORMATION_RANK = ConvertUnitIntegerField(FourCC('ufor'--[[1969647474--]]
 UNIT_IF_ORIENTATION_INTERPOLATION = ConvertUnitIntegerField(FourCC('uori'--[[1970238057--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_ELEVATION_SAMPLE_POINTS = ConvertUnitIntegerField(FourCC('uept'--[[1969582196--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_PROPER_NAMES_COUNT = ConvertUnitIntegerField(FourCC('upru'--[[1970303605--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_HOTKEY = ConvertUnitIntegerField(FourCC('uhot'--[[1969778548--]])) ---@type unitintegerfield
+UNIT_IF_HOTKEY = ConvertUnitIntegerField(FourCC('uhot'--[[1969778548--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR = ConvertUnitIntegerField(FourCC('uclt'--[[1969450100--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR_RED = ConvertUnitIntegerField(FourCC('uclr'--[[1969450098--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR_GREEN = ConvertUnitIntegerField(FourCC('uclg'--[[1969450087--]])) ---@type unitintegerfield @UjAPI
@@ -2376,6 +2392,10 @@ UNIT_RF_CAST_BACK_SWING = ConvertUnitRealField(FourCC('ucbs'--[[1969447539--]]))
 UNIT_RF_CAST_POINT = ConvertUnitRealField(FourCC('ucpt'--[[1969451124--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_MINIMUM_ATTACK_RANGE = ConvertUnitRealField(FourCC('uamn'--[[1969319278--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_COLLISION_SIZE = ConvertUnitRealField(FourCC('ucol'--[[1969450860--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_HEALTH_FROM_BONUS_STRENGTH = ConvertUnitRealField(FourCC('uhs+'--[[1969779499--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_MANA_FROM_BONUS_INTELLIGENCE = ConvertUnitRealField(FourCC('umi+'--[[1970104619--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_DEFENSE_BONUS = ConvertUnitRealField(FourCC('udf+'--[[1969514027--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_SPEED_BONUS = ConvertUnitRealField(FourCC('umv+'--[[1970107947--]])) ---@type unitrealfield @UjAPI
 
 UNIT_BF_RAISABLE = ConvertUnitBooleanField(FourCC('urai'--[[1970430313--]])) ---@type unitbooleanfield @UjAPI
 UNIT_BF_DECAYABLE = ConvertUnitBooleanField(FourCC('udec'--[[1969513827--]])) ---@type unitbooleanfield @UjAPI
@@ -2414,10 +2434,11 @@ UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE = ConvertUnitWeaponIntegerField(FourCC('ua1b'-
 UNIT_WEAPON_IF_ATTACK_DAMAGE_SIDES_PER_DIE = ConvertUnitWeaponIntegerField(FourCC('ua1s'--[[1969303923--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_MAXIMUM_NUMBER_OF_TARGETS = ConvertUnitWeaponIntegerField(FourCC('utc1'--[[1970561841--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_ATTACK_TYPE = ConvertUnitWeaponIntegerField(FourCC('ua1t'--[[1969303924--]])) ---@type unitweaponintegerfield @UjAPI
-UNIT_WEAPON_IF_ATTACK_WEAPON_TYPE = ConvertUnitWeaponIntegerField(FourCC('ua1w'--[[1969303927--]])) ---@type unitweaponintegerfield
+UNIT_WEAPON_IF_ATTACK_WEAPON_TYPE = ConvertUnitWeaponIntegerField(FourCC('ua1w'--[[1969303927--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_WEAPON_SOUND = ConvertUnitWeaponIntegerField(FourCC('ucs1'--[[1969451825--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_AREA_OF_EFFECT_TARGETS = ConvertUnitWeaponIntegerField(FourCC('ua1p'--[[1969303920--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_TARGETS_ALLOWED = ConvertUnitWeaponIntegerField(FourCC('ua1g'--[[1969303911--]])) ---@type unitweaponintegerfield @UjAPI
+UNIT_WEAPON_IF_ATTACK_DAMAGE_BONUS = ConvertUnitWeaponIntegerField(FourCC('ud1+'--[[1969500459--]])) ---@type unitweaponintegerfield @UjAPI
 
 UNIT_WEAPON_RF_ATTACK_BACKSWING_POINT = ConvertUnitWeaponRealField(FourCC('ubs1'--[[1969386289--]])) ---@type unitweaponrealfield @UjAPI
 UNIT_WEAPON_RF_ATTACK_DAMAGE_POINT = ConvertUnitWeaponRealField(FourCC('udp1'--[[1969516593--]])) ---@type unitweaponrealfield @UjAPI
@@ -2433,6 +2454,7 @@ UNIT_WEAPON_RF_ATTACK_AREA_OF_EFFECT_FULL_DAMAGE = ConvertUnitWeaponRealField(Fo
 UNIT_WEAPON_RF_ATTACK_AREA_OF_EFFECT_MEDIUM_DAMAGE = ConvertUnitWeaponRealField(FourCC('ua1h'--[[1969303912--]])) ---@type unitweaponrealfield @UjAPI
 UNIT_WEAPON_RF_ATTACK_AREA_OF_EFFECT_SMALL_DAMAGE = ConvertUnitWeaponRealField(FourCC('ua1q'--[[1969303921--]])) ---@type unitweaponrealfield @UjAPI
 UNIT_WEAPON_RF_ATTACK_RANGE = ConvertUnitWeaponRealField(FourCC('ua1r'--[[1969303922--]])) ---@type unitweaponrealfield @UjAPI
+UNIT_WEAPON_RF_ATTACK_SPEED_BONUS = ConvertUnitWeaponRealField(FourCC('us1+'--[[1970483499--]])) ---@type unitweaponrealfield @UjAPI
 
 UNIT_WEAPON_BF_ATTACK_SHOW_UI = ConvertUnitWeaponBooleanField(FourCC('uwu1'--[[1970763057--]])) ---@type unitweaponbooleanfield @UjAPI
 UNIT_WEAPON_BF_ATTACKS_ENABLED = ConvertUnitWeaponBooleanField(FourCC('uaen'--[[1969317230--]])) ---@type unitweaponbooleanfield @UjAPI
@@ -7582,6 +7604,97 @@ function GetNextHandleIndex () end
 -- ============================================================================
 -- Execution API
 -- 
+
+-- Jass VM API
+---@author UjAPI
+---@return jassthread
+function GetJassMainThread () end
+---@author UjAPI
+---@return jassthread
+function GetJassCurrentThread () end
+
+-- RunScriptEx - this generates a new thread for any given .j file, which can be supplemented by "parent" script, "helper" (this is usually either common.ai or blizzard.j) and the script you want to run. Function returns id of newly created thread, returns 0 on failure.
+---@author UjAPI
+---@param parentScriptFile string
+---@param helperScriptFile string
+---@param jassScriptFile string
+---@return jassthread
+function RunJassScriptEx (parentScriptFile, helperScriptFile, jassScriptFile) end
+---@author UjAPI
+---@param helperScriptFile string
+---@param jassScriptFile string
+---@return jassthread
+function RunJassScript (helperScriptFile, jassScriptFile) end
+---@author UjAPI
+---@param jassScriptFile string
+---@return jassthread
+function RunJassScriptSimple (jassScriptFile) end
+-- 
+
+---@author UjAPI
+---@param thread jassthread
+---@return boolean
+function StopJassThread (thread) end
+
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@return integer
+function GetJassGlobalInteger (thread, variableName) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@return real
+function GetJassGlobalReal (thread, variableName) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@return string
+function GetJassGlobalString (thread, variableName) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@return handle
+function GetJassGlobalHandle (thread, variableName) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@return boolean
+function GetJassGlobalBoolean (thread, variableName) end
+
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@param value integer
+---@return boolean
+function SetJassGlobalInteger (thread, variableName, value) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@param value real
+---@return boolean
+function SetJassGlobalReal (thread, variableName, value) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@param value string
+---@return boolean
+function SetJassGlobalString (thread, variableName, value) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@param value handle
+---@return boolean
+function SetJassGlobalHandle (thread, variableName, value) end
+---@author UjAPI
+---@param thread jassthread
+---@param variableName string
+---@param value boolean
+---@return boolean
+function SetJassGlobalBoolean (thread, variableName, value) end
+-- 
+
+-- Jass Operations
 ---@author UjAPI
 ---@return boolean
 function IsOperationLimitEnabled () end
@@ -8145,6 +8258,7 @@ function GetTextTagHeight (whichTextTag) end
 ---@param whichTextTag texttag
 ---@param height real
 function SetTextTagHeight (whichTextTag, height) end
+---@author UjAPI
 ---@param whichTextTag texttag
 ---@return location
 function GetTextTagPositionLocation (whichTextTag) end
@@ -9084,6 +9198,10 @@ function GetSpecialEffectTimeScale (whichEffect) end
 function SetSpecialEffectTimeScale (whichEffect, timescale) end
 ---@author UjAPI
 ---@param whichEffect effect
+---@param color playercolor
+function SetSpecialEffectPlayerColour (whichEffect, color) end
+---@author UjAPI
+---@param whichEffect effect
 ---@return integer
 function GetSpecialEffectColour (whichEffect) end
 ---@author UjAPI
@@ -9163,6 +9281,22 @@ function SetSpecialEffectRoll (whichEffect, roll) end
 ---@param pitch real
 ---@param roll real
 function SetSpecialEffectOrientation (whichEffect, yaw, pitch, roll) end
+---@author UjAPI
+---@param whichEffect effect
+---@param textureName string
+---@param materialId integer
+---@param textureIndex integer
+function SetSpecialEffectMaterialTexture (whichEffect, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichEffect effect
+---@param textureName string
+---@param textureIndex integer
+function SetSpecialEffectTexture (whichEffect, textureName, textureIndex) end
+---@author UjAPI
+---@param whichEffect effect
+---@param textureName string
+---@param textureIndex integer
+function SetSpecialEffectReplaceableTexture (whichEffect, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param modelName string
@@ -9304,6 +9438,10 @@ function GetTrackableTimeScale (whichTrackable) end
 function SetTrackableTimeScale (whichTrackable, timescale) end
 ---@author UjAPI
 ---@param whichTrackable trackable
+---@param color playercolor
+function SetTrackablePlayerColour (whichTrackable, color) end
+---@author UjAPI
+---@param whichTrackable trackable
 ---@return integer
 function GetTrackableColour (whichTrackable) end
 ---@author UjAPI
@@ -9383,6 +9521,22 @@ function SetTrackableRoll (whichTrackable, roll) end
 ---@param pitch real
 ---@param roll real
 function SetTrackableOrientation (whichTrackable, yaw, pitch, roll) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@param textureName string
+---@param materialId integer
+---@param textureIndex integer
+function SetTrackableMaterialTexture (whichTrackable, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@param textureName string
+---@param textureIndex integer
+function SetTrackableTexture (whichTrackable, textureName, textureIndex) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@param textureName string
+---@param textureIndex integer
+function SetTrackableReplaceableTexture (whichTrackable, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param modelName string
@@ -9558,6 +9712,10 @@ function GetWidgetRoll (whichWidget) end
 function SetWidgetRoll (whichWidget, roll) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@return string
+function GetWidgetModel (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
 ---@param modelFile string
 function SetWidgetModel (whichWidget, modelFile) end
 ---@author UjAPI
@@ -9612,6 +9770,13 @@ function QueueWidgetAnimation (whichWidget, animation) end
 ---@param percent real
 ---@return boolean
 function SetWidgetAnimationOffsetPercent (whichWidget, percent) end
+
+---@author UjAPI
+---@param whichTrigger trigger
+---@param whichWidget widget
+---@param whichWidgetEvent widgetevent
+---@return event
+function TriggerRegisterWidgetEvent (whichTrigger, whichWidget, whichWidgetEvent) end
 -- 
 
 -- ============================================================================
@@ -10303,8 +10468,17 @@ function GetUnitSelectedCountByPlayer (whichPlayer) end
 function GetUnitSelected (whichPlayer) end
 ---@author UjAPI
 ---@param whichPlayer player
+---@param index integer
+---@return unit
+function GetUnitInSelectionByIndex (whichPlayer, index) end
+---@author UjAPI
+---@param whichPlayer player
 ---@return unit
 function GetFirstUnitInSelection (whichPlayer) end
+---@author UjAPI
+---@param whichPlayer player
+---@return unit
+function GetLastUnitInSelection (whichPlayer) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
@@ -10397,9 +10571,11 @@ function RedrawUnit (whichUnit) end
 ---@param whichUnit unit
 ---@return integer
 function UpdateUnitInfoBar (whichUnit) end
+---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
 function UnitUnapplyUpgrades (whichUnit) end
+---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
 function UnitApplyUpgrades (whichUnit) end
@@ -11112,6 +11288,10 @@ function GetMissileTimeScale (whichMissile) end
 function SetMissileTimeScale (whichMissile, timescale) end
 ---@author UjAPI
 ---@param whichMissile missile
+---@param color playercolor
+function SetMissilePlayerColour (whichMissile, color) end
+---@author UjAPI
+---@param whichMissile missile
 ---@return integer
 function GetMissileColour (whichMissile) end
 ---@author UjAPI
@@ -11185,6 +11365,22 @@ function SetMissileRoll (whichMissile, roll) end
 ---@param pitch real
 ---@param roll real
 function SetMissileOrientation (whichMissile, yaw, pitch, roll) end
+---@author UjAPI
+---@param whichMissile missile
+---@param textureName string
+---@param materialId integer
+---@param textureIndex integer
+function SetMissileMaterialTexture (whichMissile, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichMissile missile
+---@param textureName string
+---@param textureIndex integer
+function SetMissileTexture (whichMissile, textureName, textureIndex) end
+---@author UjAPI
+---@param whichMissile missile
+---@param textureName string
+---@param textureIndex integer
+function SetMissileReplaceableTexture (whichMissile, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichMissile missile
 ---@param modelName string
@@ -11680,6 +11876,19 @@ function GetFrameSpriteTimeScale (whichFrame) end
 function SetFrameSpriteTimeScale (whichFrame, timescale) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@param color playercolor
+function SetFrameSpritePlayerColour (whichFrame, color) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return integer
+function GetFrameSpriteAlpha (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param alpha integer
+---@return boolean
+function SetFrameSpriteAlpha (whichFrame, alpha) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@return integer
 function GetFrameSpriteColour (whichFrame) end
 ---@author UjAPI
@@ -11687,11 +11896,6 @@ function GetFrameSpriteColour (whichFrame) end
 ---@param colour integer
 ---@return boolean
 function SetFrameSpriteColour (whichFrame, colour) end
----@author UjAPI
----@param whichFrame framehandle
----@param alpha integer
----@return boolean
-function SetFrameSpriteAlpha (whichFrame, alpha) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param red integer
@@ -11750,6 +11954,22 @@ function SetFrameSpriteRoll (whichFrame, roll) end
 ---@param pitch real
 ---@param roll real
 function SetFrameSpriteOrientation (whichFrame, yaw, pitch, roll) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureName string
+---@param materialId integer
+---@param textureIndex integer
+function SetFrameSpriteMaterialTexture (whichFrame, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureName string
+---@param textureIndex integer
+function SetFrameSpriteTexture (whichFrame, textureName, textureIndex) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureName string
+---@param textureIndex integer
+function SetFrameSpriteReplaceableTexture (whichFrame, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param modelName string
