@@ -81,9 +81,10 @@ fs.copyFileSync('./../jngp/default/tesh/data/tesh_keywords.db', techPath);
 
 const testNativeNames = [];
 
+// noinspection JSUnusedGlobalSymbols
 const db = new Database(techPath, {
 	fileMustExist: true,
-	verbose: console.log,
+	verbose: ()=>{},
 });
 const st = db.prepare('insert into main.keywords (keyword_type, name, calltip, description) values (@type, @name, @calltip, @description)');
 
