@@ -9,7 +9,6 @@
   "type": "module",
   "devDependencies": {
     "jass-to-ast": "^2.0.2",
-    "@terascope/fetch-github-release": "^0.8.7",
     "better-sqlite3": "^8.0.1"
   }
 }

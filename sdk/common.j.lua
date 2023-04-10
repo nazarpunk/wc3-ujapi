@@ -45,8 +45,8 @@
 ---@class limitop:eventid
 ---@class widgetevent:eventid
 ---@class dialogevent:eventid
----@class playermissileevent:eventid @UjAPI
 ---@class unittype:handle
+---@class projectiletype:handle @UjAPI
 ---@class gamespeed:handle
 ---@class gamedifficulty:handle
 ---@class gametype:handle
@@ -97,7 +97,8 @@
 ---@class image:handle
 ---@class ubersplat:handle
 ---@class hashtable:agent
----@class missile:agent @UjAPI
+---@class projectile:agent @UjAPI
+---@class doodad:agent @UjAPI
 ---@class framehandle:handle @UjAPI
 ---@class originframetype:handle @UjAPI
 ---@class framepointtype:handle @UjAPI
@@ -142,6 +143,7 @@
 ---@class timetype:handle @UjAPI
 ---@class variabletype:handle @UjAPI
 ---@class jassthread:handle @UjAPI
+---@class handlelist:handle @UjAPI
 
 ---@param i integer
 ---@return race
@@ -277,8 +279,8 @@ function ConvertSoundType (i) end
 function ConvertPathingType (i) end
 ---@author UjAPI
 ---@param i integer
----@return playermissileevent
-function ConvertPlayerMissileEvent (i) end
+---@return projectiletype
+function ConvertProjectileType (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return animtype
@@ -482,6 +484,7 @@ function GetObjectName (objectId) end
 -- ===================================================
 -- Game Constants
 -- ===================================================
+
 FALSE = false ---@type boolean
 TRUE = true ---@type boolean
 JASS_MAX_ARRAY_SIZE = 8192 ---@type integer
@@ -744,6 +747,7 @@ PLAYER_SLOT_STATE_LEFT = ConvertPlayerSlotState(2) ---@type playerslotstate
 -- ===================================================
 -- Sound Constants
 -- ===================================================
+
 SOUND_VOLUMEGROUP_UNITMOVEMENT = ConvertVolumeGroup(0) ---@type volumegroup
 SOUND_VOLUMEGROUP_UNITSOUNDS = ConvertVolumeGroup(1) ---@type volumegroup
 SOUND_VOLUMEGROUP_COMBAT = ConvertVolumeGroup(2) ---@type volumegroup
@@ -752,7 +756,6 @@ SOUND_VOLUMEGROUP_UI = ConvertVolumeGroup(4) ---@type volumegroup
 SOUND_VOLUMEGROUP_MUSIC = ConvertVolumeGroup(5) ---@type volumegroup
 SOUND_VOLUMEGROUP_AMBIENTSOUNDS = ConvertVolumeGroup(6) ---@type volumegroup
 SOUND_VOLUMEGROUP_FIRE = ConvertVolumeGroup(7) ---@type volumegroup
-
 
 -- ===================================================
 -- Game, Player, and Unit States
@@ -870,6 +873,7 @@ EVENT_GAME_BUILD_SUBMENU = ConvertGameEvent(10) ---@type gameevent
 -- ===================================================
 -- For use with TriggerRegisterPlayerEvent
 -- ===================================================
+
 EVENT_PLAYER_STATE_LIMIT = ConvertPlayerEvent(11) ---@type playerevent
 EVENT_PLAYER_ALLIANCE_CHANGED = ConvertPlayerEvent(12) ---@type playerevent
 
@@ -993,7 +997,7 @@ EVENT_UNIT_USE_ITEM = ConvertUnitEvent(87) ---@type unitevent
 EVENT_UNIT_LOADED = ConvertUnitEvent(88) ---@type unitevent
 
 -- ===================================================
--- For use with TriggerRegisterPlayerEvent
+-- For use with TriggerRegisterWidgetEvent
 -- ===================================================
 
 EVENT_WIDGET_DEATH = ConvertWidgetEvent(89) ---@type widgetevent
@@ -1056,6 +1060,13 @@ EVENT_PLAYER_UNIT_SPELL_FINISH = ConvertPlayerUnitEvent(275) ---@type playerunit
 EVENT_PLAYER_UNIT_SPELL_ENDCAST = ConvertPlayerUnitEvent(276) ---@type playerunitevent
 EVENT_PLAYER_UNIT_PAWN_ITEM = ConvertPlayerUnitEvent(277) ---@type playerunitevent
 
+EVENT_PLAYER_UNIT_BUFF_RECEIVED = ConvertPlayerUnitEvent(500) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_BUFF_REFRESHED = ConvertPlayerUnitEvent(501) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_BUFF_ENDED = ConvertPlayerUnitEvent(502) ---@type playerunitevent @UjAPI
+
+EVENT_PLAYER_UNIT_PROJECTILE_LAUNCH = ConvertPlayerUnitEvent(600) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_PROJECTILE_HIT = ConvertPlayerUnitEvent(601) ---@type playerunitevent @UjAPI
+
 -- ===================================================
 -- For use with TriggerRegisterUnitEvent
 -- ===================================================
@@ -1070,12 +1081,12 @@ EVENT_UNIT_SPELL_FINISH = ConvertUnitEvent(292) ---@type unitevent
 EVENT_UNIT_SPELL_ENDCAST = ConvertUnitEvent(293) ---@type unitevent
 EVENT_UNIT_PAWN_ITEM = ConvertUnitEvent(294) ---@type unitevent
 
--- ===================================================
--- For use with TriggerRegisterPlayerMissileEvent
--- ===================================================
+EVENT_UNIT_BUFF_RECEIVED = ConvertUnitEvent(510) ---@type unitevent @UjAPI
+EVENT_UNIT_BUFF_REFRESHED = ConvertUnitEvent(511) ---@type unitevent @UjAPI
+EVENT_UNIT_BUFF_ENDED = ConvertUnitEvent(512) ---@type unitevent @UjAPI
 
-EVENT_PLAYER_MISSILE_LAUNCH = ConvertPlayerMissileEvent(600) ---@type playermissileevent @UjAPI
-EVENT_PLAYER_MISSILE_HIT = ConvertPlayerMissileEvent(601) ---@type playermissileevent @UjAPI
+EVENT_UNIT_PROJECTILE_LAUNCH = ConvertUnitEvent(610) ---@type unitevent @UjAPI
+EVENT_UNIT_PROJECTILE_HIT = ConvertUnitEvent(611) ---@type unitevent @UjAPI
 
 -- ===================================================
 -- Limit Event API constants
@@ -1126,6 +1137,17 @@ UNIT_TYPE_SLEEPING = ConvertUnitType(23) ---@type unittype
 UNIT_TYPE_RESISTANT = ConvertUnitType(24) ---@type unittype
 UNIT_TYPE_ETHEREAL = ConvertUnitType(25) ---@type unittype
 UNIT_TYPE_MAGIC_IMMUNE = ConvertUnitType(26) ---@type unittype
+
+-- ===================================================
+-- Projectile Type Constants for use with IsProjectileType()
+-- ===================================================
+
+PROJECTILE_TYPE_BULLET = ConvertProjectileType(0) ---@type projectiletype @UjAPI
+PROJECTILE_TYPE_MISSILE = ConvertProjectileType(1) ---@type projectiletype @UjAPI
+PROJECTILE_TYPE_ARTILLERY = ConvertProjectileType(2) ---@type projectiletype @UjAPI
+
+PROJECTILE_TYPE_VISIBLE = ConvertProjectileType(4) ---@type projectiletype @UjAPI
+PROJECTILE_TYPE_DEAD = ConvertProjectileType(5) ---@type projectiletype @UjAPI
 
 -- ===================================================
 -- Unit Type Constants for use with ChooseRandomItemEx()
@@ -8073,6 +8095,12 @@ function GetEnumHandle () end
 function EnumHandlesOfType (handleBaseTypeId, filter, handlerFunc) end
 -- 
 
+-- AntiHack API
+---@author UjAPI
+---@param enable boolean
+function EnableAntiHack (enable) end
+-- 
+
 -- ============================================================================
 -- Hashtable API
 -- 
@@ -8108,9 +8136,9 @@ function SaveWeaponTypeHandle (table, parentKey, childKey, whichWeaponType) end
 ---@param table hashtable
 ---@param parentKey integer
 ---@param childKey integer
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return boolean
-function SaveMissileHandle (table, parentKey, childKey, whichMissile) end
+function SaveProjectileHandle (table, parentKey, childKey, whichProjectile) end
 ---@author UjAPI
 ---@param table hashtable
 ---@param parentKey integer
@@ -8147,8 +8175,8 @@ function LoadWeaponTypeHandle (table, parentKey, childKey) end
 ---@param table hashtable
 ---@param parentKey integer
 ---@param childKey integer
----@return missile
-function LoadMissileHandle (table, parentKey, childKey) end
+---@return projectile
+function LoadProjectileHandle (table, parentKey, childKey) end
 ---@author UjAPI
 ---@param table hashtable
 ---@param parentKey integer
@@ -8209,6 +8237,429 @@ function GroupAddGroupEx (destGroup, sourceGroup) end
 ---@param sourceGroup group
 ---@return integer
 function GroupRemoveGroupEx (destGroup, sourceGroup) end
+-- 
+
+-- ============================================================================
+-- Handle List API
+-- For some of the functions, follow these rules: handleTypeId is base typeId of the object, such as '+w3u' for units, more on this below. And last, but not least typeId is the id of a widget/ability/buff, i.e. 'hfoo' for footman, etc.
+-- Handle Type Id List:
+-- Handle = 0 (NULL) | Agent = '+w3a' (for any agent) | Widget = '+w3w' | Unit = '+w3u' | Item = 'item' | Destructable = '+w3d' | Ability = 'abil' | Buff = 'buff' | Effect = 'efct' | Projectile = 'proj' | Frame = '+frm'
+-- For any handleTypeId that is not present here, you can use GetHandleBaseTypeId on any handle to get its handleTypeId.
+-- Note: Ability = 'abil', Buff = 'buff' and Projectile = 'proj' are custom, meaning they do not exist internally.
+
+---@author UjAPI
+---@return handlelist
+function HandleListCreate () end
+---@author UjAPI
+---@param whichHandleList handlelist
+function HandleListDestroy (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichHandle handle
+function HandleListAddHandle (whichHandleList, whichHandle) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichHandle handle
+function HandleListRemoveHandle (whichHandleList, whichHandle) end
+---@author UjAPI
+---@param destHandleList handlelist
+---@param sourceHandleList handlelist
+---@return integer
+function HandleListAddList (destHandleList, sourceHandleList) end
+---@author UjAPI
+---@param destHandleList handlelist
+---@param sourceHandleList handlelist
+---@return integer
+function HandleListRemoveList (destHandleList, sourceHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+function HandleListClear (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichHandle handle
+---@return boolean
+function HandleListContainsHandle (whichHandleList, whichHandle) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param handleTypeId integer
+---@return integer
+function HandleListGetCountEx (whichHandleList, handleTypeId) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetAgentCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetWidgetCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetUnitCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetItemCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetDestructableCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetAbilityCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetBuffCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetEffectCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetProjectileCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetFrameCount (whichHandleList) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return handle
+function HandleListGetHandleByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param handleTypeId integer
+---@param index integer
+---@return handle
+function HandleListGetHandleByIndexEx (whichHandleList, handleTypeId, index) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return agent
+function HandleListGetAgentByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return widget
+function HandleListGetWidgetByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return unit
+function HandleListGetUnitByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return item
+function HandleListGetItemByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return destructable
+function HandleListGetDestructableByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return ability
+function HandleListGetAbilityByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return buff
+function HandleListGetBuffByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return effect
+function HandleListGetEffectByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return projectile
+function HandleListGetProjectileByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return framehandle
+function HandleListGetFrameByIndex (whichHandleList, index) end
+
+---@author UjAPI
+---@return handle
+function HandleListGetFilterHandle () end
+---@author UjAPI
+---@return agent
+function HandleListGetFilterAgent () end
+---@author UjAPI
+---@return widget
+function HandleListGetFilterWidget () end
+---@author UjAPI
+---@return unit
+function HandleListGetFilterUnit () end
+---@author UjAPI
+---@return item
+function HandleListGetFilterItem () end
+---@author UjAPI
+---@return destructable
+function HandleListGetFilterDestructable () end
+---@author UjAPI
+---@return ability
+function HandleListGetFilterAbility () end
+---@author UjAPI
+---@return buff
+function HandleListGetFilterBuff () end
+---@author UjAPI
+---@return effect
+function HandleListGetFilterEffect () end
+---@author UjAPI
+---@return projectile
+function HandleListGetFilterProjectile () end
+---@author UjAPI
+---@return framehandle
+function HandleListGetFilterFrame () end
+
+---@author UjAPI
+---@return handle
+function HandleListGetEnumHandle () end
+---@author UjAPI
+---@return agent
+function HandleListGetEnumAgent () end
+---@author UjAPI
+---@return widget
+function HandleListGetEnumWidget () end
+---@author UjAPI
+---@return unit
+function HandleListGetEnumUnit () end
+---@author UjAPI
+---@return item
+function HandleListGetEnumItem () end
+---@author UjAPI
+---@return destructable
+function HandleListGetEnumDestructable () end
+---@author UjAPI
+---@return ability
+function HandleListGetEnumAbility () end
+---@author UjAPI
+---@return buff
+function HandleListGetEnumBuff () end
+---@author UjAPI
+---@return effect
+function HandleListGetEnumEffect () end
+---@author UjAPI
+---@return projectile
+function HandleListGetEnumProjectile () end
+---@author UjAPI
+---@return framehandle
+function HandleListGetEnumFrame () end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param handleTypeId integer
+---@param filter boolexpr
+function HandleListEnumInRangeEx (whichHandleList, x, y, radius, handleTypeId, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumAgentsInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumWidgetsInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumUnitsInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumItemsInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumDestructablesInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumEffectsInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumProjectilesInRange (whichHandleList, x, y, radius, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param handleTypeId integer
+---@param filter boolexpr
+function HandleListEnumInRangeOfLocEx (whichHandleList, whichLocation, radius, handleTypeId, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumAgentsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumWidgetsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumUnitsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumItemsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumDestructablesInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumEffectsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
+function HandleListEnumProjectilesInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param handleTypeId integer
+---@param filter boolexpr
+function HandleListEnumInRectEx (whichHandleList, whichRect, handleTypeId, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumAgentsInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumWidgetsInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumUnitsInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumItemsInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumDestructablesInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumEffectsInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
+function HandleListEnumProjectilesInRect (whichHandleList, whichRect, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param typeId integer
+---@param filter boolexpr
+function HandleListEnumByTypeId (whichHandleList, typeId, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param handleTypeId integer
+---@param typeId integer
+---@param filter boolexpr
+function HandleListEnumByTypeIdEx (whichHandleList, handleTypeId, typeId, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param c code
+function HandleListForEach (whichHandleList, c) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param typeId integer
+---@param c code
+function HandleListForEachByTypeId (whichHandleList, typeId, c) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param handleTypeId integer
+---@param typeId integer
+---@param c code
+function HandleListForEachByTypeIdEx (whichHandleList, handleTypeId, typeId, c) end
 -- 
 
 -- ============================================================================
@@ -8467,6 +8918,90 @@ function GetImageTexture (whichImage) end
 ---@param whichImage image
 ---@param imagePath string
 function SetImageTexture (whichImage, imagePath) end
+-- 
+
+-- ============================================================================
+-- Doodad API
+-- 
+---@author UjAPI
+---@return integer
+function GetDoodadCount () end
+---@author UjAPI
+---@param index integer
+---@return doodad
+function GetDoodadByIndex (index) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return integer
+function GetDoodadIndex (whichDoodad) end
+
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animIndex integer
+---@param rarity raritycontrol
+function SetDoodadAnimationWithRarityByIndex (whichDoodad, animIndex, rarity) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animationName string
+---@param rarity raritycontrol
+function SetDoodadAnimationWithRarity (whichDoodad, animationName, rarity) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animIndex integer
+function SetDoodadAnimationByIndex (whichDoodad, animIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animationName string
+function SetDoodadAnimationEx (whichDoodad, animationName) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animIndex integer
+function QueueDoodadAnimationByIndex (whichDoodad, animIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animationName string
+function QueueDoodadAnimation (whichDoodad, animationName) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param percent real
+function SetDoodadAnimationOffsetPercent (whichDoodad, percent) end
+
+---@author UjAPI
+---@return doodad
+function GetFilterDoodad () end
+---@author UjAPI
+---@return doodad
+function GetEnumDoodad () end
+
+---@author UjAPI
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRange (x, y, radius, filter, handlerFunc) end
+---@author UjAPI
+---@param x real
+---@param y real
+---@param radius real
+---@param typeId integer
+---@param nearestOnly boolean
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRangeEx (x, y, radius, typeId, nearestOnly, filter, handlerFunc) end
+
+---@author UjAPI
+---@param whichRect rect
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRect (whichRect, filter, handlerFunc) end
+---@author UjAPI
+---@param whichRect rect
+---@param typeId integer
+---@param nearestOnly boolean
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRectEx (whichRect, typeId, nearestOnly, filter, handlerFunc) end
 -- 
 
 -- ============================================================================
@@ -8933,6 +9468,10 @@ function ResetAbilityFieldData (whichAbility) end
 -- Normal API
 ---@author UjAPI
 ---@param whichAbility ability
+---@return unit
+function GetAbilityOwner (whichAbility) end
+---@author UjAPI
+---@param whichAbility ability
 ---@return integer
 function GetAbilityOrderId (whichAbility) end
 ---@author UjAPI
@@ -9016,10 +9555,6 @@ function SetAbilityBackswing (whichAbility, backswing) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return real
-function GetAbilityCooldownEx (whichAbility) end
----@author UjAPI
----@param whichAbility ability
----@return real
 function GetAbilityCooldown (whichAbility) end
 ---@author UjAPI
 ---@param whichAbility ability
@@ -9064,6 +9599,20 @@ function CastAbilityGround (whichAbility, targX, targY) end
 ---@param target widget
 ---@return boolean
 function CastAbilityTarget (whichAbility, target) end
+
+---@author UjAPI
+---@return ability
+function GetFilterAbility () end
+---@author UjAPI
+---@return ability
+function GetEnumAbility () end
+
+---@author UjAPI
+---@param whichUnit unit
+---@param whichBoolexpr boolexpr
+---@param whichCode code
+---@return boolean
+function EnumUnitAbilities (whichUnit, whichBoolexpr, whichCode) end
 -- 
 
 -- ============================================================================
@@ -9102,7 +9651,23 @@ function SetBuffStringField (whichBuff, whichField, value) end
 ---@author UjAPI
 ---@param whichBuff buff
 ---@return integer
+function GetBuffTypeId (whichBuff) end
+---@author UjAPI
+---@param whichBuff buff
+---@return integer
+function GetBuffBaseTypeId (whichBuff) end
+---@author UjAPI
+---@param whichbuff buff
+---@return unit
+function GetBuffOwner (whichbuff) end
+---@author UjAPI
+---@param whichBuff buff
+---@return integer
 function GetBuffLevel (whichBuff) end
+---@author UjAPI
+---@param whichBuff buff
+---@param level integer
+function SetBuffLevel (whichBuff, level) end
 ---@author UjAPI
 ---@param whichBuff buff
 ---@return real
@@ -9116,6 +9681,33 @@ function SetBuffRemainingDuration (whichBuff, duration) end
 ---@param whichBuff buff
 ---@return boolean
 function RefreshBuff (whichBuff) end
+
+---@author UjAPI
+---@return buff
+function GetFilterBuff () end
+---@author UjAPI
+---@return buff
+function GetEnumBuff () end
+
+---@author UjAPI
+---@param whichUnit unit
+---@param whichBoolexpr boolexpr
+---@param whichCode code
+---@return boolean
+function EnumUnitBuffs (whichUnit, whichBoolexpr, whichCode) end
+
+---@author UjAPI
+---@return buff
+function GetTriggerBuff () end
+---@author UjAPI
+---@return ability
+function GetTriggerBuffSourceAbility () end
+---@author UjAPI
+---@return unit
+function GetTriggerBuffSourceUnit () end
+---@author UjAPI
+---@return unit
+function GetTriggerBuffTarget () end
 -- 
 
 -- ============================================================================
@@ -9313,25 +9905,25 @@ function SetSpecialEffectModelEx (whichEffect, modelName, playerColour) end
 function SetSpecialEffectAnimationWithRarityByIndex (whichEffect, animIndex, rarity) end
 ---@author UjAPI
 ---@param whichEffect effect
----@param animation string
+---@param animationName string
 ---@param rarity raritycontrol
-function SetSpecialEffectAnimationWithRarity (whichEffect, animation, rarity) end
+function SetSpecialEffectAnimationWithRarity (whichEffect, animationName, rarity) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param animIndex integer
 function SetSpecialEffectAnimationByIndex (whichEffect, animIndex) end
 ---@author UjAPI
 ---@param whichEffect effect
----@param animation string
-function SetSpecialEffectAnimation (whichEffect, animation) end
+---@param animationName string
+function SetSpecialEffectAnimation (whichEffect, animationName) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param animIndex integer
 function QueueSpecialEffectAnimationByIndex (whichEffect, animIndex) end
 ---@author UjAPI
 ---@param whichEffect effect
----@param animation string
-function QueueSpecialEffectAnimation (whichEffect, animation) end
+---@param animationName string
+function QueueSpecialEffectAnimation (whichEffect, animationName) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param percent real
@@ -9553,25 +10145,25 @@ function SetTrackableModelEx (whichTrackable, modelName, playerColour) end
 function SetTrackableAnimationWithRarityByIndex (whichTrackable, animIndex, rarity) end
 ---@author UjAPI
 ---@param whichTrackable trackable
----@param animation string
+---@param animationName string
 ---@param rarity raritycontrol
-function SetTrackableAnimationWithRarity (whichTrackable, animation, rarity) end
+function SetTrackableAnimationWithRarity (whichTrackable, animationName, rarity) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param animIndex integer
 function SetTrackableAnimationByIndex (whichTrackable, animIndex) end
 ---@author UjAPI
 ---@param whichTrackable trackable
----@param animation string
-function SetTrackableAnimation (whichTrackable, animation) end
+---@param animationName string
+function SetTrackableAnimation (whichTrackable, animationName) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param animIndex integer
 function QueueTrackableAnimationByIndex (whichTrackable, animIndex) end
 ---@author UjAPI
 ---@param whichTrackable trackable
----@param animation string
-function QueueTrackableAnimation (whichTrackable, animation) end
+---@param animationName string
+function QueueTrackableAnimation (whichTrackable, animationName) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param percent real
@@ -9746,25 +10338,25 @@ function SetWidgetReplaceableTexture (whichWidget, textureName, textureIndex) en
 function SetWidgetAnimationWithRarityByIndex (whichWidget, animIndex, rarity) end
 ---@author UjAPI
 ---@param whichWidget widget
----@param animation string
+---@param animationName string
 ---@param rarity raritycontrol
-function SetWidgetAnimationWithRarity (whichWidget, animation, rarity) end
+function SetWidgetAnimationWithRarity (whichWidget, animationName, rarity) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param animIndex integer
 function SetWidgetAnimationByIndex (whichWidget, animIndex) end
 ---@author UjAPI
 ---@param whichWidget widget
----@param animation string
-function SetWidgetAnimation (whichWidget, animation) end
+---@param animationName string
+function SetWidgetAnimation (whichWidget, animationName) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param animIndex integer
 function QueueWidgetAnimationByIndex (whichWidget, animIndex) end
 ---@author UjAPI
 ---@param whichWidget widget
----@param animation string
-function QueueWidgetAnimation (whichWidget, animation) end
+---@param animationName string
+function QueueWidgetAnimation (whichWidget, animationName) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param percent real
@@ -9908,9 +10500,9 @@ function SetDestructableReplaceableTexture (whichDestructable, textureName, text
 function SetDestructableAnimationWithRarityByIndex (whichDestructable, animIndex, rarity) end
 ---@author UjAPI
 ---@param whichDestructable destructable
----@param animation string
+---@param animationName string
 ---@param rarity raritycontrol
-function SetDestructableAnimationWithRarity (whichDestructable, animation, rarity) end
+function SetDestructableAnimationWithRarity (whichDestructable, animationName, rarity) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@param animIndex integer
@@ -10191,25 +10783,25 @@ function SetItemReplaceableTexture (whichItem, textureName, textureIndex) end
 function SetItemAnimationWithRarityByIndex (whichItem, animIndex, rarity) end
 ---@author UjAPI
 ---@param whichItem item
----@param animation string
+---@param animationName string
 ---@param rarity raritycontrol
-function SetItemAnimationWithRarity (whichItem, animation, rarity) end
+function SetItemAnimationWithRarity (whichItem, animationName, rarity) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param animIndex integer
 function SetItemAnimationByIndex (whichItem, animIndex) end
 ---@author UjAPI
 ---@param whichItem item
----@param animation string
-function SetItemAnimation (whichItem, animation) end
+---@param animationName string
+function SetItemAnimation (whichItem, animationName) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param animIndex integer
 function QueueItemAnimationByIndex (whichItem, animIndex) end
 ---@author UjAPI
 ---@param whichItem item
----@param animation string
-function QueueItemAnimation (whichItem, animation) end
+---@param animationName string
+function QueueItemAnimation (whichItem, animationName) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param percent real
@@ -10891,11 +11483,11 @@ function GetUnitTimeScale (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
-function GetUnitUnitBaseMoveSpeed (whichUnit) end
+function GetUnitBaseMoveSpeed (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param baseMoveSpeed real
-function SetUnitUnitBaseMoveSpeed (whichUnit, baseMoveSpeed) end
+function SetUnitBaseMoveSpeed (whichUnit, baseMoveSpeed) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
@@ -11041,6 +11633,14 @@ function GetUnitMinimapX (whichUnit) end
 function GetUnitMinimapY (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@return real
+function GetUnitRallyPointX (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitRallyPointY (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
 ---@return integer
 function GetHeroMaxLevelExperienceNeeded (whichUnit) end
 ---@author UjAPI
@@ -11072,6 +11672,14 @@ function GetUnitStunCounter (whichUnit) end
 ---@param whichUnit unit
 ---@param stunCounter integer
 function SetUnitStunCounter (whichUnit, stunCounter) end
+---@author UjAPI
+---@param whichUnit unit
+---@param killer unit
+function SetUnitKiller (whichUnit, killer) end
+---@author UjAPI
+---@param whichUnit unit
+---@param killer unit
+function KillUnitEx (whichUnit, killer) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param uid integer
@@ -11179,365 +11787,420 @@ function UnitForceStopOrder (whichUnit, clearQueue) end
 -- 
 
 -- ============================================================================
--- Missile API
+-- Projectile API
+-- For Projectile Type Ids: https://github.com/UnryzeC/UjAPI/blob/main/TypeData/ in there check out these files: WC3BulletList.txt / WC3ProjectileList.txt / WC3ArtilleryList.txt
 -- 
 ---@author UjAPI
----@param missileTypeId integer
----@return missile
-function CreateMissile (missileTypeId) end
+---@param projectileTypeId integer
+---@return projectile
+function CreateProjectile (projectileTypeId) end
 ---@author UjAPI
 ---@param owner unit
----@param missileTypeId integer
+---@param projectileTypeId integer
 ---@param attackIndex integer
----@return missile
-function CreateMissileEx (owner, missileTypeId, attackIndex) end
+---@return projectile
+function CreateProjectileEx (owner, projectileTypeId, attackIndex) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param owner unit
 ---@param attackIndex integer
-function SetMissileUnitData (whichMissile, owner, attackIndex) end
+function SetProjectileUnitData (whichProjectile, owner, attackIndex) end
 ---@author UjAPI
----@param whichMissile missile
-function KillMissile (whichMissile) end
+---@param whichProjectile projectile
+function KillProjectile (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param whichWidget widget
-function LaunchTargetMissile (whichMissile, whichWidget) end
+function LaunchTargetProjectile (whichProjectile, whichWidget) end
 ---@author UjAPI
----@param whichMissile missile
-function LaunchMissile (whichMissile) end
+---@param whichProjectile projectile
+function LaunchProjectile (whichProjectile) end
 
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
+---@param whichType projectiletype
 ---@return boolean
-function IsMissileAlive (whichMissile) end
+function IsProjectileType (whichProjectile, whichType) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return boolean
-function IsMissileVisible (whichMissile) end
+function IsProjectileAlive (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
+---@return boolean
+function IsProjectileVisible (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
 ---@param visibility boolean
-function SetMissileVisible (whichMissile, visibility) end
+function SetProjectileVisible (whichProjectile, visibility) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileX (whichMissile) end
+function GetProjectileX (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param x real
-function SetMissileX (whichMissile, x) end
+function SetProjectileX (whichProjectile, x) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileY (whichMissile) end
+function GetProjectileY (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param y real
-function SetMissileY (whichMissile, y) end
+function SetProjectileY (whichProjectile, y) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileZ (whichMissile) end
+function GetProjectileZ (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param z real
-function SetMissileZ (whichMissile, z) end
+function SetProjectileZ (whichProjectile, z) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileHeight (whichMissile) end
+function GetProjectileHeight (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param height real
-function SetMissileHeight (whichMissile, height) end
+function SetProjectileHeight (whichProjectile, height) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return location
-function GetMissilePositionLocation (whichMissile) end
+function GetProjectilePositionLocation (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param x real
 ---@param y real
 ---@param z real
-function SetMissilePositionWithZ (whichMissile, x, y, z) end
+function SetProjectilePositionWithZ (whichProjectile, x, y, z) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param x real
 ---@param y real
-function SetMissilePosition (whichMissile, x, y) end
+function SetProjectilePosition (whichProjectile, x, y) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param loc location
-function SetMissilePositionLocation (whichMissile, loc) end
+function SetProjectilePositionLocation (whichProjectile, loc) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileScale (whichMissile) end
+function GetProjectileScale (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param scale real
-function SetMissileScale (whichMissile, scale) end
+function SetProjectileScale (whichProjectile, scale) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileTimeScale (whichMissile) end
+function GetProjectileTimeScale (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param timescale real
-function SetMissileTimeScale (whichMissile, timescale) end
+function SetProjectileTimeScale (whichProjectile, timescale) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param color playercolor
-function SetMissilePlayerColour (whichMissile, color) end
+function SetProjectilePlayerColour (whichProjectile, color) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return integer
-function GetMissileColour (whichMissile) end
+function GetProjectileColour (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param colour integer
 ---@return boolean
-function SetMissileColour (whichMissile, colour) end
+function SetProjectileColour (whichProjectile, colour) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param alpha integer
 ---@return boolean
-function SetMissileAlpha (whichMissile, alpha) end
+function SetProjectileAlpha (whichProjectile, alpha) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
 ---@return boolean
-function SetMissileVertexColour (whichMissile, red, green, blue, alpha) end
+function SetProjectileVertexColour (whichProjectile, red, green, blue, alpha) end
 ---@author UjAPI
----@param whichMissile missile
-function ResetMissileMatrix (whichMissile) end
+---@param whichProjectile projectile
+function ResetProjectileMatrix (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param yaw real
 ---@param pitch real
 ---@param roll real
 ---@param eulerOrder integer
 ---@return boolean
-function SetMissileOrientationEx (whichMissile, yaw, pitch, roll, eulerOrder) end
+function SetProjectileOrientationEx (whichProjectile, yaw, pitch, roll, eulerOrder) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileYaw (whichMissile) end
+function GetProjectileYaw (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param yaw real
 ---@return boolean
-function SetMissileYaw (whichMissile, yaw) end
+function SetProjectileYaw (whichProjectile, yaw) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileFacing (whichMissile) end
+function GetProjectileFacing (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param facing real
 ---@return boolean
-function SetMissileFacing (whichMissile, facing) end
+function SetProjectileFacing (whichProjectile, facing) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissilePitch (whichMissile) end
+function GetProjectilePitch (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param pitch real
 ---@return boolean
-function SetMissilePitch (whichMissile, pitch) end
+function SetProjectilePitch (whichProjectile, pitch) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileRoll (whichMissile) end
+function GetProjectileRoll (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param roll real
 ---@return boolean
-function SetMissileRoll (whichMissile, roll) end
+function SetProjectileRoll (whichProjectile, roll) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param yaw real
 ---@param pitch real
 ---@param roll real
-function SetMissileOrientation (whichMissile, yaw, pitch, roll) end
+function SetProjectileOrientation (whichProjectile, yaw, pitch, roll) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param textureName string
 ---@param materialId integer
 ---@param textureIndex integer
-function SetMissileMaterialTexture (whichMissile, textureName, materialId, textureIndex) end
+function SetProjectileMaterialTexture (whichProjectile, textureName, materialId, textureIndex) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param textureName string
 ---@param textureIndex integer
-function SetMissileTexture (whichMissile, textureName, textureIndex) end
+function SetProjectileTexture (whichProjectile, textureName, textureIndex) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param textureName string
 ---@param textureIndex integer
-function SetMissileReplaceableTexture (whichMissile, textureName, textureIndex) end
+function SetProjectileReplaceableTexture (whichProjectile, textureName, textureIndex) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param modelName string
-function SetMissileModel (whichMissile, modelName) end
+function SetProjectileModel (whichProjectile, modelName) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param modelName string
 ---@param playerColour integer
-function SetMissileModelEx (whichMissile, modelName, playerColour) end
+function SetProjectileModelEx (whichProjectile, modelName, playerColour) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param animIndex integer
 ---@param rarity raritycontrol
-function SetMissileAnimationWithRarityByIndex (whichMissile, animIndex, rarity) end
+function SetProjectileAnimationWithRarityByIndex (whichProjectile, animIndex, rarity) end
 ---@author UjAPI
----@param whichMissile missile
----@param animation string
+---@param whichProjectile projectile
+---@param animationName string
 ---@param rarity raritycontrol
-function SetMissileAnimationWithRarity (whichMissile, animation, rarity) end
+function SetProjectileAnimationWithRarity (whichProjectile, animationName, rarity) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param animIndex integer
-function SetMissileAnimationByIndex (whichMissile, animIndex) end
+function SetProjectileAnimationByIndex (whichProjectile, animIndex) end
 ---@author UjAPI
----@param whichMissile missile
----@param animation string
-function SetMissileAnimation (whichMissile, animation) end
+---@param whichProjectile projectile
+---@param animationName string
+function SetProjectileAnimation (whichProjectile, animationName) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param animIndex integer
-function QueueMissileAnimationByIndex (whichMissile, animIndex) end
+function QueueProjectileAnimationByIndex (whichProjectile, animIndex) end
 ---@author UjAPI
----@param whichMissile missile
----@param animation string
-function QueueMissileAnimation (whichMissile, animation) end
+---@param whichProjectile projectile
+---@param animationName string
+function QueueProjectileAnimation (whichProjectile, animationName) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param percent real
 ---@return boolean
-function SetMissileAnimationOffsetPercent (whichMissile, percent) end
+function SetProjectileAnimationOffsetPercent (whichProjectile, percent) end
 
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return unit
-function GetMissileSource (whichMissile) end
+function GetProjectileSource (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param whichUnit unit
-function SetMissileSource (whichMissile, whichUnit) end
+function SetProjectileSource (whichProjectile, whichUnit) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
+---@return real
+function GetProjectileTargetPointX (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileTargetPointY (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileTargetPointZ (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return location
+function GetProjectileTargetPoint (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
 ---@return widget
-function GetMissileTarget (whichMissile) end
+function GetProjectileTarget (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return unit
-function GetMissileTargetUnit (whichMissile) end
+function GetProjectileTargetUnit (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return item
-function GetMissileTargetItem (whichMissile) end
+function GetProjectileTargetItem (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return destructable
-function GetMissileTargetDestructable (whichMissile) end
+function GetProjectileTargetDestructable (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param whichWidget widget
-function SetMissileTarget (whichMissile, whichWidget) end
+function SetProjectileTarget (whichProjectile, whichWidget) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return attacktype
-function GetMissileAttackType (whichMissile) end
+function GetProjectileAttackType (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param whichAttackType attacktype
-function SetMissileAttackType (whichMissile, whichAttackType) end
+function SetProjectileAttackType (whichProjectile, whichAttackType) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileDamage (whichMissile) end
+function GetProjectileDamage (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param damage real
-function SetMissileDamage (whichMissile, damage) end
+function SetProjectileDamage (whichProjectile, damage) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileSpeed (whichMissile) end
+function GetProjectileAreaOfEffectFullDamage (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
+---@param area real
+function SetProjectileAreaOfEffectFullDamage (whichProjectile, area) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileAreaOfEffectMediumDamage (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@param area real
+function SetProjectileAreaOfEffectMediumDamage (whichProjectile, area) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileAreaOfEffectSmallDamage (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@param area real
+function SetProjectileAreaOfEffectSmallDamage (whichProjectile, area) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileAreaOfEffectMediumDamageFactor (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@param factor real
+function SetProjectileAreaOfEffectMediumDamageFactor (whichProjectile, factor) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileAreaOfEffectSmallDamageFactor (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@param factor real
+function SetProjectileAreaOfEffectSmallDamageFactor (whichProjectile, factor) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileSpeed (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
 ---@param speed real
-function SetMissileSpeed (whichMissile, speed) end
+function SetProjectileSpeed (whichProjectile, speed) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return real
-function GetMissileArc (whichMissile) end
+function GetProjectileArc (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param arc real
-function SetMissileArc (whichMissile, arc) end
+function SetProjectileArc (whichProjectile, arc) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return weapontype
-function GetMissileWeaponType (whichMissile) end
+function GetProjectileWeaponType (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param whichWeaponType weapontype
-function SetMissileWeaponType (whichMissile, whichWeaponType) end
+function SetProjectileWeaponType (whichProjectile, whichWeaponType) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return damagetype
-function GetMissileDamageType (whichMissile) end
+function GetProjectileDamageType (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param whichDamageType damagetype
-function SetMissileDamageType (whichMissile, whichDamageType) end
+function SetProjectileDamageType (whichProjectile, whichDamageType) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@return integer
-function GetMissileDamageFlags (whichMissile) end
+function GetProjectileDamageFlags (whichProjectile) end
 ---@author UjAPI
----@param whichMissile missile
+---@param whichProjectile projectile
 ---@param flags integer
-function SetMissileDamageFlags (whichMissile, flags) end
+function SetProjectileDamageFlags (whichProjectile, flags) end
 
 ---@author UjAPI
----@return missile
-function GetTriggerMissile () end
+---@return projectile
+function GetTriggerProjectile () end
 ---@author UjAPI
----@return missile
-function GetFilterMissile () end
+---@return projectile
+function GetFilterProjectile () end
 ---@author UjAPI
----@return missile
-function GetEnumMissile () end
+---@return projectile
+function GetEnumProjectile () end
 ---@author UjAPI
 ---@return unit
-function GetTriggerMissileSource () end
+function GetTriggerProjectileSource () end
 ---@author UjAPI
 ---@return widget
-function GetTriggerMissileTarget () end
+function GetTriggerProjectileTarget () end
 ---@author UjAPI
 ---@return unit
-function GetTriggerMissileTargetUnit () end
+function GetTriggerProjectileTargetUnit () end
 ---@author UjAPI
 ---@return item
-function GetTriggerMissileTargetItem () end
+function GetTriggerProjectileTargetItem () end
 ---@author UjAPI
 ---@return destructable
-function GetTriggerMissileTargetDestructable () end
-
----@author UjAPI
----@param whichTrigger trigger
----@param whichPlayer player
----@param whichMissileEvent playermissileevent
----@return event
-function TriggerRegisterPlayerMissileEvent (whichTrigger, whichPlayer, whichMissileEvent) end
+function GetTriggerProjectileTargetDestructable () end
 
 ---@author UjAPI
 ---@param x real
@@ -11545,7 +12208,12 @@ function TriggerRegisterPlayerMissileEvent (whichTrigger, whichPlayer, whichMiss
 ---@param radius real
 ---@param filter boolexpr
 ---@param handlerFunc code
-function EnumMissilesInRange (x, y, radius, filter, handlerFunc) end
+function EnumProjectilesInRange (x, y, radius, filter, handlerFunc) end
+---@author UjAPI
+---@param whichRect rect
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumProjectilesInRect (whichRect, filter, handlerFunc) end
 -- 
 
 -- ============================================================================

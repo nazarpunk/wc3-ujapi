@@ -37,7 +37,3 @@ download('https://raw.githubusercontent.com/UnryzeC/UjAPI/main/uJAPIFiles/common
 download('https://raw.githubusercontent.com/UnryzeC/UjAPI/main/uJAPIFiles/UjAPI.j', './../sdk/UjAPI.j', true);
 
 download('https://raw.githubusercontent.com/nazarpunk/wc3-random-seed/master/RandomSeed.lua', './../asset/RandomSeed.lua');
-
-// https://github.com/UnryzeC/UjAPI
-downloadRelease('UnryzeC', 'UjAPI', './../', () => true, () => true, false, false)
-.catch(err => console.error(err.message));
