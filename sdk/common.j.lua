@@ -8293,6 +8293,10 @@ function HandleListGetCountEx (whichHandleList, handleTypeId) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@return integer
+function HandleListGetHandleCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
 function HandleListGetAgentCount (whichHandleList) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -8343,6 +8347,11 @@ function HandleListGetHandleByIndex (whichHandleList, index) end
 ---@return handle
 function HandleListGetHandleByIndexEx (whichHandleList, handleTypeId, index) end
 
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return handle
+function HandleListGetHandleByIndex (whichHandleList, index) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param index integer
