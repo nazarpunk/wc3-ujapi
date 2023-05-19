@@ -935,6 +935,7 @@ EVENT_PLAYER_UNIT_USE_ITEM = ConvertPlayerUnitEvent(50) ---@type playerunitevent
 EVENT_PLAYER_UNIT_LOADED = ConvertPlayerUnitEvent(51) ---@type playerunitevent
 EVENT_PLAYER_UNIT_DAMAGED = ConvertPlayerUnitEvent(308) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_DAMAGING = ConvertPlayerUnitEvent(315) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_ATTACK_FINISHED = ConvertPlayerUnitEvent(317) ---@type playerunitevent
 
 -- ===================================================
 -- For use with TriggerRegisterUnitEvent
@@ -995,6 +996,8 @@ EVENT_UNIT_PICKUP_ITEM = ConvertUnitEvent(86) ---@type unitevent
 EVENT_UNIT_USE_ITEM = ConvertUnitEvent(87) ---@type unitevent
 
 EVENT_UNIT_LOADED = ConvertUnitEvent(88) ---@type unitevent
+
+EVENT_UNIT_ATTACK_FINISHED = ConvertUnitEvent(316) ---@type unitevent
 
 -- ===================================================
 -- For use with TriggerRegisterWidgetEvent
@@ -1566,6 +1569,7 @@ ABILITY_BF_CHECK_DEPENDENCIES = ConvertAbilityBooleanField(FourCC('achd'--[[1633
 ABILITY_BF_HOMING = ConvertAbilityBooleanField(FourCC('amho'--[[1634560111--]])) ---@type abilitybooleanfield @UjAPI
 
 ABILITY_RF_ARF_MISSILE_ARC = ConvertAbilityRealField(FourCC('amac'--[[1634558307--]])) ---@type abilityrealfield @UjAPI
+ABILITY_RF_AURA_REFRESH_TIME = ConvertAbilityRealField(FourCC('artm'--[[1634890861--]])) ---@type abilityrealfield
 
 ABILITY_SF_NAME = ConvertAbilityStringField(FourCC('anam'--[[1634623853--]])) ---@type abilitystringfield @UjAPI
 ABILITY_SF_ICON_NORMAL = ConvertAbilityStringField(FourCC('aart'--[[1633776244--]])) ---@type abilitystringfield @UjAPI
@@ -1712,6 +1716,7 @@ ABILITY_ILF_SUMMONED_UNIT_COUNT_NPA5 = ConvertAbilityIntegerLevelField(FourCC('N
 ABILITY_ILF_UPGRADE_LEVELS = ConvertAbilityIntegerLevelField(FourCC('Igl1'--[[1231514673--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_NUMBER_OF_SUMMONED_UNITS_NDO2 = ConvertAbilityIntegerLevelField(FourCC('Ndo2'--[[1315204914--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_BEASTS_PER_SECOND = ConvertAbilityIntegerLevelField(FourCC('Nst1'--[[1316189233--]])) ---@type abilityintegerlevelfield @UjAPI
+ABILITY_ILF_TARGETS_ALLOWED = ConvertAbilityIntegerLevelField(FourCC('atar'--[[1635017074--]])) ---@type abilityintegerlevelfield
 ABILITY_ILF_TARGET_TYPE = ConvertAbilityIntegerLevelField(FourCC('Ncl2'--[[1315138610--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_OPTIONS = ConvertAbilityIntegerLevelField(FourCC('Ncl3'--[[1315138611--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_ARMOR_PENALTY_NAB3 = ConvertAbilityIntegerLevelField(FourCC('Nab3'--[[1315004979--]])) ---@type abilityintegerlevelfield @UjAPI
@@ -2506,6 +2511,26 @@ TARGET_FLAG_WALL = ConvertTargetFlag(128) ---@type targetflag @UjAPI
 TARGET_FLAG_DEBRIS = ConvertTargetFlag(256) ---@type targetflag @UjAPI
 TARGET_FLAG_DECORATION = ConvertTargetFlag(512) ---@type targetflag @UjAPI
 TARGET_FLAG_BRIDGE = ConvertTargetFlag(1024) ---@type targetflag @UjAPI
+TARGET_FLAG_SELF = ConvertTargetFlag(4096) ---@type targetflag
+TARGET_FLAG_PLAYER_UNITS = ConvertTargetFlag(8192) ---@type targetflag
+TARGET_FLAG_ALLIED = ConvertTargetFlag(16384) ---@type targetflag
+TARGET_FLAG_FRIEND = ConvertTargetFlag(24576) ---@type targetflag
+TARGET_FLAG_NEUTRAL = ConvertTargetFlag(32768) ---@type targetflag
+TARGET_FLAG_ENEMY = ConvertTargetFlag(65536) ---@type targetflag
+TARGET_FLAG_NOT_SELF = ConvertTargetFlag(122880) ---@type targetflag
+TARGET_FLAG_VULNERABLE = ConvertTargetFlag(1048576) ---@type targetflag
+TARGET_FLAG_INVULNERABLE = ConvertTargetFlag(2097152) ---@type targetflag
+TARGET_FLAG_HERO = ConvertTargetFlag(4194304) ---@type targetflag
+TARGET_FLAG_NON_HERO = ConvertTargetFlag(8388608) ---@type targetflag
+TARGET_FLAG_ALIVE = ConvertTargetFlag(16777216) ---@type targetflag
+TARGET_FLAG_DEAD = ConvertTargetFlag(33554432) ---@type targetflag
+TARGET_FLAG_ORGANIC = ConvertTargetFlag(67108864) ---@type targetflag
+TARGET_FLAG_MECHANICAL = ConvertTargetFlag(134217728) ---@type targetflag
+TARGET_FLAG_NON_SUICIDAL = ConvertTargetFlag(268435456) ---@type targetflag
+TARGET_FLAG_SUICIDAL = ConvertTargetFlag(536870912) ---@type targetflag
+TARGET_FLAG_NON_ANCIENT = ConvertTargetFlag(1073741824) ---@type targetflag
+TARGET_FLAG_ANCIENT = ConvertTargetFlag(2147483648) ---@type targetflag
+TARGET_FLAG_EMPTY = ConvertTargetFlag(4294967295) ---@type targetflag
 
 -- defense type
 DEFENSE_TYPE_LIGHT = ConvertDefenseType(0) ---@type defensetype @UjAPI
@@ -8293,10 +8318,6 @@ function HandleListGetCountEx (whichHandleList, handleTypeId) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@return integer
-function HandleListGetHandleCount (whichHandleList) end
----@author UjAPI
----@param whichHandleList handlelist
----@return integer
 function HandleListGetAgentCount (whichHandleList) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -8347,11 +8368,6 @@ function HandleListGetHandleByIndex (whichHandleList, index) end
 ---@return handle
 function HandleListGetHandleByIndexEx (whichHandleList, handleTypeId, index) end
 
----@author UjAPI
----@param whichHandleList handlelist
----@param index integer
----@return handle
-function HandleListGetHandleByIndex (whichHandleList, index) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param index integer
@@ -9505,6 +9521,10 @@ function GetAbilityBaseTypeId (whichAbility) end
 ---@param whichAbility ability
 ---@return integer
 function GetAbilityTypeId (whichAbility) end
+---@param whichAbility ability
+---@param whichWidget widget
+---@return boolean
+function IsAbilityTargetAllowed (whichAbility, whichWidget) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return boolean
@@ -9907,6 +9927,23 @@ function SetSpecialEffectModel (whichEffect, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetSpecialEffectModelEx (whichEffect, modelName, playerColour) end
+-- whichObject can be bone, reference, sound, aka any object of a model
+---@param whichEffect effect
+---@param whichObject string
+---@return real
+function GetSpecialEffectModelObjectPositionX (whichEffect, whichObject) end
+---@param whichEffect effect
+---@param whichObject string
+---@return real
+function GetSpecialEffectModelObjectPositionY (whichEffect, whichObject) end
+---@param whichEffect effect
+---@param whichObject string
+---@return real
+function GetSpecialEffectModelObjectPositionZ (whichEffect, whichObject) end
+---@param whichEffect effect
+---@param whichObject string
+---@return location
+function GetSpecialEffectModelObjectPositionLoc (whichEffect, whichObject) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param animIndex integer
@@ -10147,6 +10184,22 @@ function SetTrackableModel (whichTrackable, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetTrackableModelEx (whichTrackable, modelName, playerColour) end
+---@param whichTrackable trackable
+---@param whichObject string
+---@return real
+function GetTrackableModelObjectPositionX (whichTrackable, whichObject) end
+---@param whichTrackable trackable
+---@param whichObject string
+---@return real
+function GetTrackableModelObjectPositionY (whichTrackable, whichObject) end
+---@param whichTrackable trackable
+---@param whichObject string
+---@return real
+function GetTrackableModelObjectPositionZ (whichTrackable, whichObject) end
+---@param whichTrackable trackable
+---@param whichObject string
+---@return location
+function GetTrackableModelObjectPositionLoc (whichTrackable, whichObject) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param animIndex integer
@@ -10340,6 +10393,22 @@ function SetWidgetTexture (whichWidget, textureName, textureIndex) end
 ---@param textureName string
 ---@param textureIndex integer
 function SetWidgetReplaceableTexture (whichWidget, textureName, textureIndex) end
+---@param whichWidget widget
+---@param whichObject string
+---@return real
+function GetWidgetModelObjectPositionX (whichWidget, whichObject) end
+---@param whichWidget widget
+---@param whichObject string
+---@return real
+function GetWidgetModelObjectPositionY (whichWidget, whichObject) end
+---@param whichWidget widget
+---@param whichObject string
+---@return real
+function GetWidgetModelObjectPositionZ (whichWidget, whichObject) end
+---@param whichWidget widget
+---@param whichObject string
+---@return location
+function GetWidgetModelObjectPositionLoc (whichWidget, whichObject) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param animIndex integer
@@ -10502,6 +10571,22 @@ function SetDestructableTexture (whichDestructable, textureName, textureIndex) e
 ---@param textureName string
 ---@param textureIndex integer
 function SetDestructableReplaceableTexture (whichDestructable, textureName, textureIndex) end
+---@param whichDestructable destructable
+---@param whichObject string
+---@return real
+function GetDestructableModelObjectPositionX (whichDestructable, whichObject) end
+---@param whichDestructable destructable
+---@param whichObject string
+---@return real
+function GetDestructableModelObjectPositionY (whichDestructable, whichObject) end
+---@param whichDestructable destructable
+---@param whichObject string
+---@return real
+function GetDestructableModelObjectPositionZ (whichDestructable, whichObject) end
+---@param whichDestructable destructable
+---@param whichObject string
+---@return location
+function GetDestructableModelObjectPositionLoc (whichDestructable, whichObject) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@param animIndex integer
@@ -10785,6 +10870,22 @@ function SetItemTexture (whichItem, textureName, textureIndex) end
 ---@param textureName string
 ---@param textureIndex integer
 function SetItemReplaceableTexture (whichItem, textureName, textureIndex) end
+---@param whichItem item
+---@param whichObject string
+---@return real
+function GetItemModelObjectPositionX (whichItem, whichObject) end
+---@param whichItem item
+---@param whichObject string
+---@return real
+function GetItemModelObjectPositionY (whichItem, whichObject) end
+---@param whichItem item
+---@param whichObject string
+---@return real
+function GetItemModelObjectPositionZ (whichItem, whichObject) end
+---@param whichItem item
+---@param whichObject string
+---@return location
+function GetItemModelObjectPositionLoc (whichItem, whichObject) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param animIndex integer
@@ -11706,6 +11807,22 @@ function MorphUnitToTypeIdEx (whichUnit, uid, unitFlags, updateHealthState, upda
 ---@param whichUnit unit
 ---@param uid integer
 function MorphUnitToTypeId (whichUnit, uid) end
+---@param whichUnit unit
+---@param whichObject string
+---@return real
+function GetUnitModelObjectPositionX (whichUnit, whichObject) end
+---@param whichUnit unit
+---@param whichObject string
+---@return real
+function GetUnitModelObjectPositionY (whichUnit, whichObject) end
+---@param whichUnit unit
+---@param whichObject string
+---@return real
+function GetUnitModelObjectPositionZ (whichUnit, whichObject) end
+---@param whichUnit unit
+---@param whichObject string
+---@return location
+function GetUnitModelObjectPositionLoc (whichUnit, whichObject) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param percent real
@@ -12013,6 +12130,22 @@ function SetProjectileModel (whichProjectile, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetProjectileModelEx (whichProjectile, modelName, playerColour) end
+---@param whichProjectile projectile
+---@param whichObject string
+---@return real
+function GetProjectileModelObjectPositionX (whichProjectile, whichObject) end
+---@param whichProjectile projectile
+---@param whichObject string
+---@return real
+function GetProjectileModelObjectPositionY (whichProjectile, whichObject) end
+---@param whichProjectile projectile
+---@param whichObject string
+---@return real
+function GetProjectileModelObjectPositionZ (whichProjectile, whichObject) end
+---@param whichProjectile projectile
+---@param whichObject string
+---@return location
+function GetProjectileModelObjectPositionLoc (whichProjectile, whichObject) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@param animIndex integer
@@ -12495,6 +12628,12 @@ function GetFrameChildrenCount (whichFrame) end
 ---@param index integer
 ---@return framehandle
 function GetFrameChild (whichFrame, index) end
+---@param whichFrame framehandle
+---@return boolean
+function GetFrameCheckState (whichFrame) end
+---@param whichFrame framehandle
+---@param isCheck boolean
+function SetFrameCheckState (whichFrame, isCheck) end
 -- 
 
 ---@author UjAPI
@@ -12524,6 +12663,8 @@ function GetTriggerFrameBoolean () end
 ---@author UjAPI
 ---@return string
 function GetTriggerFrameString () end
+---@return mousebuttontype
+function GetTriggerFrameMouseButton () end
 
 ---@author UjAPI
 ---@param whichTrigger trigger
@@ -12531,6 +12672,10 @@ function GetTriggerFrameString () end
 ---@param frameEvent frameeventtype
 ---@return event
 function TriggerRegisterFrameEvent (whichTrigger, whichFrame, frameEvent) end
+---@param whichFrame framehandle
+---@param whichButton mousebuttontype
+---@param isAdd boolean
+function RegisterFrameMouseButton (whichFrame, whichButton, isAdd) end
 -- 
 
 -- Frame Sprite API

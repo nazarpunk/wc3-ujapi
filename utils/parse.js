@@ -77,6 +77,7 @@ const db = new Database(techPath, {
     fileMustExist: true,
     verbose: () => {
     },
+    //verbose: console.log,
 });
 const st = db.prepare('insert into main.keywords (keyword_type, name, calltip, description) values (@type, @name, @calltip, @description)');
 

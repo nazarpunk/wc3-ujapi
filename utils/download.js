@@ -27,6 +27,8 @@ const download = (url, dest, trim = false) => {
     });
 };
 
+// https://github.com/UnryzeC/UjAPI/tree/main/uJAPIFiles
+
 download('https://raw.githubusercontent.com/UnryzeC/UjAPI/main/uJAPIFiles/common.j', './../sdk/common.j', true);
 download('https://raw.githubusercontent.com/UnryzeC/UjAPI/main/uJAPIFiles/UjAPI.j', './../sdk/UjAPI.j', true);
 
