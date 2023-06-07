@@ -132,6 +132,8 @@
 ---@class itembooleanfield:handle @UjAPI
 ---@class itemstringfield:handle @UjAPI
 ---@class movetype:handle @UjAPI
+---@class pathingaitype:handle @UjAPI
+---@class collisiontype:handle @UjAPI
 ---@class targetflag:handle @UjAPI
 ---@class armortype:handle @UjAPI
 ---@class heroattribute:handle @UjAPI
@@ -144,6 +146,7 @@
 ---@class variabletype:handle @UjAPI
 ---@class jassthread:handle @UjAPI
 ---@class handlelist:handle @UjAPI
+---@class textfilehandle:handle @UjAPI
 
 ---@param i integer
 ---@return race
@@ -419,6 +422,14 @@ function ConvertItemStringField (i) end
 function ConvertMoveType (i) end
 ---@author UjAPI
 ---@param i integer
+---@return pathingaitype
+function ConvertPathingAIType (i) end
+---@author UjAPI
+---@param i integer
+---@return collisiontype
+function ConvertCollisionType (i) end
+---@author UjAPI
+---@param i integer
 ---@return targetflag
 function ConvertTargetFlag (i) end
 ---@author UjAPI
@@ -487,7 +498,7 @@ function GetObjectName (objectId) end
 
 FALSE = false ---@type boolean
 TRUE = true ---@type boolean
-JASS_MAX_ARRAY_SIZE = 8192 ---@type integer
+JASS_MAX_ARRAY_SIZE = 262144 ---@type integer
 
 PLAYER_NEUTRAL_PASSIVE = 15 ---@type integer
 PLAYER_NEUTRAL_AGGRESSIVE = 12 ---@type integer
@@ -936,6 +947,7 @@ EVENT_PLAYER_UNIT_LOADED = ConvertPlayerUnitEvent(51) ---@type playerunitevent
 EVENT_PLAYER_UNIT_DAMAGED = ConvertPlayerUnitEvent(308) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_DAMAGING = ConvertPlayerUnitEvent(315) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_ATTACK_FINISHED = ConvertPlayerUnitEvent(317) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_DECAY_FINISHED = ConvertPlayerUnitEvent(319) ---@type playerunitevent @UjAPI
 
 -- ===================================================
 -- For use with TriggerRegisterUnitEvent
@@ -998,6 +1010,7 @@ EVENT_UNIT_USE_ITEM = ConvertUnitEvent(87) ---@type unitevent
 EVENT_UNIT_LOADED = ConvertUnitEvent(88) ---@type unitevent
 
 EVENT_UNIT_ATTACK_FINISHED = ConvertUnitEvent(316) ---@type unitevent @UjAPI
+EVENT_UNIT_DECAY_FINISHED = ConvertUnitEvent(318) ---@type unitevent @UjAPI
 
 -- ===================================================
 -- For use with TriggerRegisterWidgetEvent
@@ -1275,6 +1288,8 @@ ORIGIN_FRAME_COMMAND_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(41) ---@type
 ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(42) ---@type originframetype @UjAPI
 ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(43) ---@type originframetype @UjAPI
 ORIGIN_FRAME_CURSOR_FRAME = ConvertOriginFrameType(44) ---@type originframetype @UjAPI
+ORIGIN_FRAME_INVENTORY_COVER_FRAME = ConvertOriginFrameType(45) ---@type originframetype @UjAPI
+ORIGIN_FRAME_UNIT_TIP = ConvertOriginFrameType(46) ---@type originframetype @UjAPI
 
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
@@ -1309,6 +1324,9 @@ FRAMEEVENT_SLIDER_VALUE_CHANGED = ConvertFrameEventType(13) ---@type frameeventt
 FRAMEEVENT_DIALOG_CANCEL = ConvertFrameEventType(14) ---@type frameeventtype @UjAPI
 FRAMEEVENT_DIALOG_ACCEPT = ConvertFrameEventType(15) ---@type frameeventtype @UjAPI
 FRAMEEVENT_EDITBOX_ENTER = ConvertFrameEventType(16) ---@type frameeventtype @UjAPI
+FRAMEEVENT_CHECKBOX_CHANGED = ConvertFrameEventType(17) ---@type frameeventtype @UjAPI
+FRAMEEVENT_CONTROL_RELEASE = ConvertFrameEventType(18) ---@type frameeventtype @UjAPI
+FRAMEEVENT_CONTROL_DRAG = ConvertFrameEventType(19) ---@type frameeventtype @UjAPI
 
 -- ===================================================
 -- OS Key constants
@@ -2383,6 +2401,9 @@ UNIT_IF_UNIT_CLASSIFICATION = ConvertUnitIntegerField(FourCC('utyp'--[[197056753
 UNIT_IF_HIT_POINTS_REGENERATION_TYPE = ConvertUnitIntegerField(FourCC('uhrt'--[[1969779316--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_PLACEMENT_PREVENTED_BY = ConvertUnitIntegerField(FourCC('upar'--[[1970299250--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_PRIMARY_ATTRIBUTE = ConvertUnitIntegerField(FourCC('upra'--[[1970303585--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_COLLISION_TYPE = ConvertUnitIntegerField(FourCC('ucot'--[[1969450868--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_PATHING_AI = ConvertUnitIntegerField(FourCC('upai'--[[1970299241--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_PATHING_TYPE = ConvertUnitIntegerField(FourCC('upat'--[[1970299252--]])) ---@type unitintegerfield @UjAPI
 
 UNIT_RF_STRENGTH_PER_LEVEL = ConvertUnitRealField(FourCC('ustp'--[[1970500720--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_AGILITY_PER_LEVEL = ConvertUnitRealField(FourCC('uagp'--[[1969317744--]])) ---@type unitrealfield @UjAPI
@@ -2498,6 +2519,24 @@ MOVE_TYPE_HOVER = ConvertMoveType(8) ---@type movetype @UjAPI
 MOVE_TYPE_FLOAT = ConvertMoveType(16) ---@type movetype @UjAPI
 MOVE_TYPE_AMPHIBIOUS = ConvertMoveType(32) ---@type movetype @UjAPI
 MOVE_TYPE_UNBUILDABLE = ConvertMoveType(64) ---@type movetype @UjAPI
+
+-- Pathing AI Type
+PATHING_AI_TYPE_FOOT = ConvertPathingAIType(0) ---@type pathingaitype @UjAPI
+PATHING_AI_TYPE_AMPHIBIOUS = ConvertPathingAIType(64) ---@type pathingaitype @UjAPI
+PATHING_AI_TYPE_FLOAT = ConvertPathingAIType(128) ---@type pathingaitype @UjAPI
+PATHING_AI_TYPE_FLY = ConvertPathingAIType(192) ---@type pathingaitype @UjAPI
+
+-- Collision Type
+COLLISION_TYPE_NONE = ConvertCollisionType(0) ---@type collisiontype @UjAPI
+COLLISION_TYPE_ANY = ConvertCollisionType(1) ---@type collisiontype @UjAPI
+COLLISION_TYPE_FOOT = ConvertCollisionType(2) ---@type collisiontype @UjAPI
+COLLISION_TYPE_AIR = ConvertCollisionType(4) ---@type collisiontype @UjAPI
+COLLISION_TYPE_BUILDING = ConvertCollisionType(8) ---@type collisiontype @UjAPI
+COLLISION_TYPE_HARVESTER = ConvertCollisionType(16) ---@type collisiontype @UjAPI
+COLLISION_TYPE_BLIGHTED = ConvertCollisionType(32) ---@type collisiontype @UjAPI
+COLLISION_TYPE_FLOAT = ConvertCollisionType(64) ---@type collisiontype @UjAPI
+COLLISION_TYPE_AMPHIBIOUS = ConvertCollisionType(128) ---@type collisiontype @UjAPI
+COLLISION_TYPE_GROUND = ConvertCollisionType(202) ---@type collisiontype @UjAPI
 
 -- Target Flag
 TARGET_FLAG_NONE = ConvertTargetFlag(1) ---@type targetflag @UjAPI
@@ -5041,7 +5080,7 @@ function ChangeLevel (newLevel, doScoreScreen) end
 ---@param doScoreScreen boolean
 function RestartGame (doScoreScreen) end
 function ReloadGame () end
--- %%% SetCampaignMenuRace is deprecated. It must remain to support
+-- %%% SetCampaignMenuRace is deprecated.It must remain to support
 -- old maps which use it, but all new maps should use SetCampaignMenuRaceEx
 ---@param r race
 function SetCampaignMenuRace (r) end
@@ -7171,21 +7210,33 @@ function Preloader (filename) end
 
 -- integers in jass use 4 bytes, that is 32 bits so you can do something like this: BitwiseGetBit( 0xFF001122, 31 ), this will return 1 (as 4th byte is 0xFF which is 11111111 in bits).
 ---@author UjAPI
----@param bit integer
+---@param i integer
 ---@param bitIndex integer
 ---@return integer
-function BitwiseGetBit (bit, bitIndex) end
+function BitwiseGetBit (i, bitIndex) end
+---@author UjAPI
+---@param i integer
+---@param bitIndex integer
+---@param bitValue integer
+---@return integer
+function BitwiseSetBit (i, bitIndex, bitValue) end
 -- integers in jass use 4 bytes, so you can do something like this: BitwiseGetByte( 0xFF001122, 3 ), this will return 0xFF and to get 0x22 you need to: BitwiseGetByte( 0xFF001122, 0 ).
 ---@author UjAPI
----@param bit integer
+---@param i integer
 ---@param byteIndex integer
 ---@return integer
-function BitwiseGetByte (bit, byteIndex) end
+function BitwiseGetByte (i, byteIndex) end
+---@author UjAPI
+---@param i integer
+---@param byteIndex integer
+---@param byteValue integer
+---@return integer
+function BitwiseSetByte (i, byteIndex, byteValue) end
 
 ---@author UjAPI
----@param bit integer
+---@param i integer
 ---@return integer
-function BitwiseNOT (bit) end
+function BitwiseNOT (i) end
 ---@author UjAPI
 ---@param bit1 integer
 ---@param bit2 integer
@@ -7202,15 +7253,22 @@ function BitwiseOR (bit1, bit2) end
 ---@return integer
 function BitwiseXOR (bit1, bit2) end
 ---@author UjAPI
----@param bit integer
+---@param i integer
 ---@param bitsToShift integer
 ---@return integer
-function BitwiseShiftLeft (bit, bitsToShift) end
+function BitwiseShiftLeft (i, bitsToShift) end
 ---@author UjAPI
----@param bit integer
+---@param i integer
 ---@param bitsToShift integer
 ---@return integer
-function BitwiseShiftRight (bit, bitsToShift) end
+function BitwiseShiftRight (i, bitsToShift) end
+---@author UjAPI
+---@param byte1 integer
+---@param byte2 integer
+---@param byte3 integer
+---@param byte4 integer
+---@return integer
+function BitwiseToInteger (byte1, byte2, byte3, byte4) end
 
 ---@author UjAPI
 ---@param i integer
@@ -7224,6 +7282,10 @@ function String2Id (idString) end
 ---@param i integer
 ---@return string
 function IntToHex (i) end
+---@author UjAPI
+---@param i integer
+---@return string
+function IntToChar (i) end
 ---@author UjAPI
 ---@param alpha integer
 ---@param red integer
@@ -7971,6 +8033,52 @@ function StringReplace (s, whichString, replaceWith, caseSensitive) end
 function StringInsert (s, whichString, whichPosition, caseSensitive) end
 -- 
 
+-- Debug API
+---@author UjAPI
+---@param flag boolean
+function ConsoleEnable (flag) end
+---@author UjAPI
+---@param s string
+function ConsolePrint (s) end
+-- 
+
+-- Text File API
+---@author UjAPI
+---@param filePath string
+---@return textfilehandle
+function TextFileOpen (filePath) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+---@return string
+function TextFileGetPath (whichTextFile) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+function TextFileClose (whichTextFile) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+function TextFileClear (whichTextFile) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+function TextFileErase (whichTextFile) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+---@return integer
+function TextFileCountLines (whichTextFile) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+---@param lineNumber integer
+---@return string
+function TextFileReadLine (whichTextFile, lineNumber) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+---@return string
+function TextFileReadAll (whichTextFile) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+---@param text string
+function TextFileWriteLine (whichTextFile, text) end
+-- 
+
 -- Misc API
 ---@author UjAPI
 ---@return string
@@ -7990,6 +8098,11 @@ function GetSystemTime (whichTimeType) end
 ---@param whichTimeType timetype
 ---@return integer
 function GetLocalTime (whichTimeType) end
+---@author UjAPI
+---@param isLocalTime boolean
+---@param isMiliseconds integer
+---@return string
+function GetTimeStamp (isLocalTime, isMiliseconds) end
 -- 
 
 -- Screen/Window API
@@ -8027,6 +8140,22 @@ function GetWindowCenterX () end
 ---@author UjAPI
 ---@return integer
 function GetWindowCenterY () end
+-- 
+
+-- Cursor API
+---@author UjAPI
+---@return boolean
+function IsCursorEnabled () end
+---@author UjAPI
+---@param enable boolean
+function SetCursorEnabled (enable) end
+
+---@author UjAPI
+---@return boolean
+function IsCursorAnimationLocked () end
+---@author UjAPI
+---@param isLock boolean
+function SetCursorAnimationLocked (isLock) end
 -- 
 
 -- Mouse API
@@ -8230,6 +8359,12 @@ function ForceCountPlayers (whichForce) end
 ---@author UjAPI
 ---@return player
 function GetHostPlayer () end
+-- 
+
+-- Game API
+---@author UjAPI
+---@return boolean
+function IsReplay () end
 -- 
 
 -- ============================================================================
@@ -9490,6 +9625,13 @@ function RemoveAbilityStringLevelArrayField (whichAbility, whichField, level, va
 ---@return boolean
 function ResetAbilityFieldData (whichAbility) end
 
+---@author UjAPI
+---@param abilityId integer
+---@param source widget
+---@param target widget
+---@return boolean
+function IsAbilityBaseTargetAllowed (abilityId, source, target) end
+
 -- Normal API
 ---@author UjAPI
 ---@param whichAbility ability
@@ -10264,6 +10406,13 @@ function EnumTrackablesInRange (x, y, radius, filter, handlerFunc) end
 -- Widget API
 -- 
 ---@author UjAPI
+---@return boolean
+function IsWidgetTipEnabled () end
+---@author UjAPI
+---@param enable boolean
+function SetWidgetTipEnabled (enable) end
+
+---@author UjAPI
 ---@param whichWidget widget
 ---@return boolean
 function IsWidgetVisible (whichWidget) end
@@ -10279,6 +10428,12 @@ function IsWidgetInvulnerable (whichWidget) end
 ---@param whichWidget widget
 ---@param invulnerable boolean
 function SetWidgetInvulnerable (whichWidget, invulnerable) end
+---@author UjAPI
+---@param whichWidget widget
+---@param target widget
+---@param whichFlags targetflag
+---@return boolean
+function IsWidgetTargetAllowed (whichWidget, target, whichFlags) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@return location
@@ -11718,25 +11873,28 @@ function SetUnitTexture (whichUnit, textureName, textureIndex) end
 function SetUnitReplaceableTexture (whichUnit, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichUnit unit
----@return integer
-function GetUnitMoveAIType (whichUnit) end
+---@return collisiontype
+function GetUnitCollisionType (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param moveAIType integer
----@param flag boolean
-function SetUnitMoveAIType (whichUnit, moveAIType, flag) end
+---@param collisionType collisiontype
+function SetUnitCollisionType (whichUnit, collisionType) end
 ---@author UjAPI
 ---@param whichUnit unit
----@return integer
-function GetUnitMoveType (whichUnit) end
+---@return pathingaitype
+function GetUnitPathingAIType (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param moveType integer
-function SetUnitMoveType (whichUnit, moveType) end
+---@param pathingAIType pathingaitype
+function SetUnitPathingAIType (whichUnit, pathingAIType) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param moveIndex integer
-function SetUnitMoveTypeByIndex (whichUnit, moveIndex) end
+---@return pathingtype
+function GetUnitPathingType (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param pathingType pathingtype
+function SetUnitPathingType (whichUnit, pathingType) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
@@ -12543,9 +12701,17 @@ function SetFrameTextColour (whichFrame, colour) end
 function SetFrameFocus (whichFrame, isFocus) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@return string
+function GetFrameModel (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param model string
 ---@param cameraIndex integer
 function SetFrameModel (whichFrame, model, cameraIndex) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return boolean
+function IsFrameEnabled (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param enabled boolean
@@ -12553,7 +12719,11 @@ function SetFrameEnabled (whichFrame, enabled) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return boolean
-function IsFrameEnabled (whichFrame) end
+function IsFrameDraggable (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param enabled boolean
+function SetFrameDraggable (whichFrame, enabled) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param alpha integer
@@ -12565,9 +12735,9 @@ function GetFrameAlpha (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureFile string
----@param flag integer
+---@param textureId integer
 ---@param blend boolean
-function SetFrameTexture (whichFrame, textureFile, flag, blend) end
+function SetFrameTexture (whichFrame, textureFile, textureId, blend) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param scale real
@@ -12713,6 +12883,8 @@ function RegisterFrameMouseButton (whichFrame, whichButton, isAdd) end
 
 -- Frame Sprite API
 -- Copies the logic of Effect API / Trackable API | works only on CSpriteFrame | CStatusBar | CCursorFrame | CTimeOfDayIndicator
+-- For Cursor animations refer to: https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3CursorAnimations.txt
+
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return real
@@ -12815,6 +12987,12 @@ function SetFrameSpriteOrientation (whichFrame, yaw, pitch, roll) end
 ---@param materialId integer
 ---@param textureIndex integer
 function SetFrameSpriteMaterialTexture (whichFrame, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param sizeX real
+---@param sizeY real
+---@param sizeZ real
+function SetFrameSpriteMaterialScale (whichFrame, sizeX, sizeY, sizeZ) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureName string
@@ -13290,8 +13468,8 @@ function DestroyCommandButtonEffect (whichEffect) end
 -- Unit Weapon
 
 -- Skin
--- native BlzGetDestructableSkin takes destructable whichDestructable returns integer
--- native BlzSetDestructableSkin takes destructable whichDestructable, integer skinId returns nothing
+-- native BlzGetDestructableSkintakes destructable whichDestructable returns integer
+-- native BlzSetDestructableSkintakes destructable whichDestructable, integer skinId returns nothing
 
 
 
