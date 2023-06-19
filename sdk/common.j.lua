@@ -7866,6 +7866,18 @@ function MathRealMax (a, b) end
 ---@param r real
 ---@return integer
 function MathRealSign (r) end
+---@author UjAPI
+---@param value real
+---@param min real
+---@param max real
+---@return real
+function MathRealClamp (value, min, max) end
+---@author UjAPI
+---@param a real
+---@param b real
+---@param t real
+---@return real
+function MathRealLerp (a, b, t) end
 
 ---@author UjAPI
 ---@param i integer
@@ -7893,6 +7905,12 @@ function MathIntegerMax (a, b) end
 ---@param i integer
 ---@return integer
 function MathIntegerSign (i) end
+---@author UjAPI
+---@param value integer
+---@param min integer
+---@param max integer
+---@return integer
+function MathIntegerClamp (value, min, max) end
 
 -- Angle / Axis / Point API | All natives operate in Degrees!
 
@@ -12726,12 +12744,32 @@ function IsFrameDraggable (whichFrame) end
 function SetFrameDraggable (whichFrame, enabled) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@return integer
+function GetFrameTrackState (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param trackState integer
+function SetFrameTrackState (whichFrame, trackState) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param alpha integer
 function SetFrameAlpha (whichFrame, alpha) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return integer
 function GetFrameAlpha (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureId integer
+---@return string
+function GetFrameTexture (whichFrame, textureId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param backgroundTextureFile string
+---@param borderTextureFile string
+---@param textureId integer
+---@param blend boolean
+function SetFrameTextureEx (whichFrame, backgroundTextureFile, borderTextureFile, textureId, blend) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureFile string
@@ -12769,6 +12807,22 @@ function SetFrameMinMaxValues (whichFrame, minVal, maxVal) end
 function SetFrameStepSize (whichFrame, stepSize) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@return real
+function GetFrameWidth (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param width real
+function SetFrameWidth (whichFrame, width) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return real
+function GetFrameHeight (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param height real
+function SetFrameHeight (whichFrame, height) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param width real
 ---@param height real
 function SetFrameSize (whichFrame, width, height) end
@@ -12801,14 +12855,6 @@ function SetFrameParent (whichFrame, whichParent) end
 function GetFrameParent (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@return real
-function GetFrameHeight (whichFrame) end
----@author UjAPI
----@param whichFrame framehandle
----@return real
-function GetFrameWidth (whichFrame) end
----@author UjAPI
----@param whichFrame framehandle
 ---@param fontName string
 ---@param size real
 ---@param flags integer
@@ -12818,6 +12864,14 @@ function SetFrameFont (whichFrame, fontName, size, flags) end
 ---@param verticalAlign textaligntype
 ---@param horizontalAlign textaligntype
 function SetFrameTextAlignment (whichFrame, verticalAlign, horizontalAlign) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param verticalAlign textaligntype
+function SetFrameTextVerticalAlignment (whichFrame, verticalAlign) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param horizontalAlign textaligntype
+function SetFrameTextHorizontalAlignment (whichFrame, horizontalAlign) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return integer
