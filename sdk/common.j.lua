@@ -3765,9 +3765,9 @@ function TriggerRemoveAction (whichTrigger, whichAction) end
 function TriggerClearActions (whichTrigger) end
 ---@param timeout real
 function TriggerSleepAction (timeout) end
----@param s sound
+---@param whichSound sound
 ---@param offset real
-function TriggerWaitForSound (s, offset) end
+function TriggerWaitForSound (whichSound, offset) end
 ---@param whichTrigger trigger
 ---@return boolean
 function TriggerEvaluate (whichTrigger) end
@@ -8066,6 +8066,10 @@ function ConsolePrint (s) end
 ---@return textfilehandle
 function TextFileOpen (filePath) end
 ---@author UjAPI
+---@param filePath string
+---@return boolean
+function TextFileExists (filePath) end
+---@author UjAPI
 ---@param whichTextFile textfilehandle
 ---@return string
 function TextFileGetPath (whichTextFile) end
@@ -8075,9 +8079,8 @@ function TextFileClose (whichTextFile) end
 ---@author UjAPI
 ---@param whichTextFile textfilehandle
 function TextFileClear (whichTextFile) end
----@author UjAPI
 ---@param whichTextFile textfilehandle
-function TextFileErase (whichTextFile) end
+function TextFileDelete (whichTextFile) end
 ---@author UjAPI
 ---@param whichTextFile textfilehandle
 ---@return integer
@@ -8105,6 +8108,52 @@ function GetUjAPIVersion () end
 ---@param whichAnim animtype
 ---@return string
 function GetAnimationName (whichAnim) end
+-- 
+
+-- Sound API
+---@author UjAPI
+---@param whichSound sound
+function RemoveSound (whichSound) end
+
+---@author UjAPI
+---@param whichSound sound
+---@param fileName string
+---@param looping boolean
+---@param is3D boolean
+---@param stopwhenoutofrange boolean
+---@param fadeInRate integer
+---@param fadeOutRate integer
+---@param eaxSetting string
+---@return sound
+function ReplaceSound (whichSound, fileName, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, eaxSetting) end
+---@author UjAPI
+---@param whichSound sound
+---@param fileName string
+---@param looping boolean
+---@param is3D boolean
+---@param stopwhenoutofrange boolean
+---@param fadeInRate integer
+---@param fadeOutRate integer
+---@param SLKEntryName string
+---@return sound
+function ReplaceSoundWithLabel (whichSound, fileName, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate, SLKEntryName) end
+---@author UjAPI
+---@param whichSound sound
+---@param soundLabel string
+---@param looping boolean
+---@param is3D boolean
+---@param stopwhenoutofrange boolean
+---@param fadeInRate integer
+---@param fadeOutRate integer
+---@return sound
+function ReplaceSoundFromLabel (whichSound, soundLabel, looping, is3D, stopwhenoutofrange, fadeInRate, fadeOutRate) end
+---@author UjAPI
+---@param whichSound sound
+---@param soundLabel string
+---@param fadeInRate integer
+---@param fadeOutRate integer
+---@return sound
+function ReplaceMIDISound (whichSound, soundLabel, fadeInRate, fadeOutRate) end
 -- 
 
 -- Time API
@@ -8813,9 +8862,9 @@ function HandleListEnumProjectilesInRect (whichHandleList, whichRect, filter) en
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
----@param typeId integer
+---@param handleTypeId integer
 ---@param filter boolexpr
-function HandleListEnumByTypeId (whichHandleList, typeId, filter) end
+function HandleListEnumByTypeId (whichHandleList, handleTypeId, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param handleTypeId integer
@@ -8829,9 +8878,9 @@ function HandleListEnumByTypeIdEx (whichHandleList, handleTypeId, typeId, filter
 function HandleListForEach (whichHandleList, c) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
----@param typeId integer
+---@param handleTypeId integer
 ---@param c code
-function HandleListForEachByTypeId (whichHandleList, typeId, c) end
+function HandleListForEachByTypeId (whichHandleList, handleTypeId, c) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param handleTypeId integer
