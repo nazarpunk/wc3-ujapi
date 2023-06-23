@@ -8058,6 +8058,9 @@ function ConsoleEnable (flag) end
 ---@author UjAPI
 ---@param s string
 function ConsolePrint (s) end
+---@author UjAPI
+---@param s string
+function ConsolePause (s) end
 -- 
 
 -- Text File API
@@ -8170,6 +8173,9 @@ function GetLocalTime (whichTimeType) end
 ---@param isMiliseconds integer
 ---@return string
 function GetTimeStamp (isLocalTime, isMiliseconds) end
+---@author UjAPI
+---@return integer
+function GetTickCount () end
 -- 
 
 -- Screen/Window API
@@ -10160,6 +10166,10 @@ function GetSpecialEffectModelObjectPositionZ (whichEffect, whichObject) end
 function GetSpecialEffectModelObjectPositionLoc (whichEffect, whichObject) end
 ---@author UjAPI
 ---@param whichEffect effect
+---@return integer
+function GetSpecialEffectCurrentAnimationId (whichEffect) end
+---@author UjAPI
+---@param whichEffect effect
 ---@param animIndex integer
 ---@param rarity raritycontrol
 function SetSpecialEffectAnimationWithRarityByIndex (whichEffect, animIndex, rarity) end
@@ -10420,6 +10430,10 @@ function GetTrackableModelObjectPositionZ (whichTrackable, whichObject) end
 function GetTrackableModelObjectPositionLoc (whichTrackable, whichObject) end
 ---@author UjAPI
 ---@param whichTrackable trackable
+---@return integer
+function GetTrackableCurrentAnimationId (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
 ---@param animIndex integer
 ---@param rarity raritycontrol
 function SetTrackableAnimationWithRarityByIndex (whichTrackable, animIndex, rarity) end
@@ -10646,6 +10660,10 @@ function GetWidgetModelObjectPositionZ (whichWidget, whichObject) end
 function GetWidgetModelObjectPositionLoc (whichWidget, whichObject) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@return integer
+function GetWidgetCurrentAnimationId (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
 ---@param animIndex integer
 ---@param rarity raritycontrol
 function SetWidgetAnimationWithRarityByIndex (whichWidget, animIndex, rarity) end
@@ -10826,6 +10844,10 @@ function GetDestructableModelObjectPositionZ (whichDestructable, whichObject) en
 ---@param whichObject string
 ---@return location
 function GetDestructableModelObjectPositionLoc (whichDestructable, whichObject) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return integer
+function GetDestructableCurrentAnimationId (whichDestructable) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@param animIndex integer
@@ -11129,6 +11151,10 @@ function GetItemModelObjectPositionZ (whichItem, whichObject) end
 ---@param whichObject string
 ---@return location
 function GetItemModelObjectPositionLoc (whichItem, whichObject) end
+---@author UjAPI
+---@param whichItem item
+---@return integer
+function GetItemCurrentAnimationId (whichItem) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param animIndex integer
@@ -12075,6 +12101,10 @@ function GetUnitModelObjectPositionZ (whichUnit, whichObject) end
 function GetUnitModelObjectPositionLoc (whichUnit, whichObject) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@return integer
+function GetUnitCurrentAnimationId (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
 ---@param percent real
 ---@return boolean
 function SetUnitAnimationOffsetPercent (whichUnit, percent) end
@@ -12400,6 +12430,10 @@ function GetProjectileModelObjectPositionZ (whichProjectile, whichObject) end
 ---@param whichObject string
 ---@return location
 function GetProjectileModelObjectPositionLoc (whichProjectile, whichObject) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return integer
+function GetProjectileCurrentAnimationId (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@param animIndex integer
@@ -12801,12 +12835,40 @@ function GetFrameTrackState (whichFrame) end
 function SetFrameTrackState (whichFrame, trackState) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@param textureId integer
+---@return integer
+function GetFrameColourEx (whichFrame, textureId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureId integer
+---@param colour integer
+function SetFrameColourEx (whichFrame, textureId, colour) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return integer
+function GetFrameColour (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param colour integer
+function SetFrameColour (whichFrame, colour) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureId integer
+---@return integer
+function GetFrameAlphaEx (whichFrame, textureId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureId integer
 ---@param alpha integer
-function SetFrameAlpha (whichFrame, alpha) end
+function SetFrameAlphaEx (whichFrame, textureId, alpha) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return integer
 function GetFrameAlpha (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param alpha integer
+function SetFrameAlpha (whichFrame, alpha) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureId integer
@@ -13115,6 +13177,10 @@ function SetFrameSpriteModel (whichFrame, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetFrameSpriteModelEx (whichFrame, modelName, playerColour) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return integer
+function GetFrameSpriteCurrentAnimationId (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param animIndex integer
