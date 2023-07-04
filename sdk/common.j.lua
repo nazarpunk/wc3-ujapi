@@ -92,8 +92,13 @@
 ---@class soundtype:handle
 ---@class lightning:handle
 ---@class pathingtype:handle
----@class animtype:handle @UjAPI
+---@class mappedfield:handle @UjAPI
+---@class mappedtype:handle @UjAPI
+---@class attachmenttype:mappedtype @UjAPI
+---@class bonetype:attachmenttype @UjAPI
+---@class animtype:mappedtype @UjAPI
 ---@class subanimtype:animtype @UjAPI
+---@class cursoranimtype:mappedtype @UjAPI
 ---@class image:handle
 ---@class ubersplat:handle
 ---@class hashtable:agent
@@ -286,12 +291,28 @@ function ConvertPathingType (i) end
 function ConvertProjectileType (i) end
 ---@author UjAPI
 ---@param i integer
+---@return mappedfield
+function ConvertMappedField (i) end
+---@author UjAPI
+---@param i integer
+---@return attachmenttype
+function ConvertAttachmentType (i) end
+---@author UjAPI
+---@param i integer
+---@return bonetype
+function ConvertBoneType (i) end
+---@author UjAPI
+---@param i integer
 ---@return animtype
 function ConvertAnimType (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return subanimtype
 function ConvertSubAnimType (i) end
+---@author UjAPI
+---@param i integer
+---@return cursoranimtype
+function ConvertCursorAnimType (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return originframetype
@@ -607,6 +628,51 @@ PATHING_TYPE_BLIGHTPATHING = ConvertPathingType(5) ---@type pathingtype
 PATHING_TYPE_FLOATABILITY = ConvertPathingType(6) ---@type pathingtype
 PATHING_TYPE_AMPHIBIOUSPATHING = ConvertPathingType(7) ---@type pathingtype
 
+MAPPED_FIELD_ATTACHMENT = ConvertMappedField(0) ---@type mappedfield @UjAPI
+MAPPED_FIELD_BONE = ConvertMappedField(1) ---@type mappedfield @UjAPI
+MAPPED_FIELD_ANIMATION = ConvertMappedField(2) ---@type mappedfield @UjAPI
+MAPPED_FIELD_SUB_ANIMATION = ConvertMappedField(3) ---@type mappedfield @UjAPI
+MAPPED_CURSOR_SUB_ANIMATION = ConvertMappedField(4) ---@type mappedfield @UjAPI
+
+ATTACHMENT_TYPE_CHEST = ConvertAttachmentType(FourCC('ches'--[[1667786099--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_FEET = ConvertAttachmentType(FourCC('feet'--[[1717921140--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_FOOT = ConvertAttachmentType(FourCC('foot'--[[1718579060--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_HAND = ConvertAttachmentType(FourCC('hand'--[[1751215716--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_HEAD = ConvertAttachmentType(FourCC('head'--[[1751474532--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_ORIGIN = ConvertAttachmentType(FourCC('orig'--[[1869769063--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_OVERHEAD = ConvertAttachmentType(FourCC('over'--[[1870030194--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_SPRITE = ConvertAttachmentType(FourCC('spri'--[[1936749161--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_WEAPON = ConvertAttachmentType(FourCC('weap'--[[2003132784--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_ALTERNATE = ConvertAttachmentType(FourCC('alte'--[[1634497637--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_LEFT = ConvertAttachmentType(FourCC('left'--[[1818584692--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_RIGHT = ConvertAttachmentType(FourCC('righ'--[[1919510376--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_MOUNT = ConvertAttachmentType(FourCC('moun'--[[1836021102--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_REAR = ConvertAttachmentType(FourCC('rear'--[[1919246706--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_SMART = ConvertAttachmentType(FourCC('smar'--[[1936548210--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_FIRST = ConvertAttachmentType(FourCC('firs'--[[1718186611--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_SECOND = ConvertAttachmentType(FourCC('seco'--[[1936024431--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_THIRD = ConvertAttachmentType(FourCC('thir'--[[1952999794--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_FOURTH = ConvertAttachmentType(FourCC('four'--[[1718580594--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_FIFTH = ConvertAttachmentType(FourCC('fift'--[[1718183540--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_SIXTH = ConvertAttachmentType(FourCC('sixt'--[[1936291956--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_SMALL = ConvertAttachmentType(FourCC('smal'--[[1936548204--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_MEDIUM = ConvertAttachmentType(FourCC('medi'--[[1835361385--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_LARGE = ConvertAttachmentType(FourCC('larg'--[[1818325607--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_GOLD = ConvertAttachmentType(FourCC('gold'--[[1735355492--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_RALLYPOINT = ConvertAttachmentType(FourCC('rall'--[[1918987372--]])) ---@type attachmenttype @UjAPI
+ATTACHMENT_TYPE_EAT_TREE = ConvertAttachmentType(FourCC('eatt'--[[1700885620--]])) ---@type attachmenttype @UjAPI
+
+BONE_TYPE_CHEST = ConvertBoneType(FourCC('ches'--[[1667786099--]])) ---@type bonetype @UjAPI
+BONE_TYPE_FOOT = ConvertBoneType(FourCC('foot'--[[1718579060--]])) ---@type bonetype @UjAPI
+BONE_TYPE_HAND = ConvertBoneType(FourCC('hand'--[[1751215716--]])) ---@type bonetype @UjAPI
+BONE_TYPE_HEAD = ConvertBoneType(FourCC('head'--[[1751474532--]])) ---@type bonetype @UjAPI
+BONE_TYPE_TURRET = ConvertBoneType(FourCC('turr'--[[1953854066--]])) ---@type bonetype @UjAPI
+BONE_TYPE_ALTERNATE = ConvertBoneType(FourCC('alte'--[[1634497637--]])) ---@type bonetype @UjAPI
+BONE_TYPE_LEFT = ConvertBoneType(FourCC('left'--[[1818584692--]])) ---@type bonetype @UjAPI
+BONE_TYPE_RIGHT = ConvertBoneType(FourCC('righ'--[[1919510376--]])) ---@type bonetype @UjAPI
+BONE_TYPE_MOUNT = ConvertBoneType(FourCC('moun'--[[1836021102--]])) ---@type bonetype @UjAPI
+BONE_TYPE_SMART = ConvertBoneType(FourCC('smar'--[[1936548210--]])) ---@type bonetype @UjAPI
+
 ANIM_TYPE_BIRTH = ConvertAnimType(0) ---@type animtype @UjAPI
 ANIM_TYPE_DEATH = ConvertAnimType(1) ---@type animtype @UjAPI
 ANIM_TYPE_DECAY = ConvertAnimType(2) ---@type animtype @UjAPI
@@ -671,6 +737,18 @@ SUBANIM_TYPE_OFF = ConvertSubAnimType(59) ---@type subanimtype @UjAPI
 SUBANIM_TYPE_SWIM = ConvertSubAnimType(60) ---@type subanimtype @UjAPI
 SUBANIM_TYPE_ENTANGLE = ConvertSubAnimType(61) ---@type subanimtype @UjAPI
 SUBANIM_TYPE_BERSERK = ConvertSubAnimType(62) ---@type subanimtype @UjAPI
+
+CURSORANIM_TYPE_NORMAL = ConvertCursorAnimType(0) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_SELECT = ConvertCursorAnimType(1) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_TARGET = ConvertCursorAnimType(2) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_TARGET_SELECT = ConvertCursorAnimType(3) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_INVALID_TARGET = ConvertCursorAnimType(4) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_HOLD_ITEM = ConvertCursorAnimType(5) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_SCROLL = ConvertCursorAnimType(6) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_LEFT = ConvertCursorAnimType(7) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_RIGHT = ConvertCursorAnimType(8) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_UP = ConvertCursorAnimType(9) ---@type cursoranimtype @UjAPI
+CURSORANIM_TYPE_DOWN = ConvertCursorAnimType(10) ---@type cursoranimtype @UjAPI
 
 -- ===================================================
 -- Map Setup Constants
@@ -1569,7 +1647,7 @@ ABILITY_IF_BUTTON_HOTKEY_NORMAL = ConvertAbilityIntegerField(FourCC('ahky'--[[16
 ABILITY_IF_BUTTON_HOTKEY_ACTIVATED = ConvertAbilityIntegerField(FourCC('auhk'--[[1635084395--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_BUTTON_POSITION_ACTIVATED_X = ConvertAbilityIntegerField(FourCC('aubx'--[[1635082872--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_BUTTON_POSITION_ACTIVATED_Y = ConvertAbilityIntegerField(FourCC('auby'--[[1635082873--]])) ---@type abilityintegerfield @UjAPI
-ABILITY_IF_BUTTON_HOTKEY_RESEARCH = ConvertAbilityIntegerField(FourCC('auhk'--[[1635084395--]])) ---@type abilityintegerfield @UjAPI
+ABILITY_IF_BUTTON_HOTKEY_RESEARCH = ConvertAbilityIntegerField(FourCC('arhk'--[[1634887787--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_BUTTON_POSITION_RESEARCH_X = ConvertAbilityIntegerField(FourCC('arpx'--[[1634889848--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_BUTTON_POSITION_RESEARCH_Y = ConvertAbilityIntegerField(FourCC('arpy'--[[1634889849--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_BUTTON_HOTKEY_ALL = ConvertAbilityIntegerField(FourCC('ahtk'--[[1634235499--]])) ---@type abilityintegerfield @UjAPI
@@ -1695,7 +1773,7 @@ ABILITY_ILF_DAMAGE_TO_SUMMONED_UNITS_IDID = ConvertAbilityIntegerLevelField(Four
 ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_IREC = ConvertAbilityIntegerLevelField(FourCC('Irec'--[[1232233827--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_DELAY_AFTER_DEATH_SECONDS = ConvertAbilityIntegerLevelField(FourCC('Ircd'--[[1232233316--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_RESTORED_LIFE = ConvertAbilityIntegerLevelField(FourCC('irc2'--[[1769104178--]])) ---@type abilityintegerlevelfield @UjAPI
-ABILITY_ILF_RESTORED_MANA__1_FOR_CURRENT = ConvertAbilityIntegerLevelField(FourCC('irc3'--[[1769104179--]])) ---@type abilityintegerlevelfield @UjAPI
+ABILITY_ILF_RESTORED_MANA_1_FOR_CURRENT = ConvertAbilityIntegerLevelField(FourCC('irc3'--[[1769104179--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_HIT_POINTS_RESTORED = ConvertAbilityIntegerLevelField(FourCC('Ihps'--[[1231581299--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_MANA_POINTS_RESTORED = ConvertAbilityIntegerLevelField(FourCC('Imps'--[[1231908979--]])) ---@type abilityintegerlevelfield @UjAPI
 ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_ITPM = ConvertAbilityIntegerLevelField(FourCC('Itpm'--[[1232367725--]])) ---@type abilityintegerlevelfield @UjAPI
@@ -8082,6 +8160,7 @@ function TextFileClose (whichTextFile) end
 ---@author UjAPI
 ---@param whichTextFile textfilehandle
 function TextFileClear (whichTextFile) end
+---@author UjAPI
 ---@param whichTextFile textfilehandle
 function TextFileDelete (whichTextFile) end
 ---@author UjAPI
@@ -8107,10 +8186,81 @@ function TextFileWriteLine (whichTextFile, text) end
 ---@author UjAPI
 ---@return string
 function GetUjAPIVersion () end
+
 ---@author UjAPI
----@param whichAnim animtype
+---@param sectionName string
+---@param optionName string
+---@param index integer
 ---@return string
-function GetAnimationName (whichAnim) end
+function GetMiscDataString (sectionName, optionName, index) end
+---@author UjAPI
+---@param sectionName string
+---@param optionName string
+---@param index integer
+---@param value string
+function SetMiscDataString (sectionName, optionName, index, value) end
+
+---@author UjAPI
+---@param raceName string
+---@param sectionName string
+---@param optionName string
+---@param index integer
+---@return string
+function GetSkinDataString (raceName, sectionName, optionName, index) end
+---@author UjAPI
+---@param raceName string
+---@param sectionName string
+---@param optionName string
+---@param index integer
+---@param value string
+function SetSkinDataString (raceName, sectionName, optionName, index, value) end
+
+---@author UjAPI
+---@param sectionName string
+---@return string
+function GetFDFDataString (sectionName) end
+---@author UjAPI
+---@param sectionName string
+---@param value string
+function SetFDFDataString (sectionName, value) end
+
+---@author UjAPI
+---@param whichField mappedfield
+---@param whichMapType mappedtype
+---@return string
+function GetMappedTypeName (whichField, whichMapType) end
+-- 
+
+-- Trigger API
+---@author UjAPI
+---@param whichTrigger trigger
+---@return integer
+function TriggerCountEvents (whichTrigger) end
+---@author UjAPI
+---@param whichTrigger trigger
+---@return integer
+function TriggerCountConditions (whichTrigger) end
+---@author UjAPI
+---@param whichTrigger trigger
+---@return integer
+function TriggerCountActions (whichTrigger) end
+
+---@author UjAPI
+---@param whichTrigger trigger
+---@param whichEvent event
+function TriggerRemoveEvent (whichTrigger, whichEvent) end
+---@author UjAPI
+---@param whichTrigger trigger
+---@param whichEventId eventid
+---@param removeAllOccurences boolean
+function TriggerRemoveEventId (whichTrigger, whichEventId, removeAllOccurences) end
+---@author UjAPI
+---@param whichTrigger trigger
+function TriggerClearEvents (whichTrigger) end
+
+---@author UjAPI
+---@param whichTrigger trigger
+function TriggerClear (whichTrigger) end
 -- 
 
 -- Sound API
@@ -10170,6 +10320,10 @@ function GetSpecialEffectModelObjectPositionLoc (whichEffect, whichObject) end
 function GetSpecialEffectCurrentAnimationId (whichEffect) end
 ---@author UjAPI
 ---@param whichEffect effect
+---@return string
+function GetSpecialEffectCurrentAnimationName (whichEffect) end
+---@author UjAPI
+---@param whichEffect effect
 ---@param animIndex integer
 ---@param rarity raritycontrol
 function SetSpecialEffectAnimationWithRarityByIndex (whichEffect, animIndex, rarity) end
@@ -10434,6 +10588,10 @@ function GetTrackableModelObjectPositionLoc (whichTrackable, whichObject) end
 function GetTrackableCurrentAnimationId (whichTrackable) end
 ---@author UjAPI
 ---@param whichTrackable trackable
+---@return string
+function GetTrackableCurrentAnimationName (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
 ---@param animIndex integer
 ---@param rarity raritycontrol
 function SetTrackableAnimationWithRarityByIndex (whichTrackable, animIndex, rarity) end
@@ -10664,6 +10822,10 @@ function GetWidgetModelObjectPositionLoc (whichWidget, whichObject) end
 function GetWidgetCurrentAnimationId (whichWidget) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@return string
+function GetWidgetCurrentAnimationName (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
 ---@param animIndex integer
 ---@param rarity raritycontrol
 function SetWidgetAnimationWithRarityByIndex (whichWidget, animIndex, rarity) end
@@ -10848,6 +11010,10 @@ function GetDestructableModelObjectPositionLoc (whichDestructable, whichObject) 
 ---@param whichDestructable destructable
 ---@return integer
 function GetDestructableCurrentAnimationId (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return string
+function GetDestructableCurrentAnimationName (whichDestructable) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@param animIndex integer
@@ -11155,6 +11321,10 @@ function GetItemModelObjectPositionLoc (whichItem, whichObject) end
 ---@param whichItem item
 ---@return integer
 function GetItemCurrentAnimationId (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@return string
+function GetItemCurrentAnimationName (whichItem) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param animIndex integer
@@ -12105,6 +12275,10 @@ function GetUnitModelObjectPositionLoc (whichUnit, whichObject) end
 function GetUnitCurrentAnimationId (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@return string
+function GetUnitCurrentAnimationName (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
 ---@param percent real
 ---@return boolean
 function SetUnitAnimationOffsetPercent (whichUnit, percent) end
@@ -12436,6 +12610,10 @@ function GetProjectileModelObjectPositionLoc (whichProjectile, whichObject) end
 function GetProjectileCurrentAnimationId (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
+---@return string
+function GetProjectileCurrentAnimationName (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
 ---@param animIndex integer
 ---@param rarity raritycontrol
 function SetProjectileAnimationWithRarityByIndex (whichProjectile, animIndex, rarity) end
@@ -12680,13 +12858,18 @@ function CreateFrame (templateName, whichParent, priority, createContext) end
 ---@return framehandle
 function CreateSimpleFrame (templateName, whichParent, createContext) end
 ---@author UjAPI
+---@param whichSimpleParent framehandle
+---@param whichSpriteFrame framehandle
+---@return framehandle
+function CreateSimpleGlueFrame (whichSimpleParent, whichSpriteFrame) end
+---@author UjAPI
 ---@param frameType string
----@param name string
+---@param contextName string
 ---@param whichParent framehandle
 ---@param templateName string
 ---@param createContext integer
 ---@return framehandle
-function CreateFrameByType (frameType, name, whichParent, templateName, createContext) end
+function CreateFrameByType (frameType, contextName, whichParent, templateName, createContext) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return boolean
@@ -12766,8 +12949,25 @@ function GetFrameUnderMouse () end
 function GetFrameName (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@param isRightClick boolean
-function ClickFrameEx (whichFrame, isRightClick) end
+---@param contextName string
+function SetFrameName (whichFrame, contextName) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return integer
+function GetFrameContext (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param createContext integer
+function SetFrameContext (whichFrame, createContext) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param contextName string
+---@param createContext integer
+function SetFrameContextName (whichFrame, contextName, createContext) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param whichMouseButton mousebuttontype
+function ClickFrameEx (whichFrame, whichMouseButton) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 function ClickFrame (whichFrame) end
@@ -13181,6 +13381,10 @@ function SetFrameSpriteModelEx (whichFrame, modelName, playerColour) end
 ---@param whichFrame framehandle
 ---@return integer
 function GetFrameSpriteCurrentAnimationId (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return string
+function GetFrameSpriteCurrentAnimationName (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param animIndex integer

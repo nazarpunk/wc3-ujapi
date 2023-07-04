@@ -4,8 +4,13 @@
 //
 type projectiletype extends handle
 type minimapicon extends handle
-type animtype extends handle
+type mappedfield extends handle
+type mappedtype extends handle
+type attachmenttype extends mappedtype
+type bonetype extends attachmenttype
+type animtype extends mapdatatype
 type subanimtype extends animtype
+type cursoranimtype extends mapdatatype
 type projectile extends agent
 type doodad extends agent
 type framehandle extends handle
@@ -58,8 +63,12 @@ type handlelist extends handle
 type textfilehandle extends handle
 
 constant native ConvertProjectileType takes integer i returns projectiletype
+constant native ConvertMappedField takes integer i returns mappedfield
+constant native ConvertAttachmentType takes integer i returns attachmenttype
+constant native ConvertBoneType takes integer i returns bonetype
 constant native ConvertAnimType takes integer i returns animtype
 constant native ConvertSubAnimType takes integer i returns subanimtype
+constant native ConvertCursorAnimType takes integer i returns cursoranimtype
 constant native ConvertOriginFrameType takes integer i returns originframetype
 constant native ConvertFramePointType takes integer i returns framepointtype
 constant native ConvertTextAlignType takes integer i returns textaligntype
@@ -110,6 +119,51 @@ globals
 // Game Constants 
 //===================================================
 constant raritycontrol RARITY_QUEUE = ConvertRarityControl(2)
+
+constant mappedfield MAPPED_FIELD_ATTACHMENT = ConvertMappedField(0)
+constant mappedfield MAPPED_FIELD_BONE = ConvertMappedField(1)
+constant mappedfield MAPPED_FIELD_ANIMATION = ConvertMappedField(2)
+constant mappedfield MAPPED_FIELD_SUB_ANIMATION = ConvertMappedField(3)
+constant mappedfield MAPPED_CURSOR_SUB_ANIMATION = ConvertMappedField(4)
+
+constant attachmenttype ATTACHMENT_TYPE_CHEST = ConvertAttachmentType('ches')
+constant attachmenttype ATTACHMENT_TYPE_FEET = ConvertAttachmentType('feet')
+constant attachmenttype ATTACHMENT_TYPE_FOOT = ConvertAttachmentType('foot')
+constant attachmenttype ATTACHMENT_TYPE_HAND = ConvertAttachmentType('hand')
+constant attachmenttype ATTACHMENT_TYPE_HEAD = ConvertAttachmentType('head')
+constant attachmenttype ATTACHMENT_TYPE_ORIGIN = ConvertAttachmentType('orig')
+constant attachmenttype ATTACHMENT_TYPE_OVERHEAD = ConvertAttachmentType('over')
+constant attachmenttype ATTACHMENT_TYPE_SPRITE = ConvertAttachmentType('spri')
+constant attachmenttype ATTACHMENT_TYPE_WEAPON = ConvertAttachmentType('weap')
+constant attachmenttype ATTACHMENT_TYPE_ALTERNATE = ConvertAttachmentType('alte')
+constant attachmenttype ATTACHMENT_TYPE_LEFT = ConvertAttachmentType('left')
+constant attachmenttype ATTACHMENT_TYPE_RIGHT = ConvertAttachmentType('righ')
+constant attachmenttype ATTACHMENT_TYPE_MOUNT = ConvertAttachmentType('moun')
+constant attachmenttype ATTACHMENT_TYPE_REAR = ConvertAttachmentType('rear')
+constant attachmenttype ATTACHMENT_TYPE_SMART = ConvertAttachmentType('smar')
+constant attachmenttype ATTACHMENT_TYPE_FIRST = ConvertAttachmentType('firs')
+constant attachmenttype ATTACHMENT_TYPE_SECOND = ConvertAttachmentType('seco')
+constant attachmenttype ATTACHMENT_TYPE_THIRD = ConvertAttachmentType('thir')
+constant attachmenttype ATTACHMENT_TYPE_FOURTH = ConvertAttachmentType('four')
+constant attachmenttype ATTACHMENT_TYPE_FIFTH = ConvertAttachmentType('fift')
+constant attachmenttype ATTACHMENT_TYPE_SIXTH = ConvertAttachmentType('sixt')
+constant attachmenttype ATTACHMENT_TYPE_SMALL = ConvertAttachmentType('smal')
+constant attachmenttype ATTACHMENT_TYPE_MEDIUM = ConvertAttachmentType('medi')
+constant attachmenttype ATTACHMENT_TYPE_LARGE = ConvertAttachmentType('larg')
+constant attachmenttype ATTACHMENT_TYPE_GOLD = ConvertAttachmentType('gold')
+constant attachmenttype ATTACHMENT_TYPE_RALLYPOINT = ConvertAttachmentType('rall')
+constant attachmenttype ATTACHMENT_TYPE_EAT_TREE = ConvertAttachmentType('eatt')
+
+constant bonetype BONE_TYPE_CHEST = ConvertBoneType('ches')
+constant bonetype BONE_TYPE_FOOT = ConvertBoneType('foot')
+constant bonetype BONE_TYPE_HAND = ConvertBoneType('hand')
+constant bonetype BONE_TYPE_HEAD = ConvertBoneType('head')
+constant bonetype BONE_TYPE_TURRET = ConvertBoneType('turr')
+constant bonetype BONE_TYPE_ALTERNATE = ConvertBoneType('alte')
+constant bonetype BONE_TYPE_LEFT = ConvertBoneType('left')
+constant bonetype BONE_TYPE_RIGHT = ConvertBoneType('righ')
+constant bonetype BONE_TYPE_MOUNT = ConvertBoneType('moun')
+constant bonetype BONE_TYPE_SMART = ConvertBoneType('smar')
 
 constant animtype ANIM_TYPE_BIRTH = ConvertAnimType(0)
 constant animtype ANIM_TYPE_DEATH = ConvertAnimType(1)
@@ -175,6 +229,18 @@ constant subanimtype SUBANIM_TYPE_OFF = ConvertSubAnimType(59)
 constant subanimtype SUBANIM_TYPE_SWIM = ConvertSubAnimType(60)
 constant subanimtype SUBANIM_TYPE_ENTANGLE = ConvertSubAnimType(61)
 constant subanimtype SUBANIM_TYPE_BERSERK = ConvertSubAnimType(62)
+
+constant cursoranimtype CURSORANIM_TYPE_NORMAL = ConvertCursorAnimType(0)
+constant cursoranimtype CURSORANIM_TYPE_SELECT = ConvertCursorAnimType(1)
+constant cursoranimtype CURSORANIM_TYPE_TARGET = ConvertCursorAnimType(2)
+constant cursoranimtype CURSORANIM_TYPE_TARGET_SELECT = ConvertCursorAnimType(3)
+constant cursoranimtype CURSORANIM_TYPE_INVALID_TARGET = ConvertCursorAnimType(4)
+constant cursoranimtype CURSORANIM_TYPE_HOLD_ITEM = ConvertCursorAnimType(5)
+constant cursoranimtype CURSORANIM_TYPE_SCROLL = ConvertCursorAnimType(6)
+constant cursoranimtype CURSORANIM_TYPE_LEFT = ConvertCursorAnimType(7)
+constant cursoranimtype CURSORANIM_TYPE_RIGHT = ConvertCursorAnimType(8)
+constant cursoranimtype CURSORANIM_TYPE_UP = ConvertCursorAnimType(9)
+constant cursoranimtype CURSORANIM_TYPE_DOWN = ConvertCursorAnimType(10)
 
 //===================================================
 // For use with TriggerRegisterWidgetEvent
@@ -575,7 +641,7 @@ constant abilityintegerfield ABILITY_IF_BUTTON_HOTKEY_NORMAL = ConvertAbilityInt
 constant abilityintegerfield ABILITY_IF_BUTTON_HOTKEY_ACTIVATED = ConvertAbilityIntegerField('auhk')
 constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_ACTIVATED_X = ConvertAbilityIntegerField('aubx')
 constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_ACTIVATED_Y = ConvertAbilityIntegerField('auby')
-constant abilityintegerfield ABILITY_IF_BUTTON_HOTKEY_RESEARCH = ConvertAbilityIntegerField('auhk')
+constant abilityintegerfield ABILITY_IF_BUTTON_HOTKEY_RESEARCH = ConvertAbilityIntegerField('arhk')
 constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_RESEARCH_X = ConvertAbilityIntegerField('arpx')
 constant abilityintegerfield ABILITY_IF_BUTTON_POSITION_RESEARCH_Y = ConvertAbilityIntegerField('arpy')
 constant abilityintegerfield ABILITY_IF_BUTTON_HOTKEY_ALL = ConvertAbilityIntegerField('ahtk') // Set only
@@ -701,7 +767,7 @@ constant abilityintegerlevelfield	ABILITY_ILF_DAMAGE_TO_SUMMONED_UNITS_IDID = Co
 constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_IREC = ConvertAbilityIntegerLevelField('Irec')
 constant abilityintegerlevelfield	ABILITY_ILF_DELAY_AFTER_DEATH_SECONDS = ConvertAbilityIntegerLevelField('Ircd')
 constant abilityintegerlevelfield	ABILITY_ILF_RESTORED_LIFE = ConvertAbilityIntegerLevelField('irc2')
-constant abilityintegerlevelfield	ABILITY_ILF_RESTORED_MANA__1_FOR_CURRENT = ConvertAbilityIntegerLevelField('irc3')
+constant abilityintegerlevelfield	ABILITY_ILF_RESTORED_MANA_1_FOR_CURRENT = ConvertAbilityIntegerLevelField('irc3')
 constant abilityintegerlevelfield	ABILITY_ILF_HIT_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Ihps')
 constant abilityintegerlevelfield	ABILITY_ILF_MANA_POINTS_RESTORED = ConvertAbilityIntegerLevelField('Imps')
 constant abilityintegerlevelfield	ABILITY_ILF_MAXIMUM_NUMBER_OF_UNITS_ITPM = ConvertAbilityIntegerLevelField('Itpm')
@@ -1656,6 +1722,7 @@ constant variabletype VARIABLE_TYPE_HANDLE_ARRAY = ConvertVariableType(12)
 constant variabletype VARIABLE_TYPE_BOOLEAN_ARRAY = ConvertVariableType(13)
 endglobals
 
+
 //================Custom natives=====================
 
 //===================================================
@@ -1909,7 +1976,7 @@ native TextFileExists takes string filePath returns boolean
 native TextFileGetPath takes textfilehandle whichTextFile returns string
 native TextFileClose takes textfilehandle whichTextFile returns nothing
 native TextFileClear takes textfilehandle whichTextFile returns nothing
-native TextFileErase takes textfilehandle whichTextFile returns nothing
+native TextFileDelete takes textfilehandle whichTextFile returns nothing
 native TextFileCountLines takes textfilehandle whichTextFile returns integer
 native TextFileReadLine takes textfilehandle whichTextFile, integer lineNumber returns string
 native TextFileReadAll takes textfilehandle whichTextFile returns string
@@ -1918,7 +1985,29 @@ native TextFileWriteLine takes textfilehandle whichTextFile, string text returns
 
 // Misc API
 native GetUjAPIVersion takes nothing returns string
-native GetAnimationName takes animtype whichAnim returns string
+
+native GetMiscDataString takes string sectionName, string optionName, integer index returns string
+native SetMiscDataString takes string sectionName, string optionName, integer index, string value returns nothing
+
+native GetSkinDataString takes string raceName, string sectionName, string optionName, integer index returns string // raceName can be null
+native SetSkinDataString takes string raceName, string sectionName, string optionName, integer index, string value returns nothing // raceName can be null
+
+native GetFDFDataString takes string sectionName returns string
+native SetFDFDataString takes string sectionName, string value returns nothing
+
+native GetMappedTypeName takes mappedfield whichField, mappedtype whichMapType returns string
+//
+
+// Trigger API
+native TriggerCountEvents takes trigger whichTrigger returns integer
+native TriggerCountConditions takes trigger whichTrigger returns integer
+native TriggerCountActions takes trigger whichTrigger returns integer
+
+native TriggerRemoveEvent takes trigger whichTrigger, event whichEvent returns nothing
+native TriggerRemoveEventId takes trigger whichTrigger, eventid whichEventId, boolean removeAllOccurences returns nothing
+native TriggerClearEvents takes trigger whichTrigger returns nothing
+
+native TriggerClear takes trigger whichTrigger returns nothing // Clears all Events/Conditions/Actions
 //
 
 // Sound API
@@ -2148,11 +2237,11 @@ native HandleListEnumDestructablesInRect takes handlelist whichHandleList, rect 
 native HandleListEnumEffectsInRect takes handlelist whichHandleList, rect whichRect, boolexpr filter returns nothing
 native HandleListEnumProjectilesInRect takes handlelist whichHandleList, rect whichRect, boolexpr filter returns nothing
 
-native HandleListEnumByTypeId takes handlelist whichHandleList, integer typeId, boolexpr filter returns nothing
+native HandleListEnumByTypeId takes handlelist whichHandleList, integer handleTypeId, boolexpr filter returns nothing
 native HandleListEnumByTypeIdEx takes handlelist whichHandleList, integer handleTypeId, integer typeId, boolexpr filter returns nothing
 
 native HandleListForEach takes handlelist whichHandleList, code c returns nothing
-native HandleListForEachByTypeId takes handlelist whichHandleList, integer typeId, code c returns nothing
+native HandleListForEachByTypeId takes handlelist whichHandleList, integer handleTypeId, code c returns nothing
 native HandleListForEachByTypeIdEx takes handlelist whichHandleList, integer handleTypeId, integer typeId, code c returns nothing
 //
 
@@ -2475,6 +2564,7 @@ native GetSpecialEffectModelObjectPositionY takes effect whichEffect, string whi
 native GetSpecialEffectModelObjectPositionZ takes effect whichEffect, string whichObject returns real
 native GetSpecialEffectModelObjectPositionLoc takes effect whichEffect, string whichObject returns location
 native GetSpecialEffectCurrentAnimationId takes effect whichEffect returns integer
+native GetSpecialEffectCurrentAnimationName takes effect whichEffect returns string
 native SetSpecialEffectAnimationWithRarityByIndex takes effect whichEffect, integer animIndex, raritycontrol rarity returns nothing
 native SetSpecialEffectAnimationWithRarity takes effect whichEffect, string animationName, raritycontrol rarity returns nothing
 native SetSpecialEffectAnimationByIndex takes effect whichEffect, integer animIndex returns nothing
@@ -2539,6 +2629,7 @@ native GetTrackableModelObjectPositionY takes trackable whichTrackable, string w
 native GetTrackableModelObjectPositionZ takes trackable whichTrackable, string whichObject returns real
 native GetTrackableModelObjectPositionLoc takes trackable whichTrackable, string whichObject returns location
 native GetTrackableCurrentAnimationId takes trackable whichTrackable returns integer
+native GetTrackableCurrentAnimationName takes trackable whichTrackable returns string
 native SetTrackableAnimationWithRarityByIndex takes trackable whichTrackable, integer animIndex, raritycontrol rarity returns nothing
 native SetTrackableAnimationWithRarity takes trackable whichTrackable, string animationName, raritycontrol rarity returns nothing
 native SetTrackableAnimationByIndex takes trackable whichTrackable, integer animIndex returns nothing
@@ -2597,6 +2688,7 @@ native GetWidgetModelObjectPositionY takes widget whichWidget, string whichObjec
 native GetWidgetModelObjectPositionZ takes widget whichWidget, string whichObject returns real
 native GetWidgetModelObjectPositionLoc takes widget whichWidget, string whichObject returns location
 native GetWidgetCurrentAnimationId takes widget whichWidget returns integer
+native GetWidgetCurrentAnimationName takes widget whichWidget returns string
 native SetWidgetAnimationWithRarityByIndex takes widget whichWidget, integer animIndex, raritycontrol rarity returns nothing
 native SetWidgetAnimationWithRarity takes widget whichWidget, string animationName, raritycontrol rarity returns nothing
 native SetWidgetAnimationByIndex takes widget whichWidget, integer animIndex returns nothing
@@ -2642,6 +2734,7 @@ native GetDestructableModelObjectPositionY takes destructable whichDestructable,
 native GetDestructableModelObjectPositionZ takes destructable whichDestructable, string whichObject returns real
 native GetDestructableModelObjectPositionLoc takes destructable whichDestructable, string whichObject returns location
 native GetDestructableCurrentAnimationId takes destructable whichDestructable returns integer
+native GetDestructableCurrentAnimationName takes destructable whichDestructable returns string
 native SetDestructableAnimationWithRarityByIndex takes destructable whichDestructable, integer animIndex, raritycontrol rarity returns nothing
 native SetDestructableAnimationWithRarity takes destructable whichDestructable, string animationName, raritycontrol rarity returns nothing
 native SetDestructableAnimationByIndex takes destructable whichDestructable, integer animIndex returns nothing
@@ -2721,6 +2814,7 @@ native GetItemModelObjectPositionY takes item whichItem, string whichObject retu
 native GetItemModelObjectPositionZ takes item whichItem, string whichObject returns real
 native GetItemModelObjectPositionLoc takes item whichItem, string whichObject returns location
 native GetItemCurrentAnimationId takes item whichItem returns integer
+native GetItemCurrentAnimationName takes item whichItem returns string
 native SetItemAnimationWithRarityByIndex takes item whichItem, integer animIndex, raritycontrol rarity returns nothing
 native SetItemAnimationWithRarity takes item whichItem, string animationName, raritycontrol rarity returns nothing
 native SetItemAnimationByIndex takes item whichItem, integer animIndex returns nothing
@@ -2949,6 +3043,7 @@ native GetUnitModelObjectPositionY takes unit whichUnit, string whichObject retu
 native GetUnitModelObjectPositionZ takes unit whichUnit, string whichObject returns real
 native GetUnitModelObjectPositionLoc takes unit whichUnit, string whichObject returns location
 native GetUnitCurrentAnimationId takes unit whichUnit returns integer
+native GetUnitCurrentAnimationName takes unit whichUnit returns string
 native SetUnitAnimationOffsetPercent takes unit whichUnit, real percent returns boolean
 //
 
@@ -3026,6 +3121,7 @@ native GetProjectileModelObjectPositionY takes projectile whichProjectile, strin
 native GetProjectileModelObjectPositionZ takes projectile whichProjectile, string whichObject returns real
 native GetProjectileModelObjectPositionLoc takes projectile whichProjectile, string whichObject returns location
 native GetProjectileCurrentAnimationId takes projectile whichProjectile returns integer
+native GetProjectileCurrentAnimationName takes projectile whichProjectile returns string
 native SetProjectileAnimationWithRarityByIndex takes projectile whichProjectile, integer animIndex, raritycontrol rarity returns nothing
 native SetProjectileAnimationWithRarity takes projectile whichProjectile, string animationName, raritycontrol rarity returns nothing
 native SetProjectileAnimationByIndex takes projectile whichProjectile, integer animIndex returns nothing
@@ -3093,7 +3189,8 @@ native EditBlackBorders takes real upperHeight, real bottomHeight returns nothin
 native LoadTOCFile takes string TOCFile returns boolean
 native CreateFrame takes string templateName, framehandle whichParent, integer priority, integer createContext returns framehandle
 native CreateSimpleFrame takes string templateName, framehandle whichParent, integer createContext returns framehandle
-native CreateFrameByType takes string frameType, string name, framehandle whichParent, string templateName, integer createContext returns framehandle
+native CreateSimpleGlueFrame takes framehandle whichSimpleParent, framehandle whichSpriteFrame returns framehandle
+native CreateFrameByType takes string frameType, string contextName, framehandle whichParent, string templateName, integer createContext returns framehandle
 native IsFrameRegion takes framehandle whichFrame returns boolean
 native IsFrameSimple takes framehandle whichFrame returns boolean
 native IsFrameComplex takes framehandle whichFrame returns boolean
@@ -3111,7 +3208,11 @@ native GetCSimpleTextureByName takes string frameName, integer createContext ret
 native GetCSimpleFrameByName takes string frameName, integer createContext returns framehandle
 native GetFrameUnderMouse takes nothing returns framehandle
 native GetFrameName takes framehandle whichFrame returns string
-native ClickFrameEx takes framehandle whichFrame, boolean isRightClick returns nothing
+native SetFrameName takes framehandle whichFrame, string contextName returns nothing
+native GetFrameContext takes framehandle whichFrame returns integer
+native SetFrameContext takes framehandle whichFrame, integer createContext returns nothing
+native SetFrameContextName takes framehandle whichFrame, string contextName, integer createContext returns nothing
+native ClickFrameEx takes framehandle whichFrame, mousebuttontype whichMouseButton returns nothing
 native ClickFrame takes framehandle whichFrame returns nothing
 native SetFrameText takes framehandle whichFrame, string text returns nothing
 native GetFrameText takes framehandle whichFrame returns string
@@ -3134,8 +3235,8 @@ native GetFrameColour takes framehandle whichFrame returns integer
 native SetFrameColour takes framehandle whichFrame, integer colour returns nothing
 native GetFrameAlphaEx takes framehandle whichFrame, integer textureId returns integer
 native SetFrameAlphaEx takes framehandle whichFrame, integer textureId, integer alpha returns nothing
-native SetFrameAlpha takes framehandle whichFrame, integer alpha returns nothing
 native GetFrameAlpha takes framehandle whichFrame returns integer
+native SetFrameAlpha takes framehandle whichFrame, integer alpha returns nothing
 native GetFrameTexture takes framehandle whichFrame, integer textureId returns string
 native SetFrameTextureEx takes framehandle whichFrame, string backgroundTextureFile, string borderTextureFile, integer textureId, boolean blend returns nothing
 native SetFrameTexture takes framehandle whichFrame, string textureFile, integer textureId, boolean blend returns nothing
@@ -3214,6 +3315,7 @@ native SetFrameSpriteReplaceableTexture takes framehandle whichFrame, string tex
 native SetFrameSpriteModel takes framehandle whichFrame, string modelName returns nothing
 native SetFrameSpriteModelEx takes framehandle whichFrame, string modelName, integer playerColour returns nothing
 native GetFrameSpriteCurrentAnimationId takes framehandle whichFrame returns integer
+native GetFrameSpriteCurrentAnimationName takes framehandle whichFrame returns string
 native SetFrameSpriteAnimationWithRarityByIndex takes framehandle whichFrame, integer animIndex, raritycontrol rarity returns nothing
 native SetFrameSpriteAnimationByIndex takes framehandle whichFrame, integer animIndex returns nothing
 native QueueFrameSpriteAnimationByIndex takes framehandle whichFrame, integer animIndex returns nothing
