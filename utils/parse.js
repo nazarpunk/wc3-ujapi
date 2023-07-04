@@ -208,9 +208,7 @@ const tolua = (path, {ujapi = false} = {}) => {
             }
             if (node.params) {
                 for (const p of node.params) {
-                    if (alias[p.name]) {
-                        p.name = alias[p.name];
-                    }
+                    if (alias[p.name]) p.name = alias[p.name];
                     write(`---@param ${p.name} ${p.type}\n`);
                 }
             }
