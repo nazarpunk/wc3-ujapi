@@ -7,7 +7,7 @@ const download = (url, dest, trim = false) => {
         response.pipe(file);
         file.on('finish', () => {
             file.close(() => {
-                fs.readFile(dest, 'utf8', (err, data) => {
+                fs.readFile(dest, {encoding: 'utf8'}, (err, data) => {
                     if (err) return console.log(err);
 
                     let result = data;
@@ -16,7 +16,7 @@ const download = (url, dest, trim = false) => {
                         .replace(/[^\S\r\n]{2,}/g, ' ')
                         .replace(/\n[^\S\r\n]+/g, '\n');
 
-                    fs.writeFile(dest, result, 'utf8', err => {
+                    fs.writeFile(dest, result, {encoding: 'utf8'}, err => {
                         if (err) return console.log(err);
                     });
                 });
