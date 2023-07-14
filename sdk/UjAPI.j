@@ -1720,8 +1720,17 @@ constant variabletype VARIABLE_TYPE_REAL_ARRAY = ConvertVariableType(10)
 constant variabletype VARIABLE_TYPE_STRING_ARRAY = ConvertVariableType(11)
 constant variabletype VARIABLE_TYPE_HANDLE_ARRAY = ConvertVariableType(12)
 constant variabletype VARIABLE_TYPE_BOOLEAN_ARRAY = ConvertVariableType(13)
-endglobals
 
+constant integer CORNER_FLAG_UPPER_LEFT = 1
+constant integer CORNER_FLAG_UPPER_RIGHT = 2
+constant integer CORNER_FLAG_BOTTOM_LEFT = 4
+constant integer CORNER_FLAG_BOTTOM_RIGHT = 8
+constant integer CORNER_FLAG_TOP = 16
+constant integer CORNER_FLAG_LEFT = 32
+constant integer CORNER_FLAG_BOTTOM = 64
+constant integer CORNER_FLAG_RIGHT = 128
+constant integer CORNER_FLAG_ALL = 255
+endglobals
 
 //================Custom natives=====================
 
@@ -2094,18 +2103,22 @@ native EnableAntiHack takes boolean enable returns nothing
 // Hashtable API
 //
 native SaveHandle takes hashtable table, integer parentKey, integer childKey, handle whichHandle returns boolean
+native SaveCode takes hashtable table, integer parentKey, integer childKey, code whichCode returns boolean
 native SaveAttackTypeHandle takes hashtable table, integer parentKey, integer childKey, attacktype whichAttackType returns boolean
 native SaveDamageTypeHandle takes hashtable table, integer parentKey, integer childKey, damagetype whichDamageType returns boolean
 native SaveWeaponTypeHandle takes hashtable table, integer parentKey, integer childKey, weapontype whichWeaponType returns boolean
 native SaveProjectileHandle takes hashtable table, integer parentKey, integer childKey, projectile whichProjectile returns boolean
 native SaveFrameHandle takes hashtable table, integer parentKey, integer childKey, framehandle whichFrame returns boolean
+native SaveHandleList takes hashtable table, integer parentKey, integer childKey, handlelist whichHandleList returns boolean
 
 native LoadHandle takes hashtable table, integer parentKey, integer childKey returns handle
+native LoadCode takes hashtable table, integer parentKey, integer childKey returns code
 native LoadAttackTypeHandle takes hashtable table, integer parentKey, integer childKey returns attacktype
 native LoadDamageTypeHandle takes hashtable table, integer parentKey, integer childKey returns damagetype
 native LoadWeaponTypeHandle takes hashtable table, integer parentKey, integer childKey returns weapontype
 native LoadProjectileHandle takes hashtable table, integer parentKey, integer childKey returns projectile
 native LoadFrameHandle takes hashtable table, integer parentKey, integer childKey returns framehandle
+native LoadHandleList takes hashtable table, integer parentKey, integer childKey returns handlelist
 //
 
 //============================================================================
@@ -3207,6 +3220,7 @@ native GetCSimpleFontStringByName takes string frameName, integer createContext 
 native GetCSimpleTextureByName takes string frameName, integer createContext returns framehandle
 native GetCSimpleFrameByName takes string frameName, integer createContext returns framehandle
 native GetFrameUnderMouse takes nothing returns framehandle
+native GetFrameTypeName takes framehandle whichFrame returns string
 native GetFrameName takes framehandle whichFrame returns string
 native SetFrameName takes framehandle whichFrame, string contextName returns nothing
 native GetFrameContext takes framehandle whichFrame returns integer
@@ -3238,7 +3252,7 @@ native SetFrameAlphaEx takes framehandle whichFrame, integer textureId, integer 
 native GetFrameAlpha takes framehandle whichFrame returns integer
 native SetFrameAlpha takes framehandle whichFrame, integer alpha returns nothing
 native GetFrameTexture takes framehandle whichFrame, integer textureId returns string
-native SetFrameTextureEx takes framehandle whichFrame, string backgroundTextureFile, string borderTextureFile, integer textureId, boolean blend returns nothing
+native SetFrameTextureEx takes framehandle whichFrame, string backgroundTextureFile, string borderTextureFile, integer borderFlags, integer textureId, boolean blend returns nothing
 native SetFrameTexture takes framehandle whichFrame, string textureFile, integer textureId, boolean blend returns nothing
 native SetFrameScale takes framehandle whichFrame, real scale returns nothing
 native SetFrameTooltip takes framehandle whichFrame, framehandle tooltipFrame returns nothing
@@ -3269,6 +3283,29 @@ native SetFrameCheckState takes framehandle whichFrame, boolean isCheck returns 
 //
 
 native SetMiniMapTexture takes string texturePath returns boolean
+
+// CListBox API
+native GetFrameItemsBorder takes framehandle listBox returns real
+native SetFrameItemsBorder takes framehandle listBox, real value returns nothing
+native GetFrameItemsHeight takes framehandle listBox returns real
+native SetFrameItemsHeight takes framehandle listBox, real value returns nothing
+
+// These functions return CListBoxItem frames.
+native AddFrameListItem takes framehandle listBox, string text, framehandle whichFrame returns framehandle
+native GetFrameListItemCount takes framehandle listBox returns integer
+native GetFrameListItemById takes framehandle listBox, integer id returns framehandle
+native SetFrameListItemById takes framehandle listBox, integer id, framehandle whichFrame returns nothing
+native GetFrameListItemByFrame takes framehandle listBox, framehandle frameToFind returns framehandle
+native SetFrameListItemByFrame takes framehandle listBox, framehandle frameToFind, framehandle whichFrame returns nothing
+native RemoveFrameListItem takes framehandle listBox, framehandle whichFrame returns nothing // this uses CListBoxItem
+native RemoveFrameListItemById takes framehandle listBox, integer id returns nothing
+native RemoveFrameListItemByFrame takes framehandle listBox, framehandle whichFrame returns nothing
+//
+
+// CListBoxItem API
+native GetFrameItemOwner takes framehandle listBoxItem returns framehandle
+native SetFrameItemOwner takes framehandle listBoxItem, framehandle whichFrame returns nothing
+//
 
 // Trigger Frame API
 native GetTriggerFrame takes nothing returns framehandle

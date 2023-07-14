@@ -5,7 +5,7 @@
   "keywords": [],
   "author": "nazarpunk",
   "contributors": [],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "type": "module",
   "devDependencies": {
     "jass-to-ast": "^2.0.2",

@@ -512,6 +512,19 @@ function AbilityId2String (abilityId) end
 ---@return string
 function GetObjectName (objectId) end
 
+---@return integer
+function GetBJMaxPlayers () end
+---@return integer
+function GetBJPlayerNeutralVictim () end
+---@return integer
+function GetBJPlayerNeutralExtra () end
+---@return integer
+function GetBJMaxPlayerSlots () end
+---@return integer
+function GetPlayerNeutralPassive () end
+---@return integer
+function GetPlayerNeutralAggressive () end
+
 
 -- ===================================================
 -- Game Constants
@@ -521,8 +534,8 @@ FALSE = false ---@type boolean
 TRUE = true ---@type boolean
 JASS_MAX_ARRAY_SIZE = 262144 ---@type integer
 
-PLAYER_NEUTRAL_PASSIVE = 15 ---@type integer
-PLAYER_NEUTRAL_AGGRESSIVE = 12 ---@type integer
+PLAYER_NEUTRAL_PASSIVE = GetPlayerNeutralPassive() ---@type integer
+PLAYER_NEUTRAL_AGGRESSIVE = GetPlayerNeutralAggressive() ---@type integer
 
 PLAYER_COLOR_RED = ConvertPlayerColor(0) ---@type playercolor
 PLAYER_COLOR_BLUE = ConvertPlayerColor(1) ---@type playercolor
@@ -536,6 +549,18 @@ PLAYER_COLOR_LIGHT_GRAY = ConvertPlayerColor(8) ---@type playercolor
 PLAYER_COLOR_LIGHT_BLUE = ConvertPlayerColor(9) ---@type playercolor
 PLAYER_COLOR_AQUA = ConvertPlayerColor(10) ---@type playercolor
 PLAYER_COLOR_BROWN = ConvertPlayerColor(11) ---@type playercolor
+PLAYER_COLOR_MAROON = ConvertPlayerColor(12) ---@type playercolor
+PLAYER_COLOR_NAVY = ConvertPlayerColor(13) ---@type playercolor
+PLAYER_COLOR_TURQUOISE = ConvertPlayerColor(14) ---@type playercolor
+PLAYER_COLOR_VIOLET = ConvertPlayerColor(15) ---@type playercolor
+PLAYER_COLOR_WHEAT = ConvertPlayerColor(16) ---@type playercolor
+PLAYER_COLOR_PEACH = ConvertPlayerColor(17) ---@type playercolor
+PLAYER_COLOR_MINT = ConvertPlayerColor(18) ---@type playercolor
+PLAYER_COLOR_LAVENDER = ConvertPlayerColor(19) ---@type playercolor
+PLAYER_COLOR_COAL = ConvertPlayerColor(20) ---@type playercolor
+PLAYER_COLOR_SNOW = ConvertPlayerColor(21) ---@type playercolor
+PLAYER_COLOR_EMERALD = ConvertPlayerColor(22) ---@type playercolor
+PLAYER_COLOR_PEANUT = ConvertPlayerColor(23) ---@type playercolor
 
 RACE_HUMAN = ConvertRace(1) ---@type race
 RACE_ORC = ConvertRace(2) ---@type race
@@ -2726,6 +2751,16 @@ VARIABLE_TYPE_REAL_ARRAY = ConvertVariableType(10) ---@type variabletype @UjAPI
 VARIABLE_TYPE_STRING_ARRAY = ConvertVariableType(11) ---@type variabletype @UjAPI
 VARIABLE_TYPE_HANDLE_ARRAY = ConvertVariableType(12) ---@type variabletype @UjAPI
 VARIABLE_TYPE_BOOLEAN_ARRAY = ConvertVariableType(13) ---@type variabletype @UjAPI
+
+CORNER_FLAG_UPPER_LEFT = 1 ---@type integer @UjAPI
+CORNER_FLAG_UPPER_RIGHT = 2 ---@type integer @UjAPI
+CORNER_FLAG_BOTTOM_LEFT = 4 ---@type integer @UjAPI
+CORNER_FLAG_BOTTOM_RIGHT = 8 ---@type integer @UjAPI
+CORNER_FLAG_TOP = 16 ---@type integer @UjAPI
+CORNER_FLAG_LEFT = 32 ---@type integer @UjAPI
+CORNER_FLAG_BOTTOM = 64 ---@type integer @UjAPI
+CORNER_FLAG_RIGHT = 128 ---@type integer @UjAPI
+CORNER_FLAG_ALL = 255 ---@type integer @UjAPI
 
 -- ============================================================================
 -- MathAPI
@@ -8492,6 +8527,13 @@ function SaveHandle (table, parentKey, childKey, whichHandle) end
 ---@param table hashtable
 ---@param parentKey integer
 ---@param childKey integer
+---@param whichCode code
+---@return boolean
+function SaveCode (table, parentKey, childKey, whichCode) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
 ---@param whichAttackType attacktype
 ---@return boolean
 function SaveAttackTypeHandle (table, parentKey, childKey, whichAttackType) end
@@ -8523,6 +8565,13 @@ function SaveProjectileHandle (table, parentKey, childKey, whichProjectile) end
 ---@param whichFrame framehandle
 ---@return boolean
 function SaveFrameHandle (table, parentKey, childKey, whichFrame) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichHandleList handlelist
+---@return boolean
+function SaveHandleList (table, parentKey, childKey, whichHandleList) end
 
 ---@author UjAPI
 ---@param table hashtable
@@ -8530,6 +8579,12 @@ function SaveFrameHandle (table, parentKey, childKey, whichFrame) end
 ---@param childKey integer
 ---@return handle
 function LoadHandle (table, parentKey, childKey) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return code
+function LoadCode (table, parentKey, childKey) end
 ---@author UjAPI
 ---@param table hashtable
 ---@param parentKey integer
@@ -8560,6 +8615,12 @@ function LoadProjectileHandle (table, parentKey, childKey) end
 ---@param childKey integer
 ---@return framehandle
 function LoadFrameHandle (table, parentKey, childKey) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return handlelist
+function LoadHandleList (table, parentKey, childKey) end
 -- 
 
 -- ============================================================================
@@ -12946,6 +13007,10 @@ function GetFrameUnderMouse () end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return string
+function GetFrameTypeName (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return string
 function GetFrameName (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
@@ -13074,13 +13139,23 @@ function SetFrameAlpha (whichFrame, alpha) end
 ---@param textureId integer
 ---@return string
 function GetFrameTexture (whichFrame, textureId) end
+---@param whichFrame framehandle
+---@param textureId integer
+---@param backgroundTextureFile string
+---@param allowTransparency boolean
+---@param blend boolean
+---@param borderTextureFile string
+---@param borderFlags integer
+---@param isControlBackdrop boolean
+function SetFrameBackdropTexture (whichFrame, textureId, backgroundTextureFile, allowTransparency, blend, borderTextureFile, borderFlags, isControlBackdrop) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@param backgroundTextureFile string
----@param borderTextureFile string
 ---@param textureId integer
+---@param backgroundTextureFile string
 ---@param blend boolean
-function SetFrameTextureEx (whichFrame, backgroundTextureFile, borderTextureFile, textureId, blend) end
+---@param borderTextureFile string
+---@param borderFlags integer
+function SetFrameTextureEx (whichFrame, textureId, backgroundTextureFile, blend, borderTextureFile, borderFlags) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureFile string
@@ -13206,6 +13281,124 @@ function SetFrameCheckState (whichFrame, isCheck) end
 ---@param texturePath string
 ---@return boolean
 function SetMiniMapTexture (texturePath) end
+
+-- CListBox API
+---@author UjAPI
+---@param listBox framehandle
+---@return real
+function GetFrameItemsBorder (listBox) end
+---@author UjAPI
+---@param listBox framehandle
+---@param value real
+function SetFrameItemsBorder (listBox, value) end
+---@author UjAPI
+---@param listBox framehandle
+---@return real
+function GetFrameItemsHeight (listBox) end
+---@author UjAPI
+---@param listBox framehandle
+---@param value real
+function SetFrameItemsHeight (listBox, value) end
+
+-- These functions return CListBoxItem frames.
+---@author UjAPI
+---@param listBox framehandle
+---@param text string
+---@param whichFrame framehandle
+---@return framehandle
+function AddFrameListItem (listBox, text, whichFrame) end
+---@author UjAPI
+---@param listBox framehandle
+---@return integer
+function GetFrameListItemCount (listBox) end
+---@author UjAPI
+---@param listBox framehandle
+---@param id integer
+---@return framehandle
+function GetFrameListItemById (listBox, id) end
+---@author UjAPI
+---@param listBox framehandle
+---@param id integer
+---@param whichFrame framehandle
+function SetFrameListItemById (listBox, id, whichFrame) end
+---@author UjAPI
+---@param listBox framehandle
+---@param frameToFind framehandle
+---@return framehandle
+function GetFrameListItemByFrame (listBox, frameToFind) end
+---@author UjAPI
+---@param listBox framehandle
+---@param frameToFind framehandle
+---@param whichFrame framehandle
+function SetFrameListItemByFrame (listBox, frameToFind, whichFrame) end
+---@author UjAPI
+---@param listBox framehandle
+---@param whichFrame framehandle
+function RemoveFrameListItem (listBox, whichFrame) end
+---@author UjAPI
+---@param listBox framehandle
+---@param id integer
+function RemoveFrameListItemById (listBox, id) end
+---@author UjAPI
+---@param listBox framehandle
+---@param whichFrame framehandle
+function RemoveFrameListItemByFrame (listBox, whichFrame) end
+-- 
+
+-- CListBoxItem API
+---@author UjAPI
+---@param listBoxItem framehandle
+---@return framehandle
+function GetFrameItemOwner (listBoxItem) end
+---@author UjAPI
+---@param listBoxItem framehandle
+---@param whichFrame framehandle
+function SetFrameItemOwner (listBoxItem, whichFrame) end
+-- 
+
+-- CBackdropFrame API | For corner flags refer to CORNER_FLAG. For CBackdropFrame and its children, backdropId has to be always 0.
+---@param whichFrame framehandle
+---@param backdropId integer
+---@return integer
+function GetFrameCornerFlags (whichFrame, backdropId) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@param cornerFlag integer
+function SetFrameCornerFlags (whichFrame, backdropId, cornerFlag) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@return real
+function GetFrameCornerSize (whichFrame, backdropId) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@param value real
+function SetFrameCornerSize (whichFrame, backdropId, value) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@return real
+function GetFrameBackgroundSize (whichFrame, backdropId) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@param value real
+function SetFrameBackgroundSize (whichFrame, backdropId, value) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@param insetId integer
+---@return real
+function GetFrameBackgroundInsetById (whichFrame, backdropId, insetId) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@param insetId integer
+---@param value real
+function SetFrameBackgroundInsetById (whichFrame, backdropId, insetId, value) end
+---@param whichFrame framehandle
+---@param backdropId integer
+---@param minX real
+---@param minY real
+---@param maxX real
+---@param maxY real
+function SetFrameBackgroundInsets (whichFrame, backdropId, minX, minY, maxX, maxY) end
+-- 
 
 -- Trigger Frame API
 ---@author UjAPI
