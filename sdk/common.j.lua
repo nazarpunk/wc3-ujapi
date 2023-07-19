@@ -525,6 +525,13 @@ function GetPlayerNeutralPassive () end
 ---@return integer
 function GetPlayerNeutralAggressive () end
 
+---@author UjAPI
+---@return integer
+function GetJassArrayLimit () end
+---@author UjAPI
+---@return integer
+function GetTextTagLimit () end
+
 
 -- ===================================================
 -- Game Constants
@@ -532,7 +539,8 @@ function GetPlayerNeutralAggressive () end
 
 FALSE = false ---@type boolean
 TRUE = true ---@type boolean
-JASS_MAX_ARRAY_SIZE = 262144 ---@type integer
+JASS_MAX_ARRAY_SIZE = GetJassArrayLimit() ---@type integer
+TEXT_TAG_MAX_SIZE = GetTextTagLimit() ---@type integer @UjAPI
 
 PLAYER_NEUTRAL_PASSIVE = GetPlayerNeutralPassive() ---@type integer
 PLAYER_NEUTRAL_AGGRESSIVE = GetPlayerNeutralAggressive() ---@type integer
@@ -7924,6 +7932,10 @@ function IsOperationLimitEnabled () end
 ---@param enable boolean
 function EnableOperationLimit (enable) end
 ---@author UjAPI
+---@param funcName string
+---@return code
+function GetCodeByName (funcName) end
+---@author UjAPI
 ---@param c code
 function ExecuteCode (c) end
 ---@author UjAPI
@@ -8717,12 +8729,21 @@ function HandleListAddList (destHandleList, sourceHandleList) end
 function HandleListRemoveList (destHandleList, sourceHandleList) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
+---@return integer
+function HandleListRemoveEmpty (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
 function HandleListClear (whichHandleList) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param whichHandle handle
 ---@return boolean
 function HandleListContainsHandle (whichHandleList, whichHandle) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param typeId integer
+---@return boolean
+function HandleListContainsTypeId (whichHandleList, typeId) end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -8786,6 +8807,12 @@ function HandleListGetHandleByIndex (whichHandleList, index) end
 ---@param index integer
 ---@return handle
 function HandleListGetHandleByIndexEx (whichHandleList, handleTypeId, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param typeId integer
+---@param index integer
+---@return handle
+function HandleListGetHandleByTypeId (whichHandleList, typeId, index) end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9148,6 +9175,14 @@ function SetTextTagZ (whichTextTag, z) end
 ---@author UjAPI
 ---@param whichTextTag texttag
 ---@return real
+function GetTextTagScreenX (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
+function GetTextTagScreenY (whichTextTag) end
+---@author UjAPI
+---@param whichTextTag texttag
+---@return real
 function GetTextTagHeight (whichTextTag) end
 ---@author UjAPI
 ---@param whichTextTag texttag
@@ -9232,6 +9267,127 @@ function GetTextTagText (whichTextTag) end
 -- 
 
 -- ============================================================================
+-- Lightning API
+-- 
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningSourceX (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningSourceX (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningSourceY (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningSourceY (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningSourceZ (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningSourceZ (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return location
+function GetLightningSourcePositionLocation (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param whichLocation location
+function SetLightningSourcePositionLocation (whichBolt, whichLocation) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningTargetX (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningTargetX (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningTargetY (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningTargetY (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningTargetZ (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningTargetZ (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return location
+function GetLightningTargetPositionLocation (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param whichLocation location
+function SetLightningTargetPositionLocation (whichBolt, whichLocation) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningScreenX (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningScreenY (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return integer
+function GetLightningColour (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningLength (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningLength (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningNoiseScaling (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningNoiseScaling (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningTextureCoordinates (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningTextureCoordinates (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningDuration (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningDuration (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return string
+function GetLightningTexture (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param textureName string
+function SetLightningTexture (whichBolt, textureName) end
+-- 
+
+-- ============================================================================
 -- Image API
 -- 
 ---@author UjAPI
@@ -9280,6 +9436,14 @@ function GetImagePositionLocation (whichImage) end
 ---@param whichImage image
 ---@param whichLocation location
 function SetImagePositionLocation (whichImage, whichLocation) end
+---@author UjAPI
+---@param whichImage image
+---@return real
+function GetImageScreenX (whichImage) end
+---@author UjAPI
+---@param whichImage image
+---@return real
+function GetImageScreenY (whichImage) end
 ---@author UjAPI
 ---@param whichImage image
 ---@return real
@@ -9365,6 +9529,42 @@ function SetImageTexture (whichImage, imagePath) end
 -- 
 
 -- ============================================================================
+-- Timer API
+-- 
+---@author UjAPI
+---@param whichTimer timer
+---@return boolean
+function TimerIsPaused (whichTimer) end
+---@author UjAPI
+---@param whichTimer timer
+function TimerRestart (whichTimer) end
+---@author UjAPI
+---@param whichTimer timer
+---@return boolean
+function TimerIsPeriodic (whichTimer) end
+---@author UjAPI
+---@param whichTimer timer
+---@param isPeriodic boolean
+function TimerSetPeriodic (whichTimer, isPeriodic) end
+---@author UjAPI
+---@param whichTimer timer
+---@param remaining real
+function TimerSetRemaining (whichTimer, remaining) end
+---@author UjAPI
+---@param whichTimer timer
+---@param timeout real
+function TimerSetTimeout (whichTimer, timeout) end
+---@author UjAPI
+---@param whichTimer timer
+---@return code
+function TimerGetCallback (whichTimer) end
+---@author UjAPI
+---@param whichTimer timer
+---@param whichFunction code
+function TimerSetCallback (whichTimer, whichFunction) end
+-- 
+
+-- ============================================================================
 -- Doodad API
 -- 
 ---@author UjAPI
@@ -9378,6 +9578,23 @@ function GetDoodadByIndex (index) end
 ---@param whichDoodad doodad
 ---@return integer
 function GetDoodadIndex (whichDoodad) end
+
+---@author UjAPI
+---@param whichDoodad doodad
+---@return string
+function GetDoodadModel (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param whichModel string
+function SetDoodadModel (whichDoodad, whichModel) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return boolean
+function IsDoodadVisible (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param isShow boolean
+function ShowDoodad (whichDoodad, isShow) end
 
 ---@author UjAPI
 ---@param whichDoodad doodad
@@ -10231,6 +10448,14 @@ function SetSpecialEffectHeight (whichEffect, height) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@return real
+function GetSpecialEffectScreenX (whichEffect) end
+---@author UjAPI
+---@param whichEffect effect
+---@return real
+function GetSpecialEffectScreenY (whichEffect) end
+---@author UjAPI
+---@param whichEffect effect
+---@return real
 function GetSpecialEffectScale (whichEffect) end
 ---@author UjAPI
 ---@param whichEffect effect
@@ -10500,6 +10725,14 @@ function SetTrackableHeight (whichTrackable, height) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@return real
+function GetTrackableScreenX (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@return real
+function GetTrackableScreenY (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@return real
 function GetTrackableScale (whichTrackable) end
 ---@author UjAPI
 ---@param whichTrackable trackable
@@ -10757,6 +10990,14 @@ function SetWidgetX (whichWidget, x) end
 function SetWidgetY (whichWidget, y) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@return real
+function GetWidgetScreenX (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
+---@return real
+function GetWidgetScreenY (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
 ---@return integer
 function GetWidgetVertexColour (whichWidget) end
 ---@author UjAPI
@@ -10949,6 +11190,14 @@ function SetDestructableX (whichDestructable, x) end
 ---@param whichDestructable destructable
 ---@param y real
 function SetDestructableY (whichDestructable, y) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return real
+function GetDestructableScreenX (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return real
+function GetDestructableScreenY (whichDestructable) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@return integer
@@ -11213,6 +11462,14 @@ function SetItemStringField (whichItem, whichField, value) end
 -- 
 
 -- Normal API
+---@author UjAPI
+---@param whichItem item
+---@return real
+function GetItemScreenX (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@return real
+function GetItemScreenY (whichItem) end
 ---@author UjAPI
 ---@param whichItem item
 ---@return real
@@ -11649,6 +11906,14 @@ function SetUnitWeaponStringField (whichUnit, whichField, index, value) end
 -- 
 
 -- Normal API
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitScreenX (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitScreenY (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param newId integer
@@ -12501,6 +12766,14 @@ function SetProjectileZ (whichProjectile, z) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@return real
+function GetProjectileScreenX (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileScreenY (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
 function GetProjectileHeight (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
@@ -13139,6 +13412,7 @@ function SetFrameAlpha (whichFrame, alpha) end
 ---@param textureId integer
 ---@return string
 function GetFrameTexture (whichFrame, textureId) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureId integer
 ---@param backgroundTextureFile string
@@ -13357,40 +13631,49 @@ function SetFrameItemOwner (listBoxItem, whichFrame) end
 -- 
 
 -- CBackdropFrame API | For corner flags refer to CORNER_FLAG. For CBackdropFrame and its children, backdropId has to be always 0.
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@return integer
 function GetFrameCornerFlags (whichFrame, backdropId) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@param cornerFlag integer
 function SetFrameCornerFlags (whichFrame, backdropId, cornerFlag) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@return real
 function GetFrameCornerSize (whichFrame, backdropId) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@param value real
 function SetFrameCornerSize (whichFrame, backdropId, value) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@return real
 function GetFrameBackgroundSize (whichFrame, backdropId) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@param value real
 function SetFrameBackgroundSize (whichFrame, backdropId, value) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@param insetId integer
 ---@return real
 function GetFrameBackgroundInsetById (whichFrame, backdropId, insetId) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@param insetId integer
 ---@param value real
 function SetFrameBackgroundInsetById (whichFrame, backdropId, insetId, value) end
+---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
 ---@param minX real

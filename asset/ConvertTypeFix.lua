@@ -1,3 +1,5 @@
+JASS_MAX_ARRAY_SIZE = GetJassArrayLimit() ---@type integer
+TEXT_TAG_MAX_SIZE = GetTextTagLimit() ---@type integer @UjAPI
 PLAYER_NEUTRAL_PASSIVE = GetPlayerNeutralPassive() ---@type integer
 PLAYER_NEUTRAL_AGGRESSIVE = GetPlayerNeutralAggressive() ---@type integer
 PLAYER_COLOR_RED = ConvertPlayerColor(0) ---@type playercolor
