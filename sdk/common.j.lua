@@ -2470,21 +2470,21 @@ UNIT_IF_DEFENSE_TYPE = ConvertUnitIntegerField(FourCC('udty'--[[1969517689--]]))
 UNIT_IF_ARMOR_TYPE = ConvertUnitIntegerField(FourCC('uarm'--[[1969320557--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_LOOPING_FADE_IN_RATE = ConvertUnitIntegerField(FourCC('ulfi'--[[1970038377--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_LOOPING_FADE_OUT_RATE = ConvertUnitIntegerField(FourCC('ulfo'--[[1970038383--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_AGILITY_BASE = ConvertUnitIntegerField(FourCC('ustr'--[[1970500722--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_INTELLIGENCE_BASE = ConvertUnitIntegerField(FourCC('uagi'--[[1969317737--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_STRENGTH_BASE = ConvertUnitIntegerField(FourCC('uint'--[[1969843828--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_STRENGTH_BASE = ConvertUnitIntegerField(FourCC('ustr'--[[1970500722--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_AGILITY_BASE = ConvertUnitIntegerField(FourCC('uagi'--[[1969317737--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_INTELLIGENCE_BASE = ConvertUnitIntegerField(FourCC('uint'--[[1969843828--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_STRENGTH = ConvertUnitIntegerField(FourCC('ustc'--[[1970500707--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_AGILITY = ConvertUnitIntegerField(FourCC('uagc'--[[1969317731--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_INTELLIGENCE = ConvertUnitIntegerField(FourCC('uinc'--[[1969843811--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_STRENGTH = ConvertUnitIntegerField(FourCC('ustc'--[[1970500707--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_STRENGTH_PERMANENT = ConvertUnitIntegerField(FourCC('ustm'--[[1970500717--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_AGILITY_PERMANENT = ConvertUnitIntegerField(FourCC('uagm'--[[1969317741--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_INTELLIGENCE_PERMANENT = ConvertUnitIntegerField(FourCC('uinm'--[[1969843821--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_STRENGTH_PERMANENT = ConvertUnitIntegerField(FourCC('ustm'--[[1970500717--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_STRENGTH_WITH_BONUS = ConvertUnitIntegerField(FourCC('ustb'--[[1970500706--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_AGILITY_WITH_BONUS = ConvertUnitIntegerField(FourCC('uagb'--[[1969317730--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_INTELLIGENCE_WITH_BONUS = ConvertUnitIntegerField(FourCC('uinb'--[[1969843810--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_STRENGTH_WITH_BONUS = ConvertUnitIntegerField(FourCC('ustb'--[[1970500706--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_STRENGTH_BONUS = ConvertUnitIntegerField(FourCC('ust+'--[[1970500651--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_AGILITY_BONUS = ConvertUnitIntegerField(FourCC('uag+'--[[1969317675--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_INTELLIGENCE_BONUS = ConvertUnitIntegerField(FourCC('uin+'--[[1969843755--]])) ---@type unitintegerfield @UjAPI
-UNIT_IF_STRENGTH_BONUS = ConvertUnitIntegerField(FourCC('ust+'--[[1970500651--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_FOOD_USED = ConvertUnitIntegerField(FourCC('ufoo'--[[1969647471--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_FOOD_PRODUCED = ConvertUnitIntegerField(FourCC('ufma'--[[1969646945--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_GOLD_COST = ConvertUnitIntegerField(FourCC('ugol'--[[1969713004--]])) ---@type unitintegerfield @UjAPI
@@ -8198,6 +8198,14 @@ function TextFileOpen (filePath) end
 ---@return boolean
 function TextFileExists (filePath) end
 ---@author UjAPI
+---@param filePath string
+---@return integer
+function TextFileGetSizeByPath (filePath) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+---@return integer
+function TextFileGetSize (whichTextFile) end
+---@author UjAPI
 ---@param whichTextFile textfilehandle
 ---@return string
 function TextFileGetPath (whichTextFile) end
@@ -8233,6 +8241,9 @@ function TextFileWriteLine (whichTextFile, text) end
 ---@author UjAPI
 ---@return string
 function GetUjAPIVersion () end
+---@author UjAPI
+---@return string
+function GetLocale () end
 
 ---@author UjAPI
 ---@param sectionName string
@@ -8478,6 +8489,15 @@ function GetMouseWorldZ () end
 
 -- Chat API
 ---@author UjAPI
+---@param toPlayer player
+---@param message string
+function DisplayWarningMessage (toPlayer, message) end
+---@author UjAPI
+---@param toPlayer player
+---@param duration real
+---@param message string
+function DisplayTimedWarningMessage (toPlayer, duration, message) end
+---@author UjAPI
 ---@param whichPlayer player
 ---@param recipient integer
 ---@param message string
@@ -8488,6 +8508,15 @@ function DisplayChatMessage (whichPlayer, recipient, message) end
 ---@param duration real
 ---@param message string
 function DisplayTimedChatMessage (whichPlayer, recipient, duration, message) end
+---@author UjAPI
+---@param toPlayer player
+---@param message string
+function DisplayTopMessage (toPlayer, message) end
+---@author UjAPI
+---@param toPlayer player
+---@param duration real
+---@param message string
+function DisplayTimedTopMessage (toPlayer, duration, message) end
 -- 
 
 -- Handle API
@@ -9347,6 +9376,30 @@ function GetLightningScreenY (whichBolt) end
 function GetLightningColour (whichBolt) end
 ---@author UjAPI
 ---@param whichBolt lightning
+---@return integer
+function GetLightningColourA (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return integer
+function GetLightningColourR (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return integer
+function GetLightningColourG (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return integer
+function GetLightningColourB (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param red integer
+---@param green integer
+---@param blue integer
+---@param alpha integer
+---@return boolean
+function SetLightningColour (whichBolt, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichBolt lightning
 ---@return real
 function GetLightningLength (whichBolt) end
 ---@author UjAPI
@@ -9568,6 +9621,28 @@ function TimerSetCallback (whichTimer, whichFunction) end
 -- Doodad API
 -- 
 ---@author UjAPI
+---@param objectid integer
+---@param x real
+---@param y real
+---@param face real
+---@param scale real
+---@param variation integer
+---@return doodad
+function CreateDoodad (objectid, x, y, face, scale, variation) end
+---@author UjAPI
+---@param objectid integer
+---@param x real
+---@param y real
+---@param z real
+---@param face real
+---@param scale real
+---@param variation integer
+---@return doodad
+function CreateDoodadZ (objectid, x, y, z, face, scale, variation) end
+---@author UjAPI
+---@param whichDoodad doodad
+function RemoveDoodad (whichDoodad) end
+---@author UjAPI
 ---@return integer
 function GetDoodadCount () end
 ---@author UjAPI
@@ -9578,7 +9653,134 @@ function GetDoodadByIndex (index) end
 ---@param whichDoodad doodad
 ---@return integer
 function GetDoodadIndex (whichDoodad) end
-
+---@author UjAPI
+---@param whichDoodad doodad
+---@return integer
+function GetDoodadColour (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param colour integer
+function SetDoodadColour (whichDoodad, colour) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param red integer
+---@param green integer
+---@param blue integer
+---@param alpha integer
+function SetDoodadVertexColour (whichDoodad, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadScale (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param facing real
+function SetDoodadScale (whichDoodad, facing) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadX (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+function SetDoodadX (whichDoodad, x) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadY (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param y real
+function SetDoodadY (whichDoodad, y) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadZ (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param z real
+function SetDoodadZ (whichDoodad, z) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+---@param y real
+function SetDoodadPosition (whichDoodad, x, y) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+---@param y real
+---@param z real
+function SetDoodadPositionEx (whichDoodad, x, y, z) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return location
+function GetDoodadPositionLocation (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param whichLocation location
+function SetDoodadPositionLocation (whichDoodad, whichLocation) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadScreenX (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadScreenY (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+---@param y real
+---@param z real
+function SetDoodadMatrixScale (whichDoodad, x, y, z) end
+---@author UjAPI
+---@param whichDoodad doodad
+function ResetDoodadMatrix (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param yaw real
+---@param pitch real
+---@param roll real
+---@param eulerOrder integer
+function SetDoodadOrientationEx (whichDoodad, yaw, pitch, roll, eulerOrder) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadYaw (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param yaw real
+function SetDoodadYaw (whichDoodad, yaw) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadFacing (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param facing real
+function SetDoodadFacing (whichDoodad, facing) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadPitch (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param pitch real
+function SetDoodadPitch (whichDoodad, pitch) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadRoll (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param roll real
+function SetDoodadRoll (whichDoodad, roll) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param yaw real
+---@param pitch real
+---@param roll real
+function SetDoodadOrientation (whichDoodad, yaw, pitch, roll) end
 ---@author UjAPI
 ---@param whichDoodad doodad
 ---@return string
@@ -9595,7 +9797,6 @@ function IsDoodadVisible (whichDoodad) end
 ---@param whichDoodad doodad
 ---@param isShow boolean
 function ShowDoodad (whichDoodad, isShow) end
-
 ---@author UjAPI
 ---@param whichDoodad doodad
 ---@param animIndex integer
@@ -10503,7 +10704,7 @@ function SetSpecialEffectVertexColour (whichEffect, red, green, blue, alpha) end
 function SetSpecialEffectMatrixScale (whichEffect, x, y, z) end
 ---@author UjAPI
 ---@param whichEffect effect
-function ResetSpecialEffectetMatrix (whichEffect) end
+function ResetSpecialEffectMatrix (whichEffect) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param yaw real
@@ -10939,12 +11140,15 @@ function EnumTrackablesInRange (x, y, radius, filter, handlerFunc) end
 -- Widget API
 -- 
 ---@author UjAPI
+---@param whichWidget widget
+---@return integer
+function GetWidgetTypeId (whichWidget) end
+---@author UjAPI
 ---@return boolean
 function IsWidgetTipEnabled () end
 ---@author UjAPI
 ---@param enable boolean
 function SetWidgetTipEnabled (enable) end
-
 ---@author UjAPI
 ---@param whichWidget widget
 ---@return boolean
@@ -12107,6 +12311,17 @@ function DisableUnitAbility (whichUnit, abilityId, hide, disable) end
 function EnableUnitAbility (whichUnit, abilityId, show, enable) end
 ---@author UjAPI
 ---@param whichUnit unit
+function UnitCancelTimedLife (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitRemainingTimedLife (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param duration real
+function SetUnitRemainingTimedLife (whichUnit, duration) end
+---@author UjAPI
+---@param whichUnit unit
 ---@return boolean
 function IsUnitSelectable (whichUnit) end
 ---@author UjAPI
@@ -12195,14 +12410,46 @@ function GetUnitAttackRemainingBackswing (whichUnit) end
 ---@param whichUnit unit
 ---@param time real
 function SetUnitAttackRemainingBackswing (whichUnit, time) end
+-- ignoreDistance only works if isInstant is set to true.
+---@author UjAPI
+---@param whichUnit unit
+---@param whichTarget widget
+---@param ignoreDistance boolean
+---@param isInstant boolean
+function UnitAttackTarget (whichUnit, whichTarget, ignoreDistance, isInstant) end
+---@author UjAPI
+---@param whichUnit unit
+---@param x real
+---@param y real
+---@param z real
+---@param ignoreDistance boolean
+---@param isInstant boolean
+function UnitAttackTargetPointZ (whichUnit, x, y, z, ignoreDistance, isInstant) end
+---@author UjAPI
+---@param whichUnit unit
+---@param x real
+---@param y real
+---@param ignoreDistance boolean
+---@param isInstant boolean
+function UnitAttackTargetPoint (whichUnit, x, y, ignoreDistance, isInstant) end
+---@author UjAPI
+---@param whichUnit unit
+---@param whichLocation location
+---@param ignoreDistance boolean
+---@param isInstant boolean
+function UnitAttackTargetPointLoc (whichUnit, whichLocation, ignoreDistance, isInstant) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
-function UnitResetAttack (whichUnit) end
+function UnitAttackCancel (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
-function UnitFinishAttack (whichUnit) end
+function UnitAttackRestart (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return boolean
+function UnitAttackFinish (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param attackIndex integer
@@ -12560,6 +12807,22 @@ function SetUnitKiller (whichUnit, killer) end
 function KillUnitEx (whichUnit, killer) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@return widget
+function GetUnitTarget (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return unit
+function GetUnitTargetUnit (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return item
+function GetUnitTargetItem (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return destructable
+function GetUnitTargetDestructable (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
 ---@param uid integer
 ---@param unitFlags integer
 ---@param updateHealthState boolean
@@ -12608,6 +12871,48 @@ function GetUnitCurrentAnimationName (whichUnit) end
 ---@param percent real
 ---@return boolean
 function SetUnitAnimationOffsetPercent (whichUnit, percent) end
+-- 
+
+-- Illusion API
+
+-- All created illusions are created without timed life, this can and should be handled by the mapmaker.
+---@author UjAPI
+---@param whichPlayer player
+---@param unitTypeId integer
+---@param x real
+---@param y real
+---@param facing real
+---@return unit
+function CreateIllusion (whichPlayer, unitTypeId, x, y, facing) end
+---@author UjAPI
+---@param whichPlayer player
+---@param unitTypeId integer
+---@param whichLocation location
+---@param facing real
+---@return unit
+function CreateIllusionAtLoc (whichPlayer, unitTypeId, whichLocation, facing) end
+---@author UjAPI
+---@param whichUnit unit
+---@return unit
+function CreateIllusionFromUnit (whichUnit) end
+
+-- Damage Dealt and Received are multipliers, not direct values. These will only work on illusions created by abilities/items or by: CreateUnitIllusion, CreateUnitIllusionAtLoc and CloneUnit.
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetIllusionDamageDealt (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param multiplier real
+function SetIllusionDamageDealt (whichUnit, multiplier) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetIllusionDamageReceived (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param multiplier real
+function SetIllusionDamageReceived (whichUnit, multiplier) end
 -- 
 
 -- Order API
@@ -13450,17 +13755,26 @@ function SetFrameTooltip (whichFrame, tooltipFrame) end
 function SetFrameMouseCaged (whichFrame, enable) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@return real
+function GetFrameValue (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param value real
 function SetFrameValue (whichFrame, value) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@return real
-function GetFrameValue (whichFrame) end
+---@param value real
+---@param isFireEvent boolean
+function SetFrameValueEx (whichFrame, value, isFireEvent) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param minVal real
 ---@param maxVal real
 function SetFrameMinMaxValues (whichFrame, minVal, maxVal) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return real
+function GetFrameStepSize (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param stepSize real
