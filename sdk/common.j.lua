@@ -111,31 +111,31 @@
 ---@class frameeventtype:handle @UjAPI
 ---@class oskeytype:handle @UjAPI
 ---@class mousebuttontype:handle @UjAPI
----@class abilityintegerfield:handle @UjAPI
----@class abilityrealfield:handle @UjAPI
----@class abilitybooleanfield:handle @UjAPI
----@class abilitystringfield:handle @UjAPI
----@class abilityintegerlevelfield:handle @UjAPI
----@class abilityreallevelfield:handle @UjAPI
----@class abilitybooleanlevelfield:handle @UjAPI
----@class abilitystringlevelfield:handle @UjAPI
----@class abilityintegerlevelarrayfield:handle @UjAPI
----@class abilityreallevelarrayfield:handle @UjAPI
----@class abilitybooleanlevelarrayfield:handle @UjAPI
----@class abilitystringlevelarrayfield:handle @UjAPI
----@class buffstringfield:handle @UjAPI
----@class unitintegerfield:handle @UjAPI
----@class unitrealfield:handle @UjAPI
----@class unitbooleanfield:handle @UjAPI
----@class unitstringfield:handle @UjAPI
----@class unitweaponintegerfield:handle @UjAPI
----@class unitweaponrealfield:handle @UjAPI
----@class unitweaponbooleanfield:handle @UjAPI
----@class unitweaponstringfield:handle @UjAPI
----@class itemintegerfield:handle @UjAPI
----@class itemrealfield:handle @UjAPI
----@class itembooleanfield:handle @UjAPI
----@class itemstringfield:handle @UjAPI
+---@class agentdatafield:handle @UjAPI
+---@class abilityintegerfield:agentdatafield @UjAPI
+---@class abilityrealfield:agentdatafield @UjAPI
+---@class abilitybooleanfield:agentdatafield @UjAPI
+---@class abilitystringfield:agentdatafield @UjAPI
+---@class abilityintegerlevelfield:abilityintegerfield @UjAPI
+---@class abilityreallevelfield:abilityrealfield @UjAPI
+---@class abilitybooleanlevelfield:abilitybooleanfield @UjAPI
+---@class abilitystringlevelfield:abilitystringfield @UjAPI
+---@class abilityintegerlevelarrayfield:abilityintegerlevelfield @UjAPI
+---@class abilityreallevelarrayfield:abilityreallevelfield @UjAPI
+---@class abilitybooleanlevelarrayfield:abilitybooleanlevelfield @UjAPI
+---@class abilitystringlevelarrayfield:abilitystringlevelfield @UjAPI
+---@class unitintegerfield:agentdatafield @UjAPI
+---@class unitrealfield:agentdatafield @UjAPI
+---@class unitbooleanfield:agentdatafield @UjAPI
+---@class unitstringfield:agentdatafield @UjAPI
+---@class unitweaponintegerfield:agentdatafield @UjAPI
+---@class unitweaponrealfield:agentdatafield @UjAPI
+---@class unitweaponbooleanfield:agentdatafield @UjAPI
+---@class unitweaponstringfield:agentdatafield @UjAPI
+---@class itemintegerfield:agentdatafield @UjAPI
+---@class itemrealfield:agentdatafield @UjAPI
+---@class itembooleanfield:agentdatafield @UjAPI
+---@class itemstringfield:agentdatafield @UjAPI
 ---@class movetype:handle @UjAPI
 ---@class pathingaitype:handle @UjAPI
 ---@class collisiontype:handle @UjAPI
@@ -385,10 +385,6 @@ function ConvertAbilityBooleanLevelArrayField (i) end
 ---@param i integer
 ---@return abilitystringlevelarrayfield
 function ConvertAbilityStringLevelArrayField (i) end
----@author UjAPI
----@param i integer
----@return buffstringfield
-function ConvertBuffStringField (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return unitintegerfield
@@ -2420,9 +2416,9 @@ ABILITY_SLF_ABILITY_UPGRADE_4 = ConvertAbilityStringLevelField(FourCC('Neg6'--[[
 ABILITY_SLF_SPAWN_UNIT_ID_NSY2 = ConvertAbilityStringLevelField(FourCC('Nsy2'--[[1316190514--]])) ---@type abilitystringlevelfield @UjAPI
 
 -- Buff
-BUFF_SF_ICON_NORMAL = ConvertBuffStringField(FourCC('fart'--[[1717662324--]])) ---@type buffstringfield @UjAPI
-BUFF_SF_TOOLTIP_NORMAL = ConvertBuffStringField(FourCC('ftip'--[[1718905200--]])) ---@type buffstringfield @UjAPI
-BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertBuffStringField(FourCC('fube'--[[1718968933--]])) ---@type buffstringfield @UjAPI
+BUFF_SF_ICON_NORMAL = ConvertAbilityStringField(FourCC('fart'--[[1717662324--]])) ---@type abilitystringfield @UjAPI
+BUFF_SF_TOOLTIP_NORMAL = ConvertAbilityStringField(FourCC('ftip'--[[1718905200--]])) ---@type abilitystringfield @UjAPI
+BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringField(FourCC('fube'--[[1718968933--]])) ---@type abilitystringfield @UjAPI
 
 -- Item
 ITEM_IF_TINTING_COLOR = ConvertItemIntegerField(FourCC('iclt'--[[1768123508--]])) ---@type itemintegerfield @UjAPI
@@ -8807,6 +8803,10 @@ function HandleListGetDestructableCount (whichHandleList) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@return integer
+function HandleListGetDoodadCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
 function HandleListGetAbilityCount (whichHandleList) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -8871,6 +8871,11 @@ function HandleListGetDestructableByIndex (whichHandleList, index) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param index integer
+---@return doodad
+function HandleListGetDoodadByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
 ---@return ability
 function HandleListGetAbilityByIndex (whichHandleList, index) end
 ---@author UjAPI
@@ -8913,6 +8918,9 @@ function HandleListGetFilterItem () end
 ---@return destructable
 function HandleListGetFilterDestructable () end
 ---@author UjAPI
+---@return doodad
+function HandleListGetFilterDoodad () end
+---@author UjAPI
 ---@return ability
 function HandleListGetFilterAbility () end
 ---@author UjAPI
@@ -8946,6 +8954,9 @@ function HandleListGetEnumItem () end
 ---@author UjAPI
 ---@return destructable
 function HandleListGetEnumDestructable () end
+---@author UjAPI
+---@return doodad
+function HandleListGetEnumDoodad () end
 ---@author UjAPI
 ---@return ability
 function HandleListGetEnumAbility () end
@@ -9019,6 +9030,13 @@ function HandleListEnumDestructablesInRange (whichHandleList, x, y, radius, filt
 ---@param y real
 ---@param radius real
 ---@param filter boolexpr
+function HandleListEnumDoodadsInRange (whichHandleList, x, y, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
 function HandleListEnumEffectsInRange (whichHandleList, x, y, radius, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9077,6 +9095,12 @@ function HandleListEnumDestructablesInRangeOfLoc (whichHandleList, whichLocation
 ---@param whichLocation location
 ---@param radius real
 ---@param filter boolexpr
+function HandleListEnumDoodadsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichLocation location
+---@param radius real
+---@param filter boolexpr
 function HandleListEnumEffectsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9126,6 +9150,11 @@ function HandleListEnumDestructablesInRect (whichHandleList, whichRect, filter) 
 ---@param whichHandleList handlelist
 ---@param whichRect rect
 ---@param filter boolexpr
+function HandleListEnumDoodadsInRect (whichHandleList, whichRect, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichRect rect
+---@param filter boolexpr
 function HandleListEnumEffectsInRect (whichHandleList, whichRect, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9144,6 +9173,17 @@ function HandleListEnumByTypeId (whichHandleList, handleTypeId, filter) end
 ---@param typeId integer
 ---@param filter boolexpr
 function HandleListEnumByTypeIdEx (whichHandleList, handleTypeId, typeId, filter) end
+
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichUnit unit
+---@param filter boolexpr
+function HandleListEnumUnitAbilities (whichHandleList, whichUnit, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichUnit unit
+---@param filter boolexpr
+function HandleListEnumUnitBuffs (whichHandleList, whichUnit, filter) end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -10336,9 +10376,17 @@ function IsAbilityBaseTargetAllowed (abilityId, source, target) end
 
 -- Normal API
 ---@author UjAPI
+---@param abilityId integer
+---@return ability
+function CreateAbility (abilityId) end
+---@author UjAPI
 ---@param whichAbility ability
 ---@return unit
 function GetAbilityOwner (whichAbility) end
+---@author UjAPI
+---@param whichAbility ability
+---@param whichUnit unit
+function SetAbilityOwner (whichAbility, whichUnit) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return integer
@@ -10495,33 +10543,79 @@ function EnumUnitAbilities (whichUnit, whichBoolexpr, whichCode) end
 
 -- Base Field API
 ---@author UjAPI
----@param aid integer
----@param whichField buffstringfield
+---@param buffId integer
+---@param whichField abilitystringfield
 ---@return string
-function GetBuffBaseStringFieldById (aid, whichField) end
+function GetBuffBaseStringFieldById (buffId, whichField) end
 ---@author UjAPI
----@param aid integer
----@param whichField buffstringfield
+---@param buffId integer
+---@param whichField abilitystringfield
 ---@param value string
 ---@return boolean
-function SetBuffBaseStringFieldById (aid, whichField, value) end
+function SetBuffBaseStringFieldById (buffId, whichField, value) end
 -- 
 
 -- Field API
 ---@author UjAPI
 ---@param whichBuff buff
----@param whichField buffstringfield
+---@param whichField abilityintegerfield
+---@return integer
+function GetBuffIntegerField (whichBuff, whichField) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityintegerfield
+---@param value integer
+---@return boolean
+function SetBuffIntegerField (whichBuff, whichField, value) end
+
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitybooleanfield
+---@return boolean
+function GetBuffBooleanField (whichBuff, whichField) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitybooleanfield
+---@param value boolean
+---@return boolean
+function SetBuffBooleanField (whichBuff, whichField, value) end
+
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityrealfield
+---@return real
+function GetBuffRealField (whichBuff, whichField) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityrealfield
+---@param value real
+---@return boolean
+function SetBuffRealField (whichBuff, whichField, value) end
+
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitystringfield
 ---@return string
 function GetBuffStringField (whichBuff, whichField) end
 ---@author UjAPI
 ---@param whichBuff buff
----@param whichField buffstringfield
+---@param whichField abilitystringfield
 ---@param value string
 ---@return boolean
 function SetBuffStringField (whichBuff, whichField, value) end
+
+---@author UjAPI
+---@param whichBuff buff
+---@return boolean
+function ResetBuffFieldData (whichBuff) end
 -- 
 
 -- Normal API
+---@author UjAPI
+---@param buffId integer
+---@return buff
+function CreateBuff (buffId) end
+
 ---@author UjAPI
 ---@param whichBuff buff
 ---@return integer
@@ -10534,6 +10628,10 @@ function GetBuffBaseTypeId (whichBuff) end
 ---@param whichbuff buff
 ---@return unit
 function GetBuffOwner (whichbuff) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichUnit unit
+function SetBuffOwner (whichBuff, whichUnit) end
 ---@author UjAPI
 ---@param whichBuff buff
 ---@return integer
@@ -12189,15 +12287,8 @@ function IsUnitInventoryEnabled (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param enable boolean
-function EnableUnitInventory (whichUnit, enable) end
----@author UjAPI
----@param whichUnit unit
----@return boolean
-function IsUnitInventoryEnabledEx (whichUnit) end
----@author UjAPI
----@param whichUnit unit
----@param enable boolean
-function EnableUnitInventoryEx (whichUnit, enable) end
+---@param ignoreErrorMessages boolean
+function UnitEnableInventory (whichUnit, enable, ignoreErrorMessages) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
@@ -12205,15 +12296,8 @@ function IsUnitMovementEnabled (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param enable boolean
-function EnableUnitMovement (whichUnit, enable) end
----@author UjAPI
----@param whichUnit unit
----@return boolean
-function IsUnitMovementEnabledEx (whichUnit) end
----@author UjAPI
----@param whichUnit unit
----@param enable boolean
-function EnableUnitMovementEx (whichUnit, enable) end
+---@param fullDisable boolean
+function UnitEnableMovement (whichUnit, enable, fullDisable) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
@@ -12221,15 +12305,8 @@ function IsUnitAttackEnabled (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param enable boolean
-function EnableUnitAttack (whichUnit, enable) end
----@author UjAPI
----@param whichUnit unit
----@return boolean
-function IsUnitAttackEnabledEx (whichUnit) end
----@author UjAPI
----@param whichUnit unit
----@param enable boolean
-function EnableUnitAttackEx (whichUnit, enable) end
+---@param extraFlag boolean
+function UnitEnableAttack (whichUnit, enable, extraFlag) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param additionalCheck boolean
@@ -12250,6 +12327,8 @@ function UnitUnapplyUpgrades (whichUnit) end
 ---@param whichUnit unit
 ---@return integer
 function UnitApplyUpgrades (whichUnit) end
+
+-- Unit Ability API
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param aid integer
@@ -12260,21 +12339,6 @@ function GetUnitAbility (whichUnit, aid) end
 ---@param index integer
 ---@return ability
 function GetUnitAbilityByIndex (whichUnit, index) end
----@author UjAPI
----@param whichUnit unit
----@param buffId integer
----@return buff
-function GetUnitBuff (whichUnit, buffId) end
----@author UjAPI
----@param whichUnit unit
----@param index integer
----@return buff
-function GetUnitBuffByIndex (whichUnit, index) end
----@author UjAPI
----@param whichUnit unit
----@param buffId integer
----@return integer
-function GetUnitBuffLevel (whichUnit, buffId) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param abilityId integer
@@ -12309,6 +12373,51 @@ function DisableUnitAbility (whichUnit, abilityId, hide, disable) end
 ---@param show boolean
 ---@param enable boolean
 function EnableUnitAbility (whichUnit, abilityId, show, enable) end
+-- 
+
+-- Unit Buff API
+-- In very early stages of development, may be unstable for now.
+---@author UjAPI
+---@param whichUnit unit
+---@param whichBuff buff
+---@return boolean
+function UnitAddBuff (whichUnit, whichBuff) end
+---@author UjAPI
+---@param whichUnit unit
+---@param whichBuff buff
+---@param checkForDuplicates boolean
+---@return boolean
+function UnitAddBuffEx (whichUnit, whichBuff, checkForDuplicates) end
+
+---@author UjAPI
+---@param whichUnit unit
+---@param buffId integer
+---@return boolean
+function UnitAddBuffById (whichUnit, buffId) end
+---@author UjAPI
+---@param whichUnit unit
+---@param buffId integer
+---@param checkForDuplicates boolean
+---@return boolean
+function UnitAddBuffByIdEx (whichUnit, buffId, checkForDuplicates) end
+-- 
+---@author UjAPI
+---@param whichUnit unit
+---@param buffId integer
+---@return buff
+function GetUnitBuff (whichUnit, buffId) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+---@return buff
+function GetUnitBuffByIndex (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param buffId integer
+---@return integer
+function GetUnitBuffLevel (whichUnit, buffId) end
+-- 
+
 ---@author UjAPI
 ---@param whichUnit unit
 function UnitCancelTimedLife (whichUnit) end
@@ -12330,17 +12439,8 @@ function IsUnitSelectable (whichUnit) end
 function SetUnitSelectable (whichUnit, selectable) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param flagValue integer
----@param isSetFlagValue boolean
----@param ismove boolean
----@param isattack boolean
----@param isinventory boolean
-function SetUnitControl (whichUnit, flagValue, isSetFlagValue, ismove, isattack, isinventory) end
----@author UjAPI
----@param whichUnit unit
----@param flag integer
----@param mode integer
-function SetUnitLocustFlag (whichUnit, flag, mode) end
+---@return boolean
+function IsUnitTruesightImmune (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param state boolean
@@ -12873,8 +12973,57 @@ function GetUnitCurrentAnimationName (whichUnit) end
 function SetUnitAnimationOffsetPercent (whichUnit, percent) end
 -- 
 
--- Illusion API
+-- Building API
+---@author UjAPI
+---@param whichPlayer player
+---@param unitTypeId integer
+---@param x real
+---@param y real
+---@param facing real
+---@return unit
+function CreateBuilding (whichPlayer, unitTypeId, x, y, facing) end
+---@author UjAPI
+---@param whichPlayer player
+---@param unitTypeId integer
+---@param x real
+---@param y real
+---@param facing real
+---@param isAutoBuild boolean
+---@param workersCanAssist boolean
+---@return unit
+function CreateBuildingEx (whichPlayer, unitTypeId, x, y, facing, isAutoBuild, workersCanAssist) end
 
+-- Construction API
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetConstructionProgress (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetConstructionRemainingTime (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param time real
+function UnitSetConstructionRemainingTime (whichUnit, time) end
+-- 
+
+-- Upgrade API
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetUpgradeProgress (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetUpgradeRemainingTime (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param time real
+function UnitSetUpgradeRemainingTime (whichUnit, time) end
+-- 
+
+-- Illusion API
 -- All created illusions are created without timed life, this can and should be handled by the mapmaker.
 ---@author UjAPI
 ---@param whichPlayer player
