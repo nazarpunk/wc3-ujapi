@@ -2547,9 +2547,11 @@ UNIT_RF_CAST_BACK_SWING = ConvertUnitRealField(FourCC('ucbs'--[[1969447539--]]))
 UNIT_RF_CAST_POINT = ConvertUnitRealField(FourCC('ucpt'--[[1969451124--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_MINIMUM_ATTACK_RANGE = ConvertUnitRealField(FourCC('uamn'--[[1969319278--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_COLLISION_SIZE = ConvertUnitRealField(FourCC('ucol'--[[1969450860--]])) ---@type unitrealfield @UjAPI
+-- Get Only Fields
 UNIT_RF_HEALTH_FROM_BONUS_STRENGTH = ConvertUnitRealField(FourCC('uhs+'--[[1969779499--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_MANA_FROM_BONUS_INTELLIGENCE = ConvertUnitRealField(FourCC('umi+'--[[1970104619--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_DEFENSE_BONUS = ConvertUnitRealField(FourCC('udf+'--[[1969514027--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_DEFENSE_BASE = ConvertUnitRealField(FourCC('udfb'--[[1969514082--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_SPEED_BONUS = ConvertUnitRealField(FourCC('umv+'--[[1970107947--]])) ---@type unitrealfield @UjAPI
 
 UNIT_BF_RAISABLE = ConvertUnitBooleanField(FourCC('urai'--[[1970430313--]])) ---@type unitbooleanfield @UjAPI
@@ -2593,6 +2595,9 @@ UNIT_WEAPON_IF_ATTACK_WEAPON_TYPE = ConvertUnitWeaponIntegerField(FourCC('ua1w'-
 UNIT_WEAPON_IF_ATTACK_WEAPON_SOUND = ConvertUnitWeaponIntegerField(FourCC('ucs1'--[[1969451825--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_AREA_OF_EFFECT_TARGETS = ConvertUnitWeaponIntegerField(FourCC('ua1p'--[[1969303920--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_TARGETS_ALLOWED = ConvertUnitWeaponIntegerField(FourCC('ua1g'--[[1969303911--]])) ---@type unitweaponintegerfield @UjAPI
+-- Get Only Fields
+UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE_MINIMUM = ConvertUnitWeaponIntegerField(FourCC('udm1'--[[1969515825--]])) ---@type unitweaponintegerfield @UjAPI
+UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE_MAXIMUM = ConvertUnitWeaponIntegerField(FourCC('udh1'--[[1969514545--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BONUS = ConvertUnitWeaponIntegerField(FourCC('ud1+'--[[1969500459--]])) ---@type unitweaponintegerfield @UjAPI
 
 UNIT_WEAPON_RF_ATTACK_BACKSWING_POINT = ConvertUnitWeaponRealField(FourCC('ubs1'--[[1969386289--]])) ---@type unitweaponrealfield @UjAPI
@@ -12883,8 +12888,8 @@ function UnitApplySilence (whichUnit, state) end
 function UnitDisableAbilities (whichUnit, state) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param flag boolean
-function PauseUnitEx (whichUnit, flag) end
+---@param pause boolean
+function PauseUnitEx (whichUnit, pause) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param state boolean
