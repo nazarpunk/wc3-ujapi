@@ -1765,6 +1765,7 @@ UNIT_WEAPON_IF_ATTACK_TARGETS_ALLOWED = ConvertUnitWeaponIntegerField(1969303911
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE_MINIMUM = ConvertUnitWeaponIntegerField(1969515825--[[udm1--]]) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE_MAXIMUM = ConvertUnitWeaponIntegerField(1969514545--[[udh1--]]) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BONUS = ConvertUnitWeaponIntegerField(1969500459--[[ud1+--]]) ---@type unitweaponintegerfield @UjAPI
+UNIT_WEAPON_IF_ATTACK_DAMAGE_BONUS_FROM_STATS = ConvertUnitWeaponIntegerField(1969513075--[[udbs--]]) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_RF_ATTACK_BACKSWING_POINT = ConvertUnitWeaponRealField(1969386289--[[ubs1--]]) ---@type unitweaponrealfield @UjAPI
 UNIT_WEAPON_RF_ATTACK_DAMAGE_POINT = ConvertUnitWeaponRealField(1969516593--[[udp1--]]) ---@type unitweaponrealfield @UjAPI
 UNIT_WEAPON_RF_ATTACK_BASE_COOLDOWN = ConvertUnitWeaponRealField(1969303907--[[ua1c--]]) ---@type unitweaponrealfield @UjAPI

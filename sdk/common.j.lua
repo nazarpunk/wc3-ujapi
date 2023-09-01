@@ -2599,6 +2599,7 @@ UNIT_WEAPON_IF_ATTACK_TARGETS_ALLOWED = ConvertUnitWeaponIntegerField(FourCC('ua
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE_MINIMUM = ConvertUnitWeaponIntegerField(FourCC('udm1'--[[1969515825--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BASE_MAXIMUM = ConvertUnitWeaponIntegerField(FourCC('udh1'--[[1969514545--]])) ---@type unitweaponintegerfield @UjAPI
 UNIT_WEAPON_IF_ATTACK_DAMAGE_BONUS = ConvertUnitWeaponIntegerField(FourCC('ud1+'--[[1969500459--]])) ---@type unitweaponintegerfield @UjAPI
+UNIT_WEAPON_IF_ATTACK_DAMAGE_BONUS_FROM_STATS = ConvertUnitWeaponIntegerField(FourCC('udbs'--[[1969513075--]])) ---@type unitweaponintegerfield @UjAPI
 
 UNIT_WEAPON_RF_ATTACK_BACKSWING_POINT = ConvertUnitWeaponRealField(FourCC('ubs1'--[[1969386289--]])) ---@type unitweaponrealfield @UjAPI
 UNIT_WEAPON_RF_ATTACK_DAMAGE_POINT = ConvertUnitWeaponRealField(FourCC('udp1'--[[1969516593--]])) ---@type unitweaponrealfield @UjAPI
@@ -10394,6 +10395,10 @@ function GetAbilityOwner (whichAbility) end
 function SetAbilityOwner (whichAbility, whichUnit) end
 ---@author UjAPI
 ---@param whichAbility ability
+---@return item
+function GetAbilityOwningItem (whichAbility) end
+---@author UjAPI
+---@param whichAbility ability
 ---@return integer
 function GetAbilityOrderId (whichAbility) end
 ---@author UjAPI
@@ -12322,15 +12327,12 @@ function IsUnitStateNormal (whichUnit, additionalCheck) end
 function RedrawUnit (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@return integer
 function UpdateUnitInfoBar (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@return integer
 function UnitUnapplyUpgrades (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@return integer
 function UnitApplyUpgrades (whichUnit) end
 
 -- Unit Ability API
@@ -12369,15 +12371,35 @@ function ShowUnitAbility (whichUnit, abilityId, show) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param abilityId integer
+---@param show boolean
+---@param checkDuplicates boolean
+function ShowUnitAbilityEx (whichUnit, abilityId, show, checkDuplicates) end
+---@author UjAPI
+---@param whichUnit unit
+---@param abilityId integer
 ---@param hide boolean
 ---@param disable boolean
 function DisableUnitAbility (whichUnit, abilityId, hide, disable) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param abilityId integer
+---@param hide boolean
+---@param disable boolean
+---@param checkDuplicates boolean
+function DisableUnitAbilityEx (whichUnit, abilityId, hide, disable, checkDuplicates) end
+---@author UjAPI
+---@param whichUnit unit
+---@param abilityId integer
 ---@param show boolean
 ---@param enable boolean
 function EnableUnitAbility (whichUnit, abilityId, show, enable) end
+---@author UjAPI
+---@param whichUnit unit
+---@param abilityId integer
+---@param show boolean
+---@param enable boolean
+---@param checkDuplicates boolean
+function EnableUnitAbilityEx (whichUnit, abilityId, show, enable, checkDuplicates) end
 -- 
 
 -- Unit Buff API
@@ -13049,6 +13071,11 @@ function CreateIllusionAtLoc (whichPlayer, unitTypeId, whichLocation, facing) en
 ---@param whichUnit unit
 ---@return unit
 function CreateIllusionFromUnit (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param copyPassives boolean
+---@return unit
+function CreateIllusionFromUnitEx (whichUnit, copyPassives) end
 
 -- Damage Dealt and Received are multipliers, not direct values. These will only work on illusions created by abilities/items or by: CreateUnitIllusion, CreateUnitIllusionAtLoc and CloneUnit.
 ---@author UjAPI
