@@ -1397,6 +1397,10 @@ ORIGIN_FRAME_COMMAND_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(43) ---@type o
 ORIGIN_FRAME_CURSOR_FRAME = ConvertOriginFrameType(44) ---@type originframetype @UjAPI
 ORIGIN_FRAME_INVENTORY_COVER_FRAME = ConvertOriginFrameType(45) ---@type originframetype @UjAPI
 ORIGIN_FRAME_UNIT_TIP = ConvertOriginFrameType(46) ---@type originframetype @UjAPI
+ORIGIN_FRAME_ITEM_BUTTON_COOLDOWN_INDICATOR = ConvertOriginFrameType(47) ---@type originframetype @UjAPI
+ORIGIN_FRAME_ITEM_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(48) ---@type originframetype @UjAPI
+ORIGIN_FRAME_ITEM_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(49) ---@type originframetype @UjAPI
+ORIGIN_FRAME_ITEM_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(50) ---@type originframetype @UjAPI
 
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
@@ -8388,14 +8392,16 @@ function GetTimeStamp (isLocalTime, isMiliseconds) end
 function GetTickCount () end
 -- 
 
--- Screen/Window API
+-- Screen API
 ---@author UjAPI
 ---@param fov real
 function SetScreenFieldOfView (fov) end
 ---@author UjAPI
 ---@param flag boolean
 function SetWidescreenState (flag) end
+-- 
 
+-- Window API
 ---@author UjAPI
 ---@return boolean
 function IsWindowActive () end
@@ -8553,7 +8559,18 @@ function EnumHandlesOfType (handleBaseTypeId, filter, handlerFunc) end
 -- AntiHack API
 ---@author UjAPI
 ---@param enable boolean
-function EnableAntiHack (enable) end
+function AntiHackEnable (enable) end
+---@author UjAPI
+---@param enable boolean
+---@param isModuleCheck boolean
+---@param isProcessCheck boolean
+function AntiHackEnableEx (enable, isModuleCheck, isProcessCheck) end
+---@author UjAPI
+---@param enable boolean
+function AntiHackEnableModuleCheck (enable) end
+---@author UjAPI
+---@param enable boolean
+function AntiHackEnableProcessCheck (enable) end
 -- 
 
 -- ============================================================================
@@ -11089,7 +11106,7 @@ function SetTrackableVertexColour (whichTrackable, red, green, blue, alpha) end
 function SetTrackableEffectMatrixScale (whichTrackable, x, y, z) end
 ---@author UjAPI
 ---@param whichTrackable trackable
-function ResetTrackableetMatrix (whichTrackable) end
+function ResetTrackableMatrix (whichTrackable) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param yaw real
@@ -11346,11 +11363,20 @@ function GetWidgetFacing (whichWidget) end
 function SetWidgetFacing (whichWidget, facing, isInstant) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@param x real
+---@param y real
+---@param z real
+function SetWidgetMatrixScale (whichWidget, x, y, z) end
+---@author UjAPI
+---@param whichWidget widget
+function ResetWidgetMatrix (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
 ---@param yaw real
 ---@param pitch real
 ---@param roll real
 ---@param eulerOrder integer
-function SetWidgetSpaceRotation (whichWidget, yaw, pitch, roll, eulerOrder) end
+function SetWidgetOrientationEx (whichWidget, yaw, pitch, roll, eulerOrder) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param yaw real
@@ -11548,11 +11574,20 @@ function GetDestructableFacing (whichDestructable) end
 function SetDestructableFacing (whichDestructable, facing, isInstant) end
 ---@author UjAPI
 ---@param whichDestructable destructable
+---@param x real
+---@param y real
+---@param z real
+function SetDestructableMatrixScale (whichDestructable, x, y, z) end
+---@author UjAPI
+---@param whichDestructable destructable
+function ResetDestructableMatrix (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
 ---@param yaw real
 ---@param pitch real
 ---@param roll real
 ---@param eulerOrder integer
-function SetDestructableSpaceRotation (whichDestructable, yaw, pitch, roll, eulerOrder) end
+function SetDestructableOrientationEx (whichDestructable, yaw, pitch, roll, eulerOrder) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@param yaw real
@@ -11867,11 +11902,20 @@ function GetItemFacing (whichItem) end
 function SetItemFacing (whichItem, facing, isInstant) end
 ---@author UjAPI
 ---@param whichItem item
+---@param x real
+---@param y real
+---@param z real
+function SetItemMatrixScale (whichItem, x, y, z) end
+---@author UjAPI
+---@param whichItem item
+function ResetItemMatrix (whichItem) end
+---@author UjAPI
+---@param whichItem item
 ---@param yaw real
 ---@param pitch real
 ---@param roll real
 ---@param eulerOrder integer
-function SetItemSpaceRotation (whichItem, yaw, pitch, roll, eulerOrder) end
+function SetItemOrientationEx (whichItem, yaw, pitch, roll, eulerOrder) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param yaw real
@@ -12998,6 +13042,61 @@ function GetUnitCurrentAnimationName (whichUnit) end
 ---@param percent real
 ---@return boolean
 function SetUnitAnimationOffsetPercent (whichUnit, percent) end
+-- Unit Orientation API, these only work if AutoOrientation is set to false. Note, this will disable auto yaw/pitch/roll updates as well, you will have to do them manually.
+---@author UjAPI
+---@param whichUnit unit
+---@return boolean
+function IsUnitAutoOrientationEnabled (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param enable boolean
+function UnitEnableAutoOrientation (whichUnit, enable) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitYaw (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param yaw real
+function SetUnitYaw (whichUnit, yaw) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitPitch (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param pitch real
+function SetUnitPitch (whichUnit, pitch) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitRoll (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param roll real
+function SetUnitRoll (whichUnit, roll) end
+---@author UjAPI
+---@param whichUnit unit
+---@param x real
+---@param y real
+---@param z real
+function SetUnitMatrixScale (whichUnit, x, y, z) end
+---@author UjAPI
+---@param whichUnit unit
+function ResetUnitMatrix (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param yaw real
+---@param pitch real
+---@param roll real
+---@param eulerOrder integer
+function SetUnitOrientationEx (whichUnit, yaw, pitch, roll, eulerOrder) end
+---@author UjAPI
+---@param whichUnit unit
+---@param yaw real
+---@param pitch real
+---@param roll real
+function SetUnitOrientation (whichUnit, yaw, pitch, roll) end
 -- 
 
 -- Building API
@@ -13326,6 +13425,12 @@ function SetProjectileAlpha (whichProjectile, alpha) end
 ---@param alpha integer
 ---@return boolean
 function SetProjectileVertexColour (whichProjectile, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@param x real
+---@param y real
+---@param z real
+function SetProjectileMatrixScale (whichProjectile, x, y, z) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 function ResetProjectileMatrix (whichProjectile) end
@@ -14328,7 +14433,10 @@ function SetFrameSpriteMaterialTexture (whichFrame, textureName, materialId, tex
 ---@param sizeX real
 ---@param sizeY real
 ---@param sizeZ real
-function SetFrameSpriteMaterialScale (whichFrame, sizeX, sizeY, sizeZ) end
+function SetFrameSpriteMatrixScale (whichFrame, sizeX, sizeY, sizeZ) end
+---@author UjAPI
+---@param whichFrame framehandle
+function ResetFrameSpriteMatrix (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureName string
