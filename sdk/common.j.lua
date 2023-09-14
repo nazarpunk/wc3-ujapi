@@ -1401,6 +1401,9 @@ ORIGIN_FRAME_ITEM_BUTTON_COOLDOWN_INDICATOR = ConvertOriginFrameType(47) ---@typ
 ORIGIN_FRAME_ITEM_BUTTON_AUTOCAST_FRAME = ConvertOriginFrameType(48) ---@type originframetype @UjAPI
 ORIGIN_FRAME_ITEM_BUTTON_CHARGES_FRAME = ConvertOriginFrameType(49) ---@type originframetype @UjAPI
 ORIGIN_FRAME_ITEM_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(50) ---@type originframetype @UjAPI
+ORIGIN_FRAME_TRAINABLE_BUTTON = ConvertOriginFrameType(51) ---@type originframetype @UjAPI
+ORIGIN_FRAME_CARGO_BUTTON = ConvertOriginFrameType(52) ---@type originframetype @UjAPI
+ORIGIN_FRAME_GROUP_BUTTON = ConvertOriginFrameType(53) ---@type originframetype @UjAPI
 
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
@@ -13299,6 +13302,9 @@ function SetProjectileUnitData (whichProjectile, owner, attackIndex) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 function KillProjectile (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+function RemoveProjectile (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@param whichWidget widget
