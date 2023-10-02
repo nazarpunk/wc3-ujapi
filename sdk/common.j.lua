@@ -7838,6 +7838,9 @@ function GetHandleCount () end
 ---@author UjAPI
 ---@return integer
 function GetNextHandleIndex () end
+---@author UjAPI
+---@return integer
+function GetStringCount () end
 -- 
 
 -- ============================================================================
@@ -8048,7 +8051,7 @@ function MathIntegerClamp (value, min, max) end
 
 -- Angle / Axis / Point API | All natives operate in Degrees!
 
--- These natives act identical to basic Sinc/Cos/Tan/etc. but they take degrees instead of radians, so you won't need to do Ded2Rad or Rad2Deg in multiple functions.
+-- These natives act identical to basic Sin/Cos/Tan/etc. but they take degrees instead of radians, so you won't need to do Deg2Rad or Rad2Deg in multiple functions.
 ---@author UjAPI
 ---@param r real
 ---@return real
@@ -8187,8 +8190,8 @@ function StringInsert (s, whichString, whichPosition, caseSensitive) end
 
 -- Debug API
 ---@author UjAPI
----@param flag boolean
-function ConsoleEnable (flag) end
+---@param enable boolean
+function ConsoleEnable (enable) end
 ---@author UjAPI
 ---@param s string
 function ConsolePrint (s) end
@@ -12514,6 +12517,14 @@ function SetUnitSelectable (whichUnit, selectable) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
+function IsUnitTargetable (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param targetable boolean
+function SetUnitTargetable (whichUnit, targetable) end
+---@author UjAPI
+---@param whichUnit unit
+---@return boolean
 function IsUnitTruesightImmune (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
@@ -13928,6 +13939,20 @@ function SetFrameTextSizeLimit (whichFrame, textSize) end
 function GetFrameTextSizeLimit (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@param stateId integer
+---@return integer
+function GetFrameTextColourEx (whichFrame, stateId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param stateId integer
+---@param colour integer
+function SetFrameTextColourEx (whichFrame, stateId, colour) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return integer
+function GetFrameTextColour (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param colour integer
 function SetFrameTextColour (whichFrame, colour) end
 ---@author UjAPI
@@ -14035,10 +14060,6 @@ function SetFrameTextureEx (whichFrame, textureId, backgroundTextureFile, blend,
 function SetFrameTexture (whichFrame, textureFile, textureId, blend) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@param scale real
-function SetFrameScale (whichFrame, scale) end
----@author UjAPI
----@param whichFrame framehandle
 ---@param tooltipFrame framehandle
 function SetFrameTooltip (whichFrame, tooltipFrame) end
 ---@author UjAPI
@@ -14092,6 +14113,10 @@ function SetFrameHeight (whichFrame, height) end
 ---@param width real
 ---@param height real
 function SetFrameSize (whichFrame, width, height) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param scale real
+function SetFrameScale (whichFrame, scale) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param alpha integer
