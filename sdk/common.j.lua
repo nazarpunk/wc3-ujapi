@@ -536,7 +536,7 @@ function GetTextTagLimit () end
 
 FALSE = false ---@type boolean
 TRUE = true ---@type boolean
-JASS_MAX_ARRAY_SIZE = GetJassArrayLimit() ---@type integer
+JASS_MAX_ARRAY_SIZE = GetJassArrayLimit() ---@type integer @UjAPI
 TEXT_TAG_MAX_SIZE = GetTextTagLimit() ---@type integer @UjAPI
 
 PLAYER_NEUTRAL_PASSIVE = GetPlayerNeutralPassive() ---@type integer
@@ -7995,6 +7995,11 @@ function MathRealLog (r) end
 ---@return real
 function MathRealLn (r) end
 ---@author UjAPI
+---@param dividend real
+---@param divisor real
+---@return real
+function MathRealModulo (dividend, divisor) end
+---@author UjAPI
 ---@param a real
 ---@param b real
 ---@return real
@@ -8033,6 +8038,11 @@ function MathIntegerLog (i) end
 ---@param i integer
 ---@return real
 function MathIntegerLn (i) end
+---@author UjAPI
+---@param dividend integer
+---@param divisor integer
+---@return integer
+function MathIntegerModulo (dividend, divisor) end
 ---@author UjAPI
 ---@param a integer
 ---@param b integer
@@ -9291,9 +9301,11 @@ function GetTextTagHeight (whichTextTag) end
 ---@param whichTextTag texttag
 ---@param height real
 function SetTextTagHeight (whichTextTag, height) end
+---@author UjAPI
 ---@param whichTextTag texttag
 ---@return location
 function GetTextTagPositionLoc (whichTextTag) end
+---@author UjAPI
 ---@param whichTextTag texttag
 ---@param whichLocation location
 function SetTextTagPositionLoc (whichTextTag, whichLocation) end
@@ -9394,9 +9406,11 @@ function GetLightningSourceZ (whichBolt) end
 ---@param whichBolt lightning
 ---@param value real
 function SetLightningSourceZ (whichBolt, value) end
+---@author UjAPI
 ---@param whichBolt lightning
 ---@return location
 function GetLightningSourcePositionLoc (whichBolt) end
+---@author UjAPI
 ---@param whichBolt lightning
 ---@param whichLocation location
 function SetLightningSourcePositionLoc (whichBolt, whichLocation) end
@@ -9424,9 +9438,11 @@ function GetLightningTargetZ (whichBolt) end
 ---@param whichBolt lightning
 ---@param value real
 function SetLightningTargetZ (whichBolt, value) end
+---@author UjAPI
 ---@param whichBolt lightning
 ---@return location
 function GetLightningTargetPositionLoc (whichBolt) end
+---@author UjAPI
 ---@param whichBolt lightning
 ---@param whichLocation location
 function SetLightningTargetPositionLoc (whichBolt, whichLocation) end
@@ -9549,9 +9565,11 @@ function GetImageZ (whichImage) end
 ---@param whichImage image
 ---@param sizeZ real
 function SetImageZ (whichImage, sizeZ) end
+---@author UjAPI
 ---@param whichImage image
 ---@return location
 function GetImagePositionLoc (whichImage) end
+---@author UjAPI
 ---@param whichImage image
 ---@param whichLocation location
 function SetImagePositionLoc (whichImage, whichLocation) end
@@ -9771,14 +9789,17 @@ function SetDoodadZ (whichDoodad, z) end
 ---@param x real
 ---@param y real
 function SetDoodadPosition (whichDoodad, x, y) end
+---@author UjAPI
 ---@param whichDoodad doodad
 ---@param x real
 ---@param y real
 ---@param z real
 function SetDoodadPositionWithZ (whichDoodad, x, y, z) end
+---@author UjAPI
 ---@param whichDoodad doodad
 ---@return location
 function GetDoodadPositionLoc (whichDoodad) end
+---@author UjAPI
 ---@param whichDoodad doodad
 ---@param whichLocation location
 function SetDoodadPositionLoc (whichDoodad, whichLocation) end
@@ -10770,9 +10791,11 @@ function GetSpriteZ (whichSprite) end
 ---@param whichSprite sprite
 ---@return real
 function GetSpriteHeight (whichSprite) end
+---@author UjAPI
 ---@param whichSprite sprite
 ---@return location
 function GetSpritePositionLoc (whichSprite) end
+---@author UjAPI
 ---@param whichSprite sprite
 ---@param x real
 ---@param y real
@@ -10783,6 +10806,7 @@ function SetSpritePositionWithZ (whichSprite, x, y, z) end
 ---@param x real
 ---@param y real
 function SetSpritePosition (whichSprite, x, y) end
+---@author UjAPI
 ---@param whichSprite sprite
 ---@param loc location
 function SetSpritePositionLoc (whichSprite, loc) end
@@ -10921,6 +10945,10 @@ function SetSpriteTexture (whichSprite, textureName, textureIndex) end
 function SetSpriteReplaceableTexture (whichSprite, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichSprite sprite
+---@return string
+function GetSpriteModel (whichSprite) end
+---@author UjAPI
+---@param whichSprite sprite
 ---@param modelName string
 function SetSpriteModel (whichSprite, modelName) end
 ---@author UjAPI
@@ -10929,14 +10957,17 @@ function SetSpriteModel (whichSprite, modelName) end
 ---@param playerColour integer
 function SetSpriteModelEx (whichSprite, modelName, playerColour) end
 -- whichObject can be bone, reference, sound, aka any object of a model
+---@author UjAPI
 ---@param whichSprite sprite
 ---@param whichObject string
 ---@return real
 function GetSpriteModelObjectX (whichSprite, whichObject) end
+---@author UjAPI
 ---@param whichSprite sprite
 ---@param whichObject string
 ---@return real
 function GetSpriteModelObjectY (whichSprite, whichObject) end
+---@author UjAPI
 ---@param whichSprite sprite
 ---@param whichObject string
 ---@return real
@@ -11021,9 +11052,11 @@ function GetSpecialEffectZ (whichEffect) end
 ---@param whichEffect effect
 ---@return real
 function GetSpecialEffectHeight (whichEffect) end
+---@author UjAPI
 ---@param whichEffect effect
 ---@return location
 function GetSpecialEffectPositionLoc (whichEffect) end
+---@author UjAPI
 ---@param whichEffect effect
 ---@param x real
 ---@param y real
@@ -11034,6 +11067,7 @@ function SetSpecialEffectPositionWithZ (whichEffect, x, y, z) end
 ---@param x real
 ---@param y real
 function SetSpecialEffectPosition (whichEffect, x, y) end
+---@author UjAPI
 ---@param whichEffect effect
 ---@param loc location
 function SetSpecialEffectPositionLoc (whichEffect, loc) end
@@ -11172,6 +11206,10 @@ function SetSpecialEffectTexture (whichEffect, textureName, textureIndex) end
 function SetSpecialEffectReplaceableTexture (whichEffect, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichEffect effect
+---@return string
+function GetSpecialEffectModel (whichEffect) end
+---@author UjAPI
+---@param whichEffect effect
 ---@param modelName string
 function SetSpecialEffectModel (whichEffect, modelName) end
 ---@author UjAPI
@@ -11179,14 +11217,17 @@ function SetSpecialEffectModel (whichEffect, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetSpecialEffectModelEx (whichEffect, modelName, playerColour) end
+---@author UjAPI
 ---@param whichEffect effect
 ---@param whichObject string
 ---@return real
 function GetSpecialEffectModelObjectX (whichEffect, whichObject) end
+---@author UjAPI
 ---@param whichEffect effect
 ---@param whichObject string
 ---@return real
 function GetSpecialEffectModelObjectY (whichEffect, whichObject) end
+---@author UjAPI
 ---@param whichEffect effect
 ---@param whichObject string
 ---@return real
@@ -11290,9 +11331,11 @@ function GetTrackableZ (whichTrackable) end
 ---@param whichTrackable trackable
 ---@return real
 function GetTrackableHeight (whichTrackable) end
+---@author UjAPI
 ---@param whichTrackable trackable
 ---@return location
 function GetTrackablePositionLoc (whichTrackable) end
+---@author UjAPI
 ---@param whichTrackable trackable
 ---@param x real
 ---@param y real
@@ -11303,6 +11346,7 @@ function SetTrackablePositionWithZ (whichTrackable, x, y, z) end
 ---@param x real
 ---@param y real
 function SetTrackablePosition (whichTrackable, x, y) end
+---@author UjAPI
 ---@param whichTrackable trackable
 ---@param loc location
 function SetTrackablePositionLoc (whichTrackable, loc) end
@@ -11441,6 +11485,10 @@ function SetTrackableTexture (whichTrackable, textureName, textureIndex) end
 function SetTrackableReplaceableTexture (whichTrackable, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichTrackable trackable
+---@return string
+function GetTrackableModel (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
 ---@param modelName string
 function SetTrackableModel (whichTrackable, modelName) end
 ---@author UjAPI
@@ -11448,14 +11496,17 @@ function SetTrackableModel (whichTrackable, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetTrackableModelEx (whichTrackable, modelName, playerColour) end
+---@author UjAPI
 ---@param whichTrackable trackable
 ---@param whichObject string
 ---@return real
 function GetTrackableModelObjectX (whichTrackable, whichObject) end
+---@author UjAPI
 ---@param whichTrackable trackable
 ---@param whichObject string
 ---@return real
 function GetTrackableModelObjectY (whichTrackable, whichObject) end
+---@author UjAPI
 ---@param whichTrackable trackable
 ---@param whichObject string
 ---@return real
@@ -11566,17 +11617,19 @@ function SetWidgetInvulnerable (whichWidget, invulnerable) end
 ---@param whichFlags targetflag
 ---@return boolean
 function IsWidgetTargetAllowed (whichWidget, target, whichFlags) end
+---@author UjAPI
 ---@param whichWidget widget
 ---@return location
 function GetWidgetPositionLoc (whichWidget) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@param whichLocation location
+function SetWidgetPositionLoc (whichWidget, whichLocation) end
+---@author UjAPI
+---@param whichWidget widget
 ---@param x real
 ---@param y real
 function SetWidgetPosition (whichWidget, x, y) end
----@param whichWidget widget
----@param whichLocation location
-function SetWidgetPositionLoc (whichWidget, whichLocation) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param x real
@@ -11704,14 +11757,17 @@ function SetWidgetTexture (whichWidget, textureName, textureIndex) end
 ---@param textureName string
 ---@param textureIndex integer
 function SetWidgetReplaceableTexture (whichWidget, textureName, textureIndex) end
+---@author UjAPI
 ---@param whichWidget widget
 ---@param whichObject string
 ---@return real
 function GetWidgetModelObjectX (whichWidget, whichObject) end
+---@author UjAPI
 ---@param whichWidget widget
 ---@param whichObject string
 ---@return real
 function GetWidgetModelObjectY (whichWidget, whichObject) end
+---@author UjAPI
 ---@param whichWidget widget
 ---@param whichObject string
 ---@return real
@@ -11777,16 +11833,45 @@ function TriggerRegisterWidgetEvent (whichTrigger, whichWidget, whichWidgetEvent
 -- 
 ---@author UjAPI
 ---@param whichDestructable destructable
+---@return integer
+function GetDestructableVariation (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@param variation integer
+function SetDestructableVariation (whichDestructable, variation) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@param variation integer
+---@param ignoreStateCheck boolean
+function SetDestructableVariationEx (whichDestructable, variation, ignoreStateCheck) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return boolean
+function IsDestructableBlighted (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@param flag boolean
+function SetDestructableBlighted (whichDestructable, flag) end
+---@author UjAPI
+---@param whichDestructable destructable
 ---@return sprite
 function GetDestructableSprite (whichDestructable) end
+---@author UjAPI
 ---@param whichDestructable destructable
----@return location
-function GetDestructablePositionLoc (whichDestructable) end
+---@param x real
+---@param y real
+---@param z real
+function SetDestructablePositionWithZ (whichDestructable, x, y, z) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@param x real
 ---@param y real
 function SetDestructablePosition (whichDestructable, x, y) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return location
+function GetDestructablePositionLoc (whichDestructable) end
+---@author UjAPI
 ---@param whichDestructable destructable
 ---@param whichLocation location
 function SetDestructablePositionLoc (whichDestructable, whichLocation) end
@@ -11798,6 +11883,10 @@ function SetDestructableX (whichDestructable, x) end
 ---@param whichDestructable destructable
 ---@param y real
 function SetDestructableY (whichDestructable, y) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@param z real
+function SetDestructableZ (whichDestructable, z) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@return real
@@ -11890,6 +11979,10 @@ function GetDestructableRoll (whichDestructable) end
 function SetDestructableRoll (whichDestructable, roll) end
 ---@author UjAPI
 ---@param whichDestructable destructable
+---@return string
+function GetDestructableModel (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
 ---@param modelFile string
 function SetDestructableModel (whichDestructable, modelFile) end
 ---@author UjAPI
@@ -11913,14 +12006,17 @@ function SetDestructableTexture (whichDestructable, textureName, textureIndex) e
 ---@param textureName string
 ---@param textureIndex integer
 function SetDestructableReplaceableTexture (whichDestructable, textureName, textureIndex) end
+---@author UjAPI
 ---@param whichDestructable destructable
 ---@param whichObject string
 ---@return real
 function GetDestructableModelObjectX (whichDestructable, whichObject) end
+---@author UjAPI
 ---@param whichDestructable destructable
 ---@param whichObject string
 ---@return real
 function GetDestructableModelObjectY (whichDestructable, whichObject) end
+---@author UjAPI
 ---@param whichDestructable destructable
 ---@param whichObject string
 ---@return real
@@ -12222,6 +12318,10 @@ function GetItemRoll (whichItem) end
 function SetItemRoll (whichItem, roll) end
 ---@author UjAPI
 ---@param whichItem item
+---@return string
+function GetItemModel (whichItem) end
+---@author UjAPI
+---@param whichItem item
 ---@param modelFile string
 function SetItemModel (whichItem, modelFile) end
 ---@author UjAPI
@@ -12245,14 +12345,17 @@ function SetItemTexture (whichItem, textureName, textureIndex) end
 ---@param textureName string
 ---@param textureIndex integer
 function SetItemReplaceableTexture (whichItem, textureName, textureIndex) end
+---@author UjAPI
 ---@param whichItem item
 ---@param whichObject string
 ---@return real
 function GetItemModelObjectX (whichItem, whichObject) end
+---@author UjAPI
 ---@param whichItem item
 ---@param whichObject string
 ---@return real
 function GetItemModelObjectY (whichItem, whichObject) end
+---@author UjAPI
 ---@param whichItem item
 ---@param whichObject string
 ---@return real
@@ -12553,10 +12656,6 @@ function GetUnitScreenY (whichUnit) end
 ---@param newId integer
 function SetUnitTypeId (whichUnit, newId) end
 ---@author UjAPI
----@param whichUnit unit
----@return integer
-function GetUnitLocustFlag (whichUnit) end
----@author UjAPI
 ---@return unit
 function GetUnitUnderCursor () end
 ---@author UjAPI
@@ -12802,6 +12901,16 @@ function IsUnitTruesightImmune (whichUnit) end
 ---@param whichUnit unit
 ---@param state boolean
 function SetUnitTruesightImmuneState (whichUnit, state) end
+---@author UjAPI
+---@param whichUnit unit
+---@param whichPlayer player
+---@param flag boolean
+function SetUnitVisibleByPlayer (whichUnit, whichPlayer, flag) end
+---@author UjAPI
+---@param whichUnit unit
+---@param whichPlayer player
+---@param flag boolean
+function SetUnitDetectableByPlayer (whichUnit, whichPlayer, flag) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
@@ -13141,6 +13250,10 @@ function GetUnitPrimaryStat (whichUnit) end
 function SetUnitPrimaryStat (whichUnit, whichHeroAttribute) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@return string
+function GetUnitModel (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
 ---@param modelName string
 function SetUnitModel (whichUnit, modelName) end
 ---@author UjAPI
@@ -13295,14 +13408,17 @@ function MorphUnitToTypeIdEx (whichUnit, uid, unitFlags, updateHealthState, upda
 ---@param whichUnit unit
 ---@param uid integer
 function MorphUnitToTypeId (whichUnit, uid) end
+---@author UjAPI
 ---@param whichUnit unit
 ---@param whichObject string
 ---@return real
 function GetUnitModelObjectX (whichUnit, whichObject) end
+---@author UjAPI
 ---@param whichUnit unit
 ---@param whichObject string
 ---@return real
 function GetUnitModelObjectY (whichUnit, whichObject) end
+---@author UjAPI
 ---@param whichUnit unit
 ---@param whichObject string
 ---@return real
@@ -13591,9 +13707,11 @@ function RemoveProjectile (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 function LaunchProjectile (whichProjectile) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param whichWidget widget
 function LaunchProjectileTarget (whichProjectile, whichWidget) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param x real
 ---@param y real
@@ -13661,6 +13779,7 @@ function GetProjectileHeight (whichProjectile) end
 ---@param whichProjectile projectile
 ---@param height real
 function SetProjectileHeight (whichProjectile, height) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@return location
 function GetProjectilePositionLoc (whichProjectile) end
@@ -13675,6 +13794,7 @@ function SetProjectilePositionWithZ (whichProjectile, x, y, z) end
 ---@param x real
 ---@param y real
 function SetProjectilePosition (whichProjectile, x, y) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param loc location
 function SetProjectilePositionLoc (whichProjectile, loc) end
@@ -13789,6 +13909,10 @@ function SetProjectileTexture (whichProjectile, textureName, textureIndex) end
 function SetProjectileReplaceableTexture (whichProjectile, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichProjectile projectile
+---@return string
+function GetProjectileModel (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
 ---@param modelName string
 function SetProjectileModel (whichProjectile, modelName) end
 ---@author UjAPI
@@ -13796,14 +13920,17 @@ function SetProjectileModel (whichProjectile, modelName) end
 ---@param modelName string
 ---@param playerColour integer
 function SetProjectileModelEx (whichProjectile, modelName, playerColour) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param whichObject string
 ---@return real
 function GetProjectileModelObjectX (whichProjectile, whichObject) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param whichObject string
 ---@return real
 function GetProjectileModelObjectY (whichProjectile, whichObject) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param whichObject string
 ---@return real
@@ -13864,34 +13991,44 @@ function GetProjectileSource (whichProjectile) end
 ---@param whichProjectile projectile
 ---@param whichUnit unit
 function SetProjectileSource (whichProjectile, whichUnit) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@return real
 function GetProjectileTargetX (whichProjectile) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param x real
 function SetProjectileTargetX (whichProjectile, x) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@return real
 function GetProjectileTargetY (whichProjectile) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param y real
 function SetProjectileTargetY (whichProjectile, y) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@return real
 function GetProjectileTargetZ (whichProjectile) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param z real
 function SetProjectileTargetZ (whichProjectile, z) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@return location
 function GetProjectileTargetPositionLoc (whichProjectile) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param loc location
 function SetProjectileTargetPositionLoc (whichProjectile, loc) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param x real
 ---@param y real
 function SetProjectileTargetPosition (whichProjectile, x, y) end
+---@author UjAPI
 ---@param whichProjectile projectile
 ---@param x real
 ---@param y real
@@ -14769,6 +14906,10 @@ function SetFrameSpriteTexture (whichFrame, textureName, textureIndex) end
 ---@param textureName string
 ---@param textureIndex integer
 function SetFrameSpriteReplaceableTexture (whichFrame, textureName, textureIndex) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return string
+function GetFrameSpriteModel (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param modelName string
