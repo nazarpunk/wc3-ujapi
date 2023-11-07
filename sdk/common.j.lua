@@ -150,6 +150,7 @@
 ---@class commandbuttoneffect:handle @UjAPI
 ---@class timetype:handle @UjAPI
 ---@class variabletype:handle @UjAPI
+---@class renderstage:handle @UjAPI
 ---@class jassthread:handle @UjAPI
 ---@class handlelist:handle @UjAPI
 ---@class textfilehandle:handle @UjAPI
@@ -482,6 +483,10 @@ function ConvertTimeType (i) end
 ---@param i integer
 ---@return variabletype
 function ConvertVariableType (i) end
+---@author UjAPI
+---@param i integer
+---@return renderstage
+function ConvertRenderStage (i) end
 
 ---@param orderIdString string
 ---@return integer
@@ -2773,6 +2778,29 @@ VARIABLE_TYPE_REAL_ARRAY = ConvertVariableType(10) ---@type variabletype @UjAPI
 VARIABLE_TYPE_STRING_ARRAY = ConvertVariableType(11) ---@type variabletype @UjAPI
 VARIABLE_TYPE_HANDLE_ARRAY = ConvertVariableType(12) ---@type variabletype @UjAPI
 VARIABLE_TYPE_BOOLEAN_ARRAY = ConvertVariableType(13) ---@type variabletype @UjAPI
+
+RENDER_STAGE_SKYBOX = ConvertRenderStage(0) ---@type renderstage @UjAPI
+RENDER_STAGE_TERRAIN = ConvertRenderStage(1) ---@type renderstage @UjAPI
+RENDER_STAGE_FOG_OF_WAR = ConvertRenderStage(2) ---@type renderstage @UjAPI
+RENDER_STAGE_TERRAIN_SHADOW = ConvertRenderStage(3) ---@type renderstage @UjAPI
+RENDER_STAGE_WATER_SHADOW = ConvertRenderStage(4) ---@type renderstage @UjAPI
+RENDER_STAGE_BLIGHT = ConvertRenderStage(5) ---@type renderstage @UjAPI
+RENDER_STAGE_WEATHER = ConvertRenderStage(6) ---@type renderstage @UjAPI
+RENDER_STAGE_SELECTION_CIRCLE = ConvertRenderStage(7) ---@type renderstage @UjAPI
+RENDER_STAGE_INDICATOR = ConvertRenderStage(8) ---@type renderstage @UjAPI
+RENDER_STAGE_FOOTPRINT = ConvertRenderStage(9) ---@type renderstage @UjAPI
+RENDER_STAGE_DOODAD = ConvertRenderStage(10) ---@type renderstage @UjAPI
+RENDER_STAGE_SPRITE = ConvertRenderStage(11) ---@type renderstage @UjAPI
+RENDER_STAGE_SELECTION_SPRITE = ConvertRenderStage(12) ---@type renderstage @UjAPI
+RENDER_STAGE_DECORATION = ConvertRenderStage(13) ---@type renderstage @UjAPI
+RENDER_STAGE_WATER = ConvertRenderStage(14) ---@type renderstage @UjAPI
+RENDER_STAGE_SELECTION_BOX = ConvertRenderStage(15) ---@type renderstage @UjAPI
+RENDER_STAGE_TEXTURE = ConvertRenderStage(16) ---@type renderstage @UjAPI
+RENDER_STAGE_OCCLUSION_MASK = ConvertRenderStage(17) ---@type renderstage @UjAPI
+RENDER_STAGE_BUILDING = ConvertRenderStage(18) ---@type renderstage @UjAPI
+RENDER_STAGE_UBERSPLAT = ConvertRenderStage(19) ---@type renderstage @UjAPI
+RENDER_STAGE_LIGHTNING = ConvertRenderStage(20) ---@type renderstage @UjAPI
+RENDER_STAGE_TEXTTAG = ConvertRenderStage(21) ---@type renderstage @UjAPI
 
 BORDER_FLAG_UPPER_LEFT = 1 ---@type integer @UjAPI
 BORDER_FLAG_UPPER_RIGHT = 2 ---@type integer @UjAPI
@@ -8310,10 +8338,72 @@ function GetFDFDataString (sectionName) end
 function SetFDFDataString (sectionName, value) end
 
 ---@author UjAPI
+---@return real
+function GetFPS () end
+
+---@author UjAPI
+---@return real
+function GetAttackSpeedMinBonus () end
+---@author UjAPI
+---@param value real
+function SetAttackSpeedMinBonus (value) end
+---@author UjAPI
+---@return real
+function GetAttackSpeedMaxBonus () end
+---@author UjAPI
+---@param value real
+function SetAttackSpeedMaxBonus (value) end
+---@author UjAPI
+---@return real
+function GetMoveSpeedMinAllowed () end
+---@author UjAPI
+---@param value real
+function SetMoveSpeedMinAllowed (value) end
+---@author UjAPI
+---@return real
+function GetMoveSpeedMaxAllowed () end
+---@author UjAPI
+---@param value real
+function SetMoveSpeedMaxAllowed (value) end
+
+---@author UjAPI
 ---@param whichField mappedfield
 ---@param whichMapType mappedtype
 ---@return string
 function GetMappedTypeName (whichField, whichMapType) end
+-- 
+
+-- UI API
+---@author UjAPI
+---@return boolean
+function IsSelectionEnabled () end
+---@author UjAPI
+---@param enable boolean
+function EnableSelection (enable) end
+---@author UjAPI
+---@return boolean
+function IsSelectionCircleEnabled () end
+---@author UjAPI
+---@param enable boolean
+function EnableSelectionCircle (enable) end
+---@author UjAPI
+---@return boolean
+function IsTargetIndicatorEnabled () end
+---@author UjAPI
+---@param enable boolean
+function EnableTargetIndicator (enable) end
+---@author UjAPI
+---@param renderStage renderstage
+---@return boolean
+function IsRenderStage (renderStage) end
+---@author UjAPI
+---@param renderStage renderstage
+---@param enable boolean
+function EnableRenderStage (renderStage, enable) end
+---@return boolean
+function IsStatbarEnabled () end
+---@param enable boolean
+function EnableStatbar (enable) end
 -- 
 
 -- Trigger API
@@ -8636,6 +8726,27 @@ function SaveWeaponTypeHandle (table, parentKey, childKey, whichWeaponType) end
 ---@param table hashtable
 ---@param parentKey integer
 ---@param childKey integer
+---@param whichsprite sprite
+---@return boolean
+function SaveSpriteHandle (table, parentKey, childKey, whichsprite) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichDoodad doodad
+---@return boolean
+function SaveDoodadHandle (table, parentKey, childKey, whichDoodad) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichFile textfilehandle
+---@return boolean
+function SaveTextFileHandle (table, parentKey, childKey, whichFile) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
 ---@param whichProjectile projectile
 ---@return boolean
 function SaveProjectileHandle (table, parentKey, childKey, whichProjectile) end
@@ -8684,6 +8795,24 @@ function LoadDamageTypeHandle (table, parentKey, childKey) end
 ---@param childKey integer
 ---@return weapontype
 function LoadWeaponTypeHandle (table, parentKey, childKey) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return sprite
+function LoadSpriteHandle (table, parentKey, childKey) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return doodad
+function LoadDoodadHandle (table, parentKey, childKey) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return textfilehandle
+function LoadTextFileHandle (table, parentKey, childKey) end
 ---@author UjAPI
 ---@param table hashtable
 ---@param parentKey integer
@@ -8770,7 +8899,7 @@ function GroupRemoveGroupEx (destGroup, sourceGroup) end
 -- Handle Type Id List:
 -- Handle = 0 (NULL) | Agent = '+w3a' (for any agent) | Widget = '+w3w' | Unit = '+w3u' | Item = 'item' | Destructable = '+w3d' | Ability = 'abil' | Buff = 'buff' | Effect = 'efct' | Projectile = 'proj' | Frame = '+frm'
 -- For any handleTypeId that is not present here, you can use GetHandleBaseTypeId on any handle to get its handleTypeId.
--- Note: Ability = 'abil', Buff = 'buff' and Projectile = 'proj' are custom, meaning they do not exist internally.
+-- Note: Projectile = 'proj' is custom, it does not exist internally.
 
 ---@author UjAPI
 ---@return handlelist
@@ -8856,6 +8985,9 @@ function HandleListGetAbilityCount (whichHandleList) end
 ---@param whichHandleList handlelist
 ---@return integer
 function HandleListGetBuffCount (whichHandleList) end
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetSpriteCount (whichHandleList) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@return integer
@@ -8927,6 +9059,10 @@ function HandleListGetAbilityByIndex (whichHandleList, index) end
 ---@param index integer
 ---@return buff
 function HandleListGetBuffByIndex (whichHandleList, index) end
+---@param whichHandleList handlelist
+---@param index integer
+---@return sprite
+function HandleListGetSpriteByIndex (whichHandleList, index) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param index integer
@@ -8970,6 +9106,8 @@ function HandleListGetFilterAbility () end
 ---@author UjAPI
 ---@return buff
 function HandleListGetFilterBuff () end
+---@return sprite
+function HandleListGetFilterSprite () end
 ---@author UjAPI
 ---@return effect
 function HandleListGetFilterEffect () end
@@ -9007,6 +9145,8 @@ function HandleListGetEnumAbility () end
 ---@author UjAPI
 ---@return buff
 function HandleListGetEnumBuff () end
+---@return sprite
+function HandleListGetEnumSprite () end
 ---@author UjAPI
 ---@return effect
 function HandleListGetEnumEffect () end
