@@ -8338,9 +8338,18 @@ function GetFDFDataString (sectionName) end
 function SetFDFDataString (sectionName, value) end
 
 ---@author UjAPI
+---@return integer
+function GetWheelDelta () end
+---@author UjAPI
 ---@return real
 function GetFPS () end
 
+---@author UjAPI
+---@return real
+function GetVisionMax () end
+---@author UjAPI
+---@param value real
+function SetVisionMax (value) end
 ---@author UjAPI
 ---@return real
 function GetAttackSpeedMinBonus () end
