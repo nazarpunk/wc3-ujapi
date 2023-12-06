@@ -125,6 +125,11 @@
 ---@class abilityreallevelarrayfield:abilityreallevelfield @UjAPI
 ---@class abilitybooleanlevelarrayfield:abilitybooleanlevelfield @UjAPI
 ---@class abilitystringlevelarrayfield:abilitystringlevelfield @UjAPI
+---@class destructablestringfield:agentdatafield @UjAPI
+---@class itemintegerfield:agentdatafield @UjAPI
+---@class itemrealfield:agentdatafield @UjAPI
+---@class itembooleanfield:agentdatafield @UjAPI
+---@class itemstringfield:agentdatafield @UjAPI
 ---@class unitintegerfield:agentdatafield @UjAPI
 ---@class unitrealfield:agentdatafield @UjAPI
 ---@class unitbooleanfield:agentdatafield @UjAPI
@@ -133,10 +138,6 @@
 ---@class unitweaponrealfield:agentdatafield @UjAPI
 ---@class unitweaponbooleanfield:agentdatafield @UjAPI
 ---@class unitweaponstringfield:agentdatafield @UjAPI
----@class itemintegerfield:agentdatafield @UjAPI
----@class itemrealfield:agentdatafield @UjAPI
----@class itembooleanfield:agentdatafield @UjAPI
----@class itemstringfield:agentdatafield @UjAPI
 ---@class movetype:handle @UjAPI
 ---@class pathingaitype:handle @UjAPI
 ---@class collisiontype:handle @UjAPI
@@ -389,6 +390,26 @@ function ConvertAbilityBooleanLevelArrayField (i) end
 function ConvertAbilityStringLevelArrayField (i) end
 ---@author UjAPI
 ---@param i integer
+---@return destructablestringfield
+function ConvertDestructableStringField (i) end
+---@author UjAPI
+---@param i integer
+---@return itemintegerfield
+function ConvertItemIntegerField (i) end
+---@author UjAPI
+---@param i integer
+---@return itemrealfield
+function ConvertItemRealField (i) end
+---@author UjAPI
+---@param i integer
+---@return itembooleanfield
+function ConvertItemBooleanField (i) end
+---@author UjAPI
+---@param i integer
+---@return itemstringfield
+function ConvertItemStringField (i) end
+---@author UjAPI
+---@param i integer
 ---@return unitintegerfield
 function ConvertUnitIntegerField (i) end
 ---@author UjAPI
@@ -419,22 +440,6 @@ function ConvertUnitWeaponBooleanField (i) end
 ---@param i integer
 ---@return unitweaponstringfield
 function ConvertUnitWeaponStringField (i) end
----@author UjAPI
----@param i integer
----@return itemintegerfield
-function ConvertItemIntegerField (i) end
----@author UjAPI
----@param i integer
----@return itemrealfield
-function ConvertItemRealField (i) end
----@author UjAPI
----@param i integer
----@return itembooleanfield
-function ConvertItemBooleanField (i) end
----@author UjAPI
----@param i integer
----@return itemstringfield
-function ConvertItemStringField (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return movetype
@@ -505,9 +510,9 @@ function UnitId2String (unitId) end
 ---@param abilityIdString string
 ---@return integer
 function AbilityId (abilityIdString) end
----@param abilityId integer
+---@param abilCode integer
 ---@return string
-function AbilityId2String (abilityId) end
+function AbilityId2String (abilCode) end
 
 -- Looks up the "name" field for any object (unit, item, ability)
 ---@param objectId integer
@@ -2436,6 +2441,10 @@ ABILITY_SLF_SPAWN_UNIT_ID_NSY2 = ConvertAbilityStringLevelField(FourCC('Nsy2'--[
 BUFF_SF_ICON_NORMAL = ConvertAbilityStringField(FourCC('fart'--[[1717662324--]])) ---@type abilitystringfield @UjAPI
 BUFF_SF_TOOLTIP_NORMAL = ConvertAbilityStringField(FourCC('ftip'--[[1718905200--]])) ---@type abilitystringfield @UjAPI
 BUFF_SF_TOOLTIP_NORMAL_EXTENDED = ConvertAbilityStringField(FourCC('fube'--[[1718968933--]])) ---@type abilitystringfield @UjAPI
+
+-- Destructable
+DESTRUCTABLE_SF_NAME = ConvertDestructableStringField(FourCC('bnam'--[[1651401069--]])) ---@type destructablestringfield @UjAPI
+DESTRUCTABLE_SF_MODEL = ConvertDestructableStringField(FourCC('bfil'--[[1650878828--]])) ---@type destructablestringfield @UjAPI
 
 -- Item
 ITEM_IF_TINTING_COLOR = ConvertItemIntegerField(FourCC('iclt'--[[1768123508--]])) ---@type itemintegerfield @UjAPI
@@ -4704,18 +4713,18 @@ function UnitAddType (whichUnit, whichUnitType) end
 function UnitRemoveType (whichUnit, whichUnitType) end
 
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@return boolean
-function UnitAddAbility (whichUnit, abilityId) end
+function UnitAddAbility (whichUnit, abilCode) end
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@return boolean
-function UnitRemoveAbility (whichUnit, abilityId) end
+function UnitRemoveAbility (whichUnit, abilCode) end
 ---@param whichUnit unit
 ---@param permanent boolean
----@param abilityId integer
+---@param abilCode integer
 ---@return boolean
-function UnitMakeAbilityPermanent (whichUnit, permanent, abilityId) end
+function UnitMakeAbilityPermanent (whichUnit, permanent, abilCode) end
 ---@param whichUnit unit
 ---@param removePositive boolean
 ---@param removeNegative boolean
@@ -7041,29 +7050,29 @@ function AddSpellEffect (abilityString, t, x, y) end
 ---@param where location
 ---@return effect
 function AddSpellEffectLoc (abilityString, t, where) end
----@param abilityId integer
+---@param abilCode integer
 ---@param t effecttype
 ---@param x real
 ---@param y real
 ---@return effect
-function AddSpellEffectById (abilityId, t, x, y) end
----@param abilityId integer
+function AddSpellEffectById (abilCode, t, x, y) end
+---@param abilCode integer
 ---@param t effecttype
 ---@param where location
 ---@return effect
-function AddSpellEffectByIdLoc (abilityId, t, where) end
+function AddSpellEffectByIdLoc (abilCode, t, where) end
 ---@param modelName string
 ---@param t effecttype
 ---@param targetWidget widget
 ---@param attachPoint string
 ---@return effect
 function AddSpellEffectTarget (modelName, t, targetWidget, attachPoint) end
----@param abilityId integer
+---@param abilCode integer
 ---@param t effecttype
 ---@param targetWidget widget
 ---@param attachPoint string
 ---@return effect
-function AddSpellEffectTargetById (abilityId, t, targetWidget, attachPoint) end
+function AddSpellEffectTargetById (abilCode, t, targetWidget, attachPoint) end
 
 ---@param codeName string
 ---@param checkVisibility boolean
@@ -7129,19 +7138,19 @@ function SetLightningColor (whichBolt, r, g, b, a) end
 ---@param index integer
 ---@return string
 function GetAbilityEffect (abilityString, t, index) end
----@param abilityId integer
+---@param abilCode integer
 ---@param t effecttype
 ---@param index integer
 ---@return string
-function GetAbilityEffectById (abilityId, t, index) end
+function GetAbilityEffectById (abilCode, t, index) end
 ---@param abilityString string
 ---@param t soundtype
 ---@return string
 function GetAbilitySound (abilityString, t) end
----@param abilityId integer
+---@param abilCode integer
 ---@param t soundtype
 ---@return string
-function GetAbilitySoundById (abilityId, t) end
+function GetAbilitySoundById (abilCode, t) end
 
 -- ============================================================================
 -- Terrain API
@@ -8298,6 +8307,9 @@ function TextFileWriteLine (whichTextFile, text) end
 function GetUjAPIVersion () end
 ---@author UjAPI
 ---@return string
+function GetGameVersion () end
+---@author UjAPI
+---@return string
 function GetLocale () end
 
 ---@author UjAPI
@@ -8409,8 +8421,10 @@ function IsRenderStage (renderStage) end
 ---@param renderStage renderstage
 ---@param enable boolean
 function EnableRenderStage (renderStage, enable) end
+---@author UjAPI
 ---@return boolean
 function IsStatbarEnabled () end
+---@author UjAPI
 ---@param enable boolean
 function EnableStatbar (enable) end
 -- 
@@ -8994,6 +9008,7 @@ function HandleListGetAbilityCount (whichHandleList) end
 ---@param whichHandleList handlelist
 ---@return integer
 function HandleListGetBuffCount (whichHandleList) end
+---@author UjAPI
 ---@param whichHandleList handlelist
 ---@return integer
 function HandleListGetSpriteCount (whichHandleList) end
@@ -9026,7 +9041,7 @@ function HandleListGetHandleByIndexEx (whichHandleList, handleTypeId, index) end
 ---@param typeId integer
 ---@param index integer
 ---@return handle
-function HandleListGetHandleByTypeId (whichHandleList, typeId, index) end
+function HandleListGetHandleById (whichHandleList, typeId, index) end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9068,6 +9083,7 @@ function HandleListGetAbilityByIndex (whichHandleList, index) end
 ---@param index integer
 ---@return buff
 function HandleListGetBuffByIndex (whichHandleList, index) end
+---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param index integer
 ---@return sprite
@@ -9115,6 +9131,7 @@ function HandleListGetFilterAbility () end
 ---@author UjAPI
 ---@return buff
 function HandleListGetFilterBuff () end
+---@author UjAPI
 ---@return sprite
 function HandleListGetFilterSprite () end
 ---@author UjAPI
@@ -9154,6 +9171,7 @@ function HandleListGetEnumAbility () end
 ---@author UjAPI
 ---@return buff
 function HandleListGetEnumBuff () end
+---@author UjAPI
 ---@return sprite
 function HandleListGetEnumSprite () end
 ---@author UjAPI
@@ -9359,13 +9377,13 @@ function HandleListEnumProjectilesInRect (whichHandleList, whichRect, filter) en
 ---@param whichHandleList handlelist
 ---@param handleTypeId integer
 ---@param filter boolexpr
-function HandleListEnumByTypeId (whichHandleList, handleTypeId, filter) end
+function HandleListEnumById (whichHandleList, handleTypeId, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param handleTypeId integer
 ---@param typeId integer
 ---@param filter boolexpr
-function HandleListEnumByTypeIdEx (whichHandleList, handleTypeId, typeId, filter) end
+function HandleListEnumByIdEx (whichHandleList, handleTypeId, typeId, filter) end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9386,13 +9404,13 @@ function HandleListForEach (whichHandleList, c) end
 ---@param whichHandleList handlelist
 ---@param handleTypeId integer
 ---@param c code
-function HandleListForEachByTypeId (whichHandleList, handleTypeId, c) end
+function HandleListForEachById (whichHandleList, handleTypeId, c) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param handleTypeId integer
 ---@param typeId integer
 ---@param c code
-function HandleListForEachByTypeIdEx (whichHandleList, handleTypeId, typeId, c) end
+function HandleListForEachByIdEx (whichHandleList, handleTypeId, typeId, c) end
 -- 
 
 -- ============================================================================
@@ -10565,17 +10583,17 @@ function RemoveAbilityStringLevelArrayField (whichAbility, whichField, level, va
 function ResetAbilityFieldData (whichAbility) end
 
 ---@author UjAPI
----@param abilityId integer
+---@param abilCode integer
 ---@param source widget
 ---@param target widget
 ---@return boolean
-function IsAbilityBaseTargetAllowed (abilityId, source, target) end
+function IsAbilityBaseTargetAllowed (abilCode, source, target) end
 
 -- Normal API
 ---@author UjAPI
----@param abilityId integer
+---@param abilCode integer
 ---@return ability
-function CreateAbility (abilityId) end
+function CreateAbility (abilCode) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return unit
@@ -11739,6 +11757,10 @@ function GetWidgetSprite (whichWidget) end
 ---@return integer
 function GetWidgetTypeId (whichWidget) end
 ---@author UjAPI
+---@param whichWidget widget
+---@return string
+function GetWidgetName (whichWidget) end
+---@author UjAPI
 ---@return boolean
 function IsWidgetTipEnabled () end
 ---@author UjAPI
@@ -11980,6 +12002,21 @@ function TriggerRegisterWidgetEvent (whichTrigger, whichWidget, whichWidgetEvent
 -- ============================================================================
 -- Destructable API
 -- 
+
+-- Field API
+---@author UjAPI
+---@param whichDestructable destructable
+---@param whichField destructablestringfield
+---@return string
+function GetDestructableStringField (whichDestructable, whichField) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@param whichField destructablestringfield
+---@param value string
+---@return boolean
+function SetDestructableStringField (whichDestructable, whichField, value) end
+-- 
+
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@return integer
@@ -12354,14 +12391,34 @@ function GetItemMaxLife (whichItem) end
 function SetItemMaxLife (whichItem, maxLife) end
 ---@author UjAPI
 ---@param whichItem item
----@param abilityId integer
+---@param abilCode integer
 ---@return ability
-function GetItemAbility (whichItem, abilityId) end
+function GetItemAbilityById (whichItem, abilCode) end
 ---@author UjAPI
 ---@param whichItem item
----@param abilityIndex integer
+---@param index integer
 ---@return ability
-function GetItemAbilityByIndex (whichItem, abilityIndex) end
+function GetItemAbilityByIndex (whichItem, index) end
+---@author UjAPI
+---@param whichItem item
+---@param whichAbility ability
+---@return boolean
+function ItemAddAbility (whichItem, whichAbility) end
+---@author UjAPI
+---@param whichItem item
+---@param whichAbility ability
+---@return boolean
+function ItemRemoveAbility (whichItem, whichAbility) end
+---@author UjAPI
+---@param whichItem item
+---@param abilCode integer
+---@return boolean
+function ItemAddAbilityById (whichItem, abilCode) end
+---@author UjAPI
+---@param whichItem item
+---@param abilCode integer
+---@return boolean
+function ItemRemoveAbilityById (whichItem, abilCode) end
 ---@author UjAPI
 ---@param whichItem item
 ---@return real
@@ -12918,58 +12975,58 @@ function GetUnitAbility (whichUnit, aid) end
 function GetUnitAbilityByIndex (whichUnit, index) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param checkForDuplicates boolean
 ---@return boolean
-function UnitAddAbilityEx (whichUnit, abilityId, checkForDuplicates) end
+function UnitAddAbilityEx (whichUnit, abilCode, checkForDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param removeDuplicates boolean
 ---@return boolean
-function UnitRemoveAbilityEx (whichUnit, abilityId, removeDuplicates) end
+function UnitRemoveAbilityEx (whichUnit, abilCode, removeDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@return boolean
-function IsUnitAbilityVisible (whichUnit, abilityId) end
+function IsUnitAbilityVisible (whichUnit, abilCode) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param show boolean
-function ShowUnitAbility (whichUnit, abilityId, show) end
+function ShowUnitAbility (whichUnit, abilCode, show) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param show boolean
 ---@param checkDuplicates boolean
-function ShowUnitAbilityEx (whichUnit, abilityId, show, checkDuplicates) end
+function ShowUnitAbilityEx (whichUnit, abilCode, show, checkDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param hide boolean
 ---@param disable boolean
-function DisableUnitAbility (whichUnit, abilityId, hide, disable) end
+function DisableUnitAbility (whichUnit, abilCode, hide, disable) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param hide boolean
 ---@param disable boolean
 ---@param checkDuplicates boolean
-function DisableUnitAbilityEx (whichUnit, abilityId, hide, disable, checkDuplicates) end
+function DisableUnitAbilityEx (whichUnit, abilCode, hide, disable, checkDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param show boolean
 ---@param enable boolean
-function EnableUnitAbility (whichUnit, abilityId, show, enable) end
+function EnableUnitAbility (whichUnit, abilCode, show, enable) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilityId integer
+---@param abilCode integer
 ---@param show boolean
 ---@param enable boolean
 ---@param checkDuplicates boolean
-function EnableUnitAbilityEx (whichUnit, abilityId, show, enable, checkDuplicates) end
+function EnableUnitAbilityEx (whichUnit, abilCode, show, enable, checkDuplicates) end
 -- 
 
 -- Unit Buff API
@@ -13392,11 +13449,11 @@ function SetUnitManaRegen (whichUnit, manaRegen) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return heroattribute
-function GetUnitPrimaryStat (whichUnit) end
+function GetHeroPrimaryAttribute (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param whichHeroAttribute heroattribute
-function SetUnitPrimaryStat (whichUnit, whichHeroAttribute) end
+function SetHeroPrimaryAttribute (whichUnit, whichHeroAttribute) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return string
@@ -13727,7 +13784,7 @@ function CreateIllusionFromUnit (whichUnit) end
 ---@return unit
 function CreateIllusionFromUnitEx (whichUnit, copyPassives) end
 
--- Damage Dealt and Received are multipliers, not direct values. These will only work on illusions created by abilities/items or by: CreateUnitIllusion, CreateUnitIllusionAtLoc and CloneUnit.
+-- Damage Dealt and Received are multipliers, not direct values. These will only work on illusions created by abilities/items or by: CreateUnitIllusion, CreateUnitIllusionAtLoc and CreateIllusionFromUnit.
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
@@ -14140,6 +14197,10 @@ function GetProjectileSource (whichProjectile) end
 ---@param whichProjectile projectile
 ---@param whichUnit unit
 function SetProjectileSource (whichProjectile, whichUnit) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return ability
+function GetProjectileSourceAbility (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@return real
@@ -15302,9 +15363,6 @@ function GetEventDamageFlags () end
 function SetEventDamageFlags (flags) end
 
 ---@author UjAPI
----@return integer
-function GetEventDamageAbilityId () end
----@author UjAPI
 ---@return unit
 function GetEventDamageTarget () end
 
@@ -15510,16 +15568,16 @@ function AutomationTestingFinished () end
 -- native BlzFourCC2S takes integer value returns string
 -- native BlzS2FourCC takes string value returns integer
 
----@param abilityId integer
+---@param abilCode integer
 ---@param order string
 ---@return commandbuttoneffect
-function CreateCommandButtonEffect (abilityId, order) end
+function CreateCommandButtonEffect (abilCode, order) end
 ---@param whichUprgade integer
 ---@return commandbuttoneffect
 function CreateUpgradeCommandButtonEffect (whichUprgade) end
----@param abilityId integer
+---@param abilCode integer
 ---@return commandbuttoneffect
-function CreateLearnCommandButtonEffect (abilityId) end
+function CreateLearnCommandButtonEffect (abilCode) end
 ---@param whichEffect commandbuttoneffect
 function DestroyCommandButtonEffect (whichEffect) end
 
