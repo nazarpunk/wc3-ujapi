@@ -1198,6 +1198,11 @@ EVENT_PLAYER_UNIT_BUFF_RECEIVED = ConvertPlayerUnitEvent(500) ---@type playeruni
 EVENT_PLAYER_UNIT_BUFF_REFRESHED = ConvertPlayerUnitEvent(501) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_BUFF_ENDED = ConvertPlayerUnitEvent(502) ---@type playerunitevent @UjAPI
 
+EVENT_PLAYER_UNIT_ABILITY_ADDED = ConvertPlayerUnitEvent(503) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_ABILITY_REMOVED = ConvertPlayerUnitEvent(504) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_ABILITY_AUTOCAST_ON = ConvertPlayerUnitEvent(505) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_ABILITY_AUTOCAST_OFF = ConvertPlayerUnitEvent(506) ---@type playerunitevent @UjAPI
+
 EVENT_PLAYER_UNIT_PROJECTILE_LAUNCH = ConvertPlayerUnitEvent(600) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_PROJECTILE_HIT = ConvertPlayerUnitEvent(601) ---@type playerunitevent @UjAPI
 
@@ -1218,6 +1223,11 @@ EVENT_UNIT_PAWN_ITEM = ConvertUnitEvent(294) ---@type unitevent
 EVENT_UNIT_BUFF_RECEIVED = ConvertUnitEvent(510) ---@type unitevent @UjAPI
 EVENT_UNIT_BUFF_REFRESHED = ConvertUnitEvent(511) ---@type unitevent @UjAPI
 EVENT_UNIT_BUFF_ENDED = ConvertUnitEvent(512) ---@type unitevent @UjAPI
+
+EVENT_UNIT_ABILITY_ADDED = ConvertUnitEvent(513) ---@type unitevent @UjAPI
+EVENT_UNIT_ABILITY_REMOVED = ConvertUnitEvent(514) ---@type unitevent @UjAPI
+EVENT_UNIT_ABILITY_AUTOCAST_ON = ConvertUnitEvent(515) ---@type unitevent @UjAPI
+EVENT_UNIT_ABILITY_AUTOCAST_OFF = ConvertUnitEvent(516) ---@type unitevent @UjAPI
 
 EVENT_UNIT_PROJECTILE_LAUNCH = ConvertUnitEvent(610) ---@type unitevent @UjAPI
 EVENT_UNIT_PROJECTILE_HIT = ConvertUnitEvent(611) ---@type unitevent @UjAPI
@@ -1419,6 +1429,8 @@ ORIGIN_FRAME_ITEM_BUTTON_CHARGES_TEXT = ConvertOriginFrameType(50) ---@type orig
 ORIGIN_FRAME_TRAINABLE_BUTTON = ConvertOriginFrameType(51) ---@type originframetype @UjAPI
 ORIGIN_FRAME_CARGO_BUTTON = ConvertOriginFrameType(52) ---@type originframetype @UjAPI
 ORIGIN_FRAME_GROUP_BUTTON = ConvertOriginFrameType(53) ---@type originframetype @UjAPI
+ORIGIN_FRAME_FPS_TEXT = ConvertOriginFrameType(54) ---@type originframetype @UjAPI
+ORIGIN_FRAME_MEMORY_TEXT = ConvertOriginFrameType(55) ---@type originframetype @UjAPI
 
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
@@ -8429,6 +8441,21 @@ function IsStatbarEnabled () end
 function EnableStatbar (enable) end
 -- 
 
+-- Map API
+---@author UjAPI
+---@return real
+function GetMapFogZ () end
+---@author UjAPI
+---@param z real
+function SetMapFogZ (z) end
+---@author UjAPI
+---@return integer
+function GetMapFogColour () end
+---@author UjAPI
+---@param colour integer
+function SetMapFogColour (colour) end
+-- 
+
 -- Trigger API
 ---@author UjAPI
 ---@param whichTrigger trigger
@@ -10669,6 +10696,10 @@ function SetAbilityEnabledEx (whichAbility, enable) end
 ---@param whichAbility ability
 ---@return boolean
 function IsAbilityUsable (whichAbility) end
+---@author UjAPI
+---@param whichAbility ability
+---@return boolean
+function IsAbilityAutocastEnabled (whichAbility) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return real
@@ -13377,15 +13408,15 @@ function GetUnitTimeScale (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
+function GetUnitTotalMoveSpeed (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
 function GetUnitBaseMoveSpeed (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param baseMoveSpeed real
 function SetUnitBaseMoveSpeed (whichUnit, baseMoveSpeed) end
----@author UjAPI
----@param whichUnit unit
----@return real
-function GetUnitTotalMoveSpeed (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
