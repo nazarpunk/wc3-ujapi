@@ -8306,7 +8306,11 @@ function TextFileReadLine (whichTextFile, lineNumber) end
 ---@author UjAPI
 ---@param whichTextFile textfilehandle
 ---@return string
-function TextFileReadAll (whichTextFile) end
+function TextFileReadAllLines (whichTextFile) end
+---@author UjAPI
+---@param whichTextFile textfilehandle
+---@return string
+function TextFileRead (whichTextFile) end
 ---@author UjAPI
 ---@param whichTextFile textfilehandle
 ---@param text string
@@ -13431,6 +13435,23 @@ function SetUnitBonusMoveSpeedPercent (whichUnit, bonusMoveSpeedPercent) end
 function GetUnitVertexColour (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@param whichItem item
+---@param itemSlot integer
+---@return boolean
+function UnitAddItemToSlot (whichUnit, whichItem, itemSlot) end
+---@author UjAPI
+---@param whichUnit unit
+---@param x real
+---@param y real
+---@return boolean
+function ReviveUnit (whichUnit, x, y) end
+---@author UjAPI
+---@param whichUnit unit
+---@param loc location
+---@return boolean
+function ReviveUnitLoc (whichUnit, loc) end
+---@author UjAPI
+---@param whichUnit unit
 ---@return real
 function GetUnitCurrentLife (whichUnit) end
 ---@author UjAPI
@@ -14926,7 +14947,8 @@ function GetFrameItemOwner (listBoxItem) end
 function SetFrameItemOwner (listBoxItem, whichFrame) end
 -- 
 
--- CBackdropFrame API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children, backdropId has to be always 0.
+-- Border API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
+-- For CFrames that contain backdrops, use ids to differentiate between them, this is similar to CSimpleButton states, etc.
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
