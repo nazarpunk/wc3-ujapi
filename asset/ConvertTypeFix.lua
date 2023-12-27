@@ -1947,3 +1947,7 @@ RENDER_STAGE_BUILDING = ConvertRenderStage(18) ---@type renderstage @UjAPI
 RENDER_STAGE_UBERSPLAT = ConvertRenderStage(19) ---@type renderstage @UjAPI
 RENDER_STAGE_LIGHTNING = ConvertRenderStage(20) ---@type renderstage @UjAPI
 RENDER_STAGE_TEXTTAG = ConvertRenderStage(21) ---@type renderstage @UjAPI
+CONNECTION_TYPE_SINGLE_PLAYER = ConvertConnectionType(0) ---@type connectiontype @UjAPI
+CONNECTION_TYPE_LOCAL_GAME = ConvertConnectionType(1) ---@type connectiontype @UjAPI
+CONNECTION_TYPE_BATTLE_NET = ConvertConnectionType(2) ---@type connectiontype @UjAPI
+CONNECTION_TYPE_REPLAY = ConvertConnectionType(3) ---@type connectiontype @UjAPI

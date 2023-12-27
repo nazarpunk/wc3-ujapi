@@ -152,6 +152,7 @@
 ---@class timetype:handle @UjAPI
 ---@class variabletype:handle @UjAPI
 ---@class renderstage:handle @UjAPI
+---@class connectiontype:handle @UjAPI
 ---@class jassthread:handle @UjAPI
 ---@class handlelist:handle @UjAPI
 ---@class textfilehandle:handle @UjAPI
@@ -492,6 +493,10 @@ function ConvertVariableType (i) end
 ---@param i integer
 ---@return renderstage
 function ConvertRenderStage (i) end
+---@author UjAPI
+---@param i integer
+---@return connectiontype
+function ConvertConnectionType (i) end
 
 ---@param orderIdString string
 ---@return integer
@@ -2832,6 +2837,11 @@ BORDER_FLAG_LEFT = 32 ---@type integer @UjAPI
 BORDER_FLAG_BOTTOM = 64 ---@type integer @UjAPI
 BORDER_FLAG_RIGHT = 128 ---@type integer @UjAPI
 BORDER_FLAG_ALL = 255 ---@type integer @UjAPI
+
+CONNECTION_TYPE_SINGLE_PLAYER = ConvertConnectionType(0) ---@type connectiontype @UjAPI
+CONNECTION_TYPE_LOCAL_GAME = ConvertConnectionType(1) ---@type connectiontype @UjAPI
+CONNECTION_TYPE_BATTLE_NET = ConvertConnectionType(2) ---@type connectiontype @UjAPI
+CONNECTION_TYPE_REPLAY = ConvertConnectionType(3) ---@type connectiontype @UjAPI
 
 -- ============================================================================
 -- MathAPI
@@ -8902,14 +8912,14 @@ function ForceCountPlayers (whichForce) end
 -- 
 
 -- ============================================================================
--- Player API
+-- Game API
 -- 
 ---@author UjAPI
 ---@return player
 function GetHostPlayer () end
--- 
-
--- Game API
+---@author UjAPI
+---@return connectiontype
+function GetConnectionType () end
 ---@author UjAPI
 ---@return boolean
 function IsReplay () end
