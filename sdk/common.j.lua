@@ -5,7 +5,8 @@
 ---@class agent:handle @all reference counted objects
 ---@class event:agent @a reference to an event registration
 ---@class player:agent @a single player reference
----@class widget:agent @an interactive game object with life
+---@class war3image:agent @UjAPI an interactive game object that serves as a base to nearly every model-based object.
+---@class widget:war3image @an interactive game object with life
 ---@class unit:widget @a single unit reference
 ---@class destructable:widget
 ---@class item:widget
@@ -28,7 +29,6 @@
 ---@class itempool:handle
 ---@class race:handle
 ---@class alliancetype:handle
----@class racepreference:handle
 ---@class gamestate:handle
 ---@class igamestate:gamestate
 ---@class fgamestate:gamestate
@@ -49,8 +49,6 @@
 ---@class projectiletype:handle @UjAPI
 ---@class gamespeed:handle
 ---@class gamedifficulty:handle
----@class gametype:handle
----@class mapflag:handle
 ---@class mapvisibility:handle
 ---@class mapsetting:handle
 ---@class mapdensity:handle
@@ -102,10 +100,11 @@
 ---@class image:handle
 ---@class ubersplat:handle
 ---@class hashtable:agent
----@class sprite:agent @UjAPI
----@class projectile:agent @UjAPI
----@class doodad:agent @UjAPI
+---@class sprite:war3image @UjAPI
+---@class projectile:war3image @UjAPI
+---@class doodad:war3image @UjAPI
 ---@class framehandle:handle @UjAPI
+---@class commandbuttoneffect:handle @UjAPI
 ---@class originframetype:handle @UjAPI
 ---@class framepointtype:handle @UjAPI
 ---@class textaligntype:handle @UjAPI
@@ -138,17 +137,22 @@
 ---@class unitweaponrealfield:agentdatafield @UjAPI
 ---@class unitweaponbooleanfield:agentdatafield @UjAPI
 ---@class unitweaponstringfield:agentdatafield @UjAPI
----@class movetype:handle @UjAPI
----@class pathingaitype:handle @UjAPI
----@class collisiontype:handle @UjAPI
----@class targetflag:handle @UjAPI
+---@class flagtype:handle @UjAPI
+---@class racepreference:flagtype
+---@class gametype:flagtype
+---@class mapflag:flagtype
+---@class movetype:flagtype @UjAPI
+---@class pathingaitype:flagtype @UjAPI
+---@class collisiontype:flagtype @UjAPI
+---@class targetflag:flagtype @UjAPI
+---@class unitcategory:flagtype @UjAPI
+---@class pathingflag:flagtype @UjAPI
+---@class layerstyleflag:flagtype @UjAPI
+---@class controlstyleflag:flagtype @UjAPI
 ---@class armortype:handle @UjAPI
 ---@class heroattribute:handle @UjAPI
 ---@class defensetype:handle @UjAPI
 ---@class regentype:handle @UjAPI
----@class unitcategory:handle @UjAPI
----@class pathingflag:handle @UjAPI
----@class commandbuttoneffect:handle @UjAPI
 ---@class timetype:handle @UjAPI
 ---@class variabletype:handle @UjAPI
 ---@class renderstage:handle @UjAPI
@@ -495,6 +499,14 @@ function ConvertVariableType (i) end
 function ConvertRenderStage (i) end
 ---@author UjAPI
 ---@param i integer
+---@return layerstyleflag
+function ConvertLayerStyleFlag (i) end
+---@author UjAPI
+---@param i integer
+---@return controlstyleflag
+function ConvertControlStyleFlag (i) end
+---@author UjAPI
+---@param i integer
 ---@return connectiontype
 function ConvertConnectionType (i) end
 
@@ -543,7 +555,6 @@ function GetJassArrayLimit () end
 ---@author UjAPI
 ---@return integer
 function GetTextTagLimit () end
-
 
 -- ===================================================
 -- Game Constants
@@ -1436,6 +1447,7 @@ ORIGIN_FRAME_CARGO_BUTTON = ConvertOriginFrameType(52) ---@type originframetype 
 ORIGIN_FRAME_GROUP_BUTTON = ConvertOriginFrameType(53) ---@type originframetype @UjAPI
 ORIGIN_FRAME_FPS_TEXT = ConvertOriginFrameType(54) ---@type originframetype @UjAPI
 ORIGIN_FRAME_MEMORY_TEXT = ConvertOriginFrameType(55) ---@type originframetype @UjAPI
+ORIGIN_FRAME_SIMPLE_TOP = ConvertOriginFrameType(56) ---@type originframetype
 
 FRAMEPOINT_TOPLEFT = ConvertFramePointType(0) ---@type framepointtype @UjAPI
 FRAMEPOINT_TOP = ConvertFramePointType(1) ---@type framepointtype @UjAPI
@@ -2827,6 +2839,22 @@ RENDER_STAGE_BUILDING = ConvertRenderStage(18) ---@type renderstage @UjAPI
 RENDER_STAGE_UBERSPLAT = ConvertRenderStage(19) ---@type renderstage @UjAPI
 RENDER_STAGE_LIGHTNING = ConvertRenderStage(20) ---@type renderstage @UjAPI
 RENDER_STAGE_TEXTTAG = ConvertRenderStage(21) ---@type renderstage @UjAPI
+
+LAYER_STYLE_SVIEWPOINT = ConvertLayerStyleFlag(1) ---@type layerstyleflag
+LAYER_STYLE_IGNORE_TRACK_EVENTS = ConvertLayerStyleFlag(2) ---@type layerstyleflag
+LAYER_STYLE_SHADING = ConvertLayerStyleFlag(4) ---@type layerstyleflag
+LAYER_STYLE_NO_DEPTH_SET = ConvertLayerStyleFlag(16) ---@type layerstyleflag
+LAYER_STYLE_NO_DEPTH_TEST = ConvertLayerStyleFlag(32) ---@type layerstyleflag
+
+CONTROL_STYLE_AUTOTRACK = ConvertControlStyleFlag(1) ---@type controlstyleflag
+CONTROL_STYLE_CLICK_MOUSE_DOWN = ConvertControlStyleFlag(2) ---@type controlstyleflag
+CONTROL_STYLE_RELEASE_NOTIFY = ConvertControlStyleFlag(4) ---@type controlstyleflag
+CONTROL_STYLE_DRAG = ConvertControlStyleFlag(8) ---@type controlstyleflag
+CONTROL_STYLE_HIGHLIGHT_FOCUS = ConvertControlStyleFlag(32) ---@type controlstyleflag
+CONTROL_STYLE_HIGHLIGHT_HOVER = ConvertControlStyleFlag(64) ---@type controlstyleflag
+CONTROL_STYLE_SLIDER_STEP = ConvertControlStyleFlag(128) ---@type controlstyleflag
+CONTROL_STYLE_EXCLUSIVE = ConvertControlStyleFlag(512) ---@type controlstyleflag
+CONTROL_STYLE_AT_LEAST_ONE = ConvertControlStyleFlag(1024) ---@type controlstyleflag
 
 BORDER_FLAG_UPPER_LEFT = 1 ---@type integer @UjAPI
 BORDER_FLAG_UPPER_RIGHT = 2 ---@type integer @UjAPI
@@ -10075,12 +10103,41 @@ function SetDoodadRoll (whichDoodad, roll) end
 function SetDoodadOrientation (whichDoodad, yaw, pitch, roll) end
 ---@author UjAPI
 ---@param whichDoodad doodad
+---@return playercolor
+function GetDoodadPlayerColour (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param color playercolor
+function SetDoodadPlayerColour (whichDoodad, color) end
+---@author UjAPI
+---@param whichDoodad doodad
 ---@return string
 function GetDoodadModel (whichDoodad) end
 ---@author UjAPI
 ---@param whichDoodad doodad
----@param whichModel string
-function SetDoodadModel (whichDoodad, whichModel) end
+---@param modelFile string
+function SetDoodadModel (whichDoodad, modelFile) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param modelFile string
+---@param playerId integer
+function SetDoodadModelEx (whichDoodad, modelFile, playerId) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param textureName string
+---@param materialId integer
+---@param textureIndex integer
+function SetDoodadMaterialTexture (whichDoodad, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param textureName string
+---@param textureIndex integer
+function SetDoodadTexture (whichDoodad, textureName, textureIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param textureName string
+---@param textureIndex integer
+function SetDoodadReplaceableTexture (whichDoodad, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichDoodad doodad
 ---@return boolean
@@ -10947,6 +11004,49 @@ function GetTriggerBuffTarget () end
 -- 
 
 -- ============================================================================
+-- War3 Image API
+-- 
+-- This is API for the "lowest" in terms of hierarchy object type for any and all widgets. Sprites and doodads are exception, however this API can distinguish between them and handle accordingly.
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return playercolor
+function GetWar3ImagePlayerColour (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param color playercolor
+function SetWar3ImagePlayerColour (whichWar3Image, color) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param textureName string
+---@param materialId integer
+---@param textureIndex integer
+function SetWar3ImageMaterialTexture (whichWar3Image, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param textureName string
+---@param textureIndex integer
+function SetWar3ImageTexture (whichWar3Image, textureName, textureIndex) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param textureName string
+---@param textureIndex integer
+function SetWar3ImageReplaceableTexture (whichWar3Image, textureName, textureIndex) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return string
+function GetWar3ImageModel (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param modelName string
+function SetWar3ImageModel (whichWar3Image, modelName) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param modelName string
+---@param playerColour integer
+function SetWar3ImageModelEx (whichWar3Image, modelName, playerColour) end
+-- 
+
+-- ============================================================================
 -- Sprite API
 -- 
 -- Note: any axis setter is ignored by sprites created via AddSpriteToTarget, since they inherit nearly all data from sprite they are attached to.
@@ -11062,6 +11162,10 @@ function GetSpriteTimeScale (whichSprite) end
 ---@param whichSprite sprite
 ---@param timescale real
 function SetSpriteTimeScale (whichSprite, timescale) end
+---@author UjAPI
+---@param whichSprite sprite
+---@return playercolor
+function GetSpritePlayerColour (whichSprite) end
 ---@author UjAPI
 ---@param whichSprite sprite
 ---@param color playercolor
@@ -11247,7 +11351,7 @@ function IsSpecialEffectVisible (whichEffect) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param visibility boolean
-function SetSpecialEffectVisibility (whichEffect, visibility) end
+function SetSpecialEffectVisible (whichEffect, visibility) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@return real
@@ -11323,6 +11427,10 @@ function GetSpecialEffectTimeScale (whichEffect) end
 ---@param whichEffect effect
 ---@param timescale real
 function SetSpecialEffectTimeScale (whichEffect, timescale) end
+---@author UjAPI
+---@param whichEffect effect
+---@return playercolor
+function GetSpecialEffectPlayerColour (whichEffect) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param color playercolor
@@ -11526,7 +11634,7 @@ function IsTrackableVisible (whichTrackable) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param visibility boolean
-function SetTrackableVisibility (whichTrackable, visibility) end
+function SetTrackableVisible (whichTrackable, visibility) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@return real
@@ -11602,6 +11710,10 @@ function GetTrackableTimeScale (whichTrackable) end
 ---@param whichTrackable trackable
 ---@param timescale real
 function SetTrackableTimeScale (whichTrackable, timescale) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@return playercolor
+function GetTrackablePlayerColour (whichTrackable) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param color playercolor
@@ -11794,6 +11906,9 @@ function EnumTrackablesInRange (x, y, radius, filter, handlerFunc) end
 -- Widget API
 -- 
 ---@author UjAPI
+---@return widget
+function GetWidgetUnderCursor () end
+---@author UjAPI
 ---@param whichWidget widget
 ---@return sprite
 function GetWidgetSprite (whichWidget) end
@@ -11862,6 +11977,14 @@ function GetWidgetScreenX (whichWidget) end
 ---@param whichWidget widget
 ---@return real
 function GetWidgetScreenY (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
+---@return playercolor
+function GetWidgetPlayerColour (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
+---@param color playercolor
+function SetWidgetPlayerColour (whichWidget, color) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@return integer
@@ -12048,6 +12171,10 @@ function TriggerRegisterWidgetEvent (whichTrigger, whichWidget, whichWidgetEvent
 -- Destructable API
 -- 
 
+---@author UjAPI
+---@return destructable
+function GetDestructableUnderCursor () end
+
 -- Field API
 ---@author UjAPI
 ---@param whichDestructable destructable
@@ -12126,6 +12253,14 @@ function GetDestructableScreenX (whichDestructable) end
 ---@param whichDestructable destructable
 ---@return real
 function GetDestructableScreenY (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return playercolor
+function GetDestructablePlayerColour (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@param color playercolor
+function SetDestructablePlayerColour (whichDestructable, color) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@return integer
@@ -12407,6 +12542,13 @@ function SetItemStringField (whichItem, whichField, value) end
 
 -- Normal API
 ---@author UjAPI
+---@return item
+function GetItemUnderCursor () end
+---@author UjAPI
+---@param whichItem item
+---@return boolean
+function IsItemDroppable (whichItem) end
+---@author UjAPI
 ---@param whichItem item
 ---@return sprite
 function GetItemSprite (whichItem) end
@@ -12485,6 +12627,14 @@ function GetItemRemainingCooldown (whichItem) end
 ---@param whichItem item
 ---@param cooldown real
 function SetItemRemainingCooldown (whichItem, cooldown) end
+---@author UjAPI
+---@param whichItem item
+---@return playercolor
+function GetItemPlayerColour (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@param color playercolor
+function SetItemPlayerColour (whichItem, color) end
 ---@author UjAPI
 ---@param whichItem item
 ---@return integer
@@ -12891,6 +13041,9 @@ function SetUnitWeaponStringField (whichUnit, whichField, index, value) end
 
 -- Normal API
 ---@author UjAPI
+---@return unit
+function GetUnitUnderCursor () end
+---@author UjAPI
 ---@param whichUnit unit
 ---@return sprite
 function GetUnitSprite (whichUnit) end
@@ -12906,9 +13059,6 @@ function GetUnitScreenY (whichUnit) end
 ---@param whichUnit unit
 ---@param newId integer
 function SetUnitTypeId (whichUnit, newId) end
----@author UjAPI
----@return unit
-function GetUnitUnderCursor () end
 ---@author UjAPI
 ---@param whichPlayer player
 ---@return integer
@@ -13128,6 +13278,15 @@ function GetUnitRemainingTimedLife (whichUnit) end
 ---@param whichUnit unit
 ---@param duration real
 function SetUnitRemainingTimedLife (whichUnit, duration) end
+---@author UjAPI
+---@param whichUnit unit
+---@return boolean
+function IsUnitGhosted (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param state boolean
+---@param transitionTime real
+function SetUnitGhosted (whichUnit, state, transitionTime) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
@@ -13439,6 +13598,14 @@ function GetUnitBonusMoveSpeedPercent (whichUnit) end
 ---@param whichUnit unit
 ---@param bonusMoveSpeedPercent real
 function SetUnitBonusMoveSpeedPercent (whichUnit, bonusMoveSpeedPercent) end
+---@author UjAPI
+---@param whichUnit unit
+---@return playercolor
+function GetUnitPlayerColour (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param color playercolor
+function SetUnitPlayerColour (whichUnit, color) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
@@ -14084,6 +14251,10 @@ function GetProjectileTimeScale (whichProjectile) end
 function SetProjectileTimeScale (whichProjectile, timescale) end
 ---@author UjAPI
 ---@param whichProjectile projectile
+---@return playercolor
+function GetProjectilePlayerColour (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
 ---@param color playercolor
 function SetProjectilePlayerColour (whichProjectile, color) end
 ---@author UjAPI
@@ -14675,20 +14846,24 @@ function IsFrameEnabled (whichFrame) end
 function SetFrameEnabled (whichFrame, enabled) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@param whichLayerStyle layerstyleflag
 ---@return boolean
-function IsFrameDraggable (whichFrame) end
+function IsFrameLayerFlag (whichFrame, whichLayerStyle) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@param enabled boolean
-function SetFrameDraggable (whichFrame, enabled) end
+---@param whichLayerStyle layerstyleflag
+---@param isSet boolean
+function SetFrameLayerFlag (whichFrame, whichLayerStyle, isSet) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@return integer
-function GetFrameTrackState (whichFrame) end
+---@param whichControlStyle controlstyleflag
+---@return boolean
+function IsFrameControlFlag (whichFrame, whichControlStyle) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@param trackState integer
-function SetFrameTrackState (whichFrame, trackState) end
+---@param whichControlStyle controlstyleflag
+---@param isSet boolean
+function SetFrameControlFlag (whichFrame, whichControlStyle, isSet) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureId integer
@@ -14775,6 +14950,11 @@ function SetFrameValue (whichFrame, value) end
 ---@param value real
 ---@param isFireEvent boolean
 function SetFrameValueEx (whichFrame, value, isFireEvent) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param valueId integer
+---@return real
+function GetFrameMinMaxValues (whichFrame, valueId) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param minVal real
@@ -15074,6 +15254,10 @@ function GetFrameSpriteTimeScale (whichFrame) end
 ---@param whichFrame framehandle
 ---@param timescale real
 function SetFrameSpriteTimeScale (whichFrame, timescale) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return playercolor
+function GetFrameSpritePlayerColour (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param color playercolor
