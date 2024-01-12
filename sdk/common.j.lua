@@ -8026,6 +8026,53 @@ function SetJassGlobalHandle (thread, variableName, value) end
 ---@param value boolean
 ---@return boolean
 function SetJassGlobalBoolean (thread, variableName, value) end
+
+---@author UjAPI
+---@param variableName string
+---@return integer
+function GetJassLocalInteger (variableName) end
+---@author UjAPI
+---@param variableName string
+---@return real
+function GetJassLocalReal (variableName) end
+---@author UjAPI
+---@param variableName string
+---@return string
+function GetJassLocalString (variableName) end
+---@author UjAPI
+---@param variableName string
+---@return handle
+function GetJassLocalHandle (variableName) end
+---@author UjAPI
+---@param variableName string
+---@return boolean
+function GetJassLocalBoolean (variableName) end
+
+---@author UjAPI
+---@param variableName string
+---@param value integer
+---@return boolean
+function SetJassLocalInteger (variableName, value) end
+---@author UjAPI
+---@param variableName string
+---@param value real
+---@return boolean
+function SetJassLocalReal (variableName, value) end
+---@author UjAPI
+---@param variableName string
+---@param value string
+---@return boolean
+function SetJassLocalString (variableName, value) end
+---@author UjAPI
+---@param variableName string
+---@param value handle
+---@return boolean
+function SetJassLocalHandle (variableName, value) end
+---@author UjAPI
+---@param variableName string
+---@param value boolean
+---@return boolean
+function SetJassLocalBoolean (variableName, value) end
 -- 
 
 -- Jass Operations
@@ -8035,6 +8082,12 @@ function IsOperationLimitEnabled () end
 ---@author UjAPI
 ---@param enable boolean
 function EnableOperationLimit (enable) end
+---@author UjAPI
+---@return integer
+function GetOperationLimit () end
+---@author UjAPI
+---@param opLimit integer
+function SetOperationLimit (opLimit) end
 ---@author UjAPI
 ---@param funcName string
 ---@return code
@@ -10702,6 +10755,10 @@ function GetAbilityOwner (whichAbility) end
 function SetAbilityOwner (whichAbility, whichUnit) end
 ---@author UjAPI
 ---@param whichAbility ability
+---@return ability
+function GetAbilityOwningAbility (whichAbility) end
+---@author UjAPI
+---@param whichAbility ability
 ---@return item
 function GetAbilityOwningItem (whichAbility) end
 ---@author UjAPI
@@ -10932,6 +10989,7 @@ function ResetBuffFieldData (whichBuff) end
 -- 
 
 -- Normal API
+-- Supported buffs are available here: https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3BuffListSupportedInBuffAPI.txt
 ---@author UjAPI
 ---@param buffId integer
 ---@return buff
