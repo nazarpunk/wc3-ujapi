@@ -2551,6 +2551,8 @@ UNIT_IF_FORMATION_RANK = ConvertUnitIntegerField(FourCC('ufor'--[[1969647474--]]
 UNIT_IF_ORIENTATION_INTERPOLATION = ConvertUnitIntegerField(FourCC('uori'--[[1970238057--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_ELEVATION_SAMPLE_POINTS = ConvertUnitIntegerField(FourCC('uept'--[[1969582196--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_PROPER_NAMES_COUNT = ConvertUnitIntegerField(FourCC('upru'--[[1970303605--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_PROPER_NAME_INDEX = ConvertUnitIntegerField(FourCC('uprd'--[[1970303588--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_PROPER_NAME_GENERATION = ConvertUnitIntegerField(FourCC('uprg'--[[1970303591--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_HOTKEY = ConvertUnitIntegerField(FourCC('uhot'--[[1969778548--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR = ConvertUnitIntegerField(FourCC('uclt'--[[1969450100--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_TINTING_COLOR_RED = ConvertUnitIntegerField(FourCC('uclr'--[[1969450098--]])) ---@type unitintegerfield @UjAPI
@@ -7508,6 +7510,10 @@ function IntToHex (i) end
 ---@param i integer
 ---@return string
 function IntToChar (i) end
+---@author UjAPI
+---@param i integer
+---@return string
+function IntToRoman (i) end
 ---@author UjAPI
 ---@param alpha integer
 ---@param red integer
