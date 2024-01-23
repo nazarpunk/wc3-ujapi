@@ -147,8 +147,11 @@
 ---@class targetflag:flagtype @UjAPI
 ---@class unitcategory:flagtype @UjAPI
 ---@class pathingflag:flagtype @UjAPI
+---@class layoutstyleflag:flagtype @UjAPI
+---@class gridstyleflag:flagtype @UjAPI
 ---@class layerstyleflag:flagtype @UjAPI
 ---@class controlstyleflag:flagtype @UjAPI
+---@class abilitytype:flagtype @UjAPI
 ---@class armortype:handle @UjAPI
 ---@class heroattribute:handle @UjAPI
 ---@class defensetype:handle @UjAPI
@@ -160,6 +163,7 @@
 ---@class jassthread:handle @UjAPI
 ---@class handlelist:handle @UjAPI
 ---@class textfilehandle:handle @UjAPI
+---@class orderhandle:agent @UjAPI
 
 ---@param i integer
 ---@return race
@@ -499,12 +503,24 @@ function ConvertVariableType (i) end
 function ConvertRenderStage (i) end
 ---@author UjAPI
 ---@param i integer
+---@return layoutstyleflag
+function ConvertLayoutStyleFlag (i) end
+---@author UjAPI
+---@param i integer
+---@return gridstyleflag
+function ConvertGridStyleFlag (i) end
+---@author UjAPI
+---@param i integer
 ---@return layerstyleflag
 function ConvertLayerStyleFlag (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return controlstyleflag
 function ConvertControlStyleFlag (i) end
+---@author UjAPI
+---@param i integer
+---@return abilitytype
+function ConvertAbilityType (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return connectiontype
@@ -2741,6 +2757,16 @@ TARGET_FLAG_NON_ANCIENT = ConvertTargetFlag(1073741824) ---@type targetflag @UjA
 TARGET_FLAG_ANCIENT = ConvertTargetFlag(2147483648) ---@type targetflag @UjAPI
 TARGET_FLAG_EMPTY = ConvertTargetFlag(4294967295) ---@type targetflag @UjAPI
 
+-- ability types
+ABILITY_TYPE_POSITIVE = ConvertAbilityType(0) ---@type abilitytype @UjAPI
+ABILITY_TYPE_NEGATIVE = ConvertAbilityType(1) ---@type abilitytype @UjAPI
+ABILITY_TYPE_AURA = ConvertAbilityType(2) ---@type abilitytype @UjAPI
+ABILITY_TYPE_BUFF = ConvertAbilityType(3) ---@type abilitytype @UjAPI
+ABILITY_TYPE_TIMED_LIFE = ConvertAbilityType(4) ---@type abilitytype @UjAPI
+ABILITY_TYPE_PHYSICAL = ConvertAbilityType(5) ---@type abilitytype @UjAPI
+ABILITY_TYPE_MAGICAL = ConvertAbilityType(6) ---@type abilitytype @UjAPI
+ABILITY_TYPE_AUTODISPEL = ConvertAbilityType(7) ---@type abilitytype @UjAPI
+
 -- defense type
 DEFENSE_TYPE_LIGHT = ConvertDefenseType(0) ---@type defensetype @UjAPI
 DEFENSE_TYPE_MEDIUM = ConvertDefenseType(1) ---@type defensetype @UjAPI
@@ -2842,21 +2868,36 @@ RENDER_STAGE_UBERSPLAT = ConvertRenderStage(19) ---@type renderstage @UjAPI
 RENDER_STAGE_LIGHTNING = ConvertRenderStage(20) ---@type renderstage @UjAPI
 RENDER_STAGE_TEXTTAG = ConvertRenderStage(21) ---@type renderstage @UjAPI
 
-LAYER_STYLE_SVIEWPOINT = ConvertLayerStyleFlag(1) ---@type layerstyleflag
-LAYER_STYLE_IGNORE_TRACK_EVENTS = ConvertLayerStyleFlag(2) ---@type layerstyleflag
-LAYER_STYLE_SHADING = ConvertLayerStyleFlag(4) ---@type layerstyleflag
-LAYER_STYLE_NO_DEPTH_SET = ConvertLayerStyleFlag(16) ---@type layerstyleflag
-LAYER_STYLE_NO_DEPTH_TEST = ConvertLayerStyleFlag(32) ---@type layerstyleflag
+LAYOUT_STYLE_BOUNDING_FRAME_POSITION = ConvertLayoutStyleFlag(1) ---@type layoutstyleflag @UjAPI
+LAYOUT_STYLE_ALWAYS_TRACK = ConvertLayoutStyleFlag(2) ---@type layoutstyleflag @UjAPI
+LAYOUT_STYLE_NO_ENV = ConvertLayoutStyleFlag(4) ---@type layoutstyleflag @UjAPI
 
-CONTROL_STYLE_AUTOTRACK = ConvertControlStyleFlag(1) ---@type controlstyleflag
-CONTROL_STYLE_CLICK_MOUSE_DOWN = ConvertControlStyleFlag(2) ---@type controlstyleflag
-CONTROL_STYLE_RELEASE_NOTIFY = ConvertControlStyleFlag(4) ---@type controlstyleflag
-CONTROL_STYLE_DRAG = ConvertControlStyleFlag(8) ---@type controlstyleflag
-CONTROL_STYLE_HIGHLIGHT_FOCUS = ConvertControlStyleFlag(32) ---@type controlstyleflag
-CONTROL_STYLE_HIGHLIGHT_HOVER = ConvertControlStyleFlag(64) ---@type controlstyleflag
-CONTROL_STYLE_SLIDER_STEP = ConvertControlStyleFlag(128) ---@type controlstyleflag
-CONTROL_STYLE_EXCLUSIVE = ConvertControlStyleFlag(512) ---@type controlstyleflag
-CONTROL_STYLE_AT_LEAST_ONE = ConvertControlStyleFlag(1024) ---@type controlstyleflag
+GRID_STYLE_JUSTIFY_LEFT = ConvertGridStyleFlag(8) ---@type gridstyleflag @UjAPI
+GRID_STYLE_JUSTIFY_RIGHT = ConvertGridStyleFlag(16) ---@type gridstyleflag @UjAPI
+GRID_STYLE_JUSTIFY_TOP = ConvertGridStyleFlag(32) ---@type gridstyleflag @UjAPI
+GRID_STYLE_JUSTIFY_BOTTOM = ConvertGridStyleFlag(64) ---@type gridstyleflag @UjAPI
+GRID_STYLE_JUSTIFY_MIDDLE = ConvertGridStyleFlag(128) ---@type gridstyleflag @UjAPI
+GRID_STYLE_JUSTIFY_CENTER = ConvertGridStyleFlag(256) ---@type gridstyleflag @UjAPI
+GRID_STYLE_PACK_ITEMS = ConvertGridStyleFlag(512) ---@type gridstyleflag @UjAPI
+
+LAYER_STYLE_SVIEWPOINT = ConvertLayerStyleFlag(1) ---@type layerstyleflag @UjAPI
+LAYER_STYLE_IGNORE_TRACK_EVENTS = ConvertLayerStyleFlag(2) ---@type layerstyleflag @UjAPI
+LAYER_STYLE_SHADING = ConvertLayerStyleFlag(4) ---@type layerstyleflag @UjAPI
+LAYER_STYLE_SCROLL = ConvertLayerStyleFlag(8) ---@type layerstyleflag @UjAPI
+LAYER_STYLE_NO_DEPTH_SET = ConvertLayerStyleFlag(16) ---@type layerstyleflag @UjAPI
+LAYER_STYLE_NO_DEPTH_TEST = ConvertLayerStyleFlag(32) ---@type layerstyleflag @UjAPI
+
+CONTROL_STYLE_AUTOTRACK = ConvertControlStyleFlag(1) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_CLICK_MOUSE_DOWN = ConvertControlStyleFlag(2) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_RELEASE_NOTIFY = ConvertControlStyleFlag(4) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_DRAG = ConvertControlStyleFlag(8) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_HIGHLIGHT_ON_FOCUS = ConvertControlStyleFlag(16) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_HIGHLIGHT_FOCUS = ConvertControlStyleFlag(32) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_HIGHLIGHT_ON_MOUSE_OVER = ConvertControlStyleFlag(64) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_SLIDER_STEP = ConvertControlStyleFlag(128) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_HIGHLIGHT = ConvertControlStyleFlag(256) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_EXCLUSIVE = ConvertControlStyleFlag(512) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_AT_LEAST_ONE = ConvertControlStyleFlag(1024) ---@type controlstyleflag @UjAPI
 
 BORDER_FLAG_UPPER_LEFT = 1 ---@type integer @UjAPI
 BORDER_FLAG_UPPER_RIGHT = 2 ---@type integer @UjAPI
@@ -9152,6 +9193,10 @@ function HandleListGetProjectileCount (whichHandleList) end
 ---@param whichHandleList handlelist
 ---@return integer
 function HandleListGetFrameCount (whichHandleList) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@return integer
+function HandleListGetOrderCount (whichHandleList) end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9231,6 +9276,11 @@ function HandleListGetProjectileByIndex (whichHandleList, index) end
 ---@param index integer
 ---@return framehandle
 function HandleListGetFrameByIndex (whichHandleList, index) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param index integer
+---@return orderhandle
+function HandleListGetOrderByIndex (whichHandleList, index) end
 
 ---@author UjAPI
 ---@return handle
@@ -9271,6 +9321,9 @@ function HandleListGetFilterProjectile () end
 ---@author UjAPI
 ---@return framehandle
 function HandleListGetFilterFrame () end
+---@author UjAPI
+---@return orderhandle
+function HandleListGetFilterOrder () end
 
 ---@author UjAPI
 ---@return handle
@@ -9311,6 +9364,9 @@ function HandleListGetEnumProjectile () end
 ---@author UjAPI
 ---@return framehandle
 function HandleListGetEnumFrame () end
+---@author UjAPI
+---@return orderhandle
+function HandleListGetEnumOrder () end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9523,6 +9579,11 @@ function HandleListEnumUnitAbilities (whichHandleList, whichUnit, filter) end
 ---@param whichUnit unit
 ---@param filter boolexpr
 function HandleListEnumUnitBuffs (whichHandleList, whichUnit, filter) end
+---@author UjAPI
+---@param whichHandleList handlelist
+---@param whichUnit unit
+---@param filter boolexpr
+function HandleListEnumUnitOrders (whichHandleList, whichUnit, filter) end
 
 ---@author UjAPI
 ---@param whichHandleList handlelist
@@ -9785,6 +9846,14 @@ function GetLightningLength (whichBolt) end
 ---@param whichBolt lightning
 ---@param value real
 function SetLightningLength (whichBolt, value) end
+---@author UjAPI
+---@param whichBolt lightning
+---@return real
+function GetLightningWidth (whichBolt) end
+---@author UjAPI
+---@param whichBolt lightning
+---@param value real
+function SetLightningWidth (whichBolt, value) end
 ---@author UjAPI
 ---@param whichBolt lightning
 ---@return real
@@ -10753,6 +10822,11 @@ function IsAbilityBaseTargetAllowed (abilCode, source, target) end
 function CreateAbility (abilCode) end
 ---@author UjAPI
 ---@param whichAbility ability
+---@param whichAbilityType abilitytype
+---@return boolean
+function IsAbilityType (whichAbility, whichAbilityType) end
+---@author UjAPI
+---@param whichAbility ability
 ---@return unit
 function GetAbilityOwner (whichAbility) end
 ---@author UjAPI
@@ -11019,6 +11093,14 @@ function GetBuffOwner (whichbuff) end
 function SetBuffOwner (whichBuff, whichUnit) end
 ---@author UjAPI
 ---@param whichBuff buff
+---@return boolean
+function IsBuffDispellable (whichBuff) end
+---@author UjAPI
+---@param whichBuff buff
+---@param isSet boolean
+function SetBuffDispellable (whichBuff, isSet) end
+---@author UjAPI
+---@param whichBuff buff
 ---@return integer
 function GetBuffLevel (whichBuff) end
 ---@author UjAPI
@@ -11032,11 +11114,13 @@ function GetBuffRemainingDuration (whichBuff) end
 ---@author UjAPI
 ---@param whichBuff buff
 ---@param duration real
----@return boolean
 function SetBuffRemainingDuration (whichBuff, duration) end
 ---@author UjAPI
 ---@param whichBuff buff
----@return boolean
+---@param pause boolean
+function PauseBuff (whichBuff, pause) end
+---@author UjAPI
+---@param whichBuff buff
 function RefreshBuff (whichBuff) end
 
 ---@author UjAPI
@@ -13229,6 +13313,12 @@ function UnitApplyUpgrades (whichUnit) end
 function GetUnitAbility (whichUnit, aid) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@param aid integer
+---@param id integer
+---@return ability
+function GetUnitAbilityEx (whichUnit, aid, id) end
+---@author UjAPI
+---@param whichUnit unit
 ---@param index integer
 ---@return ability
 function GetUnitAbilityByIndex (whichUnit, index) end
@@ -13319,6 +13409,12 @@ function UnitAddBuffByIdEx (whichUnit, buffId, checkForDuplicates) end
 ---@param buffId integer
 ---@return buff
 function GetUnitBuff (whichUnit, buffId) end
+---@author UjAPI
+---@param whichUnit unit
+---@param buffId integer
+---@param id integer
+---@return buff
+function GetUnitBuffEx (whichUnit, buffId, id) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param index integer
@@ -14096,7 +14192,7 @@ function GetIllusionDamageReceived (whichUnit) end
 function SetIllusionDamageReceived (whichUnit, multiplier) end
 -- 
 
--- Order API
+-- Unit Order API
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param order integer
@@ -14165,8 +14261,33 @@ function GetUnitOrderCount (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param index integer
+---@return orderhandle
+function GetUnitOrderByIndex (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param orderId integer
+---@param index integer
+---@return orderhandle
+function GetUnitOrderByOrderId (whichUnit, orderId, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
 ---@return integer
 function GetUnitOrderIdByIndex (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+---@return boolean
+function UnitRemoveOrderByIndex (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param orderId integer
+---@param eraseAllSimilar boolean
+---@return boolean
+function UnitRemoveOrderByOrderId (whichUnit, orderId, eraseAllSimilar) end
+---@author UjAPI
+---@param whichUnit unit
+function UnitReverseOrders (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param onlyQueued boolean
@@ -14176,6 +14297,65 @@ function UnitClearOrders (whichUnit, onlyQueued) end
 ---@param clearQueue boolean
 function UnitForceStopOrder (whichUnit, clearQueue) end
 -- 
+-- 
+
+-- ============================================================================
+-- Order API
+-- Naming is reversed to avoid clashes with GetOrderTarget and so on.
+-- 
+---@author UjAPI
+---@return orderhandle
+function GetTriggerOrder () end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return orderhandle
+function OrderGetNext (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return integer
+function OrderGetId (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return real
+function OrderGetTargetX (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return real
+function OrderGetTargetY (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return location
+function OrderGetTargetLoc (whichOrder) end
+-- Patrol orders only?
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return real
+function OrderGetSourceX (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return real
+function OrderGetSourceY (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return location
+function OrderGetSourceLoc (whichOrder) end
+-- 
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return widget
+function OrderGetTarget (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return destructable
+function OrderGetTargetDestructable (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return item
+function OrderGetTargetItem (whichOrder) end
+---@author UjAPI
+---@param whichOrder orderhandle
+---@return unit
+function OrderGetTargetUnit (whichOrder) end
 -- 
 
 -- ============================================================================
@@ -14910,6 +15090,26 @@ function IsFrameEnabled (whichFrame) end
 function SetFrameEnabled (whichFrame, enabled) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@param whichLayoutStyle layoutstyleflag
+---@return boolean
+function IsFrameLayoutFlag (whichFrame, whichLayoutStyle) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param whichLayoutStyle layoutstyleflag
+---@param isSet boolean
+function SetFrameLayoutFlag (whichFrame, whichLayoutStyle, isSet) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param whichGridStyle gridstyleflag
+---@return boolean
+function IsFrameGridFlag (whichFrame, whichGridStyle) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param whichGridStyle gridstyleflag
+---@param isSet boolean
+function SetFrameGridFlag (whichFrame, whichGridStyle, isSet) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param whichLayerStyle layerstyleflag
 ---@return boolean
 function IsFrameLayerFlag (whichFrame, whichLayerStyle) end
@@ -15201,7 +15401,7 @@ function GetFrameItemOwner (listBoxItem) end
 function SetFrameItemOwner (listBoxItem, whichFrame) end
 -- 
 
--- Border API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
+-- Backdrop API | Border API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
 -- For CFrames that contain backdrops, use ids to differentiate between them, this is similar to CSimpleButton states, etc.
 ---@author UjAPI
 ---@param whichFrame framehandle
@@ -15253,6 +15453,45 @@ function SetFrameBackgroundInsetById (whichFrame, backdropId, insetId, value) en
 ---@param maxX real
 ---@param maxY real
 function SetFrameBackgroundInsets (whichFrame, backdropId, minX, minY, maxX, maxY) end
+-- 
+
+-- Grid API
+---@author UjAPI
+---@param grid framehandle
+---@return integer
+function GetFrameGridRows (grid) end
+---@author UjAPI
+---@param grid framehandle
+---@return integer
+function GetFrameGridColumns (grid) end
+---@author UjAPI
+---@param grid framehandle
+---@param row integer
+---@param column integer
+function SetFrameGridSize (grid, row, column) end
+---@author UjAPI
+---@param grid framehandle
+---@param row integer
+---@param column integer
+---@return framehandle
+function GetFrameGridFrame (grid, row, column) end
+---@author UjAPI
+---@param grid framehandle
+---@param id integer
+---@return framehandle
+function GetFrameGridFrameById (grid, id) end
+---@author UjAPI
+---@param grid framehandle
+---@param row integer
+---@param column integer
+---@param whichFrame framehandle
+function SetFrameGridFrame (grid, row, column, whichFrame) end
+---@author UjAPI
+---@return boolean
+function IsBuffBarRenderDuplicates () end
+---@author UjAPI
+---@param allow boolean
+function SetBuffBarRenderDuplicates (allow) end
 -- 
 
 -- Trigger Frame API
