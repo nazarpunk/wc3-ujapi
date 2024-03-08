@@ -151,6 +151,7 @@
 ---@class gridstyleflag:flagtype @UjAPI
 ---@class layerstyleflag:flagtype @UjAPI
 ---@class controlstyleflag:flagtype @UjAPI
+---@class framestate:flagtype @UjAPI
 ---@class abilitytype:flagtype @UjAPI
 ---@class armortype:handle @UjAPI
 ---@class heroattribute:handle @UjAPI
@@ -517,6 +518,10 @@ function ConvertLayerStyleFlag (i) end
 ---@param i integer
 ---@return controlstyleflag
 function ConvertControlStyleFlag (i) end
+---@author UjAPI
+---@param i integer
+---@return framestate
+function ConvertFrameState (i) end
 ---@author UjAPI
 ---@param i integer
 ---@return abilitytype
@@ -1191,6 +1196,14 @@ EVENT_GAME_TOURNAMENT_FINISH_SOON = ConvertGameEvent(257) ---@type gameevent
 EVENT_GAME_TOURNAMENT_FINISH_NOW = ConvertGameEvent(258) ---@type gameevent
 EVENT_GAME_SAVE = ConvertGameEvent(259) ---@type gameevent
 
+EVENT_GAME_AGENT_DESTROYED = ConvertGameEvent(800) ---@type gameevent @UjAPI
+EVENT_GAME_AGENT_ARRIVAL = ConvertGameEvent(801) ---@type gameevent @UjAPI
+EVENT_GAME_AGENT_CANT_PATH = ConvertGameEvent(802) ---@type gameevent @UjAPI
+EVENT_GAME_AGENT_WARP_START = ConvertGameEvent(803) ---@type gameevent @UjAPI
+EVENT_GAME_AGENT_WARP_END = ConvertGameEvent(804) ---@type gameevent @UjAPI
+EVENT_GAME_WIDGET_DAMAGING = ConvertGameEvent(805) ---@type gameevent @UjAPI
+EVENT_GAME_WIDGET_DAMAGED = ConvertGameEvent(806) ---@type gameevent @UjAPI
+EVENT_GAME_WIDGET_DEATH = ConvertGameEvent(807) ---@type gameevent @UjAPI
 -- ===================================================
 -- For use with TriggerRegisterPlayerEvent
 -- ===================================================
@@ -1212,6 +1225,11 @@ EVENT_PLAYER_KEY = ConvertPlayerEvent(311) ---@type playerevent @UjAPI
 EVENT_PLAYER_KEY_DOWN = ConvertPlayerEvent(312) ---@type playerevent @UjAPI
 EVENT_PLAYER_KEY_UP = ConvertPlayerEvent(313) ---@type playerevent @UjAPI
 
+EVENT_PLAYER_WIDGET_TRACK = ConvertPlayerEvent(320) ---@type playerevent @UjAPI
+EVENT_PLAYER_WIDGET_GHOST_TRACK = ConvertPlayerEvent(321) ---@type playerevent @UjAPI
+EVENT_PLAYER_WIDGET_CLICK = ConvertPlayerEvent(322) ---@type playerevent @UjAPI
+EVENT_PLAYER_WIDGET_GHOST_CLICK = ConvertPlayerEvent(323) ---@type playerevent @UjAPI
+EVENT_PLAYER_TERRAIN_CLICK = ConvertPlayerEvent(324) ---@type playerevent @UjAPI
 -- ===================================================
 -- For use with TriggerRegisterPlayerUnitEvent
 -- ===================================================
@@ -2510,6 +2528,7 @@ ITEM_IF_STOCK_MAXIMUM = ConvertItemIntegerField(FourCC('isto'--[[1769174127--]])
 ITEM_IF_STOCK_REPLENISH_INTERVAL = ConvertItemIntegerField(FourCC('istr'--[[1769174130--]])) ---@type itemintegerfield @UjAPI
 ITEM_IF_STOCK_START_DELAY = ConvertItemIntegerField(FourCC('isst'--[[1769173876--]])) ---@type itemintegerfield @UjAPI
 ITEM_IF_MAX_HIT_POINTS = ConvertItemIntegerField(FourCC('ihtp'--[[1768453232--]])) ---@type itemintegerfield @UjAPI
+ITEM_IF_HOTKEY = ConvertItemIntegerField(FourCC('ihot'--[[1768451956--]])) ---@type itemintegerfield @UjAPI
 
 ITEM_RF_SCALING_VALUE = ConvertItemRealField(FourCC('isca'--[[1769169761--]])) ---@type itemrealfield @UjAPI
 ITEM_RF_SELECTION_SIZE = ConvertItemRealField(FourCC('issc'--[[1769173859--]])) ---@type itemrealfield @UjAPI
@@ -2898,6 +2917,18 @@ CONTROL_STYLE_SLIDER_STEP = ConvertControlStyleFlag(128) ---@type controlstylefl
 CONTROL_STYLE_HIGHLIGHT = ConvertControlStyleFlag(256) ---@type controlstyleflag @UjAPI
 CONTROL_STYLE_EXCLUSIVE = ConvertControlStyleFlag(512) ---@type controlstyleflag @UjAPI
 CONTROL_STYLE_AT_LEAST_ONE = ConvertControlStyleFlag(1024) ---@type controlstyleflag @UjAPI
+
+FRAME_STATE_SIMPLE_BUTTON_DISABLED = ConvertFrameState(0) ---@type framestate @UjAPI
+FRAME_STATE_SIMPLE_BUTTON_ENABLED = ConvertFrameState(1) ---@type framestate @UjAPI
+FRAME_STATE_SIMPLE_BUTTON_PUSHED = ConvertFrameState(2) ---@type framestate @UjAPI
+FRAME_STATE_SIMPLE_BUTTON_CURRENT = ConvertFrameState(3) ---@type framestate @UjAPI
+
+FRAME_STATE_CONTROL_CURRENT = ConvertFrameState(0) ---@type framestate @UjAPI
+FRAME_STATE_CONTROL_ENABLED = ConvertFrameState(1) ---@type framestate @UjAPI
+FRAME_STATE_CONTROL_PUSHED = ConvertFrameState(2) ---@type framestate @UjAPI
+FRAME_STATE_CONTROL_DISABLED = ConvertFrameState(3) ---@type framestate @UjAPI
+FRAME_STATE_CONTROL_CHECK_ENABLED = ConvertFrameState(5) ---@type framestate @UjAPI
+FRAME_STATE_CONTROL_CHECK_DISABLED = ConvertFrameState(6) ---@type framestate @UjAPI
 
 BORDER_FLAG_UPPER_LEFT = 1 ---@type integer @UjAPI
 BORDER_FLAG_UPPER_RIGHT = 2 ---@type integer @UjAPI
@@ -7556,6 +7587,10 @@ function IntToChar (i) end
 ---@return string
 function IntToRoman (i) end
 ---@author UjAPI
+---@param hex string
+---@return integer
+function HexToInt (hex) end
+---@author UjAPI
 ---@param alpha integer
 ---@param red integer
 ---@param green integer
@@ -8479,6 +8514,7 @@ function GetMiscDataString (sectionName, optionName, index) end
 ---@param value string
 function SetMiscDataString (sectionName, optionName, index, value) end
 
+-- raceName can be null/empty
 ---@author UjAPI
 ---@param raceName string
 ---@param sectionName string
@@ -8918,9 +8954,23 @@ function SaveWeaponTypeHandle (table, parentKey, childKey, whichWeaponType) end
 ---@param table hashtable
 ---@param parentKey integer
 ---@param childKey integer
+---@param whichBuff buff
+---@return boolean
+function SaveBuffHandle (table, parentKey, childKey, whichBuff) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
 ---@param whichsprite sprite
 ---@return boolean
 function SaveSpriteHandle (table, parentKey, childKey, whichsprite) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@param whichWar3Image war3image
+---@return boolean
+function SaveWar3ImageHandle (table, parentKey, childKey, whichWar3Image) end
 ---@author UjAPI
 ---@param table hashtable
 ---@param parentKey integer
@@ -8991,8 +9041,20 @@ function LoadWeaponTypeHandle (table, parentKey, childKey) end
 ---@param table hashtable
 ---@param parentKey integer
 ---@param childKey integer
+---@return buff
+function LoadBuffHandle (table, parentKey, childKey) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
 ---@return sprite
 function LoadSpriteHandle (table, parentKey, childKey) end
+---@author UjAPI
+---@param table hashtable
+---@param parentKey integer
+---@param childKey integer
+---@return war3image
+function LoadWar3ImageHandle (table, parentKey, childKey) end
 ---@author UjAPI
 ---@param table hashtable
 ---@param parentKey integer
@@ -10821,6 +10883,9 @@ function IsAbilityBaseTargetAllowed (abilCode, source, target) end
 ---@return ability
 function CreateAbility (abilCode) end
 ---@author UjAPI
+---@return ability
+function GetTriggerAbility () end
+---@author UjAPI
 ---@param whichAbility ability
 ---@param whichAbilityType abilitytype
 ---@return boolean
@@ -10848,8 +10913,10 @@ function GetAbilityOrderId (whichAbility) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@param orderId integer
----@return boolean
 function SetAbilityOrderId (whichAbility, orderId) end
+---@author UjAPI
+---@param whichAbility ability
+function ResetAbilityOrder (whichAbility) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return integer
@@ -10947,12 +11014,10 @@ function GetAbilityRemainingCooldown (whichAbility) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@param cooldown real
----@return boolean
 function SetAbilityRemainingCooldown (whichAbility, cooldown) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@param cooldown real
----@return boolean
 function StartAbilityCooldown (whichAbility, cooldown) end
 ---@author UjAPI
 ---@param whichAbility ability
@@ -11001,16 +11066,156 @@ function EnumUnitAbilities (whichUnit, whichBoolexpr, whichCode) end
 
 -- Base Field API
 ---@author UjAPI
----@param buffId integer
+---@param bid integer
+---@param whichField abilityintegerfield
+---@return integer
+function GetBuffBaseIntegerFieldById (bid, whichField) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityintegerfield
+---@param value integer
+---@return boolean
+function SetBuffBaseIntegerFieldById (bid, whichField, value) end
+
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitybooleanfield
+---@return boolean
+function GetBuffBaseBooleanFieldById (bid, whichField) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitybooleanfield
+---@param value boolean
+---@return boolean
+function SetBuffBaseBooleanFieldById (bid, whichField, value) end
+
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityrealfield
+---@return real
+function GetBuffBaseRealFieldById (bid, whichField) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityrealfield
+---@param value real
+---@return boolean
+function SetBuffBaseRealFieldById (bid, whichField, value) end
+
+---@author UjAPI
+---@param bid integer
 ---@param whichField abilitystringfield
 ---@return string
-function GetBuffBaseStringFieldById (buffId, whichField) end
+function GetBuffBaseStringFieldById (bid, whichField) end
 ---@author UjAPI
----@param buffId integer
+---@param bid integer
 ---@param whichField abilitystringfield
 ---@param value string
 ---@return boolean
-function SetBuffBaseStringFieldById (buffId, whichField, value) end
+function SetBuffBaseStringFieldById (bid, whichField, value) end
+
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityintegerfield
+---@param index integer
+---@return integer
+function GetBuffBaseIntegerArrayFieldById (bid, whichField, index) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityintegerfield
+---@param index integer
+---@param value integer
+---@return boolean
+function SetBuffBaseIntegerArrayFieldById (bid, whichField, index, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityintegerfield
+---@param value integer
+---@return boolean
+function AddBuffBaseIntegerArrayFieldById (bid, whichField, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityintegerfield
+---@param value integer
+---@return boolean
+function RemoveBuffBaseIntegerArrayFieldById (bid, whichField, value) end
+
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitybooleanfield
+---@param index integer
+---@return boolean
+function GetBuffBaseBooleanArrayFieldById (bid, whichField, index) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitybooleanfield
+---@param index integer
+---@param value boolean
+---@return boolean
+function SetBuffBaseBooleanArrayFieldById (bid, whichField, index, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitybooleanfield
+---@param value boolean
+---@return boolean
+function AddBuffBaseBooleanArrayFieldById (bid, whichField, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitybooleanfield
+---@param value boolean
+---@return boolean
+function RemoveBuffBaseBooleanArrayFieldById (bid, whichField, value) end
+
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityrealfield
+---@param index integer
+---@return real
+function GetBuffBaseRealArrayFieldById (bid, whichField, index) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityrealfield
+---@param index integer
+---@param value real
+---@return boolean
+function SetBuffBaseRealArrayFieldById (bid, whichField, index, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityrealfield
+---@param value real
+---@return boolean
+function AddBuffBaseRealArrayFieldById (bid, whichField, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilityrealfield
+---@param value real
+---@return boolean
+function RemoveBuffBaseRealArrayFieldById (bid, whichField, value) end
+
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitystringfield
+---@param index integer
+---@return string
+function GetBuffBaseStringArrayFieldById (bid, whichField, index) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitystringfield
+---@param index integer
+---@param value string
+---@return boolean
+function SetBuffBaseStringArrayFieldById (bid, whichField, index, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitystringfield
+---@param value string
+---@return boolean
+function AddBuffBaseStringArrayFieldById (bid, whichField, value) end
+---@author UjAPI
+---@param bid integer
+---@param whichField abilitystringfield
+---@param value string
+---@return boolean
+function RemoveBuffBaseStringArrayFieldById (bid, whichField, value) end
 -- 
 
 -- Field API
@@ -11064,9 +11269,113 @@ function SetBuffStringField (whichBuff, whichField, value) end
 
 ---@author UjAPI
 ---@param whichBuff buff
+---@param whichField abilityintegerfield
+---@param index integer
+---@return integer
+function GetBuffIntegerArrayField (whichBuff, whichField, index) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityintegerfield
+---@param index integer
+---@param value integer
+---@return boolean
+function SetBuffIntegerArrayField (whichBuff, whichField, index, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityintegerfield
+---@param value integer
+---@return boolean
+function AddBuffIntegerArrayField (whichBuff, whichField, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityintegerfield
+---@param value integer
+---@return boolean
+function RemoveBuffIntegerArrayField (whichBuff, whichField, value) end
+
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitybooleanfield
+---@param index integer
+---@return boolean
+function GetBuffBooleanArrayField (whichBuff, whichField, index) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitybooleanfield
+---@param index integer
+---@param value boolean
+---@return boolean
+function SetBuffBooleanArrayField (whichBuff, whichField, index, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitybooleanfield
+---@param value boolean
+---@return boolean
+function AddBuffBooleanArrayField (whichBuff, whichField, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitybooleanfield
+---@param value boolean
+---@return boolean
+function RemoveBuffBooleanArrayField (whichBuff, whichField, value) end
+
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityrealfield
+---@param index integer
+---@return real
+function GetBuffRealArrayField (whichBuff, whichField, index) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityrealfield
+---@param index integer
+---@param value real
+---@return boolean
+function SetBuffRealArrayField (whichBuff, whichField, index, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityrealfield
+---@param value real
+---@return boolean
+function AddBuffRealArrayField (whichBuff, whichField, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilityrealfield
+---@param value real
+---@return boolean
+function RemoveBuffRealArrayField (whichBuff, whichField, value) end
+
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitystringfield
+---@param index integer
+---@return string
+function GetBuffStringArrayField (whichBuff, whichField, index) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitystringfield
+---@param index integer
+---@param value string
+---@return boolean
+function SetBuffStringArrayField (whichBuff, whichField, index, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitystringfield
+---@param value string
+---@return boolean
+function AddBuffStringArrayField (whichBuff, whichField, value) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichField abilitystringfield
+---@param value string
+---@return boolean
+function RemoveBuffStringArrayField (whichBuff, whichField, value) end
+-- 
+
+---@author UjAPI
+---@param whichBuff buff
 ---@return boolean
 function ResetBuffFieldData (whichBuff) end
--- 
 
 -- Normal API
 -- Supported buffs are available here: https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3BuffListSupportedInBuffAPI.txt
@@ -11152,7 +11461,7 @@ function GetTriggerBuffTarget () end
 -- 
 
 -- ============================================================================
--- War3 Image API
+-- War3Image API
 -- 
 -- This is API for the "lowest" in terms of hierarchy object type for any and all widgets. Sprites and doodads are exception, however this API can distinguish between them and handle accordingly.
 ---@author UjAPI
@@ -11259,13 +11568,13 @@ function GetSpritePositionLoc (whichSprite) end
 ---@param whichSprite sprite
 ---@param x real
 ---@param y real
----@param z real
-function SetSpritePositionWithZ (whichSprite, x, y, z) end
+function SetSpritePosition (whichSprite, x, y) end
 ---@author UjAPI
 ---@param whichSprite sprite
 ---@param x real
 ---@param y real
-function SetSpritePosition (whichSprite, x, y) end
+---@param z real
+function SetSpritePositionWithZ (whichSprite, x, y, z) end
 ---@author UjAPI
 ---@param whichSprite sprite
 ---@param loc location
@@ -11524,13 +11833,13 @@ function GetSpecialEffectPositionLoc (whichEffect) end
 ---@param whichEffect effect
 ---@param x real
 ---@param y real
----@param z real
-function SetSpecialEffectPositionWithZ (whichEffect, x, y, z) end
+function SetSpecialEffectPosition (whichEffect, x, y) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param x real
 ---@param y real
-function SetSpecialEffectPosition (whichEffect, x, y) end
+---@param z real
+function SetSpecialEffectPositionWithZ (whichEffect, x, y, z) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param loc location
@@ -11807,13 +12116,13 @@ function GetTrackablePositionLoc (whichTrackable) end
 ---@param whichTrackable trackable
 ---@param x real
 ---@param y real
----@param z real
-function SetTrackablePositionWithZ (whichTrackable, x, y, z) end
+function SetTrackablePosition (whichTrackable, x, y) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param x real
 ---@param y real
-function SetTrackablePosition (whichTrackable, x, y) end
+---@param z real
+function SetTrackablePositionWithZ (whichTrackable, x, y, z) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 ---@param loc location
@@ -12098,6 +12407,10 @@ function SetWidgetInvulnerable (whichWidget, invulnerable) end
 function IsWidgetTargetAllowed (whichWidget, target, whichFlags) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@return real
+function GetWidgetZ (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
 ---@return location
 function GetWidgetPositionLoc (whichWidget) end
 ---@author UjAPI
@@ -12112,11 +12425,32 @@ function SetWidgetPosition (whichWidget, x, y) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param x real
+---@param y real
+---@param z real
+function SetWidgetPositionWithZ (whichWidget, x, y, z) end
+---@author UjAPI
+---@param whichWidget widget
+---@param x real
 function SetWidgetX (whichWidget, x) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@param y real
 function SetWidgetY (whichWidget, y) end
+---@author UjAPI
+---@param whichWidget widget
+---@param z real
+function SetWidgetZ (whichWidget, z) end
+---@author UjAPI
+---@param whichWidget widget
+function ResetWidgetZ (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
+---@return real
+function GetWidgetHeight (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
+---@param height real
+function SetWidgetHeight (whichWidget, height) end
 ---@author UjAPI
 ---@param whichWidget widget
 ---@return real
@@ -12362,6 +12696,21 @@ function SetDestructableBlighted (whichDestructable, flag) end
 ---@param whichDestructable destructable
 ---@return sprite
 function GetDestructableSprite (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return real
+function GetDestructableZ (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+function ResetDestructableZ (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return real
+function GetDestructableHeight (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@param height real
+function SetDestructableHeight (whichDestructable, height) end
 ---@author UjAPI
 ---@param whichDestructable destructable
 ---@param x real
@@ -12691,7 +13040,14 @@ function SetItemStringField (whichItem, whichField, value) end
 -- Normal API
 ---@author UjAPI
 ---@return item
+function GetTriggerItem () end
+---@author UjAPI
+---@return item
 function GetItemUnderCursor () end
+---@author UjAPI
+---@param whichItem item
+---@return unit
+function GetItemOwner (whichItem) end
 ---@author UjAPI
 ---@param whichItem item
 ---@return boolean
@@ -12700,6 +13056,39 @@ function IsItemDroppable (whichItem) end
 ---@param whichItem item
 ---@return sprite
 function GetItemSprite (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@return real
+function GetItemZ (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@param x real
+---@param y real
+---@param z real
+function SetItemPositionWithZ (whichItem, x, y, z) end
+---@author UjAPI
+---@param whichItem item
+---@param x real
+function SetItemX (whichItem, x) end
+---@author UjAPI
+---@param whichItem item
+---@param y real
+function SetItemY (whichItem, y) end
+---@author UjAPI
+---@param whichItem item
+---@param z real
+function SetItemZ (whichItem, z) end
+---@author UjAPI
+---@param whichItem item
+function ResetItemZ (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@return real
+function GetItemHeight (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@param height real
+function SetItemHeight (whichItem, height) end
 ---@author UjAPI
 ---@param whichItem item
 ---@return real
@@ -13197,6 +13586,35 @@ function GetUnitUnderCursor () end
 function GetUnitSprite (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
+---@param breakOrder boolean
+---@param checkPathing boolean
+---@param x real
+---@param y real
+---@param z real
+function SetUnitPositionEx (whichUnit, breakOrder, checkPathing, x, y, z) end
+---@author UjAPI
+---@param whichUnit unit
+---@param x real
+---@param y real
+---@param z real
+function SetUnitPositionWithZ (whichUnit, x, y, z) end
+---@author UjAPI
+---@param whichUnit unit
+---@param z real
+function SetUnitZ (whichUnit, z) end
+---@author UjAPI
+---@param whichUnit unit
+function ResetUnitZ (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitHeight (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param height real
+function SetUnitHeight (whichUnit, height) end
+---@author UjAPI
+---@param whichUnit unit
 ---@return real
 function GetUnitScreenX (whichUnit) end
 ---@author UjAPI
@@ -13513,7 +13931,39 @@ function IsUnitGatherer (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
-function GetUnitCurrentResources (whichUnit) end
+function GetUnitResourceCurrent (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param amount integer
+function SetUnitResourceCurrent (whichUnit, amount) end
+---@author UjAPI
+---@param whichUnit unit
+---@param resourceType integer
+---@return integer
+function GetUnitResourceCapacity (whichUnit, resourceType) end
+---@author UjAPI
+---@param whichUnit unit
+---@param resourceType integer
+---@param amount integer
+function SetUnitResourceCapacity (whichUnit, resourceType, amount) end
+---@author UjAPI
+---@param whichUnit unit
+---@param resourceType integer
+---@return integer
+function GetUnitResourcePerGather (whichUnit, resourceType) end
+---@author UjAPI
+---@param whichUnit unit
+---@param resourceType integer
+---@param amount integer
+function SetUnitResourcePerGather (whichUnit, resourceType, amount) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitResourceGatherInterval (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param interval real
+function SetUnitResourceGatherInterval (whichUnit, interval) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
@@ -14466,13 +14916,13 @@ function GetProjectilePositionLoc (whichProjectile) end
 ---@param whichProjectile projectile
 ---@param x real
 ---@param y real
----@param z real
-function SetProjectilePositionWithZ (whichProjectile, x, y, z) end
+function SetProjectilePosition (whichProjectile, x, y) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@param x real
 ---@param y real
-function SetProjectilePosition (whichProjectile, x, y) end
+---@param z real
+function SetProjectilePositionWithZ (whichProjectile, x, y, z) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@param loc location
@@ -15082,6 +15532,14 @@ function GetFrameModel (whichFrame) end
 function SetFrameModel (whichFrame, model, cameraIndex) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@return framestate
+function GetFrameState (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param whichFrameState framestate
+function SetFrameState (whichFrame, whichFrameState) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@return boolean
 function IsFrameEnabled (whichFrame) end
 ---@author UjAPI
@@ -15146,6 +15604,21 @@ function GetFrameColour (whichFrame) end
 ---@param whichFrame framehandle
 ---@param colour integer
 function SetFrameColour (whichFrame, colour) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param alpha integer
+---@param red integer
+---@param green integer
+---@param blue integer
+function SetFrameVertexColour (whichFrame, alpha, red, green, blue) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureId integer
+---@param alpha integer
+---@param red integer
+---@param green integer
+---@param blue integer
+function SetFrameVertexColourEx (whichFrame, textureId, alpha, red, green, blue) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param textureId integer
@@ -15257,17 +15730,6 @@ function SetFrameSize (whichFrame, width, height) end
 ---@param whichFrame framehandle
 ---@param scale real
 function SetFrameScale (whichFrame, scale) end
----@author UjAPI
----@param whichFrame framehandle
----@param alpha integer
----@param red integer
----@param blue integer
----@param green integer
-function SetFrameVertexColourEx (whichFrame, alpha, red, blue, green) end
----@author UjAPI
----@param whichFrame framehandle
----@param colour integer
-function SetFrameVertexColour (whichFrame, colour) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return integer
@@ -15858,7 +16320,18 @@ function IsKeyPressed (key) end
 ---@param mouseKey mousebuttontype
 ---@return boolean
 function IsMouseKeyPressed (mouseKey) end
+---@author UjAPI
+---@return boolean
+function GetTriggerPlayerIsKeyDown () end
 
+-- EVENT_PLAYER_MOUSE_DOWN
+-- EVENT_PLAYER_MOUSE_UP
+-- EVENT_PLAYER_KEY
+-- EVENT_PLAYER_KEY_DOWN
+-- EVENT_PLAYER_KEY_UP
+-- EVENT_PLAYER_WIDGET_CLICK
+-- EVENT_PLAYER_WIDGET_GHOST_CLICK
+-- EVENT_PLAYER_TERRAIN_CLICK
 ---@author UjAPI
 ---@return oskeytype
 function GetTriggerPlayerKey () end
@@ -15868,9 +16341,6 @@ function GetTriggerPlayerMouseButton () end
 ---@author UjAPI
 ---@return integer
 function GetTriggerPlayerMetaKey () end
----@author UjAPI
----@return boolean
-function GetTriggerPlayerIsKeyDown () end
 
 ---@author UjAPI
 ---@param whichTrigger trigger
@@ -15882,7 +16352,13 @@ function GetTriggerPlayerIsKeyDown () end
 function TriggerRegisterPlayerKeyEvent (whichTrigger, whichPlayer, whichKey, whichMetaKey, isKeyDown) end
 -- 
 
--- Mouse Event API | For use with EVENT_PLAYER_MOUSE_MOVE
+-- Mouse Event API
+-- EVENT_PLAYER_MOUSE_MOVE
+-- EVENT_PLAYER_WIDGET_TRACK
+-- EVENT_PLAYER_WIDGET_GHOST_TRACK
+-- EVENT_PLAYER_WIDGET_CLICK
+-- EVENT_PLAYER_WIDGET_GHOST_CLICK
+-- EVENT_PLAYER_TERRAIN_CLICK
 ---@author UjAPI
 ---@return real
 function GetTriggerPlayerMouseWorldX () end
@@ -15893,6 +16369,7 @@ function GetTriggerPlayerMouseWorldY () end
 ---@return real
 function GetTriggerPlayerMouseWorldZ () end
 
+-- EVENT_PLAYER_MOUSE_MOVE
 ---@author UjAPI
 ---@return real
 function GetTriggerPlayerMouseScreenX () end
@@ -15904,6 +16381,8 @@ function GetTriggerPlayerMouseScreenY () end
 -- ============================================================================
 -- Damage Event API
 -- 
+
+-- Refer to https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3DamageData.txt
 ---@author UjAPI
 ---@return integer
 function GetEventDamageFlags () end

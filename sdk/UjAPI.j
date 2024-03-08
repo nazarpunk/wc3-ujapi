@@ -54,6 +54,7 @@ type layoutstyleflag extends flagtype
 type gridstyleflag extends flagtype
 type layerstyleflag extends flagtype
 type controlstyleflag extends flagtype
+type framestate extends flagtype
 type abilitytype extends flagtype
 type movetype extends flagtype
 type pathingaitype extends flagtype
@@ -129,6 +130,7 @@ constant native ConvertLayoutStyleFlag takes integer i returns layoutstyleflag
 constant native ConvertGridStyleFlag takes integer i returns gridstyleflag
 constant native ConvertLayerStyleFlag takes integer i returns layerstyleflag
 constant native ConvertControlStyleFlag takes integer i returns controlstyleflag
+constant native ConvertFrameState takes integer i returns framestate
 constant native ConvertAbilityType takes integer i returns abilitytype
 constant native ConvertConnectionType takes integer i returns connectiontype
 
@@ -275,6 +277,19 @@ constant widgetevent EVENT_WIDGET_DAMAGING = ConvertWidgetEvent(400)
 constant widgetevent EVENT_WIDGET_DAMAGED = ConvertWidgetEvent(401)
 
 //===================================================
+// For use with TriggerRegisterGameEvent	
+//===================================================	
+
+constant gameevent EVENT_GAME_AGENT_DESTROYED = ConvertGameEvent(800)
+constant gameevent EVENT_GAME_AGENT_ARRIVAL = ConvertGameEvent(801)
+constant gameevent EVENT_GAME_AGENT_CANT_PATH = ConvertGameEvent(802)
+constant gameevent EVENT_GAME_AGENT_WARP_START = ConvertGameEvent(803)
+constant gameevent EVENT_GAME_AGENT_WARP_END = ConvertGameEvent(804)
+constant gameevent EVENT_GAME_WIDGET_DAMAGING = ConvertGameEvent(805)
+constant gameevent EVENT_GAME_WIDGET_DAMAGED = ConvertGameEvent(806)
+constant gameevent EVENT_GAME_WIDGET_DEATH = ConvertGameEvent(807)
+
+//===================================================
 // For use with TriggerRegisterPlayerEvent
 //===================================================
 
@@ -286,6 +301,11 @@ constant playerevent EVENT_PLAYER_KEY = ConvertPlayerEvent(311)
 constant playerevent EVENT_PLAYER_KEY_DOWN = ConvertPlayerEvent(312)
 constant playerevent EVENT_PLAYER_KEY_UP = ConvertPlayerEvent(313)
 
+constant playerevent EVENT_PLAYER_WIDGET_TRACK = ConvertPlayerEvent(320)
+constant playerevent EVENT_PLAYER_WIDGET_GHOST_TRACK = ConvertPlayerEvent(321)
+constant playerevent EVENT_PLAYER_WIDGET_CLICK = ConvertPlayerEvent(322)
+constant playerevent EVENT_PLAYER_WIDGET_GHOST_CLICK = ConvertPlayerEvent(323)
+constant playerevent EVENT_PLAYER_TERRAIN_CLICK = ConvertPlayerEvent(324)
 //===================================================
 // For use with TriggerRegisterPlayerUnitEvent
 //===================================================
@@ -1460,6 +1480,7 @@ constant itemintegerfield ITEM_IF_STOCK_MAXIMUM = ConvertItemIntegerField('isto'
 constant itemintegerfield ITEM_IF_STOCK_REPLENISH_INTERVAL = ConvertItemIntegerField('istr')
 constant itemintegerfield ITEM_IF_STOCK_START_DELAY = ConvertItemIntegerField('isst')
 constant itemintegerfield ITEM_IF_MAX_HIT_POINTS = ConvertItemIntegerField('ihtp')
+constant itemintegerfield ITEM_IF_HOTKEY = ConvertItemIntegerField('ihot')
 
 constant itemrealfield ITEM_RF_SCALING_VALUE = ConvertItemRealField('isca')
 constant itemrealfield ITEM_RF_SELECTION_SIZE = ConvertItemRealField('issc')
@@ -1850,6 +1871,18 @@ constant controlstyleflag CONTROL_STYLE_HIGHLIGHT = ConvertControlStyleFlag(256)
 constant controlstyleflag CONTROL_STYLE_EXCLUSIVE = ConvertControlStyleFlag(512) // Seems to be the same as SHIFTDESELECT and AUTODOWN
 constant controlstyleflag CONTROL_STYLE_AT_LEAST_ONE = ConvertControlStyleFlag(1024)
 
+constant framestate FRAME_STATE_SIMPLE_BUTTON_DISABLED = ConvertFrameState(0)
+constant framestate FRAME_STATE_SIMPLE_BUTTON_ENABLED = ConvertFrameState(1)
+constant framestate FRAME_STATE_SIMPLE_BUTTON_PUSHED = ConvertFrameState(2)
+constant framestate FRAME_STATE_SIMPLE_BUTTON_CURRENT = ConvertFrameState(3)
+
+constant framestate FRAME_STATE_CONTROL_CURRENT = ConvertFrameState(0)
+constant framestate FRAME_STATE_CONTROL_ENABLED = ConvertFrameState(1)
+constant framestate FRAME_STATE_CONTROL_PUSHED = ConvertFrameState(2)
+constant framestate FRAME_STATE_CONTROL_DISABLED = ConvertFrameState(3)
+constant framestate FRAME_STATE_CONTROL_CHECK_ENABLED = ConvertFrameState(5)
+constant framestate FRAME_STATE_CONTROL_CHECK_DISABLED = ConvertFrameState(6)
+
 constant integer BORDER_FLAG_UPPER_LEFT = 1
 constant integer BORDER_FLAG_UPPER_RIGHT = 2
 constant integer BORDER_FLAG_BOTTOM_LEFT = 4
@@ -1892,6 +1925,7 @@ native String2Id takes string idString returns integer
 native IntToHex takes integer i returns string
 native IntToChar takes integer i returns string
 native IntToRoman takes integer i returns string
+native HexToInt takes string hex returns integer
 native ConvertColour takes integer alpha, integer red, integer green, integer blue returns integer
 
 //===================================================
@@ -2156,8 +2190,9 @@ native GetLocale takes nothing returns string
 native GetMiscDataString takes string sectionName, string optionName, integer index returns string
 native SetMiscDataString takes string sectionName, string optionName, integer index, string value returns nothing
 
-native GetSkinDataString takes string raceName, string sectionName, string optionName, integer index returns string // raceName can be null
-native SetSkinDataString takes string raceName, string sectionName, string optionName, integer index, string value returns nothing // raceName can be null
+// raceName can be null/empty
+native GetSkinDataString takes string raceName, string sectionName, string optionName, integer index returns string
+native SetSkinDataString takes string raceName, string sectionName, string optionName, integer index, string value returns nothing
 
 native GetFDFDataString takes string sectionName returns string
 native SetFDFDataString takes string sectionName, string value returns nothing
@@ -2308,7 +2343,9 @@ native SaveCode takes hashtable table, integer parentKey, integer childKey, code
 native SaveAttackTypeHandle takes hashtable table, integer parentKey, integer childKey, attacktype whichAttackType returns boolean
 native SaveDamageTypeHandle takes hashtable table, integer parentKey, integer childKey, damagetype whichDamageType returns boolean
 native SaveWeaponTypeHandle takes hashtable table, integer parentKey, integer childKey, weapontype whichWeaponType returns boolean
+native SaveBuffHandle takes hashtable table, integer parentKey, integer childKey, buff whichBuff returns boolean
 native SaveSpriteHandle takes hashtable table, integer parentKey, integer childKey, sprite whichsprite returns boolean
+native SaveWar3ImageHandle takes hashtable table, integer parentKey, integer childKey, war3image whichWar3Image returns boolean
 native SaveDoodadHandle takes hashtable table, integer parentKey, integer childKey, doodad whichDoodad returns boolean
 native SaveTextFileHandle takes hashtable table, integer parentKey, integer childKey, textfilehandle whichFile returns boolean
 native SaveProjectileHandle takes hashtable table, integer parentKey, integer childKey, projectile whichProjectile returns boolean
@@ -2320,7 +2357,9 @@ native LoadCode takes hashtable table, integer parentKey, integer childKey retur
 native LoadAttackTypeHandle takes hashtable table, integer parentKey, integer childKey returns attacktype
 native LoadDamageTypeHandle takes hashtable table, integer parentKey, integer childKey returns damagetype
 native LoadWeaponTypeHandle takes hashtable table, integer parentKey, integer childKey returns weapontype
+native LoadBuffHandle takes hashtable table, integer parentKey, integer childKey returns buff
 native LoadSpriteHandle takes hashtable table, integer parentKey, integer childKey returns sprite
+native LoadWar3ImageHandle takes hashtable table, integer parentKey, integer childKey returns war3image
 native LoadDoodadHandle takes hashtable table, integer parentKey, integer childKey returns doodad
 native LoadTextFileHandle takes hashtable table, integer parentKey, integer childKey returns textfilehandle
 native LoadProjectileHandle takes hashtable table, integer parentKey, integer childKey returns projectile
@@ -2642,7 +2681,7 @@ native GetDoodadScreenY takes doodad whichDoodad returns real
 native SetDoodadMatrixScale takes doodad whichDoodad, real x, real y, real z returns nothing
 native ResetDoodadMatrix takes doodad whichDoodad returns nothing
 native SetDoodadOrientationEx takes doodad whichDoodad, real yaw, real pitch, real roll, integer eulerOrder returns nothing
-native GetDoodadYaw takes doodad whichDoodad returns real 
+native GetDoodadYaw takes doodad whichDoodad returns real
 native SetDoodadYaw takes doodad whichDoodad, real yaw returns nothing
 native GetDoodadFacing takes doodad whichDoodad returns real
 native SetDoodadFacing takes doodad whichDoodad, real facing returns nothing
@@ -2782,13 +2821,15 @@ native IsAbilityBaseTargetAllowed takes integer abilCode, widget source, widget 
 
 // Normal API
 native CreateAbility takes integer abilCode returns ability
+native GetTriggerAbility takes nothing returns ability // mimics GetSpellAbility
 native IsAbilityType takes ability whichAbility, abilitytype whichAbilityType returns boolean
 native GetAbilityOwner takes ability whichAbility returns unit
 native SetAbilityOwner takes ability whichAbility, unit whichUnit returns nothing
 native GetAbilityOwningAbility takes ability whichAbility returns ability // if it belongs to Spellbook (Aspb) and so on.
 native GetAbilityOwningItem takes ability whichAbility returns item
 native GetAbilityOrderId takes ability whichAbility returns integer
-native SetAbilityOrderId takes ability whichAbility, integer orderId returns boolean // Highly experimental, may be removed if proven unstable.
+native SetAbilityOrderId takes ability whichAbility, integer orderId returns nothing // Highly experimental, may be removed if proven unstable.
+native ResetAbilityOrder takes ability whichAbility returns nothing // Simply removes SetAbilityOrderId's influence.
 native GetAbilityLevel takes ability whichAbility returns integer
 native SetAbilityLevel takes ability whichAbility, integer level returns integer
 native GetAbilityBaseTypeId takes ability whichAbility returns integer
@@ -2812,8 +2853,8 @@ native SetAbilityBackswing takes ability whichAbility, real backswing returns no
 native GetAbilityCooldown takes ability whichAbility returns real
 native SetAbilityCooldown takes ability whichAbility, real cooldown returns nothing
 native GetAbilityRemainingCooldown takes ability whichAbility returns real
-native SetAbilityRemainingCooldown takes ability whichAbility, real cooldown returns boolean
-native StartAbilityCooldown takes ability whichAbility, real cooldown returns boolean
+native SetAbilityRemainingCooldown takes ability whichAbility, real cooldown returns nothing
+native StartAbilityCooldown takes ability whichAbility, real cooldown returns nothing
 native DisableAbility takes ability whichAbility, boolean hide, boolean disable returns nothing
 native EnableAbility takes ability whichAbility, boolean show, boolean enable returns nothing
 native CastAbility takes ability whichAbility returns boolean
@@ -2831,8 +2872,37 @@ native EnumUnitAbilities takes unit whichUnit, boolexpr whichBoolexpr, code whic
 //
 
 // Base Field API
-native GetBuffBaseStringFieldById takes integer buffId, abilitystringfield whichField returns string
-native SetBuffBaseStringFieldById takes integer buffId, abilitystringfield whichField, string value returns boolean
+native GetBuffBaseIntegerFieldById takes integer bid, abilityintegerfield whichField returns integer
+native SetBuffBaseIntegerFieldById takes integer bid, abilityintegerfield whichField, integer value returns boolean
+
+native GetBuffBaseBooleanFieldById takes integer bid, abilitybooleanfield whichField returns boolean
+native SetBuffBaseBooleanFieldById takes integer bid, abilitybooleanfield whichField, boolean value returns boolean
+
+native GetBuffBaseRealFieldById takes integer bid, abilityrealfield whichField returns real
+native SetBuffBaseRealFieldById takes integer bid, abilityrealfield whichField, real value returns boolean
+
+native GetBuffBaseStringFieldById takes integer bid, abilitystringfield whichField returns string
+native SetBuffBaseStringFieldById takes integer bid, abilitystringfield whichField, string value returns boolean
+
+native GetBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer index returns integer
+native SetBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer index, integer value returns boolean
+native AddBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer value returns boolean
+native RemoveBuffBaseIntegerArrayFieldById takes integer bid, abilityintegerfield whichField, integer value returns boolean
+
+native GetBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, integer index returns boolean
+native SetBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, integer index, boolean value returns boolean
+native AddBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, boolean value returns boolean
+native RemoveBuffBaseBooleanArrayFieldById takes integer bid, abilitybooleanfield whichField, boolean value returns boolean
+
+native GetBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, integer index returns real
+native SetBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, integer index, real value returns boolean
+native AddBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, real value returns boolean
+native RemoveBuffBaseRealArrayFieldById takes integer bid, abilityrealfield whichField, real value returns boolean
+
+native GetBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, integer index returns string
+native SetBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, integer index, string value returns boolean
+native AddBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, string value returns boolean
+native RemoveBuffBaseStringArrayFieldById takes integer bid, abilitystringfield whichField, string value returns boolean
 //
 
 // Field API
@@ -2848,8 +2918,28 @@ native SetBuffRealField takes buff whichBuff, abilityrealfield whichField, real 
 native GetBuffStringField takes buff whichBuff, abilitystringfield whichField returns string
 native SetBuffStringField takes buff whichBuff, abilitystringfield whichField, string value returns boolean
 
-native ResetBuffFieldData takes buff whichBuff returns boolean // Acts same as ResetAbilityFieldData, but for buffs.
+native GetBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer index returns integer
+native SetBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer index, integer value returns boolean
+native AddBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer value returns boolean
+native RemoveBuffIntegerArrayField takes buff whichBuff, abilityintegerfield whichField, integer value returns boolean
+
+native GetBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, integer index returns boolean
+native SetBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, integer index, boolean value returns boolean
+native AddBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, boolean value returns boolean
+native RemoveBuffBooleanArrayField takes buff whichBuff, abilitybooleanfield whichField, boolean value returns boolean
+
+native GetBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, integer index returns real
+native SetBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, integer index, real value returns boolean
+native AddBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, real value returns boolean
+native RemoveBuffRealArrayField takes buff whichBuff, abilityrealfield whichField, real value returns boolean
+
+native GetBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, integer index returns string
+native SetBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, integer index, string value returns boolean
+native AddBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, string value returns boolean
+native RemoveBuffStringArrayField takes buff whichBuff, abilitystringfield whichField, string value returns boolean
 //
+
+native ResetBuffFieldData takes buff whichBuff returns boolean // Acts same as ResetAbilityFieldData, but for buffs.
 
 // Normal API
 // Supported buffs are available here: https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3BuffListSupportedInBuffAPI.txt
@@ -2880,7 +2970,7 @@ native GetTriggerBuffTarget takes nothing returns unit
 //
 
 //============================================================================
-// War3 Image API
+// War3Image API
 //
 // This is API for the "lowest" in terms of hierarchy object type for any and all widgets. Sprites and doodads are exception, however this API can distinguish between them and handle accordingly.
 native GetWar3ImagePlayerColour takes war3image whichWar3Image returns playercolor // This gets glow/team colour.
@@ -2912,8 +3002,8 @@ native GetSpriteY takes sprite whichSprite returns real
 native GetSpriteZ takes sprite whichSprite returns real
 native GetSpriteHeight takes sprite whichSprite returns real
 native GetSpritePositionLoc takes sprite whichSprite returns location
-native SetSpritePositionWithZ takes sprite whichSprite, real x, real y, real z returns nothing
 native SetSpritePosition takes sprite whichSprite, real x, real y returns nothing
+native SetSpritePositionWithZ takes sprite whichSprite, real x, real y, real z returns nothing
 native SetSpritePositionLoc takes sprite whichSprite, location loc returns nothing
 native SetSpriteX takes sprite whichSprite, real x returns nothing
 native SetSpriteY takes sprite whichSprite, real y returns nothing
@@ -2977,8 +3067,8 @@ native GetSpecialEffectY takes effect whichEffect returns real
 native GetSpecialEffectZ takes effect whichEffect returns real
 native GetSpecialEffectHeight takes effect whichEffect returns real
 native GetSpecialEffectPositionLoc takes effect whichEffect returns location
-native SetSpecialEffectPositionWithZ takes effect whichEffect, real x, real y, real z returns nothing
 native SetSpecialEffectPosition takes effect whichEffect, real x, real y returns nothing
+native SetSpecialEffectPositionWithZ takes effect whichEffect, real x, real y, real z returns nothing
 native SetSpecialEffectPositionLoc takes effect whichEffect, location loc returns nothing
 native SetSpecialEffectX takes effect whichEffect, real x returns nothing
 native SetSpecialEffectY takes effect whichEffect, real y returns nothing
@@ -3048,8 +3138,8 @@ native GetTrackableY takes trackable whichTrackable returns real
 native GetTrackableZ takes trackable whichTrackable returns real
 native GetTrackableHeight takes trackable whichTrackable returns real
 native GetTrackablePositionLoc takes trackable whichTrackable returns location
-native SetTrackablePositionWithZ takes trackable whichTrackable, real x, real y, real z returns nothing
 native SetTrackablePosition takes trackable whichTrackable, real x, real y returns nothing
+native SetTrackablePositionWithZ takes trackable whichTrackable, real x, real y, real z returns nothing
 native SetTrackablePositionLoc takes trackable whichTrackable, location loc returns nothing
 native SetTrackableX takes trackable whichTrackable, real x returns nothing
 native SetTrackableY takes trackable whichTrackable, real y returns nothing
@@ -3121,11 +3211,17 @@ native SetWidgetVisible takes widget whichWidget, boolean visible returns nothin
 native IsWidgetInvulnerable takes widget whichWidget returns boolean
 native SetWidgetInvulnerable takes widget whichWidget, boolean invulnerable returns nothing
 native IsWidgetTargetAllowed takes widget whichWidget, widget target, targetflag whichFlags returns boolean
+native GetWidgetZ takes widget whichWidget returns real
 native GetWidgetPositionLoc takes widget whichWidget returns location
 native SetWidgetPositionLoc takes widget whichWidget, location whichLocation returns nothing
 native SetWidgetPosition takes widget whichWidget, real x, real y returns nothing
+native SetWidgetPositionWithZ takes widget whichWidget, real x, real y, real z returns nothing
 native SetWidgetX takes widget whichWidget, real x returns nothing
 native SetWidgetY takes widget whichWidget, real y returns nothing
+native SetWidgetZ takes widget whichWidget, real z returns nothing
+native ResetWidgetZ takes widget whichWidget returns nothing // returns Z control to game.
+native GetWidgetHeight takes widget whichWidget returns real
+native SetWidgetHeight takes widget whichWidget, real height returns nothing
 native GetWidgetScreenX takes widget whichWidget returns real
 native GetWidgetScreenY takes widget whichWidget returns real
 native GetWidgetPlayerColour takes widget whichWidget returns playercolor
@@ -3189,6 +3285,10 @@ native SetDestructableVariationEx takes destructable whichDestructable, integer 
 native IsDestructableBlighted takes destructable whichDestructable returns boolean
 native SetDestructableBlighted takes destructable whichDestructable, boolean flag returns nothing
 native GetDestructableSprite takes destructable whichDestructable returns sprite
+native GetDestructableZ takes destructable whichDestructable returns real
+native ResetDestructableZ takes destructable whichDestructable returns nothing // returns Z control to game.
+native GetDestructableHeight takes destructable whichDestructable returns real
+native SetDestructableHeight takes destructable whichDestructable, real height returns nothing
 native SetDestructablePositionWithZ takes destructable whichDestructable, real x, real y, real z returns nothing
 native SetDestructablePosition takes destructable whichDestructable, real x, real y returns nothing
 native GetDestructablePositionLoc takes destructable whichDestructable returns location
@@ -3273,9 +3373,19 @@ native SetItemStringField takes item whichItem, itemstringfield whichField, stri
 //
 
 // Normal API
+constant native GetTriggerItem takes nothing returns item
 native GetItemUnderCursor takes nothing returns item // Async
+native GetItemOwner takes item whichItem returns unit
 native IsItemDroppable takes item whichItem returns boolean
 native GetItemSprite takes item whichItem returns sprite
+native GetItemZ takes item whichItem returns real
+native SetItemPositionWithZ takes item whichItem, real x, real y, real z returns nothing
+native SetItemX takes item whichItem, real x returns nothing
+native SetItemY takes item whichItem, real y returns nothing
+native SetItemZ takes item whichItem, real z returns nothing
+native ResetItemZ takes item whichItem returns nothing // returns Z control to game.
+native GetItemHeight takes item whichItem returns real
+native SetItemHeight takes item whichItem, real height returns nothing
 native GetItemScreenX takes item whichItem returns real
 native GetItemScreenY takes item whichItem returns real
 native GetItemLife takes item whichItem returns real
@@ -3401,6 +3511,12 @@ native SetUnitWeaponStringField takes unit whichUnit, unitweaponstringfield whic
 // Normal API
 native GetUnitUnderCursor takes nothing returns unit // Async
 native GetUnitSprite takes unit whichUnit returns sprite
+native SetUnitPositionEx takes unit whichUnit, boolean breakOrder, boolean checkPathing, real x, real y, real z returns nothing
+native SetUnitPositionWithZ takes unit whichUnit, real x, real y, real z returns nothing
+native SetUnitZ takes unit whichUnit, real z returns nothing
+native ResetUnitZ takes unit whichUnit returns nothing // returns Z control to game.
+native GetUnitHeight takes unit whichUnit returns real // this is separate from SetUnitFlyHeight
+native SetUnitHeight takes unit whichUnit, real height returns nothing
 native GetUnitScreenX takes unit whichUnit returns real
 native GetUnitScreenY takes unit whichUnit returns real
 native SetUnitTypeId takes unit whichUnit, integer newId returns nothing
@@ -3475,10 +3591,17 @@ native GetUnitZ takes unit whichUnit returns real
 native GetUnitDamageReduction takes unit whichUnit returns real
 native GetUnitMagicResistByType takes unit whichUnit, integer resistType returns real
 native GetUnitEluneMagicResist takes unit whichUnit returns real
-native GetUnitRunicMagicResist takes unit whichUnit returns real 
+native GetUnitRunicMagicResist takes unit whichUnit returns real
 native GetUnitTotalMagicResist takes unit whichUnit returns real
 native IsUnitGatherer takes unit whichUnit returns boolean
-native GetUnitCurrentResources takes unit whichUnit returns integer
+native GetUnitResourceCurrent takes unit whichUnit returns integer
+native SetUnitResourceCurrent takes unit whichUnit, integer amount returns nothing // only works on units that can "keep" gathered resources.
+native GetUnitResourceCapacity takes unit whichUnit, integer resourceType returns integer // 0 for gold, 1 for lumber.
+native SetUnitResourceCapacity takes unit whichUnit, integer resourceType, integer amount returns nothing // only works on units that can "keep" gathered resources.
+native GetUnitResourcePerGather takes unit whichUnit, integer resourceType returns integer
+native SetUnitResourcePerGather takes unit whichUnit, integer resourceType, integer amount returns nothing // for gold simply changes capacity
+native GetUnitResourceGatherInterval takes unit whichUnit returns real // wisp only
+native SetUnitResourceGatherInterval takes unit whichUnit, real interval returns nothing
 native GetUnitCurrentSight takes unit whichUnit returns real
 native SetUnitCurrentSight takes unit whichUnit, real realValue returns nothing
 native GetUnitAttackRemainingCooldown takes unit whichUnit returns real
@@ -3713,8 +3836,8 @@ native GetProjectileScreenY takes projectile whichProjectile returns real
 native GetProjectileHeight takes projectile whichProjectile returns real
 native SetProjectileHeight takes projectile whichProjectile, real height returns nothing
 native GetProjectilePositionLoc takes projectile whichProjectile returns location
-native SetProjectilePositionWithZ takes projectile whichProjectile, real x, real y, real z returns nothing
 native SetProjectilePosition takes projectile whichProjectile, real x, real y returns nothing
+native SetProjectilePositionWithZ takes projectile whichProjectile, real x, real y, real z returns nothing
 native SetProjectilePositionLoc takes projectile whichProjectile, location loc returns nothing
 native GetProjectileScale takes projectile whichProjectile returns real
 native SetProjectileScale takes projectile whichProjectile, real scale returns nothing
@@ -3863,6 +3986,8 @@ native SetFrameTextColour takes framehandle whichFrame, integer colour returns n
 native SetFrameFocus takes framehandle whichFrame, boolean isFocus returns boolean
 native GetFrameModel takes framehandle whichFrame returns string
 native SetFrameModel takes framehandle whichFrame, string model, integer cameraIndex returns nothing
+native GetFrameState takes framehandle whichFrame returns framestate
+native SetFrameState takes framehandle whichFrame, framestate whichFrameState returns nothing
 native IsFrameEnabled takes framehandle whichFrame returns boolean
 native SetFrameEnabled takes framehandle whichFrame, boolean enabled returns nothing
 native IsFrameLayoutFlag takes framehandle whichFrame, layoutstyleflag whichLayoutStyle returns boolean
@@ -3877,11 +4002,13 @@ native GetFrameColourEx takes framehandle whichFrame, integer textureId returns 
 native SetFrameColourEx takes framehandle whichFrame, integer textureId, integer colour returns nothing
 native GetFrameColour takes framehandle whichFrame returns integer
 native SetFrameColour takes framehandle whichFrame, integer colour returns nothing
+native SetFrameVertexColour takes framehandle whichFrame, integer alpha, integer red, integer green, integer blue returns nothing
+native SetFrameVertexColourEx takes framehandle whichFrame, integer textureId, integer alpha, integer red, integer green, integer blue returns nothing
 native GetFrameAlphaEx takes framehandle whichFrame, integer textureId returns integer
 native SetFrameAlphaEx takes framehandle whichFrame, integer textureId, integer alpha returns nothing
 native GetFrameAlpha takes framehandle whichFrame returns integer
 native SetFrameAlpha takes framehandle whichFrame, integer alpha returns nothing
-native GetFrameTexture takes framehandle whichFrame, integer textureId returns string // 0 - Current | 1 - Enabled | 2 - Pushed | 3 - Disabled | 4 - ? | 5 - Check Enabled | 6 - Check Disabled
+native GetFrameTexture takes framehandle whichFrame, integer textureId returns string
 native SetFrameBackdropTexture takes framehandle whichFrame, integer textureId, string backgroundTextureFile, boolean allowTransparency, boolean blend, string borderTextureFile, integer borderFlags, boolean isControlBackdrop returns nothing
 native SetFrameTextureEx takes framehandle whichFrame, integer textureId, string backgroundTextureFile, boolean blend, string borderTextureFile, integer borderFlags returns nothing
 native SetFrameTexture takes framehandle whichFrame, string textureFile, integer textureId, boolean blend returns nothing
@@ -3900,8 +4027,6 @@ native GetFrameHeight takes framehandle whichFrame returns real
 native SetFrameHeight takes framehandle whichFrame, real height returns nothing
 native SetFrameSize takes framehandle whichFrame, real width, real height returns nothing
 native SetFrameScale takes framehandle whichFrame, real scale returns nothing
-native SetFrameVertexColourEx takes framehandle whichFrame, integer alpha, integer red, integer blue, integer green returns nothing
-native SetFrameVertexColour takes framehandle whichFrame, integer colour returns nothing
 native GetFramePriority takes framehandle whichFrame returns integer
 native SetFramePriority takes framehandle whichFrame, integer priority returns nothing
 native SetFrameParent takes framehandle whichFrame, framehandle whichParent returns nothing
@@ -4076,20 +4201,35 @@ native TriggerRegisterPlayerSyncEvent takes trigger whichTrigger, player whichPl
 // Key/KeyEvent API
 native IsKeyPressed takes oskeytype key returns boolean
 native IsMouseKeyPressed takes mousebuttontype mouseKey returns boolean
+native GetTriggerPlayerIsKeyDown takes nothing returns boolean
 
+// EVENT_PLAYER_MOUSE_DOWN
+// EVENT_PLAYER_MOUSE_UP
+// EVENT_PLAYER_KEY
+// EVENT_PLAYER_KEY_DOWN
+// EVENT_PLAYER_KEY_UP
+// EVENT_PLAYER_WIDGET_CLICK
+// EVENT_PLAYER_WIDGET_GHOST_CLICK
+// EVENT_PLAYER_TERRAIN_CLICK
 native GetTriggerPlayerKey takes nothing returns oskeytype
 native GetTriggerPlayerMouseButton takes nothing returns mousebuttontype
 native GetTriggerPlayerMetaKey takes nothing returns integer
-native GetTriggerPlayerIsKeyDown takes nothing returns boolean
 
 native TriggerRegisterPlayerKeyEvent takes trigger whichTrigger, player whichPlayer, oskeytype whichKey, integer whichMetaKey, boolean isKeyDown returns event
 //
 
-// Mouse Event API | For use with EVENT_PLAYER_MOUSE_MOVE
+// Mouse Event API
+// EVENT_PLAYER_MOUSE_MOVE
+// EVENT_PLAYER_WIDGET_TRACK
+// EVENT_PLAYER_WIDGET_GHOST_TRACK
+// EVENT_PLAYER_WIDGET_CLICK
+// EVENT_PLAYER_WIDGET_GHOST_CLICK
+// EVENT_PLAYER_TERRAIN_CLICK
 native GetTriggerPlayerMouseWorldX takes nothing returns real
 native GetTriggerPlayerMouseWorldY takes nothing returns real
 native GetTriggerPlayerMouseWorldZ takes nothing returns real
 
+// EVENT_PLAYER_MOUSE_MOVE
 native GetTriggerPlayerMouseScreenX takes nothing returns real
 native GetTriggerPlayerMouseScreenY takes nothing returns real
 //
@@ -4097,6 +4237,8 @@ native GetTriggerPlayerMouseScreenY takes nothing returns real
 //============================================================================
 // Damage Event API
 //
+
+// Refer to https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3DamageData.txt
 native GetEventDamageFlags takes nothing returns integer
 native SetEventDamageFlags takes integer flags returns boolean
 
