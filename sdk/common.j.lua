@@ -1749,6 +1749,8 @@ CHAT_RECIPIENT_ALLIES = 1 ---@type integer @UjAPI
 CHAT_RECIPIENT_REFEREES = 2 ---@type integer @UjAPI
 CHAT_RECIPIENT_OBSERVERS = 2 ---@type integer @UjAPI
 CHAT_RECIPIENT_PRIVATE = 3 ---@type integer @UjAPI
+CHAT_RECIPIENT_UNKNOWN = 4 ---@type integer @UjAPI
+-- use CHAT_RECIPIENT_UNKNOWN to ignore text stating to which recipient the text was sent.
 
 -- ===================================================
 -- Instanced Object Operation API constants
@@ -3933,8 +3935,7 @@ function TriggerRegisterPlayerChatEvent (whichTrigger, whichPlayer, chatMessageT
 
 -- EVENT_PLAYER_CHAT
 
--- returns the actual string they typed in ( same as what you registered for
--- if you required exact match )
+-- returns the actual string they typed in ( same as what you registered for if you required exact match )
 ---@return string
 function GetEventPlayerChatString () end
 
@@ -8731,6 +8732,19 @@ function GetTimeStamp (isLocalTime, isMiliseconds) end
 function GetTickCount () end
 -- 
 
+-- Benchmark API
+---@author UjAPI
+function BenchmarkStart () end
+---@author UjAPI
+function BenchmarkEnd () end
+---@author UjAPI
+function BenchmarkReset () end
+---@author UjAPI
+---@param benchType integer
+---@return string
+function BenchmarkGetElapsed (benchType) end
+-- 
+
 -- Screen API
 ---@author UjAPI
 ---@param fov real
@@ -8844,6 +8858,14 @@ function DisplayWarningMessage (toPlayer, message) end
 ---@param duration real
 ---@param message string
 function DisplayTimedWarningMessage (toPlayer, duration, message) end
+-- if whichPlayer is null, then players name text will be omitted, set recipient to CHAT_RECIPIENT_UNKNOWN to omit associated text.
+---@author UjAPI
+---@param whichPlayer player
+---@param recipient integer
+---@param duration real
+---@param addToLog boolean
+---@param message string
+function DisplayChatMessageEx (whichPlayer, recipient, duration, addToLog, message) end
 ---@author UjAPI
 ---@param whichPlayer player
 ---@param recipient integer
@@ -8855,6 +8877,7 @@ function DisplayChatMessage (whichPlayer, recipient, message) end
 ---@param duration real
 ---@param message string
 function DisplayTimedChatMessage (whichPlayer, recipient, duration, message) end
+-- 
 ---@author UjAPI
 ---@param toPlayer player
 ---@param message string
@@ -14596,6 +14619,72 @@ function UnitGetUpgradeRemainingTime (whichUnit) end
 function UnitSetUpgradeRemainingTime (whichUnit, time) end
 -- 
 
+-- Unit Training API
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetTrainingProgress (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param trainingPercentage integer
+function UnitSetTrainingProgress (whichUnit, trainingPercentage) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetTrainingRemainingTime (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param time real
+function UnitSetTrainingRemainingTime (whichUnit, time) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+---@return integer
+function UnitGetTrainingTypeIdAt (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+function UnitCancelTrainingAt (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+---@param typeId integer
+function UnitSetTrainingTypeIdAt (whichUnit, index, typeId) end
+-- 
+
+-- Unit Research API
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetResearchProgress (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param trainingPercentage integer
+function UnitSetResearchProgress (whichUnit, trainingPercentage) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function UnitGetResearchRemainingTime (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param time real
+function UnitSetResearchRemainingTime (whichUnit, time) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+---@return integer
+function UnitGetResearchTypeIdAt (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+function UnitCancelResearchAt (whichUnit, index) end
+---@author UjAPI
+---@param whichUnit unit
+---@param index integer
+---@param typeId integer
+function UnitSetResearchTypeIdAt (whichUnit, index, typeId) end
+-- 
+
 -- Illusion API
 -- All created illusions are created without timed life, this can and should be handled by the mapmaker.
 ---@author UjAPI
@@ -15390,12 +15479,50 @@ function IsFrameComplex (whichFrame) end
 function DestroyFrame (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@return real
+function GetFrameScreenX (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return real
+function GetFrameScreenY (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param point framepointtype
+---@return framehandle
+function GetFrameRelativePointParent (whichFrame, point) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param point framepointtype
+---@return framepointtype
+function GetFrameRelativePointType (whichFrame, point) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param point framepointtype
+---@return real
+function GetFrameRelativePointX (whichFrame, point) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param point framepointtype
+---@return real
+function GetFrameRelativePointY (whichFrame, point) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param point framepointtype
 ---@param relativeFrame framehandle
 ---@param relativePoint framepointtype
 ---@param x real
 ---@param y real
 function SetFrameRelativePoint (whichFrame, point, relativeFrame, relativePoint, x, y) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param point framepointtype
+---@return real
+function GetFrameAbsolutePointX (whichFrame, point) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param point framepointtype
+---@return real
+function GetFrameAbsolutePointY (whichFrame, point) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param point framepointtype
@@ -15789,6 +15916,17 @@ function SetFrameCheckState (whichFrame, isCheck) end
 ---@return boolean
 function SetMiniMapTexture (texturePath) end
 
+-- CSlider / CScollBar API | Scrollbar extends slider, so both use the same logic.
+---@author UjAPI
+---@param whichFrame framehandle
+---@return framehandle
+function GetFrameSlider (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return framehandle
+function AddFrameSlider (whichFrame) end
+-- 
+
 -- CListBox API
 ---@author UjAPI
 ---@param listBox framehandle
@@ -15865,6 +16003,21 @@ function SetFrameItemOwner (listBoxItem, whichFrame) end
 
 -- Backdrop API | Border API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
 -- For CFrames that contain backdrops, use ids to differentiate between them, this is similar to CSimpleButton states, etc.
+---@author UjAPI
+---@param whichFrame framehandle
+---@param backdropId integer
+---@return framehandle
+function GetFrameBackdrop (whichFrame, backdropId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param backdropId integer
+---@return boolean
+function IsFrameBorderEnabled (whichFrame, backdropId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param backdropId integer
+---@param isEnable boolean
+function SetFrameBorderEnabled (whichFrame, backdropId, isEnable) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
