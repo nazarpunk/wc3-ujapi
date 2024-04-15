@@ -64,7 +64,7 @@
 ---@class raritycontrol:handle
 ---@class blendmode:handle
 ---@class texmapflags:handle
----@class effect:agent
+---@class effect:war3image
 ---@class effecttype:handle
 ---@class weathereffect:handle
 ---@class terraindeformation:handle
@@ -79,7 +79,7 @@
 ---@class leaderboard:agent
 ---@class multiboard:agent
 ---@class multiboarditem:agent
----@class trackable:agent
+---@class trackable:war3image
 ---@class gamecache:agent
 ---@class version:handle
 ---@class itemtype:handle
@@ -1767,6 +1767,8 @@ ABILITY_IF_BUTTON_HOTKEY_RESEARCH = ConvertAbilityIntegerField(FourCC('arhk'--[[
 ABILITY_IF_BUTTON_POSITION_RESEARCH_X = ConvertAbilityIntegerField(FourCC('arpx'--[[1634889848--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_BUTTON_POSITION_RESEARCH_Y = ConvertAbilityIntegerField(FourCC('arpy'--[[1634889849--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_BUTTON_HOTKEY_ALL = ConvertAbilityIntegerField(FourCC('ahtk'--[[1634235499--]])) ---@type abilityintegerfield @UjAPI
+ABILITY_IF_BUTTON_POSITION_SPELLBOOK_X = ConvertAbilityIntegerField(FourCC('asbx'--[[1634951800--]])) ---@type abilityintegerfield @UjAPI
+ABILITY_IF_BUTTON_POSITION_SPELLBOOK_Y = ConvertAbilityIntegerField(FourCC('asby'--[[1634951801--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_MISSILE_SPEED = ConvertAbilityIntegerField(FourCC('amsp'--[[1634562928--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_TARGET_ATTACHMENTS = ConvertAbilityIntegerField(FourCC('atac'--[[1635017059--]])) ---@type abilityintegerfield @UjAPI
 ABILITY_IF_CASTER_ATTACHMENTS = ConvertAbilityIntegerField(FourCC('acac'--[[1633902947--]])) ---@type abilityintegerfield @UjAPI
@@ -8893,6 +8895,10 @@ function DisplayTimedTopMessage (toPlayer, duration, message) end
 -- This function is meant mostly for debugging, for example, to get all units in the map pass '+w3u' as agentBaseTypeId, '+ply' for players, '+mdb' for multiboards, '+frm' for frames accessed/created from jass/lua.
 ---@author UjAPI
 ---@param whichHandle handle
+---@return boolean
+function IsHandleDestroyed (whichHandle) end
+---@author UjAPI
+---@param whichHandle handle
 ---@return integer
 function GetHandleReferenceCount (whichHandle) end
 ---@author UjAPI
@@ -10927,8 +10933,16 @@ function SetAbilityOwner (whichAbility, whichUnit) end
 function GetAbilityOwningAbility (whichAbility) end
 ---@author UjAPI
 ---@param whichAbility ability
+---@param whichSpellbook ability
+function SetAbilityOwningAbility (whichAbility, whichSpellbook) end
+---@author UjAPI
+---@param whichAbility ability
 ---@return item
 function GetAbilityOwningItem (whichAbility) end
+---@author UjAPI
+---@param whichAbility ability
+---@param whichItem item
+function SetAbilityOwningItem (whichAbility, whichItem) end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@return integer
@@ -11489,12 +11503,189 @@ function GetTriggerBuffTarget () end
 -- This is API for the "lowest" in terms of hierarchy object type for any and all widgets. Sprites and doodads are exception, however this API can distinguish between them and handle accordingly.
 ---@author UjAPI
 ---@param whichWar3Image war3image
+---@return sprite
+function GetWar3ImageSprite (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return boolean
+function IsWar3ImageVisible (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param visible boolean
+function SetWar3ImageVisible (whichWar3Image, visible) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return boolean
+function IsWar3ImageInvulnerable (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param invulnerable boolean
+function SetWar3ImageInvulnerable (whichWar3Image, invulnerable) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageX (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageY (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageZ (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return location
+function GetWar3ImagePositionLoc (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param whichLocation location
+function SetWar3ImagePositionLoc (whichWar3Image, whichLocation) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param x real
+---@param y real
+function SetWar3ImagePosition (whichWar3Image, x, y) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param x real
+---@param y real
+---@param z real
+function SetWar3ImagePositionWithZ (whichWar3Image, x, y, z) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param x real
+function SetWar3ImageX (whichWar3Image, x) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param y real
+function SetWar3ImageY (whichWar3Image, y) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param z real
+function SetWar3ImageZ (whichWar3Image, z) end
+---@author UjAPI
+---@param whichWar3Image war3image
+function ResetWar3ImageZ (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageHeight (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param height real
+function SetWar3ImageHeight (whichWar3Image, height) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageScreenX (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageScreenY (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
 ---@return playercolor
 function GetWar3ImagePlayerColour (whichWar3Image) end
 ---@author UjAPI
 ---@param whichWar3Image war3image
 ---@param color playercolor
 function SetWar3ImagePlayerColour (whichWar3Image, color) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return integer
+function GetWar3ImageVertexColour (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param red integer
+---@param green integer
+---@param blue integer
+---@param alpha integer
+function SetWar3ImageVertexColour (whichWar3Image, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageTimeScale (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param timeScale real
+function SetWar3ImageTimeScale (whichWar3Image, timeScale) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageScale (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param scale real
+function SetWar3ImageScale (whichWar3Image, scale) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageFacing (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param facing real
+---@param isInstant boolean
+function SetWar3ImageFacing (whichWar3Image, facing, isInstant) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param x real
+---@param y real
+---@param z real
+function SetWar3ImageMatrixScale (whichWar3Image, x, y, z) end
+---@author UjAPI
+---@param whichWar3Image war3image
+function ResetWar3ImageMatrix (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param yaw real
+---@param pitch real
+---@param roll real
+---@param eulerOrder integer
+function SetWar3ImageOrientationEx (whichWar3Image, yaw, pitch, roll, eulerOrder) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param yaw real
+---@param pitch real
+---@param roll real
+function SetWar3ImageOrientation (whichWar3Image, yaw, pitch, roll) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageYaw (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param yaw real
+function SetWar3ImageYaw (whichWar3Image, yaw) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImagePitch (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param pitch real
+function SetWar3ImagePitch (whichWar3Image, pitch) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageRoll (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param roll real
+function SetWar3ImageRoll (whichWar3Image, roll) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return string
+function GetWar3ImageModel (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param modelFile string
+function SetWar3ImageModel (whichWar3Image, modelFile) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param modelFile string
+---@param playerId integer
+function SetWar3ImageModelEx (whichWar3Image, modelFile, playerId) end
 ---@author UjAPI
 ---@param whichWar3Image war3image
 ---@param textureName string
@@ -11513,17 +11704,66 @@ function SetWar3ImageTexture (whichWar3Image, textureName, textureIndex) end
 function SetWar3ImageReplaceableTexture (whichWar3Image, textureName, textureIndex) end
 ---@author UjAPI
 ---@param whichWar3Image war3image
+---@param whichObject string
+---@return real
+function GetWar3ImageModelObjectX (whichWar3Image, whichObject) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param whichObject string
+---@return real
+function GetWar3ImageModelObjectY (whichWar3Image, whichObject) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param whichObject string
+---@return real
+function GetWar3ImageModelObjectZ (whichWar3Image, whichObject) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param whichObject string
+---@return location
+function GetWar3ImageModelObjectPositionLoc (whichWar3Image, whichObject) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return integer
+function GetWar3ImageCurrentAnimationId (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
 ---@return string
-function GetWar3ImageModel (whichWar3Image) end
+function GetWar3ImageCurrentAnimationName (whichWar3Image) end
 ---@author UjAPI
 ---@param whichWar3Image war3image
----@param modelName string
-function SetWar3ImageModel (whichWar3Image, modelName) end
+---@param animIndex integer
+---@param rarity raritycontrol
+function SetWar3ImageAnimationWithRarityByIndex (whichWar3Image, animIndex, rarity) end
 ---@author UjAPI
 ---@param whichWar3Image war3image
----@param modelName string
----@param playerColour integer
-function SetWar3ImageModelEx (whichWar3Image, modelName, playerColour) end
+---@param animationName string
+---@param rarity raritycontrol
+function SetWar3ImageAnimationWithRarity (whichWar3Image, animationName, rarity) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param animIndex integer
+function SetWar3ImageAnimationByIndex (whichWar3Image, animIndex) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param animationName string
+function SetWar3ImageAnimation (whichWar3Image, animationName) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param animIndex integer
+function QueueWar3ImageAnimationByIndex (whichWar3Image, animIndex) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param animationName string
+function QueueWar3ImageAnimation (whichWar3Image, animationName) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageAnimationOffsetPercent (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@param percent real
+function SetWar3ImageAnimationOffsetPercent (whichWar3Image, percent) end
 -- 
 
 -- ============================================================================
@@ -15795,6 +16035,16 @@ function SetFrameTextureEx (whichFrame, textureId, backgroundTextureFile, blend,
 function SetFrameTexture (whichFrame, textureFile, textureId, blend) end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@param textureId integer
+---@return blendmode
+function GetFrameBlendMode (whichFrame, textureId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param textureId integer
+---@param whichMode blendmode
+function SetFrameBlendMode (whichFrame, textureId, whichMode) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@param tooltipFrame framehandle
 function SetFrameTooltip (whichFrame, tooltipFrame) end
 ---@author UjAPI
@@ -15999,6 +16249,25 @@ function GetFrameItemOwner (listBoxItem) end
 ---@param listBoxItem framehandle
 ---@param whichFrame framehandle
 function SetFrameItemOwner (listBoxItem, whichFrame) end
+-- 
+
+-- Highlight API
+---@author UjAPI
+---@param whichFrame framehandle
+---@param highlightId integer
+---@return framehandle
+function GetFrameHighlight (whichFrame, highlightId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param highlightId integer
+---@return string
+function GetFrameHighlightTexture (whichFrame, highlightId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param highlightId integer
+---@param texturePath string
+---@param blendMode blendmode
+function SetFrameHighlightTexture (whichFrame, highlightId, texturePath, blendMode) end
 -- 
 
 -- Backdrop API | Border API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
@@ -16506,7 +16775,26 @@ function TriggerRegisterPlayerKeyEvent (whichTrigger, whichPlayer, whichKey, whi
 -- 
 
 -- Mouse Event API
--- EVENT_PLAYER_MOUSE_MOVE
+---@author UjAPI
+---@return boolean
+function GetMouseMoveEventScreenAxisEnabled () end
+---@author UjAPI
+---@param enable boolean
+function SetMouseMoveEventScreenAxisEnabled (enable) end
+---@author UjAPI
+---@return boolean
+function GetMouseMoveEventWorldAxisEnabled () end
+---@author UjAPI
+---@param enable boolean
+function SetMouseMoveEventWorldAxisEnabled (enable) end
+---@author UjAPI
+---@return integer
+function GetMouseMoveEventDelay () end
+---@author UjAPI
+---@param delay integer
+function SetMouseMoveEventDelay (delay) end
+
+-- EVENT_PLAYER_MOUSE_MOVE_WORLD
 -- EVENT_PLAYER_WIDGET_TRACK
 -- EVENT_PLAYER_WIDGET_GHOST_TRACK
 -- EVENT_PLAYER_WIDGET_CLICK
