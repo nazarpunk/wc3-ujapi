@@ -1,10 +1,12 @@
 import * as fs from 'fs'
 import parse, {Call, Globals, Native, Type, Variable} from 'jass-to-ast'
+import * as path from 'node:path'
 
 const read = p => fs.readFileSync(p, {encoding: 'utf8', flag: 'r'}).replace(/\r\n/g, '\n')
 
-const orig = parse(read('../../../sdk/common.vanilla.j'))
-const ujapi = parse(read('../../../sdk/common.j'))
+const sdk = path.join('..', '..', '..', 'sdk')
+const orig = parse(read(path.join(sdk, 'common.vanilla.j')))
+const ujapi = parse(read(path.join(sdk, 'common.j')))
 
 const map = {}
 
