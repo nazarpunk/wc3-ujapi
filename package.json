@@ -9,6 +9,6 @@
   "type": "module",
   "devDependencies": {
     "jass-to-ast": "^2.0.2",
-    "better-sqlite3": "^9.4.5"
+    "better-sqlite3": "^11.0.0"
   }
 }

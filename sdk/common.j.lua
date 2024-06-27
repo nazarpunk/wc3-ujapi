@@ -16,7 +16,7 @@
 ---@class group:agent
 ---@class trigger:agent
 ---@class triggercondition:agent
----@class triggeraction:handle
+---@class triggeraction:agent
 ---@class timer:agent
 ---@class location:agent
 ---@class region:agent
@@ -103,7 +103,7 @@
 ---@class sprite:war3image @UjAPI
 ---@class projectile:war3image @UjAPI
 ---@class doodad:war3image @UjAPI
----@class framehandle:handle @UjAPI
+---@class framehandle:agent @UjAPI
 ---@class commandbuttoneffect:handle @UjAPI
 ---@class originframetype:handle @UjAPI
 ---@class framepointtype:handle @UjAPI
@@ -162,9 +162,10 @@
 ---@class renderstage:handle @UjAPI
 ---@class connectiontype:handle @UjAPI
 ---@class jassthread:handle @UjAPI
----@class handlelist:handle @UjAPI
----@class textfilehandle:handle @UjAPI
+---@class handlelist:agent @UjAPI
+---@class textfilehandle:agent @UjAPI
 ---@class orderhandle:agent @UjAPI
+---@class tradestate:handle @UjAPI
 
 ---@param i integer
 ---@return race
@@ -530,6 +531,10 @@ function ConvertAbilityType (i) end
 ---@param i integer
 ---@return connectiontype
 function ConvertConnectionType (i) end
+---@author UjAPI
+---@param i integer
+---@return tradestate
+function ConvertTradeState (i) end
 
 ---@param orderIdString string
 ---@return integer
@@ -1104,6 +1109,10 @@ EVENT_PLAYER_UNIT_DAMAGING = ConvertPlayerUnitEvent(315) ---@type playeruniteven
 EVENT_PLAYER_UNIT_ATTACK_FINISHED = ConvertPlayerUnitEvent(317) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_DECAY_FINISHED = ConvertPlayerUnitEvent(319) ---@type playerunitevent @UjAPI
 
+EVENT_PLAYER_UNIT_REINCARNATION_START = ConvertPlayerUnitEvent(325) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_REINCARNATION_END = ConvertPlayerUnitEvent(327) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_REVIVED = ConvertPlayerUnitEvent(329) ---@type playerunitevent @UjAPI
+
 -- ===================================================
 -- For use with TriggerRegisterUnitEvent
 -- ===================================================
@@ -1167,6 +1176,10 @@ EVENT_UNIT_LOADED = ConvertUnitEvent(88) ---@type unitevent
 EVENT_UNIT_ATTACK_FINISHED = ConvertUnitEvent(316) ---@type unitevent @UjAPI
 EVENT_UNIT_DECAY_FINISHED = ConvertUnitEvent(318) ---@type unitevent @UjAPI
 
+EVENT_UNIT_REINCARNATION_START = ConvertUnitEvent(326) ---@type unitevent @UjAPI
+EVENT_UNIT_REINCARNATION_END = ConvertUnitEvent(328) ---@type unitevent @UjAPI
+EVENT_UNIT_REVIVED = ConvertUnitEvent(330) ---@type unitevent @UjAPI
+
 -- ===================================================
 -- For use with TriggerRegisterWidgetEvent
 -- ===================================================
@@ -1204,6 +1217,8 @@ EVENT_GAME_AGENT_WARP_END = ConvertGameEvent(804) ---@type gameevent @UjAPI
 EVENT_GAME_WIDGET_DAMAGING = ConvertGameEvent(805) ---@type gameevent @UjAPI
 EVENT_GAME_WIDGET_DAMAGED = ConvertGameEvent(806) ---@type gameevent @UjAPI
 EVENT_GAME_WIDGET_DEATH = ConvertGameEvent(807) ---@type gameevent @UjAPI
+
+EVENT_GAME_HACK_DETECTED = ConvertGameEvent(850) ---@type gameevent @UjAPI
 -- ===================================================
 -- For use with TriggerRegisterPlayerEvent
 -- ===================================================
@@ -1230,6 +1245,8 @@ EVENT_PLAYER_WIDGET_GHOST_TRACK = ConvertPlayerEvent(321) ---@type playerevent @
 EVENT_PLAYER_WIDGET_CLICK = ConvertPlayerEvent(322) ---@type playerevent @UjAPI
 EVENT_PLAYER_WIDGET_GHOST_CLICK = ConvertPlayerEvent(323) ---@type playerevent @UjAPI
 EVENT_PLAYER_TERRAIN_CLICK = ConvertPlayerEvent(324) ---@type playerevent @UjAPI
+
+EVENT_PLAYER_TRADE_RESOURCE = ConvertPlayerEvent(350) ---@type playerevent @UjAPI
 -- ===================================================
 -- For use with TriggerRegisterPlayerUnitEvent
 -- ===================================================
@@ -1396,6 +1413,12 @@ TEXMAP_FLAG_WRAP_UV = ConvertTexMapFlags(3) ---@type texmapflags
 FOG_OF_WAR_MASKED = ConvertFogState(1) ---@type fogstate
 FOG_OF_WAR_FOGGED = ConvertFogState(2) ---@type fogstate
 FOG_OF_WAR_VISIBLE = ConvertFogState(4) ---@type fogstate
+FOG_OF_WAR_RECT = ConvertFogState(8) ---@type fogstate @UjAPI
+FOG_OF_WAR_RADIUS = ConvertFogState(16) ---@type fogstate @UjAPI
+FOG_OF_WAR_RADIUS_LOCATION = ConvertFogState(32) ---@type fogstate @UjAPI
+FOG_OF_WAR_STARTED = ConvertFogState(64) ---@type fogstate @UjAPI
+FOG_OF_WAR_USE_SHARED_VISION = ConvertFogState(128) ---@type fogstate @UjAPI
+FOG_OF_WAR_AFTER_UNITS = ConvertFogState(256) ---@type fogstate @UjAPI
 
 -- ===================================================
 -- Camera Margin constants for use with GetCameraMargin
@@ -1510,6 +1533,7 @@ FRAMEEVENT_CHECKBOX_CHECKED = ConvertFrameEventType(7) ---@type frameeventtype @
 FRAMEEVENT_CHECKBOX_UNCHECKED = ConvertFrameEventType(8) ---@type frameeventtype @UjAPI
 FRAMEEVENT_EDITBOX_TEXT_CHANGED = ConvertFrameEventType(9) ---@type frameeventtype @UjAPI
 FRAMEEVENT_POPUPMENU_ITEM_CHANGED = ConvertFrameEventType(10) ---@type frameeventtype @UjAPI
+FRAMEEVENT_FRAME_ITEM_CHANGED = ConvertFrameEventType(10) ---@type frameeventtype @UjAPI
 FRAMEEVENT_MOUSE_DOUBLECLICK = ConvertFrameEventType(11) ---@type frameeventtype @UjAPI
 FRAMEEVENT_SPRITE_ANIM_UPDATE = ConvertFrameEventType(12) ---@type frameeventtype @UjAPI
 FRAMEEVENT_SLIDER_VALUE_CHANGED = ConvertFrameEventType(13) ---@type frameeventtype @UjAPI
@@ -2607,6 +2631,9 @@ UNIT_IF_PRIMARY_ATTRIBUTE = ConvertUnitIntegerField(FourCC('upra'--[[1970303585-
 UNIT_IF_COLLISION_TYPE = ConvertUnitIntegerField(FourCC('ucot'--[[1969450868--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_PATHING_AI = ConvertUnitIntegerField(FourCC('upai'--[[1970299241--]])) ---@type unitintegerfield @UjAPI
 UNIT_IF_PATHING_TYPE = ConvertUnitIntegerField(FourCC('upat'--[[1970299252--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_SEPARATION_GROUP_NUMBER = ConvertUnitIntegerField(FourCC('urpg'--[[1970434151--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_SEPARATION_PARAMETER = ConvertUnitIntegerField(FourCC('urpp'--[[1970434160--]])) ---@type unitintegerfield @UjAPI
+UNIT_IF_SEPARATION_PRIORITY = ConvertUnitIntegerField(FourCC('urpr'--[[1970434162--]])) ---@type unitintegerfield @UjAPI
 
 UNIT_RF_STRENGTH_PER_LEVEL = ConvertUnitRealField(FourCC('ustp'--[[1970500720--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_AGILITY_PER_LEVEL = ConvertUnitRealField(FourCC('uagp'--[[1969317744--]])) ---@type unitrealfield @UjAPI
@@ -2643,6 +2670,11 @@ UNIT_RF_CAST_BACK_SWING = ConvertUnitRealField(FourCC('ucbs'--[[1969447539--]]))
 UNIT_RF_CAST_POINT = ConvertUnitRealField(FourCC('ucpt'--[[1969451124--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_MINIMUM_ATTACK_RANGE = ConvertUnitRealField(FourCC('uamn'--[[1969319278--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_COLLISION_SIZE = ConvertUnitRealField(FourCC('ucol'--[[1969450860--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_HEIGHT = ConvertUnitRealField(FourCC('umvh'--[[1970108008--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_HEIGHT_MINIMUM = ConvertUnitRealField(FourCC('umvf'--[[1970108006--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_SPEED_BASE = ConvertUnitRealField(FourCC('umvs'--[[1970108019--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_SPEED_MINIMUM = ConvertUnitRealField(FourCC('umis'--[[1970104691--]])) ---@type unitrealfield @UjAPI
+UNIT_RF_SPEED_MAXIMUM = ConvertUnitRealField(FourCC('umas'--[[1970102643--]])) ---@type unitrealfield @UjAPI
 -- Get Only Fields
 UNIT_RF_HEALTH_FROM_BONUS_STRENGTH = ConvertUnitRealField(FourCC('uhs+'--[[1969779499--]])) ---@type unitrealfield @UjAPI
 UNIT_RF_MANA_FROM_BONUS_INTELLIGENCE = ConvertUnitRealField(FourCC('umi+'--[[1970104619--]])) ---@type unitrealfield @UjAPI
@@ -2662,6 +2694,7 @@ UNIT_BF_HIDE_MINIMAP_DISPLAY = ConvertUnitBooleanField(FourCC('uhom'--[[19697785
 UNIT_BF_SCALE_PROJECTILES = ConvertUnitBooleanField(FourCC('uscb'--[[1970496354--]])) ---@type unitbooleanfield @UjAPI
 UNIT_BF_SELECTION_CIRCLE_ON_WATER = ConvertUnitBooleanField(FourCC('usew'--[[1970496887--]])) ---@type unitbooleanfield @UjAPI
 UNIT_BF_HAS_WATER_SHADOW = ConvertUnitBooleanField(FourCC('ushr'--[[1970497650--]])) ---@type unitbooleanfield @UjAPI
+UNIT_BF_SEPARATION_ENABLED = ConvertUnitBooleanField(FourCC('urpo'--[[1970434159--]])) ---@type unitbooleanfield @UjAPI
 
 UNIT_SF_HERO_ABILITY_LIST = ConvertUnitStringField(FourCC('uhab'--[[1969774946--]])) ---@type unitstringfield @UjAPI
 UNIT_SF_ABILITY_LIST = ConvertUnitStringField(FourCC('uabi'--[[1969316457--]])) ---@type unitstringfield @UjAPI
@@ -2915,6 +2948,7 @@ CONTROL_STYLE_CLICK_MOUSE_DOWN = ConvertControlStyleFlag(2) ---@type controlstyl
 CONTROL_STYLE_RELEASE_NOTIFY = ConvertControlStyleFlag(4) ---@type controlstyleflag @UjAPI
 CONTROL_STYLE_DRAG = ConvertControlStyleFlag(8) ---@type controlstyleflag @UjAPI
 CONTROL_STYLE_HIGHLIGHT_ON_FOCUS = ConvertControlStyleFlag(16) ---@type controlstyleflag @UjAPI
+CONTROL_STYLE_DRAW = ConvertControlStyleFlag(32) ---@type controlstyleflag @UjAPI
 CONTROL_STYLE_HIGHLIGHT_FOCUS = ConvertControlStyleFlag(32) ---@type controlstyleflag @UjAPI
 CONTROL_STYLE_HIGHLIGHT_ON_MOUSE_OVER = ConvertControlStyleFlag(64) ---@type controlstyleflag @UjAPI
 CONTROL_STYLE_SLIDER_STEP = ConvertControlStyleFlag(128) ---@type controlstyleflag @UjAPI
@@ -2948,6 +2982,17 @@ CONNECTION_TYPE_SINGLE_PLAYER = ConvertConnectionType(0) ---@type connectiontype
 CONNECTION_TYPE_LOCAL_GAME = ConvertConnectionType(1) ---@type connectiontype @UjAPI
 CONNECTION_TYPE_BATTLE_NET = ConvertConnectionType(2) ---@type connectiontype @UjAPI
 CONNECTION_TYPE_REPLAY = ConvertConnectionType(3) ---@type connectiontype @UjAPI
+
+TRADE_STATE_CANCELLED = ConvertTradeState(1) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_TRADING_LOCK = ConvertTradeState(2) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_TRADING_ALLIES_ONLY = ConvertTradeState(4) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_SOURCE_UPKEEP = ConvertTradeState(8) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_SOURCE_TAX = ConvertTradeState(16) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_SOURCE_LOSS = ConvertTradeState(32) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_TARGET_UPKEEP = ConvertTradeState(64) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_TARGET_TAX = ConvertTradeState(128) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_TARGET_LOSS = ConvertTradeState(256) ---@type tradestate @UjAPI
+TRADE_STATE_IGNORE_NOTIFICATION = ConvertTradeState(512) ---@type tradestate @UjAPI
 
 -- ============================================================================
 -- MathAPI
@@ -3764,6 +3809,12 @@ function GetRevivableUnit () end
 -- EVENT_UNIT_HERO_REVIVE_START
 -- EVENT_UNIT_HERO_REVIVE_CANCEL
 -- EVENT_UNIT_HERO_REVIVE_FINISH
+-- EVENT_PLAYER_UNIT_REINCARNATION_START
+-- EVENT_UNIT_REINCARNATION_START
+-- EVENT_PLAYER_UNIT_REINCARNATION_END
+-- EVENT_UNIT_REINCARNATION_END
+-- EVENT_PLAYER_UNIT_REVIVED
+-- EVENT_UNIT_REVIVED
 ---@return unit
 function GetRevivingUnit () end
 
@@ -5307,11 +5358,11 @@ function CachePlayerHeroData (whichPlayer) end
 function SetFogStateRect (forWhichPlayer, whichState, where, useSharedVision) end
 ---@param forWhichPlayer player
 ---@param whichState fogstate
----@param centerx real
+---@param centerX real
 ---@param centerY real
 ---@param radius real
 ---@param useSharedVision boolean
-function SetFogStateRadius (forWhichPlayer, whichState, centerx, centerY, radius, useSharedVision) end
+function SetFogStateRadius (forWhichPlayer, whichState, centerX, centerY, radius, useSharedVision) end
 ---@param forWhichPlayer player
 ---@param whichState fogstate
 ---@param center location
@@ -5336,13 +5387,13 @@ function IsFogEnabled () end
 function CreateFogModifierRect (forWhichPlayer, whichState, where, useSharedVision, afterUnits) end
 ---@param forWhichPlayer player
 ---@param whichState fogstate
----@param centerx real
+---@param centerX real
 ---@param centerY real
 ---@param radius real
 ---@param useSharedVision boolean
 ---@param afterUnits boolean
 ---@return fogmodifier
-function CreateFogModifierRadius (forWhichPlayer, whichState, centerx, centerY, radius, useSharedVision, afterUnits) end
+function CreateFogModifierRadius (forWhichPlayer, whichState, centerX, centerY, radius, useSharedVision, afterUnits) end
 ---@param forWhichPlayer player
 ---@param whichState fogstate
 ---@param center location
@@ -7560,7 +7611,17 @@ function BitwiseShiftLeft (i, bitsToShift) end
 ---@param i integer
 ---@param bitsToShift integer
 ---@return integer
+function BitwiseShiftLeftLogical (i, bitsToShift) end
+---@author UjAPI
+---@param i integer
+---@param bitsToShift integer
+---@return integer
 function BitwiseShiftRight (i, bitsToShift) end
+---@author UjAPI
+---@param i integer
+---@param bitsToShift integer
+---@return integer
+function BitwiseShiftRightLogical (i, bitsToShift) end
 ---@author UjAPI
 ---@param byte1 integer
 ---@param byte2 integer
@@ -8924,21 +8985,39 @@ function GetEnumHandle () end
 function EnumHandlesOfType (handleBaseTypeId, filter, handlerFunc) end
 -- 
 
+---@author UjAPI
+---@param whichQuestItem questitem
+function DestroyQuestItem (whichQuestItem) end
+
 -- AntiHack API
 ---@author UjAPI
 ---@param enable boolean
 function AntiHackEnable (enable) end
 ---@author UjAPI
 ---@param enable boolean
----@param isModuleCheck boolean
----@param isProcessCheck boolean
-function AntiHackEnableEx (enable, isModuleCheck, isProcessCheck) end
+function AntiHackEnableProcessCheck (enable) end
 ---@author UjAPI
 ---@param enable boolean
 function AntiHackEnableModuleCheck (enable) end
 ---@author UjAPI
 ---@param enable boolean
-function AntiHackEnableProcessCheck (enable) end
+function AntiHackEnableKick (enable) end
+---@author UjAPI
+---@param enable boolean
+---@param isModuleCheck boolean
+---@param isProcessCheck boolean
+function AntiHackEnableEx (enable, isModuleCheck, isProcessCheck) end
+
+-- Trigger API
+---@author UjAPI
+---@return integer
+function GetTriggerHackId () end
+---@author UjAPI
+---@return integer
+function GetTriggerHackType () end
+---@author UjAPI
+---@return integer
+function GetTriggerHackLine () end
 -- 
 
 -- ============================================================================
@@ -9117,6 +9196,14 @@ function LoadHandleList (table, parentKey, childKey) end
 -- 
 
 -- ============================================================================
+-- Player API
+-- 
+---@author UjAPI
+---@return player
+function GetHostPlayer () end
+-- 
+
+-- ============================================================================
 -- Force API
 -- 
 ---@author UjAPI
@@ -9134,14 +9221,105 @@ function ForceCountPlayers (whichForce) end
 -- Game API
 -- 
 ---@author UjAPI
----@return player
-function GetHostPlayer () end
----@author UjAPI
 ---@return connectiontype
 function GetConnectionType () end
 ---@author UjAPI
 ---@return boolean
 function IsReplay () end
+-- 
+
+-- ============================================================================
+-- Fog Modifier API
+-- 
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@return player
+function GetFogModifierForPlayer (whichFogModifier) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param forWhichPlayer player
+function SetFogModifierForPlayer (whichFogModifier, forWhichPlayer) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param whichState fogstate
+---@return boolean
+function IsFogModifierFogState (whichFogModifier, whichState) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param whichState fogstate
+---@param isSet boolean
+function SetFogModifierFogState (whichFogModifier, whichState, isSet) end
+-- For FOG_OF_WAR_RECT: GetX/Y returns CenterX/CenterY | GetRadius returns area of a rectangle: minX + maxX * minY + maxY.
+-- For FOG_OF_WAR_RADIUS and FOG_OF_WAR_RADIUS_LOCATION behaves normally.
+-- Same logic applies to Setters.
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@return real
+function GetFogModifierX (whichFogModifier) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param x real
+function SetFogModifierX (whichFogModifier, x) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@return real
+function GetFogModifierY (whichFogModifier) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param y real
+function SetFogModifierY (whichFogModifier, y) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@return real
+function GetFogModifierZ (whichFogModifier) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param z real
+function SetFogModifierZ (whichFogModifier, z) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@return real
+function GetFogModifierRadius (whichFogModifier) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param radius real
+function SetFogModifierRadius (whichFogModifier, radius) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param x real
+---@param y real
+---@param radius real
+function SetFogModifierRadiusEx (whichFogModifier, x, y, radius) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param x real
+---@param y real
+function SetFogModifierPosition (whichFogModifier, x, y) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param x real
+---@param y real
+---@param z real
+function SetFogModifierPositionWithZ (whichFogModifier, x, y, z) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param whichLocation location
+function SetFogModifierPositionLoc (whichFogModifier, whichLocation) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@return rect
+function GetFogModifierRect (whichFogModifier) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param where rect
+function SetFogModifierRect (whichFogModifier, where) end
+---@author UjAPI
+---@param whichFogModifier fogmodifier
+---@param minX real
+---@param minY real
+---@param maxX real
+---@param maxY real
+function SetFogModifierRectEx (whichFogModifier, minX, minY, maxX, maxY) end
 -- 
 
 -- ============================================================================
@@ -9174,6 +9352,48 @@ function GroupAddGroupEx (destGroup, sourceGroup) end
 ---@param sourceGroup group
 ---@return integer
 function GroupRemoveGroupEx (destGroup, sourceGroup) end
+-- 
+
+-- ============================================================================
+-- Player Trade Event API | EVENT_PLAYER_TRADE_RESOURCE
+---@author UjAPI
+---@return player
+function GetTradeSource () end
+---@author UjAPI
+---@param whichPlayer player
+function SetTradeSource (whichPlayer) end
+---@author UjAPI
+---@return player
+function GetTradeTarget () end
+---@author UjAPI
+---@param whichPlayer player
+function SetTradeTarget (whichPlayer) end
+---@author UjAPI
+---@return integer
+function GetTradeGold () end
+---@author UjAPI
+---@param amount integer
+function SetTradeGold (amount) end
+---@author UjAPI
+---@return integer
+function GetTradeLumber () end
+---@author UjAPI
+---@param amount integer
+function SetTradeLumber (amount) end
+---@author UjAPI
+---@param whichTradeState tradestate
+---@return boolean
+function IsTradeState (whichTradeState) end
+---@author UjAPI
+---@param whichTradeState tradestate
+---@param isSet boolean
+function SetTradeState (whichTradeState, isSet) end
+---@author UjAPI
+---@param fromPlayer player
+---@param toPlayer player
+---@param gold integer
+---@param lumber integer
+function TradePlayerResources (fromPlayer, toPlayer, gold, lumber) end
 -- 
 
 -- ============================================================================
@@ -10213,8 +10433,16 @@ function SetDoodadVertexColour (whichDoodad, red, green, blue, alpha) end
 function GetDoodadScale (whichDoodad) end
 ---@author UjAPI
 ---@param whichDoodad doodad
----@param facing real
-function SetDoodadScale (whichDoodad, facing) end
+---@param scale real
+function SetDoodadScale (whichDoodad, scale) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadTimeScale (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param timeScale real
+function SetDoodadTimeScale (whichDoodad, timeScale) end
 ---@author UjAPI
 ---@param whichDoodad doodad
 ---@return real
@@ -11437,6 +11665,14 @@ function GetBuffOwner (whichbuff) end
 ---@param whichBuff buff
 ---@param whichUnit unit
 function SetBuffOwner (whichBuff, whichUnit) end
+---@author UjAPI
+---@param whichbuff buff
+---@return ability
+function GetBuffOwningAbility (whichbuff) end
+---@author UjAPI
+---@param whichBuff buff
+---@param whichAbility ability
+function SetBuffOwningAbility (whichBuff, whichAbility) end
 ---@author UjAPI
 ---@param whichBuff buff
 ---@return boolean
@@ -13989,6 +14225,24 @@ function UnitApplyUpgrades (whichUnit) end
 -- Unit Ability API
 ---@author UjAPI
 ---@param whichUnit unit
+---@param abilCode integer
+---@param checkForDuplicates boolean
+---@return boolean
+function UnitAddAbilityEx (whichUnit, abilCode, checkForDuplicates) end
+---@author UjAPI
+---@param whichUnit unit
+---@param abilCode integer
+---@param removeDuplicates boolean
+---@return boolean
+function UnitRemoveAbilityEx (whichUnit, abilCode, removeDuplicates) end
+
+---@author UjAPI
+---@param whichUnit unit
+---@param alsoCountBuffs boolean
+---@return integer
+function CountUnitAbilities (whichUnit, alsoCountBuffs) end
+---@author UjAPI
+---@param whichUnit unit
 ---@param aid integer
 ---@return ability
 function GetUnitAbility (whichUnit, aid) end
@@ -14003,18 +14257,6 @@ function GetUnitAbilityEx (whichUnit, aid, id) end
 ---@param index integer
 ---@return ability
 function GetUnitAbilityByIndex (whichUnit, index) end
----@author UjAPI
----@param whichUnit unit
----@param abilCode integer
----@param checkForDuplicates boolean
----@return boolean
-function UnitAddAbilityEx (whichUnit, abilCode, checkForDuplicates) end
----@author UjAPI
----@param whichUnit unit
----@param abilCode integer
----@param removeDuplicates boolean
----@return boolean
-function UnitRemoveAbilityEx (whichUnit, abilCode, removeDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param abilCode integer
@@ -14060,7 +14302,6 @@ function EnableUnitAbilityEx (whichUnit, abilCode, show, enable, checkDuplicates
 -- 
 
 -- Unit Buff API
--- In very early stages of development, may be unstable for now.
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param whichBuff buff
@@ -14072,7 +14313,6 @@ function UnitAddBuff (whichUnit, whichBuff) end
 ---@param checkForDuplicates boolean
 ---@return boolean
 function UnitAddBuffEx (whichUnit, whichBuff, checkForDuplicates) end
-
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param buffId integer
@@ -14084,7 +14324,11 @@ function UnitAddBuffById (whichUnit, buffId) end
 ---@param checkForDuplicates boolean
 ---@return boolean
 function UnitAddBuffByIdEx (whichUnit, buffId, checkForDuplicates) end
--- 
+
+---@author UjAPI
+---@param whichUnit unit
+---@return integer
+function CountUnitBuffs (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param buffId integer
@@ -14190,6 +14434,15 @@ function GetUnitTotalMagicResist (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return boolean
+function IsUnitFlyHeightEnabled (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@param enable boolean
+function SetUnitFlyHeightEnabled (whichUnit, enable) end
+-- Gathering API
+---@author UjAPI
+---@param whichUnit unit
+---@return boolean
 function IsUnitGatherer (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
@@ -14227,6 +14480,7 @@ function GetUnitResourceGatherInterval (whichUnit) end
 ---@param whichUnit unit
 ---@param interval real
 function SetUnitResourceGatherInterval (whichUnit, interval) end
+-- 
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
@@ -15459,6 +15713,10 @@ function SetProjectileSource (whichProjectile, whichUnit) end
 function GetProjectileSourceAbility (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
+---@param whichAbility ability
+function SetProjectileSourceAbility (whichProjectile, whichAbility) end
+---@author UjAPI
+---@param whichProjectile projectile
 ---@return real
 function GetProjectileTargetX (whichProjectile) end
 ---@author UjAPI
@@ -15815,6 +16073,26 @@ function GetCSimpleFrameByName (frameName, createContext) end
 function GetFrameUnderCursor () end
 ---@author UjAPI
 ---@param whichFrame framehandle
+---@param listId integer
+---@return integer
+function GetFrameChildrenCountEx (whichFrame, listId) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return integer
+function GetFrameChildrenCount (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param listId integer
+---@param index integer
+---@return framehandle
+function GetFrameChildEx (whichFrame, listId, index) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param index integer
+---@return framehandle
+function GetFrameChild (whichFrame, index) end
+---@author UjAPI
+---@param whichFrame framehandle
 ---@return string
 function GetFrameTypeName (whichFrame) end
 ---@author UjAPI
@@ -15883,6 +16161,10 @@ function GetFrameTextColour (whichFrame) end
 ---@param whichFrame framehandle
 ---@param colour integer
 function SetFrameTextColour (whichFrame, colour) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return boolean
+function IsFrameFocused (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param isFocus boolean
@@ -16129,6 +16411,17 @@ function GetFrameParent (whichFrame) end
 ---@param size real
 ---@param flags integer
 function SetFrameFont (whichFrame, fontName, size, flags) end
+-- CSimpleFontString: 0 - x Scale, 1 - y Scale, 2 - x Shadow, 3 - y Shadow | CTextFrame: 0 - x, 1 - y, 2 - x Shadow, 3 - y Shadow, 4 = FontJustificationOffset | CEditBox: 0 - x | 1 - y | 2 - text scale "Border Scale"
+---@author UjAPI
+---@param whichFrame framehandle
+---@param id integer
+---@return real
+function GetFrameTextAlignmentValue (whichFrame, id) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@param id integer
+---@param offset real
+function SetFrameTextAlignmentValue (whichFrame, id, offset) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param verticalAlign textaligntype
@@ -16142,15 +16435,6 @@ function SetFrameTextVerticalAlignment (whichFrame, verticalAlign) end
 ---@param whichFrame framehandle
 ---@param horizontalAlign textaligntype
 function SetFrameTextHorizontalAlignment (whichFrame, horizontalAlign) end
----@author UjAPI
----@param whichFrame framehandle
----@return integer
-function GetFrameChildrenCount (whichFrame) end
----@author UjAPI
----@param whichFrame framehandle
----@param index integer
----@return framehandle
-function GetFrameChild (whichFrame, index) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@return boolean
@@ -16177,67 +16461,67 @@ function GetFrameSlider (whichFrame) end
 function AddFrameSlider (whichFrame) end
 -- 
 
--- CListBox API
+-- CListBox / CMenu / CPopupMenu / CRadioGroup API
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@return real
-function GetFrameItemsBorder (listBox) end
+function GetFrameItemsBorder (whichFrame) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@param value real
-function SetFrameItemsBorder (listBox, value) end
+function SetFrameItemsBorder (whichFrame, value) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@return real
-function GetFrameItemsHeight (listBox) end
+function GetFrameItemsHeight (whichFrame) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@param value real
-function SetFrameItemsHeight (listBox, value) end
+function SetFrameItemsHeight (whichFrame, value) end
 
--- These functions return CListBoxItem frames.
+-- These functions return CListBoxItem frames for CListBox / CMenu / CPopupMenu and CCheckBox/CGlueCheckBox for CRadioGroup.
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@param text string
----@param whichFrame framehandle
+---@param frameToAdd framehandle
 ---@return framehandle
-function AddFrameListItem (listBox, text, whichFrame) end
+function AddFrameListItem (whichFrame, text, frameToAdd) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@return integer
-function GetFrameListItemCount (listBox) end
+function GetFrameListItemCount (whichFrame) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@param id integer
 ---@return framehandle
-function GetFrameListItemById (listBox, id) end
+function GetFrameListItemById (whichFrame, id) end
 ---@author UjAPI
----@param listBox framehandle
----@param id integer
 ---@param whichFrame framehandle
-function SetFrameListItemById (listBox, id, whichFrame) end
+---@param id integer
+---@param listBoxItem framehandle
+function SetFrameListItemById (whichFrame, id, listBoxItem) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@param frameToFind framehandle
 ---@return framehandle
-function GetFrameListItemByFrame (listBox, frameToFind) end
+function GetFrameListItemByFrame (whichFrame, frameToFind) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@param frameToFind framehandle
----@param whichFrame framehandle
-function SetFrameListItemByFrame (listBox, frameToFind, whichFrame) end
+---@param listBoxItem framehandle
+function SetFrameListItemByFrame (whichFrame, frameToFind, listBoxItem) end
 ---@author UjAPI
----@param listBox framehandle
 ---@param whichFrame framehandle
-function RemoveFrameListItem (listBox, whichFrame) end
+---@param listBoxItem framehandle
+function RemoveFrameListItem (whichFrame, listBoxItem) end
 ---@author UjAPI
----@param listBox framehandle
+---@param whichFrame framehandle
 ---@param id integer
-function RemoveFrameListItemById (listBox, id) end
+function RemoveFrameListItemById (whichFrame, id) end
 ---@author UjAPI
----@param listBox framehandle
 ---@param whichFrame framehandle
-function RemoveFrameListItemByFrame (listBox, whichFrame) end
+---@param listBoxItem framehandle
+function RemoveFrameListItemByFrame (whichFrame, listBoxItem) end
 -- 
 
 -- CListBoxItem API
@@ -16270,7 +16554,7 @@ function GetFrameHighlightTexture (whichFrame, highlightId) end
 function SetFrameHighlightTexture (whichFrame, highlightId, texturePath, blendMode) end
 -- 
 
--- Backdrop API | Border API | For corner flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
+-- Backdrop API | Border API | For border flags refer to BORDER_FLAG. For CBackdropFrame and its children and for CSimpleFrame, backdropId has to be always 0.
 -- For CFrames that contain backdrops, use ids to differentiate between them, this is similar to CSimpleButton states, etc.
 ---@author UjAPI
 ---@param whichFrame framehandle
@@ -16295,8 +16579,8 @@ function GetFrameBorderFlags (whichFrame, backdropId) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
----@param cornerFlag integer
-function SetFrameBorderFlags (whichFrame, backdropId, cornerFlag) end
+---@param borderFlag integer
+function SetFrameBorderFlags (whichFrame, backdropId, borderFlag) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param backdropId integer
@@ -16403,6 +16687,9 @@ function GetTriggerFrameString () end
 ---@author UjAPI
 ---@return mousebuttontype
 function GetTriggerFrameMouseButton () end
+---@author UjAPI
+---@return framehandle
+function GetTriggerFrameTargetFrame () end
 
 ---@author UjAPI
 ---@param whichTrigger trigger
@@ -16828,9 +17115,27 @@ function GetTriggerPlayerMouseScreenY () end
 ---@return integer
 function GetEventDamageFlags () end
 ---@author UjAPI
----@param flags integer
+---@param flag integer
 ---@return boolean
-function SetEventDamageFlags (flags) end
+function GetEventDamageIsFlag (flag) end
+---@author UjAPI
+---@param flag integer
+---@param isSet boolean
+---@return boolean
+function SetEventDamageFlag (flag, isSet) end
+
+---@author UjAPI
+---@return integer
+function GetEventDamageExtraFlags () end
+---@author UjAPI
+---@param flag integer
+---@return boolean
+function GetEventDamageIsExtraFlag (flag) end
+---@author UjAPI
+---@param flag integer
+---@param isSet boolean
+---@return boolean
+function SetEventDamageExtraFlag (flag, isSet) end
 
 ---@author UjAPI
 ---@return unit
@@ -16874,6 +17179,9 @@ function GetEventIsAttack () end
 ---@author UjAPI
 ---@return boolean
 function GetEventIsRanged () end
+---@author UjAPI
+---@return boolean
+function GetEventIsCritical () end
 
 ---@author UjAPI
 ---@return real
