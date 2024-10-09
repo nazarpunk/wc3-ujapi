@@ -536,31 +536,31 @@ function ConvertConnectionType (i) end
 ---@return tradestate
 function ConvertTradeState (i) end
 
----@param orderIdString string
+---@param orderNameString string
 ---@return integer
-function OrderId (orderIdString) end
+function OrderId (orderNameString) end
 ---@param orderId integer
 ---@return string
 function OrderId2String (orderId) end
----@param unitIdString string
+---@param unitTypeIdString string
 ---@return integer
-function UnitId (unitIdString) end
----@param unitId integer
+function UnitId (unitTypeIdString) end
+---@param unitTypeId integer
 ---@return string
-function UnitId2String (unitId) end
+function UnitId2String (unitTypeId) end
 
 -- Not currently working correctly...
 ---@param abilityIdString string
 ---@return integer
 function AbilityId (abilityIdString) end
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return string
-function AbilityId2String (abilCode) end
+function AbilityId2String (abilityTypeId) end
 
 -- Looks up the "name" field for any object (unit, item, ability)
----@param objectId integer
+---@param objectTypeId integer
 ---@return string
-function GetObjectName (objectId) end
+function GetObjectName (objectTypeId) end
 
 ---@return integer
 function GetBJMaxPlayers () end
@@ -1264,11 +1264,13 @@ EVENT_PLAYER_UNIT_PAWN_ITEM = ConvertPlayerUnitEvent(277) ---@type playeruniteve
 EVENT_PLAYER_UNIT_BUFF_RECEIVED = ConvertPlayerUnitEvent(500) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_BUFF_REFRESHED = ConvertPlayerUnitEvent(501) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_BUFF_ENDED = ConvertPlayerUnitEvent(502) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_BUFF_REMOVED = ConvertPlayerUnitEvent(508) ---@type playerunitevent @UjAPI
 
 EVENT_PLAYER_UNIT_ABILITY_ADDED = ConvertPlayerUnitEvent(503) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_ABILITY_REMOVED = ConvertPlayerUnitEvent(504) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_ABILITY_AUTOCAST_ON = ConvertPlayerUnitEvent(505) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_ABILITY_AUTOCAST_OFF = ConvertPlayerUnitEvent(506) ---@type playerunitevent @UjAPI
+EVENT_PLAYER_UNIT_ABILITY_LEVEL_CHANGED = ConvertPlayerUnitEvent(507) ---@type playerunitevent @UjAPI
 
 EVENT_PLAYER_UNIT_PROJECTILE_LAUNCH = ConvertPlayerUnitEvent(600) ---@type playerunitevent @UjAPI
 EVENT_PLAYER_UNIT_PROJECTILE_HIT = ConvertPlayerUnitEvent(601) ---@type playerunitevent @UjAPI
@@ -1290,11 +1292,13 @@ EVENT_UNIT_PAWN_ITEM = ConvertUnitEvent(294) ---@type unitevent
 EVENT_UNIT_BUFF_RECEIVED = ConvertUnitEvent(510) ---@type unitevent @UjAPI
 EVENT_UNIT_BUFF_REFRESHED = ConvertUnitEvent(511) ---@type unitevent @UjAPI
 EVENT_UNIT_BUFF_ENDED = ConvertUnitEvent(512) ---@type unitevent @UjAPI
+EVENT_UNIT_BUFF_REMOVED = ConvertUnitEvent(518) ---@type unitevent @UjAPI
 
 EVENT_UNIT_ABILITY_ADDED = ConvertUnitEvent(513) ---@type unitevent @UjAPI
 EVENT_UNIT_ABILITY_REMOVED = ConvertUnitEvent(514) ---@type unitevent @UjAPI
 EVENT_UNIT_ABILITY_AUTOCAST_ON = ConvertUnitEvent(515) ---@type unitevent @UjAPI
 EVENT_UNIT_ABILITY_AUTOCAST_OFF = ConvertUnitEvent(516) ---@type unitevent @UjAPI
+EVENT_UNIT_ABILITY_LEVEL_CHANGED = ConvertUnitEvent(517) ---@type unitevent @UjAPI
 
 EVENT_UNIT_PROJECTILE_LAUNCH = ConvertUnitEvent(610) ---@type unitevent @UjAPI
 EVENT_UNIT_PROJECTILE_HIT = ConvertUnitEvent(611) ---@type unitevent @UjAPI
@@ -3069,9 +3073,9 @@ function S2I (s) end
 ---@param s string
 ---@return real
 function S2R (s) end
----@param h handle
+---@param whichHandle handle
 ---@return integer
-function GetHandleId (h) end
+function GetHandleId (whichHandle) end
 ---@param source string
 ---@param start integer
 ---@param ends integer
@@ -3321,14 +3325,14 @@ function GroupEnumUnitsOfPlayer (whichGroup, whichPlayer, filter) end
 ---@param countLimit integer
 function GroupEnumUnitsOfTypeCounted (whichGroup, unitname, filter, countLimit) end
 ---@param whichGroup group
----@param r rect
+---@param whichRect rect
 ---@param filter boolexpr
-function GroupEnumUnitsInRect (whichGroup, r, filter) end
+function GroupEnumUnitsInRect (whichGroup, whichRect, filter) end
 ---@param whichGroup group
----@param r rect
+---@param whichRect rect
 ---@param filter boolexpr
 ---@param countLimit integer
-function GroupEnumUnitsInRectCounted (whichGroup, r, filter, countLimit) end
+function GroupEnumUnitsInRectCounted (whichGroup, whichRect, filter, countLimit) end
 ---@param whichGroup group
 ---@param x real
 ---@param y real
@@ -3359,45 +3363,45 @@ function GroupEnumUnitsInRangeOfLocCounted (whichGroup, whichLocation, radius, f
 function GroupEnumUnitsSelected (whichGroup, whichPlayer, filter) end
 
 ---@param whichGroup group
----@param order string
+---@param orderName string
 ---@return boolean
-function GroupImmediateOrder (whichGroup, order) end
+function GroupImmediateOrder (whichGroup, orderName) end
 ---@param whichGroup group
----@param order integer
+---@param orderId integer
 ---@return boolean
-function GroupImmediateOrderById (whichGroup, order) end
+function GroupImmediateOrderById (whichGroup, orderId) end
 ---@param whichGroup group
----@param order string
+---@param orderName string
 ---@param x real
 ---@param y real
 ---@return boolean
-function GroupPointOrder (whichGroup, order, x, y) end
+function GroupPointOrder (whichGroup, orderName, x, y) end
 ---@param whichGroup group
----@param order string
+---@param orderName string
 ---@param whichLocation location
 ---@return boolean
-function GroupPointOrderLoc (whichGroup, order, whichLocation) end
+function GroupPointOrderLoc (whichGroup, orderName, whichLocation) end
 ---@param whichGroup group
----@param order integer
+---@param orderId integer
 ---@param x real
 ---@param y real
 ---@return boolean
-function GroupPointOrderById (whichGroup, order, x, y) end
+function GroupPointOrderById (whichGroup, orderId, x, y) end
 ---@param whichGroup group
----@param order integer
+---@param orderId integer
 ---@param whichLocation location
 ---@return boolean
-function GroupPointOrderByIdLoc (whichGroup, order, whichLocation) end
+function GroupPointOrderByIdLoc (whichGroup, orderId, whichLocation) end
 ---@param whichGroup group
----@param order string
+---@param orderName string
 ---@param targetWidget widget
 ---@return boolean
-function GroupTargetOrder (whichGroup, order, targetWidget) end
+function GroupTargetOrder (whichGroup, orderName, targetWidget) end
 ---@param whichGroup group
----@param order integer
+---@param orderId integer
 ---@param targetWidget widget
 ---@return boolean
-function GroupTargetOrderById (whichGroup, order, targetWidget) end
+function GroupTargetOrderById (whichGroup, orderId, targetWidget) end
 
 -- This will be difficult to support with potentially disjoint, cell-based regions
 -- as it would involve enumerating all the cells that are covered by a particularregion
@@ -3502,11 +3506,11 @@ function CreateRegion () end
 function RemoveRegion (whichRegion) end
 
 ---@param whichRegion region
----@param r rect
-function RegionAddRect (whichRegion, r) end
+---@param whichRect rect
+function RegionAddRect (whichRegion, whichRect) end
 ---@param whichRegion region
----@param r rect
-function RegionClearRect (whichRegion, r) end
+---@param whichRect rect
+function RegionClearRect (whichRegion, whichRect) end
 
 ---@param whichRegion region
 ---@param x real
@@ -3672,9 +3676,9 @@ function TriggerRegisterTimerEvent (whichTrigger, timeout, periodic) end
 
 -- Triggers when the timer you tell it about expires
 ---@param whichTrigger trigger
----@param t timer
+---@param whichTimer timer
 ---@return event
-function TriggerRegisterTimerExpireEvent (whichTrigger, t) end
+function TriggerRegisterTimerExpireEvent (whichTrigger, whichTimer) end
 
 ---@param whichTrigger trigger
 ---@param whichState gamestate
@@ -3729,13 +3733,13 @@ function TriggerRegisterLeaveRegion (whichTrigger, whichRegion, filter) end
 function GetLeavingUnit () end
 
 ---@param whichTrigger trigger
----@param t trackable
+---@param whichTrackable trackable
 ---@return event
-function TriggerRegisterTrackableHitEvent (whichTrigger, t) end
+function TriggerRegisterTrackableHitEvent (whichTrigger, whichTrackable) end
 ---@param whichTrigger trigger
----@param t trackable
+---@param whichTrackable trackable
 ---@return event
-function TriggerRegisterTrackableTrackEvent (whichTrigger, t) end
+function TriggerRegisterTrackableTrackEvent (whichTrigger, whichTrackable) end
 
 -- EVENT_GAME_TRACKABLE_HIT
 -- EVENT_GAME_TRACKABLE_TRACK
@@ -4148,137 +4152,137 @@ function GetTriggerWidget () end
 -- ============================================================================
 -- Destructable Object API
 -- Facing arguments are specified in degrees
----@param objectid integer
+---@param objectTypeId integer
 ---@param x real
 ---@param y real
----@param face real
+---@param facing real
 ---@param scale real
 ---@param variation integer
 ---@return destructable
-function CreateDestructable (objectid, x, y, face, scale, variation) end
----@param objectid integer
----@param x real
----@param y real
----@param z real
----@param face real
----@param scale real
----@param variation integer
----@return destructable
-function CreateDestructableZ (objectid, x, y, z, face, scale, variation) end
----@param objectid integer
----@param x real
----@param y real
----@param face real
----@param scale real
----@param variation integer
----@return destructable
-function CreateDeadDestructable (objectid, x, y, face, scale, variation) end
----@param objectid integer
+function CreateDestructable (objectTypeId, x, y, facing, scale, variation) end
+---@param objectTypeId integer
 ---@param x real
 ---@param y real
 ---@param z real
----@param face real
+---@param facing real
 ---@param scale real
 ---@param variation integer
 ---@return destructable
-function CreateDeadDestructableZ (objectid, x, y, z, face, scale, variation) end
----@param d destructable
-function RemoveDestructable (d) end
----@param d destructable
-function KillDestructable (d) end
----@param d destructable
+function CreateDestructableZ (objectTypeId, x, y, z, facing, scale, variation) end
+---@param objectTypeId integer
+---@param x real
+---@param y real
+---@param facing real
+---@param scale real
+---@param variation integer
+---@return destructable
+function CreateDeadDestructable (objectTypeId, x, y, facing, scale, variation) end
+---@param objectTypeId integer
+---@param x real
+---@param y real
+---@param z real
+---@param facing real
+---@param scale real
+---@param variation integer
+---@return destructable
+function CreateDeadDestructableZ (objectTypeId, x, y, z, facing, scale, variation) end
+---@param whichDestructable destructable
+function RemoveDestructable (whichDestructable) end
+---@param whichDestructable destructable
+function KillDestructable (whichDestructable) end
+---@param whichDestructable destructable
 ---@param flag boolean
-function SetDestructableInvulnerable (d, flag) end
----@param d destructable
+function SetDestructableInvulnerable (whichDestructable, flag) end
+---@param whichDestructable destructable
 ---@return boolean
-function IsDestructableInvulnerable (d) end
----@param r rect
+function IsDestructableInvulnerable (whichDestructable) end
+---@param whichRect rect
 ---@param filter boolexpr
 ---@param actionFunc code
-function EnumDestructablesInRect (r, filter, actionFunc) end
----@param d destructable
+function EnumDestructablesInRect (whichRect, filter, actionFunc) end
+---@param whichDestructable destructable
 ---@return integer
-function GetDestructableTypeId (d) end
----@param d destructable
+function GetDestructableTypeId (whichDestructable) end
+---@param whichDestructable destructable
 ---@return real
-function GetDestructableX (d) end
----@param d destructable
+function GetDestructableX (whichDestructable) end
+---@param whichDestructable destructable
 ---@return real
-function GetDestructableY (d) end
----@param d destructable
+function GetDestructableY (whichDestructable) end
+---@param whichDestructable destructable
 ---@param life real
-function SetDestructableLife (d, life) end
----@param d destructable
+function SetDestructableLife (whichDestructable, life) end
+---@param whichDestructable destructable
 ---@return real
-function GetDestructableLife (d) end
----@param d destructable
+function GetDestructableLife (whichDestructable) end
+---@param whichDestructable destructable
 ---@param max real
-function SetDestructableMaxLife (d, max) end
----@param d destructable
+function SetDestructableMaxLife (whichDestructable, max) end
+---@param whichDestructable destructable
 ---@return real
-function GetDestructableMaxLife (d) end
----@param d destructable
+function GetDestructableMaxLife (whichDestructable) end
+---@param whichDestructable destructable
 ---@param life real
 ---@param birth boolean
-function DestructableRestoreLife (d, life, birth) end
----@param d destructable
+function DestructableRestoreLife (whichDestructable, life, birth) end
+---@param whichDestructable destructable
 ---@param whichAnimation string
-function QueueDestructableAnimation (d, whichAnimation) end
----@param d destructable
+function QueueDestructableAnimation (whichDestructable, whichAnimation) end
+---@param whichDestructable destructable
 ---@param whichAnimation string
-function SetDestructableAnimation (d, whichAnimation) end
----@param d destructable
+function SetDestructableAnimation (whichDestructable, whichAnimation) end
+---@param whichDestructable destructable
 ---@param speedFactor real
-function SetDestructableAnimationSpeed (d, speedFactor) end
----@param d destructable
+function SetDestructableAnimationSpeed (whichDestructable, speedFactor) end
+---@param whichDestructable destructable
 ---@param flag boolean
-function ShowDestructable (d, flag) end
----@param d destructable
+function ShowDestructable (whichDestructable, flag) end
+---@param whichDestructable destructable
 ---@return real
-function GetDestructableOccluderHeight (d) end
----@param d destructable
+function GetDestructableOccluderHeight (whichDestructable) end
+---@param whichDestructable destructable
 ---@param height real
-function SetDestructableOccluderHeight (d, height) end
----@param d destructable
+function SetDestructableOccluderHeight (whichDestructable, height) end
+---@param whichDestructable destructable
 ---@return string
-function GetDestructableName (d) end
+function GetDestructableName (whichDestructable) end
 ---@return destructable
 function GetTriggerDestructable () end
 
 -- ============================================================================
 -- Item API
----@param itemid integer
+---@param itemTypeId integer
 ---@param x real
 ---@param y real
 ---@return item
-function CreateItem (itemid, x, y) end
+function CreateItem (itemTypeId, x, y) end
 ---@param whichItem item
 function RemoveItem (whichItem) end
 ---@param whichItem item
 ---@return player
 function GetItemPlayer (whichItem) end
----@param i item
+---@param whichItem item
 ---@return integer
-function GetItemTypeId (i) end
----@param i item
+function GetItemTypeId (whichItem) end
+---@param whichItem item
 ---@return real
-function GetItemX (i) end
----@param i item
+function GetItemX (whichItem) end
+---@param whichItem item
 ---@return real
-function GetItemY (i) end
----@param i item
+function GetItemY (whichItem) end
+---@param whichItem item
 ---@param x real
 ---@param y real
-function SetItemPosition (i, x, y) end
+function SetItemPosition (whichItem, x, y) end
 ---@param whichItem item
 ---@param flag boolean
 function SetItemDropOnDeath (whichItem, flag) end
----@param i item
+---@param whichItem item
 ---@param flag boolean
-function SetItemDroppable (i, flag) end
----@param i item
+function SetItemDroppable (whichItem, flag) end
+---@param whichItem item
 ---@param flag boolean
-function SetItemPawnable (i, flag) end
+function SetItemPawnable (whichItem, flag) end
 ---@param whichItem item
 ---@param whichPlayer player
 ---@param changeColor boolean
@@ -4307,19 +4311,19 @@ function IsItemSellable (whichItem) end
 ---@param whichItem item
 ---@return boolean
 function IsItemPawnable (whichItem) end
----@param itemId integer
+---@param itemTypeId integer
 ---@return boolean
-function IsItemIdPowerup (itemId) end
----@param itemId integer
+function IsItemIdPowerup (itemTypeId) end
+---@param itemTypeId integer
 ---@return boolean
-function IsItemIdSellable (itemId) end
----@param itemId integer
+function IsItemIdSellable (itemTypeId) end
+---@param itemTypeId integer
 ---@return boolean
-function IsItemIdPawnable (itemId) end
----@param r rect
+function IsItemIdPawnable (itemTypeId) end
+---@param whichRect rect
 ---@param filter boolexpr
 ---@param actionFunc code
-function EnumItemsInRect (r, filter, actionFunc) end
+function EnumItemsInRect (whichRect, filter, actionFunc) end
 ---@param whichItem item
 ---@return integer
 function GetItemLevel (whichItem) end
@@ -4327,8 +4331,8 @@ function GetItemLevel (whichItem) end
 ---@return itemtype
 function GetItemType (whichItem) end
 ---@param whichItem item
----@param unitId integer
-function SetItemDropID (whichItem, unitId) end
+---@param unitTypeId integer
+function SetItemDropID (whichItem, unitTypeId) end
 ---@param whichItem item
 ---@return string
 function GetItemName (whichItem) end
@@ -4348,39 +4352,39 @@ function SetItemUserData (whichItem, data) end
 -- ============================================================================
 -- Unit API
 -- Facing arguments are specified in degrees
----@param id player
----@param unitid integer
+---@param whichPlayer player
+---@param unitTypeId integer
 ---@param x real
 ---@param y real
----@param face real
+---@param facing real
 ---@return unit
-function CreateUnit (id, unitid, x, y, face) end
+function CreateUnit (whichPlayer, unitTypeId, x, y, facing) end
 ---@param whichPlayer player
 ---@param unitname string
 ---@param x real
 ---@param y real
----@param face real
+---@param facing real
 ---@return unit
-function CreateUnitByName (whichPlayer, unitname, x, y, face) end
----@param id player
----@param unitid integer
+function CreateUnitByName (whichPlayer, unitname, x, y, facing) end
+---@param whichPlayer player
+---@param unitTypeId integer
 ---@param whichLocation location
----@param face real
+---@param facing real
 ---@return unit
-function CreateUnitAtLoc (id, unitid, whichLocation, face) end
----@param id player
+function CreateUnitAtLoc (whichPlayer, unitTypeId, whichLocation, facing) end
+---@param whichPlayer player
 ---@param unitname string
 ---@param whichLocation location
----@param face real
+---@param facing real
 ---@return unit
-function CreateUnitAtLocByName (id, unitname, whichLocation, face) end
+function CreateUnitAtLocByName (whichPlayer, unitname, whichLocation, facing) end
 ---@param whichPlayer player
----@param unitid integer
+---@param unitTypeId integer
 ---@param x real
 ---@param y real
----@param face real
+---@param facing real
 ---@return unit
-function CreateCorpse (whichPlayer, unitid, x, y, face) end
+function CreateCorpse (whichPlayer, unitTypeId, x, y, facing) end
 
 ---@param whichUnit unit
 function KillUnit (whichUnit) end
@@ -4593,25 +4597,25 @@ function SuspendHeroXP (whichHero, flag) end
 ---@return boolean
 function IsSuspendedXP (whichHero) end
 ---@param whichHero unit
----@param abilcode integer
-function SelectHeroSkill (whichHero, abilcode) end
+---@param abilityTypeId integer
+function SelectHeroSkill (whichHero, abilityTypeId) end
 ---@param whichUnit unit
----@param abilcode integer
+---@param abilityTypeId integer
 ---@return integer
-function GetUnitAbilityLevel (whichUnit, abilcode) end
+function GetUnitAbilityLevel (whichUnit, abilityTypeId) end
 ---@param whichUnit unit
----@param abilcode integer
+---@param abilityTypeId integer
 ---@return integer
-function DecUnitAbilityLevel (whichUnit, abilcode) end
+function DecUnitAbilityLevel (whichUnit, abilityTypeId) end
 ---@param whichUnit unit
----@param abilcode integer
+---@param abilityTypeId integer
 ---@return integer
-function IncUnitAbilityLevel (whichUnit, abilcode) end
+function IncUnitAbilityLevel (whichUnit, abilityTypeId) end
 ---@param whichUnit unit
----@param abilcode integer
+---@param abilityTypeId integer
 ---@param level integer
 ---@return integer
-function SetUnitAbilityLevel (whichUnit, abilcode, level) end
+function SetUnitAbilityLevel (whichUnit, abilityTypeId, level) end
 ---@param whichHero unit
 ---@param x real
 ---@param y real
@@ -4647,26 +4651,26 @@ function SelectUnit (whichUnit, flag) end
 ---@param whichUnit unit
 ---@return integer
 function GetUnitPointValue (whichUnit) end
----@param unitType integer
+---@param unitTypeId integer
 ---@return integer
-function GetUnitPointValueByType (unitType) end
----@param unitType integer
+function GetUnitPointValueByType (unitTypeId) end
+---@param unitTypeId integer
 ---@param newPointValue integer
-function SetUnitPointValueByType (unitType, newPointValue) end
+function SetUnitPointValueByType (unitTypeId, newPointValue) end
 
 ---@param whichUnit unit
 ---@param whichItem item
 ---@return boolean
 function UnitAddItem (whichUnit, whichItem) end
 ---@param whichUnit unit
----@param itemId integer
+---@param itemTypeId integer
 ---@return item
-function UnitAddItemById (whichUnit, itemId) end
+function UnitAddItemById (whichUnit, itemTypeId) end
 ---@param whichUnit unit
----@param itemId integer
+---@param itemTypeId integer
 ---@param itemSlot integer
 ---@return boolean
-function UnitAddItemToSlotById (whichUnit, itemId, itemSlot) end
+function UnitAddItemToSlotById (whichUnit, itemTypeId, itemSlot) end
 ---@param whichUnit unit
 ---@param whichItem item
 function UnitRemoveItem (whichUnit, whichItem) end
@@ -4759,12 +4763,12 @@ function GetUnitFoodUsed (whichUnit) end
 ---@param whichUnit unit
 ---@return integer
 function GetUnitFoodMade (whichUnit) end
----@param unitId integer
+---@param unitTypeId integer
 ---@return integer
-function GetFoodMade (unitId) end
----@param unitId integer
+function GetFoodMade (unitTypeId) end
+---@param unitTypeId integer
 ---@return integer
-function GetFoodUsed (unitId) end
+function GetFoodUsed (unitTypeId) end
 ---@param whichUnit unit
 ---@param useFood boolean
 function SetUnitUseFood (whichUnit, useFood) end
@@ -4866,13 +4870,13 @@ function IsUnitInTransport (whichUnit, whichTransport) end
 ---@return boolean
 function IsUnitLoaded (whichUnit) end
 
----@param unitId integer
+---@param unitTypeId integer
 ---@return boolean
-function IsHeroUnitId (unitId) end
----@param unitId integer
+function IsHeroUnitId (unitTypeId) end
+---@param unitTypeId integer
 ---@param whichUnitType unittype
 ---@return boolean
-function IsUnitIdType (unitId, whichUnitType) end
+function IsUnitIdType (unitTypeId, whichUnitType) end
 
 ---@param whichUnit unit
 ---@param whichPlayer player
@@ -4891,18 +4895,18 @@ function UnitAddType (whichUnit, whichUnitType) end
 function UnitRemoveType (whichUnit, whichUnitType) end
 
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return boolean
-function UnitAddAbility (whichUnit, abilCode) end
+function UnitAddAbility (whichUnit, abilityTypeId) end
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return boolean
-function UnitRemoveAbility (whichUnit, abilCode) end
+function UnitRemoveAbility (whichUnit, abilityTypeId) end
 ---@param whichUnit unit
 ---@param permanent boolean
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return boolean
-function UnitMakeAbilityPermanent (whichUnit, permanent, abilCode) end
+function UnitMakeAbilityPermanent (whichUnit, permanent, abilityTypeId) end
 ---@param whichUnit unit
 ---@param removePositive boolean
 ---@param removeNegative boolean
@@ -4954,9 +4958,9 @@ function UnitIsSleeping (whichUnit) end
 ---@param whichUnit unit
 function UnitWakeUp (whichUnit) end
 ---@param whichUnit unit
----@param buffId integer
+---@param buffTypeId integer
 ---@param duration real
-function UnitApplyTimedLife (whichUnit, buffId, duration) end
+function UnitApplyTimedLife (whichUnit, buffTypeId, duration) end
 ---@param whichUnit unit
 ---@param flag boolean
 ---@return boolean
@@ -5004,71 +5008,71 @@ function UnitDamagePoint (whichUnit, delay, radius, x, y, amount, attack, ranged
 function UnitDamageTarget (whichUnit, target, amount, attack, ranged, attackType, damageType, weaponType) end
 
 ---@param whichUnit unit
----@param order string
+---@param orderName string
 ---@return boolean
-function IssueImmediateOrder (whichUnit, order) end
+function IssueImmediateOrder (whichUnit, orderName) end
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@return boolean
-function IssueImmediateOrderById (whichUnit, order) end
+function IssueImmediateOrderById (whichUnit, orderId) end
 ---@param whichUnit unit
----@param order string
+---@param orderName string
 ---@param x real
 ---@param y real
 ---@return boolean
-function IssuePointOrder (whichUnit, order, x, y) end
+function IssuePointOrder (whichUnit, orderName, x, y) end
 ---@param whichUnit unit
----@param order string
+---@param orderName string
 ---@param whichLocation location
 ---@return boolean
-function IssuePointOrderLoc (whichUnit, order, whichLocation) end
+function IssuePointOrderLoc (whichUnit, orderName, whichLocation) end
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param x real
 ---@param y real
 ---@return boolean
-function IssuePointOrderById (whichUnit, order, x, y) end
+function IssuePointOrderById (whichUnit, orderId, x, y) end
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param whichLocation location
 ---@return boolean
-function IssuePointOrderByIdLoc (whichUnit, order, whichLocation) end
+function IssuePointOrderByIdLoc (whichUnit, orderId, whichLocation) end
 ---@param whichUnit unit
----@param order string
+---@param orderName string
 ---@param targetWidget widget
 ---@return boolean
-function IssueTargetOrder (whichUnit, order, targetWidget) end
+function IssueTargetOrder (whichUnit, orderName, targetWidget) end
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param targetWidget widget
 ---@return boolean
-function IssueTargetOrderById (whichUnit, order, targetWidget) end
+function IssueTargetOrderById (whichUnit, orderId, targetWidget) end
 ---@param whichUnit unit
----@param order string
+---@param orderName string
 ---@param x real
 ---@param y real
 ---@param instantTargetWidget widget
 ---@return boolean
-function IssueInstantPointOrder (whichUnit, order, x, y, instantTargetWidget) end
+function IssueInstantPointOrder (whichUnit, orderName, x, y, instantTargetWidget) end
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param x real
 ---@param y real
 ---@param instantTargetWidget widget
 ---@return boolean
-function IssueInstantPointOrderById (whichUnit, order, x, y, instantTargetWidget) end
+function IssueInstantPointOrderById (whichUnit, orderId, x, y, instantTargetWidget) end
 ---@param whichUnit unit
----@param order string
+---@param orderName string
 ---@param targetWidget widget
 ---@param instantTargetWidget widget
 ---@return boolean
-function IssueInstantTargetOrder (whichUnit, order, targetWidget, instantTargetWidget) end
+function IssueInstantTargetOrder (whichUnit, orderName, targetWidget, instantTargetWidget) end
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param targetWidget widget
 ---@param instantTargetWidget widget
 ---@return boolean
-function IssueInstantTargetOrderById (whichUnit, order, targetWidget, instantTargetWidget) end
+function IssueInstantTargetOrderById (whichUnit, orderId, targetWidget, instantTargetWidget) end
 ---@param whichPeon unit
 ---@param unitToBuild string
 ---@param x real
@@ -5076,48 +5080,48 @@ function IssueInstantTargetOrderById (whichUnit, order, targetWidget, instantTar
 ---@return boolean
 function IssueBuildOrder (whichPeon, unitToBuild, x, y) end
 ---@param whichPeon unit
----@param unitId integer
+---@param unitTypeId integer
 ---@param x real
 ---@param y real
 ---@return boolean
-function IssueBuildOrderById (whichPeon, unitId, x, y) end
+function IssueBuildOrderById (whichPeon, unitTypeId, x, y) end
 
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param neutralStructure unit
 ---@param unitToBuild string
 ---@return boolean
-function IssueNeutralImmediateOrder (forWhichPlayer, neutralStructure, unitToBuild) end
----@param forWhichPlayer player
+function IssueNeutralImmediateOrder (whichPlayer, neutralStructure, unitToBuild) end
+---@param whichPlayer player
 ---@param neutralStructure unit
----@param unitId integer
+---@param unitTypeId integer
 ---@return boolean
-function IssueNeutralImmediateOrderById (forWhichPlayer, neutralStructure, unitId) end
----@param forWhichPlayer player
+function IssueNeutralImmediateOrderById (whichPlayer, neutralStructure, unitTypeId) end
+---@param whichPlayer player
 ---@param neutralStructure unit
 ---@param unitToBuild string
 ---@param x real
 ---@param y real
 ---@return boolean
-function IssueNeutralPointOrder (forWhichPlayer, neutralStructure, unitToBuild, x, y) end
----@param forWhichPlayer player
+function IssueNeutralPointOrder (whichPlayer, neutralStructure, unitToBuild, x, y) end
+---@param whichPlayer player
 ---@param neutralStructure unit
----@param unitId integer
+---@param unitTypeId integer
 ---@param x real
 ---@param y real
 ---@return boolean
-function IssueNeutralPointOrderById (forWhichPlayer, neutralStructure, unitId, x, y) end
----@param forWhichPlayer player
+function IssueNeutralPointOrderById (whichPlayer, neutralStructure, unitTypeId, x, y) end
+---@param whichPlayer player
 ---@param neutralStructure unit
 ---@param unitToBuild string
 ---@param target widget
 ---@return boolean
-function IssueNeutralTargetOrder (forWhichPlayer, neutralStructure, unitToBuild, target) end
----@param forWhichPlayer player
+function IssueNeutralTargetOrder (whichPlayer, neutralStructure, unitToBuild, target) end
+---@param whichPlayer player
 ---@param neutralStructure unit
----@param unitId integer
+---@param unitTypeId integer
 ---@param target widget
 ---@return boolean
-function IssueNeutralTargetOrderById (forWhichPlayer, neutralStructure, unitId, target) end
+function IssueNeutralTargetOrderById (whichPlayer, neutralStructure, unitTypeId, target) end
 
 ---@param whichUnit unit
 ---@return integer
@@ -5150,35 +5154,35 @@ function WaygateActivate (waygate, activate) end
 ---@return boolean
 function WaygateIsActive (waygate) end
 
----@param itemId integer
+---@param itemTypeId integer
 ---@param currentStock integer
 ---@param stockMax integer
-function AddItemToAllStock (itemId, currentStock, stockMax) end
+function AddItemToAllStock (itemTypeId, currentStock, stockMax) end
 ---@param whichUnit unit
----@param itemId integer
+---@param itemTypeId integer
 ---@param currentStock integer
 ---@param stockMax integer
-function AddItemToStock (whichUnit, itemId, currentStock, stockMax) end
----@param unitId integer
+function AddItemToStock (whichUnit, itemTypeId, currentStock, stockMax) end
+---@param unitTypeId integer
 ---@param currentStock integer
 ---@param stockMax integer
-function AddUnitToAllStock (unitId, currentStock, stockMax) end
+function AddUnitToAllStock (unitTypeId, currentStock, stockMax) end
 ---@param whichUnit unit
----@param unitId integer
+---@param unitTypeId integer
 ---@param currentStock integer
 ---@param stockMax integer
-function AddUnitToStock (whichUnit, unitId, currentStock, stockMax) end
+function AddUnitToStock (whichUnit, unitTypeId, currentStock, stockMax) end
 
----@param itemId integer
-function RemoveItemFromAllStock (itemId) end
+---@param itemTypeId integer
+function RemoveItemFromAllStock (itemTypeId) end
 ---@param whichUnit unit
----@param itemId integer
-function RemoveItemFromStock (whichUnit, itemId) end
----@param unitId integer
-function RemoveUnitFromAllStock (unitId) end
+---@param itemTypeId integer
+function RemoveItemFromStock (whichUnit, itemTypeId) end
+---@param unitTypeId integer
+function RemoveUnitFromAllStock (unitTypeId) end
 ---@param whichUnit unit
----@param unitId integer
-function RemoveUnitFromStock (whichUnit, unitId) end
+---@param unitTypeId integer
+function RemoveUnitFromStock (whichUnit, unitTypeId) end
 
 ---@param slots integer
 function SetAllItemTypeSlots (slots) end
@@ -5331,9 +5335,9 @@ function SetPlayerUnitsOwner (whichPlayer, newOwner) end
 function CripplePlayer (whichPlayer, toWhichPlayers, flag) end
 
 ---@param whichPlayer player
----@param abilid integer
+---@param abilityTypeId integer
 ---@param avail boolean
-function SetPlayerAbilityAvailable (whichPlayer, abilid, avail) end
+function SetPlayerAbilityAvailable (whichPlayer, abilityTypeId, avail) end
 
 ---@param whichPlayer player
 ---@param whichPlayerState playerstate
@@ -5351,24 +5355,24 @@ function CachePlayerHeroData (whichPlayer) end
 
 -- ============================================================================
 -- Fog of War API
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param whichState fogstate
----@param where rect
+---@param whichRect rect
 ---@param useSharedVision boolean
-function SetFogStateRect (forWhichPlayer, whichState, where, useSharedVision) end
----@param forWhichPlayer player
+function SetFogStateRect (whichPlayer, whichState, whichRect, useSharedVision) end
+---@param whichPlayer player
 ---@param whichState fogstate
 ---@param centerX real
 ---@param centerY real
 ---@param radius real
 ---@param useSharedVision boolean
-function SetFogStateRadius (forWhichPlayer, whichState, centerX, centerY, radius, useSharedVision) end
----@param forWhichPlayer player
+function SetFogStateRadius (whichPlayer, whichState, centerX, centerY, radius, useSharedVision) end
+---@param whichPlayer player
 ---@param whichState fogstate
 ---@param center location
 ---@param radius real
 ---@param useSharedVision boolean
-function SetFogStateRadiusLoc (forWhichPlayer, whichState, center, radius, useSharedVision) end
+function SetFogStateRadiusLoc (whichPlayer, whichState, center, radius, useSharedVision) end
 ---@param enable boolean
 function FogMaskEnable (enable) end
 ---@return boolean
@@ -5378,14 +5382,14 @@ function FogEnable (enable) end
 ---@return boolean
 function IsFogEnabled () end
 
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param whichState fogstate
----@param where rect
+---@param whichRect rect
 ---@param useSharedVision boolean
 ---@param afterUnits boolean
 ---@return fogmodifier
-function CreateFogModifierRect (forWhichPlayer, whichState, where, useSharedVision, afterUnits) end
----@param forWhichPlayer player
+function CreateFogModifierRect (whichPlayer, whichState, whichRect, useSharedVision, afterUnits) end
+---@param whichPlayer player
 ---@param whichState fogstate
 ---@param centerX real
 ---@param centerY real
@@ -5393,15 +5397,15 @@ function CreateFogModifierRect (forWhichPlayer, whichState, where, useSharedVisi
 ---@param useSharedVision boolean
 ---@param afterUnits boolean
 ---@return fogmodifier
-function CreateFogModifierRadius (forWhichPlayer, whichState, centerX, centerY, radius, useSharedVision, afterUnits) end
----@param forWhichPlayer player
+function CreateFogModifierRadius (whichPlayer, whichState, centerX, centerY, radius, useSharedVision, afterUnits) end
+---@param whichPlayer player
 ---@param whichState fogstate
 ---@param center location
 ---@param radius real
 ---@param useSharedVision boolean
 ---@param afterUnits boolean
 ---@return fogmodifier
-function CreateFogModifierRadiusLoc (forWhichPlayer, whichState, center, radius, useSharedVision, afterUnits) end
+function CreateFogModifierRadiusLoc (whichPlayer, whichState, center, radius, useSharedVision, afterUnits) end
 ---@param whichFogModifier fogmodifier
 function DestroyFogModifier (whichFogModifier) end
 ---@param whichFogModifier fogmodifier
@@ -5432,8 +5436,8 @@ function RestartGame (doScoreScreen) end
 function ReloadGame () end
 -- %%% SetCampaignMenuRace is deprecated.It must remain to support
 -- old maps which use it, but all new maps should use SetCampaignMenuRaceEx
----@param r race
-function SetCampaignMenuRace (r) end
+---@param whichRace race
+function SetCampaignMenuRace (whichRace) end
 ---@param campaignIndex integer
 function SetCampaignMenuRaceEx (campaignIndex) end
 function ForceCampaignSelectScreen () end
@@ -5541,661 +5545,661 @@ function InitGameCache (campaignFile) end
 ---@return boolean
 function SaveGameCache (whichCache) end
 
----@param cache gamecache
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@param value integer
-function StoreInteger (cache, missionKey, key, value) end
----@param cache gamecache
+function StoreInteger (whichGamecache, missionKey, key, value) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@param value real
-function StoreReal (cache, missionKey, key, value) end
----@param cache gamecache
+function StoreReal (whichGamecache, missionKey, key, value) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@param value boolean
-function StoreBoolean (cache, missionKey, key, value) end
----@param cache gamecache
+function StoreBoolean (whichGamecache, missionKey, key, value) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@param whichUnit unit
 ---@return boolean
-function StoreUnit (cache, missionKey, key, whichUnit) end
----@param cache gamecache
+function StoreUnit (whichGamecache, missionKey, key, whichUnit) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@param value string
 ---@return boolean
-function StoreString (cache, missionKey, key, value) end
+function StoreString (whichGamecache, missionKey, key, value) end
 
----@param cache gamecache
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function SyncStoredInteger (cache, missionKey, key) end
----@param cache gamecache
+function SyncStoredInteger (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function SyncStoredReal (cache, missionKey, key) end
----@param cache gamecache
+function SyncStoredReal (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function SyncStoredBoolean (cache, missionKey, key) end
----@param cache gamecache
+function SyncStoredBoolean (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function SyncStoredUnit (cache, missionKey, key) end
----@param cache gamecache
+function SyncStoredUnit (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function SyncStoredString (cache, missionKey, key) end
+function SyncStoredString (whichGamecache, missionKey, key) end
 
----@param cache gamecache
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return boolean
-function HaveStoredInteger (cache, missionKey, key) end
----@param cache gamecache
+function HaveStoredInteger (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return boolean
-function HaveStoredReal (cache, missionKey, key) end
----@param cache gamecache
+function HaveStoredReal (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return boolean
-function HaveStoredBoolean (cache, missionKey, key) end
----@param cache gamecache
+function HaveStoredBoolean (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return boolean
-function HaveStoredUnit (cache, missionKey, key) end
----@param cache gamecache
+function HaveStoredUnit (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return boolean
-function HaveStoredString (cache, missionKey, key) end
+function HaveStoredString (whichGamecache, missionKey, key) end
 
----@param cache gamecache
-function FlushGameCache (cache) end
----@param cache gamecache
+---@param whichGamecache gamecache
+function FlushGameCache (whichGamecache) end
+---@param whichGamecache gamecache
 ---@param missionKey string
-function FlushStoredMission (cache, missionKey) end
----@param cache gamecache
----@param missionKey string
----@param key string
-function FlushStoredInteger (cache, missionKey, key) end
----@param cache gamecache
+function FlushStoredMission (whichGamecache, missionKey) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function FlushStoredReal (cache, missionKey, key) end
----@param cache gamecache
+function FlushStoredInteger (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function FlushStoredBoolean (cache, missionKey, key) end
----@param cache gamecache
+function FlushStoredReal (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function FlushStoredUnit (cache, missionKey, key) end
----@param cache gamecache
+function FlushStoredBoolean (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
-function FlushStoredString (cache, missionKey, key) end
+function FlushStoredUnit (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
+---@param missionKey string
+---@param key string
+function FlushStoredString (whichGamecache, missionKey, key) end
 
 -- Will return 0 if the specified value's data is not found in the cache
----@param cache gamecache
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return integer
-function GetStoredInteger (cache, missionKey, key) end
----@param cache gamecache
+function GetStoredInteger (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return real
-function GetStoredReal (cache, missionKey, key) end
----@param cache gamecache
+function GetStoredReal (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return boolean
-function GetStoredBoolean (cache, missionKey, key) end
----@param cache gamecache
+function GetStoredBoolean (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
 ---@return string
-function GetStoredString (cache, missionKey, key) end
----@param cache gamecache
+function GetStoredString (whichGamecache, missionKey, key) end
+---@param whichGamecache gamecache
 ---@param missionKey string
 ---@param key string
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param x real
 ---@param y real
 ---@param facing real
 ---@return unit
-function RestoreUnit (cache, missionKey, key, forWhichPlayer, x, y, facing) end
+function RestoreUnit (whichGamecache, missionKey, key, whichPlayer, x, y, facing) end
 
 
 ---@return hashtable
 function InitHashtable () end
 
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param value integer
-function SaveInteger (table, parentKey, childKey, value) end
----@param table hashtable
+function SaveInteger (whichHashtable, parentKey, childKey, value) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param value real
-function SaveReal (table, parentKey, childKey, value) end
----@param table hashtable
+function SaveReal (whichHashtable, parentKey, childKey, value) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param value boolean
-function SaveBoolean (table, parentKey, childKey, value) end
----@param table hashtable
+function SaveBoolean (whichHashtable, parentKey, childKey, value) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param value string
 ---@return boolean
-function SaveStr (table, parentKey, childKey, value) end
----@param table hashtable
+function SaveStr (whichHashtable, parentKey, childKey, value) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichPlayer player
 ---@return boolean
-function SavePlayerHandle (table, parentKey, childKey, whichPlayer) end
----@param table hashtable
+function SavePlayerHandle (whichHashtable, parentKey, childKey, whichPlayer) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichWidget widget
 ---@return boolean
-function SaveWidgetHandle (table, parentKey, childKey, whichWidget) end
----@param table hashtable
+function SaveWidgetHandle (whichHashtable, parentKey, childKey, whichWidget) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichDestructable destructable
 ---@return boolean
-function SaveDestructableHandle (table, parentKey, childKey, whichDestructable) end
----@param table hashtable
+function SaveDestructableHandle (whichHashtable, parentKey, childKey, whichDestructable) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichItem item
 ---@return boolean
-function SaveItemHandle (table, parentKey, childKey, whichItem) end
----@param table hashtable
+function SaveItemHandle (whichHashtable, parentKey, childKey, whichItem) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichUnit unit
 ---@return boolean
-function SaveUnitHandle (table, parentKey, childKey, whichUnit) end
----@param table hashtable
+function SaveUnitHandle (whichHashtable, parentKey, childKey, whichUnit) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichAbility ability
 ---@return boolean
-function SaveAbilityHandle (table, parentKey, childKey, whichAbility) end
----@param table hashtable
+function SaveAbilityHandle (whichHashtable, parentKey, childKey, whichAbility) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichTimer timer
 ---@return boolean
-function SaveTimerHandle (table, parentKey, childKey, whichTimer) end
----@param table hashtable
+function SaveTimerHandle (whichHashtable, parentKey, childKey, whichTimer) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichTrigger trigger
 ---@return boolean
-function SaveTriggerHandle (table, parentKey, childKey, whichTrigger) end
----@param table hashtable
+function SaveTriggerHandle (whichHashtable, parentKey, childKey, whichTrigger) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichTriggercondition triggercondition
 ---@return boolean
-function SaveTriggerConditionHandle (table, parentKey, childKey, whichTriggercondition) end
----@param table hashtable
+function SaveTriggerConditionHandle (whichHashtable, parentKey, childKey, whichTriggercondition) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichTriggeraction triggeraction
 ---@return boolean
-function SaveTriggerActionHandle (table, parentKey, childKey, whichTriggeraction) end
----@param table hashtable
+function SaveTriggerActionHandle (whichHashtable, parentKey, childKey, whichTriggeraction) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichEvent event
 ---@return boolean
-function SaveTriggerEventHandle (table, parentKey, childKey, whichEvent) end
----@param table hashtable
+function SaveTriggerEventHandle (whichHashtable, parentKey, childKey, whichEvent) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichForce force
 ---@return boolean
-function SaveForceHandle (table, parentKey, childKey, whichForce) end
----@param table hashtable
+function SaveForceHandle (whichHashtable, parentKey, childKey, whichForce) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichGroup group
 ---@return boolean
-function SaveGroupHandle (table, parentKey, childKey, whichGroup) end
----@param table hashtable
+function SaveGroupHandle (whichHashtable, parentKey, childKey, whichGroup) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichLocation location
 ---@return boolean
-function SaveLocationHandle (table, parentKey, childKey, whichLocation) end
----@param table hashtable
+function SaveLocationHandle (whichHashtable, parentKey, childKey, whichLocation) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichRect rect
 ---@return boolean
-function SaveRectHandle (table, parentKey, childKey, whichRect) end
----@param table hashtable
+function SaveRectHandle (whichHashtable, parentKey, childKey, whichRect) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichBoolexpr boolexpr
 ---@return boolean
-function SaveBooleanExprHandle (table, parentKey, childKey, whichBoolexpr) end
----@param table hashtable
+function SaveBooleanExprHandle (whichHashtable, parentKey, childKey, whichBoolexpr) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichSound sound
 ---@return boolean
-function SaveSoundHandle (table, parentKey, childKey, whichSound) end
----@param table hashtable
+function SaveSoundHandle (whichHashtable, parentKey, childKey, whichSound) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichEffect effect
 ---@return boolean
-function SaveEffectHandle (table, parentKey, childKey, whichEffect) end
----@param table hashtable
+function SaveEffectHandle (whichHashtable, parentKey, childKey, whichEffect) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichUnitpool unitpool
 ---@return boolean
-function SaveUnitPoolHandle (table, parentKey, childKey, whichUnitpool) end
----@param table hashtable
+function SaveUnitPoolHandle (whichHashtable, parentKey, childKey, whichUnitpool) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichItempool itempool
 ---@return boolean
-function SaveItemPoolHandle (table, parentKey, childKey, whichItempool) end
----@param table hashtable
+function SaveItemPoolHandle (whichHashtable, parentKey, childKey, whichItempool) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichQuest quest
 ---@return boolean
-function SaveQuestHandle (table, parentKey, childKey, whichQuest) end
----@param table hashtable
+function SaveQuestHandle (whichHashtable, parentKey, childKey, whichQuest) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichQuestitem questitem
 ---@return boolean
-function SaveQuestItemHandle (table, parentKey, childKey, whichQuestitem) end
----@param table hashtable
+function SaveQuestItemHandle (whichHashtable, parentKey, childKey, whichQuestitem) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichDefeatcondition defeatcondition
 ---@return boolean
-function SaveDefeatConditionHandle (table, parentKey, childKey, whichDefeatcondition) end
----@param table hashtable
+function SaveDefeatConditionHandle (whichHashtable, parentKey, childKey, whichDefeatcondition) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichTimerdialog timerdialog
 ---@return boolean
-function SaveTimerDialogHandle (table, parentKey, childKey, whichTimerdialog) end
----@param table hashtable
+function SaveTimerDialogHandle (whichHashtable, parentKey, childKey, whichTimerdialog) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichLeaderboard leaderboard
 ---@return boolean
-function SaveLeaderboardHandle (table, parentKey, childKey, whichLeaderboard) end
----@param table hashtable
+function SaveLeaderboardHandle (whichHashtable, parentKey, childKey, whichLeaderboard) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichMultiboard multiboard
 ---@return boolean
-function SaveMultiboardHandle (table, parentKey, childKey, whichMultiboard) end
----@param table hashtable
+function SaveMultiboardHandle (whichHashtable, parentKey, childKey, whichMultiboard) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichMultiboarditem multiboarditem
 ---@return boolean
-function SaveMultiboardItemHandle (table, parentKey, childKey, whichMultiboarditem) end
----@param table hashtable
+function SaveMultiboardItemHandle (whichHashtable, parentKey, childKey, whichMultiboarditem) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichTrackable trackable
 ---@return boolean
-function SaveTrackableHandle (table, parentKey, childKey, whichTrackable) end
----@param table hashtable
+function SaveTrackableHandle (whichHashtable, parentKey, childKey, whichTrackable) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichDialog dialog
 ---@return boolean
-function SaveDialogHandle (table, parentKey, childKey, whichDialog) end
----@param table hashtable
+function SaveDialogHandle (whichHashtable, parentKey, childKey, whichDialog) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichButton button
 ---@return boolean
-function SaveButtonHandle (table, parentKey, childKey, whichButton) end
----@param table hashtable
+function SaveButtonHandle (whichHashtable, parentKey, childKey, whichButton) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichTexttag texttag
 ---@return boolean
-function SaveTextTagHandle (table, parentKey, childKey, whichTexttag) end
----@param table hashtable
+function SaveTextTagHandle (whichHashtable, parentKey, childKey, whichTexttag) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichLightning lightning
 ---@return boolean
-function SaveLightningHandle (table, parentKey, childKey, whichLightning) end
----@param table hashtable
+function SaveLightningHandle (whichHashtable, parentKey, childKey, whichLightning) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichImage image
 ---@return boolean
-function SaveImageHandle (table, parentKey, childKey, whichImage) end
----@param table hashtable
+function SaveImageHandle (whichHashtable, parentKey, childKey, whichImage) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichUbersplat ubersplat
 ---@return boolean
-function SaveUbersplatHandle (table, parentKey, childKey, whichUbersplat) end
----@param table hashtable
+function SaveUbersplatHandle (whichHashtable, parentKey, childKey, whichUbersplat) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichRegion region
 ---@return boolean
-function SaveRegionHandle (table, parentKey, childKey, whichRegion) end
----@param table hashtable
+function SaveRegionHandle (whichHashtable, parentKey, childKey, whichRegion) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichFogState fogstate
 ---@return boolean
-function SaveFogStateHandle (table, parentKey, childKey, whichFogState) end
----@param table hashtable
+function SaveFogStateHandle (whichHashtable, parentKey, childKey, whichFogState) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichFogModifier fogmodifier
 ---@return boolean
-function SaveFogModifierHandle (table, parentKey, childKey, whichFogModifier) end
----@param table hashtable
+function SaveFogModifierHandle (whichHashtable, parentKey, childKey, whichFogModifier) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichAgent agent
 ---@return boolean
-function SaveAgentHandle (table, parentKey, childKey, whichAgent) end
----@param table hashtable
+function SaveAgentHandle (whichHashtable, parentKey, childKey, whichAgent) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichHashtable hashtable
 ---@return boolean
-function SaveHashtableHandle (table, parentKey, childKey, whichHashtable) end
+function SaveHashtableHandle (whichHashtable, parentKey, childKey, whichHashtable) end
 
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return integer
-function LoadInteger (table, parentKey, childKey) end
----@param table hashtable
+function LoadInteger (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return real
-function LoadReal (table, parentKey, childKey) end
----@param table hashtable
+function LoadReal (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return boolean
-function LoadBoolean (table, parentKey, childKey) end
----@param table hashtable
+function LoadBoolean (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return string
-function LoadStr (table, parentKey, childKey) end
----@param table hashtable
+function LoadStr (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return player
-function LoadPlayerHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadPlayerHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return widget
-function LoadWidgetHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadWidgetHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return destructable
-function LoadDestructableHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadDestructableHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return item
-function LoadItemHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadItemHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return unit
-function LoadUnitHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadUnitHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return ability
-function LoadAbilityHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadAbilityHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return timer
-function LoadTimerHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTimerHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return trigger
-function LoadTriggerHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTriggerHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return triggercondition
-function LoadTriggerConditionHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTriggerConditionHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return triggeraction
-function LoadTriggerActionHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTriggerActionHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return event
-function LoadTriggerEventHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTriggerEventHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return force
-function LoadForceHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadForceHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return group
-function LoadGroupHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadGroupHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return location
-function LoadLocationHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadLocationHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return rect
-function LoadRectHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadRectHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return boolexpr
-function LoadBooleanExprHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadBooleanExprHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return sound
-function LoadSoundHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadSoundHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return effect
-function LoadEffectHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadEffectHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return unitpool
-function LoadUnitPoolHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadUnitPoolHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return itempool
-function LoadItemPoolHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadItemPoolHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return quest
-function LoadQuestHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadQuestHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return questitem
-function LoadQuestItemHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadQuestItemHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return defeatcondition
-function LoadDefeatConditionHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadDefeatConditionHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return timerdialog
-function LoadTimerDialogHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTimerDialogHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return leaderboard
-function LoadLeaderboardHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadLeaderboardHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return multiboard
-function LoadMultiboardHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadMultiboardHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return multiboarditem
-function LoadMultiboardItemHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadMultiboardItemHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return trackable
-function LoadTrackableHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTrackableHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return dialog
-function LoadDialogHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadDialogHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return button
-function LoadButtonHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadButtonHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return texttag
-function LoadTextTagHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadTextTagHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return lightning
-function LoadLightningHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadLightningHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return image
-function LoadImageHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadImageHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return ubersplat
-function LoadUbersplatHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadUbersplatHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return region
-function LoadRegionHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadRegionHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return fogstate
-function LoadFogStateHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadFogStateHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return fogmodifier
-function LoadFogModifierHandle (table, parentKey, childKey) end
----@param table hashtable
+function LoadFogModifierHandle (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return hashtable
-function LoadHashtableHandle (table, parentKey, childKey) end
+function LoadHashtableHandle (whichHashtable, parentKey, childKey) end
 
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return boolean
-function HaveSavedInteger (table, parentKey, childKey) end
----@param table hashtable
+function HaveSavedInteger (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return boolean
-function HaveSavedReal (table, parentKey, childKey) end
----@param table hashtable
+function HaveSavedReal (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return boolean
-function HaveSavedBoolean (table, parentKey, childKey) end
----@param table hashtable
+function HaveSavedBoolean (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return boolean
-function HaveSavedString (table, parentKey, childKey) end
----@param table hashtable
+function HaveSavedString (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return boolean
-function HaveSavedHandle (table, parentKey, childKey) end
+function HaveSavedHandle (whichHashtable, parentKey, childKey) end
 
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function RemoveSavedInteger (table, parentKey, childKey) end
----@param table hashtable
+function RemoveSavedInteger (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function RemoveSavedReal (table, parentKey, childKey) end
----@param table hashtable
+function RemoveSavedReal (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function RemoveSavedBoolean (table, parentKey, childKey) end
----@param table hashtable
+function RemoveSavedBoolean (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function RemoveSavedString (table, parentKey, childKey) end
----@param table hashtable
+function RemoveSavedString (whichHashtable, parentKey, childKey) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function RemoveSavedHandle (table, parentKey, childKey) end
+function RemoveSavedHandle (whichHashtable, parentKey, childKey) end
 
----@param table hashtable
-function FlushParentHashtable (table) end
----@param table hashtable
+---@param whichHashtable hashtable
+function FlushParentHashtable (whichHashtable) end
+---@param whichHashtable hashtable
 ---@param parentKey integer
-function FlushChildHashtable (table, parentKey) end
+function FlushChildHashtable (whichHashtable, parentKey) end
 
 
 -- ============================================================================
@@ -6214,31 +6218,31 @@ function CreateUnitPool () end
 ---@param whichPool unitpool
 function DestroyUnitPool (whichPool) end
 ---@param whichPool unitpool
----@param unitId integer
+---@param unitTypeId integer
 ---@param weight real
-function UnitPoolAddUnitType (whichPool, unitId, weight) end
+function UnitPoolAddUnitType (whichPool, unitTypeId, weight) end
 ---@param whichPool unitpool
----@param unitId integer
-function UnitPoolRemoveUnitType (whichPool, unitId) end
+---@param unitTypeId integer
+function UnitPoolRemoveUnitType (whichPool, unitTypeId) end
 ---@param whichPool unitpool
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param x real
 ---@param y real
 ---@param facing real
 ---@return unit
-function PlaceRandomUnit (whichPool, forWhichPlayer, x, y, facing) end
+function PlaceRandomUnit (whichPool, whichPlayer, x, y, facing) end
 
 ---@return itempool
 function CreateItemPool () end
 ---@param whichItemPool itempool
 function DestroyItemPool (whichItemPool) end
 ---@param whichItemPool itempool
----@param itemId integer
+---@param itemTypeId integer
 ---@param weight real
-function ItemPoolAddItemType (whichItemPool, itemId, weight) end
+function ItemPoolAddItemType (whichItemPool, itemTypeId, weight) end
 ---@param whichItemPool itempool
----@param itemId integer
-function ItemPoolRemoveItemType (whichItemPool, itemId) end
+---@param itemTypeId integer
+function ItemPoolRemoveItemType (whichItemPool, itemTypeId) end
 ---@param whichItemPool itempool
 ---@param x real
 ---@param y real
@@ -6370,49 +6374,49 @@ function DisableRestartMission (flag) end
 
 ---@return texttag
 function CreateTextTag () end
----@param t texttag
-function DestroyTextTag (t) end
----@param t texttag
+---@param whichTextTag texttag
+function DestroyTextTag (whichTextTag) end
+---@param whichTextTag texttag
 ---@param s string
 ---@param height real
-function SetTextTagText (t, s, height) end
----@param t texttag
+function SetTextTagText (whichTextTag, s, height) end
+---@param whichTextTag texttag
 ---@param x real
 ---@param y real
 ---@param heightOffset real
-function SetTextTagPos (t, x, y, heightOffset) end
----@param t texttag
+function SetTextTagPos (whichTextTag, x, y, heightOffset) end
+---@param whichTextTag texttag
 ---@param whichUnit unit
 ---@param heightOffset real
-function SetTextTagPosUnit (t, whichUnit, heightOffset) end
----@param t texttag
+function SetTextTagPosUnit (whichTextTag, whichUnit, heightOffset) end
+---@param whichTextTag texttag
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function SetTextTagColor (t, red, green, blue, alpha) end
----@param t texttag
+function SetTextTagColor (whichTextTag, red, green, blue, alpha) end
+---@param whichTextTag texttag
 ---@param xvel real
 ---@param yvel real
-function SetTextTagVelocity (t, xvel, yvel) end
----@param t texttag
+function SetTextTagVelocity (whichTextTag, xvel, yvel) end
+---@param whichTextTag texttag
 ---@param flag boolean
-function SetTextTagVisibility (t, flag) end
----@param t texttag
+function SetTextTagVisibility (whichTextTag, flag) end
+---@param whichTextTag texttag
 ---@param flag boolean
-function SetTextTagSuspended (t, flag) end
----@param t texttag
+function SetTextTagSuspended (whichTextTag, flag) end
+---@param whichTextTag texttag
 ---@param flag boolean
-function SetTextTagPermanent (t, flag) end
----@param t texttag
+function SetTextTagPermanent (whichTextTag, flag) end
+---@param whichTextTag texttag
 ---@param age real
-function SetTextTagAge (t, age) end
----@param t texttag
+function SetTextTagAge (whichTextTag, age) end
+---@param whichTextTag texttag
 ---@param lifespan real
-function SetTextTagLifespan (t, lifespan) end
----@param t texttag
+function SetTextTagLifespan (whichTextTag, lifespan) end
+---@param whichTextTag texttag
 ---@param fadepoint real
-function SetTextTagFadepoint (t, fadepoint) end
+function SetTextTagFadepoint (whichTextTag, fadepoint) end
 
 ---@param reserved integer
 function SetReservedLocalHeroButtons (reserved) end
@@ -6521,9 +6525,9 @@ function ForceQuestDialogUpdate () end
 
 -- ============================================================================
 -- Timer Dialog API
----@param t timer
+---@param whichTimer timer
 ---@return timerdialog
-function CreateTimerDialog (t) end
+function CreateTimerDialog (whichTimer) end
 ---@param whichDialog timerdialog
 function DestroyTimerDialog (whichDialog) end
 ---@param whichDialog timerdialog
@@ -6560,116 +6564,116 @@ function TimerDialogSetRealTimeRemaining (whichDialog, timeRemaining) end
 -- Create a leaderboard object
 ---@return leaderboard
 function CreateLeaderboard () end
----@param lb leaderboard
-function DestroyLeaderboard (lb) end
+---@param whichLeaderboard leaderboard
+function DestroyLeaderboard (whichLeaderboard) end
 
----@param lb leaderboard
+---@param whichLeaderboard leaderboard
 ---@param show boolean
-function LeaderboardDisplay (lb, show) end
----@param lb leaderboard
+function LeaderboardDisplay (whichLeaderboard, show) end
+---@param whichLeaderboard leaderboard
 ---@return boolean
-function IsLeaderboardDisplayed (lb) end
+function IsLeaderboardDisplayed (whichLeaderboard) end
 
----@param lb leaderboard
+---@param whichLeaderboard leaderboard
 ---@return integer
-function LeaderboardGetItemCount (lb) end
+function LeaderboardGetItemCount (whichLeaderboard) end
 
----@param lb leaderboard
+---@param whichLeaderboard leaderboard
 ---@param count integer
-function LeaderboardSetSizeByItemCount (lb, count) end
----@param lb leaderboard
+function LeaderboardSetSizeByItemCount (whichLeaderboard, count) end
+---@param whichLeaderboard leaderboard
 ---@param label string
 ---@param value integer
----@param p player
-function LeaderboardAddItem (lb, label, value, p) end
----@param lb leaderboard
+---@param whichPlayer player
+function LeaderboardAddItem (whichLeaderboard, label, value, whichPlayer) end
+---@param whichLeaderboard leaderboard
 ---@param index integer
-function LeaderboardRemoveItem (lb, index) end
----@param lb leaderboard
----@param p player
-function LeaderboardRemovePlayerItem (lb, p) end
----@param lb leaderboard
-function LeaderboardClear (lb) end
+function LeaderboardRemoveItem (whichLeaderboard, index) end
+---@param whichLeaderboard leaderboard
+---@param whichPlayer player
+function LeaderboardRemovePlayerItem (whichLeaderboard, whichPlayer) end
+---@param whichLeaderboard leaderboard
+function LeaderboardClear (whichLeaderboard) end
 
----@param lb leaderboard
+---@param whichLeaderboard leaderboard
 ---@param ascending boolean
-function LeaderboardSortItemsByValue (lb, ascending) end
----@param lb leaderboard
+function LeaderboardSortItemsByValue (whichLeaderboard, ascending) end
+---@param whichLeaderboard leaderboard
 ---@param ascending boolean
-function LeaderboardSortItemsByPlayer (lb, ascending) end
----@param lb leaderboard
+function LeaderboardSortItemsByPlayer (whichLeaderboard, ascending) end
+---@param whichLeaderboard leaderboard
 ---@param ascending boolean
-function LeaderboardSortItemsByLabel (lb, ascending) end
+function LeaderboardSortItemsByLabel (whichLeaderboard, ascending) end
 
----@param lb leaderboard
----@param p player
+---@param whichLeaderboard leaderboard
+---@param whichPlayer player
 ---@return boolean
-function LeaderboardHasPlayerItem (lb, p) end
----@param lb leaderboard
----@param p player
+function LeaderboardHasPlayerItem (whichLeaderboard, whichPlayer) end
+---@param whichLeaderboard leaderboard
+---@param whichPlayer player
 ---@return integer
-function LeaderboardGetPlayerIndex (lb, p) end
----@param lb leaderboard
+function LeaderboardGetPlayerIndex (whichLeaderboard, whichPlayer) end
+---@param whichLeaderboard leaderboard
 ---@param label string
-function LeaderboardSetLabel (lb, label) end
----@param lb leaderboard
+function LeaderboardSetLabel (whichLeaderboard, label) end
+---@param whichLeaderboard leaderboard
 ---@return string
-function LeaderboardGetLabelText (lb) end
+function LeaderboardGetLabelText (whichLeaderboard) end
 
 ---@param toPlayer player
----@param lb leaderboard
-function PlayerSetLeaderboard (toPlayer, lb) end
+---@param whichLeaderboard leaderboard
+function PlayerSetLeaderboard (toPlayer, whichLeaderboard) end
 ---@param toPlayer player
 ---@return leaderboard
 function PlayerGetLeaderboard (toPlayer) end
 
----@param lb leaderboard
+---@param whichLeaderboard leaderboard
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function LeaderboardSetLabelColor (lb, red, green, blue, alpha) end
----@param lb leaderboard
+function LeaderboardSetLabelColor (whichLeaderboard, red, green, blue, alpha) end
+---@param whichLeaderboard leaderboard
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function LeaderboardSetValueColor (lb, red, green, blue, alpha) end
----@param lb leaderboard
+function LeaderboardSetValueColor (whichLeaderboard, red, green, blue, alpha) end
+---@param whichLeaderboard leaderboard
 ---@param showLabel boolean
 ---@param showNames boolean
 ---@param showValues boolean
 ---@param showIcons boolean
-function LeaderboardSetStyle (lb, showLabel, showNames, showValues, showIcons) end
+function LeaderboardSetStyle (whichLeaderboard, showLabel, showNames, showValues, showIcons) end
 
----@param lb leaderboard
+---@param whichLeaderboard leaderboard
 ---@param whichItem integer
 ---@param val integer
-function LeaderboardSetItemValue (lb, whichItem, val) end
----@param lb leaderboard
+function LeaderboardSetItemValue (whichLeaderboard, whichItem, val) end
+---@param whichLeaderboard leaderboard
 ---@param whichItem integer
 ---@param val string
-function LeaderboardSetItemLabel (lb, whichItem, val) end
----@param lb leaderboard
+function LeaderboardSetItemLabel (whichLeaderboard, whichItem, val) end
+---@param whichLeaderboard leaderboard
 ---@param whichItem integer
 ---@param showLabel boolean
 ---@param showValue boolean
 ---@param showIcon boolean
-function LeaderboardSetItemStyle (lb, whichItem, showLabel, showValue, showIcon) end
----@param lb leaderboard
+function LeaderboardSetItemStyle (whichLeaderboard, whichItem, showLabel, showValue, showIcon) end
+---@param whichLeaderboard leaderboard
 ---@param whichItem integer
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function LeaderboardSetItemLabelColor (lb, whichItem, red, green, blue, alpha) end
----@param lb leaderboard
+function LeaderboardSetItemLabelColor (whichLeaderboard, whichItem, red, green, blue, alpha) end
+---@param whichLeaderboard leaderboard
 ---@param whichItem integer
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function LeaderboardSetItemValueColor (lb, whichItem, red, green, blue, alpha) end
+function LeaderboardSetItemValueColor (whichLeaderboard, whichItem, red, green, blue, alpha) end
 
 -- ============================================================================
 -- Multiboard API
@@ -6678,102 +6682,102 @@ function LeaderboardSetItemValueColor (lb, whichItem, red, green, blue, alpha) e
 -- Create a multiboard object
 ---@return multiboard
 function CreateMultiboard () end
----@param lb multiboard
-function DestroyMultiboard (lb) end
+---@param whichMultiboard multiboard
+function DestroyMultiboard (whichMultiboard) end
 
----@param lb multiboard
+---@param whichMultiboard multiboard
 ---@param show boolean
-function MultiboardDisplay (lb, show) end
----@param lb multiboard
+function MultiboardDisplay (whichMultiboard, show) end
+---@param whichMultiboard multiboard
 ---@return boolean
-function IsMultiboardDisplayed (lb) end
+function IsMultiboardDisplayed (whichMultiboard) end
 
----@param lb multiboard
+---@param whichMultiboard multiboard
 ---@param minimize boolean
-function MultiboardMinimize (lb, minimize) end
----@param lb multiboard
+function MultiboardMinimize (whichMultiboard, minimize) end
+---@param whichMultiboard multiboard
 ---@return boolean
-function IsMultiboardMinimized (lb) end
----@param lb multiboard
-function MultiboardClear (lb) end
+function IsMultiboardMinimized (whichMultiboard) end
+---@param whichMultiboard multiboard
+function MultiboardClear (whichMultiboard) end
 
----@param lb multiboard
+---@param whichMultiboard multiboard
 ---@param label string
-function MultiboardSetTitleText (lb, label) end
----@param lb multiboard
+function MultiboardSetTitleText (whichMultiboard, label) end
+---@param whichMultiboard multiboard
 ---@return string
-function MultiboardGetTitleText (lb) end
----@param lb multiboard
+function MultiboardGetTitleText (whichMultiboard) end
+---@param whichMultiboard multiboard
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function MultiboardSetTitleTextColor (lb, red, green, blue, alpha) end
+function MultiboardSetTitleTextColor (whichMultiboard, red, green, blue, alpha) end
 
----@param lb multiboard
+---@param whichMultiboard multiboard
 ---@return integer
-function MultiboardGetRowCount (lb) end
----@param lb multiboard
+function MultiboardGetRowCount (whichMultiboard) end
+---@param whichMultiboard multiboard
 ---@return integer
-function MultiboardGetColumnCount (lb) end
+function MultiboardGetColumnCount (whichMultiboard) end
 
----@param lb multiboard
+---@param whichMultiboard multiboard
 ---@param count integer
-function MultiboardSetColumnCount (lb, count) end
----@param lb multiboard
+function MultiboardSetColumnCount (whichMultiboard, count) end
+---@param whichMultiboard multiboard
 ---@param count integer
-function MultiboardSetRowCount (lb, count) end
+function MultiboardSetRowCount (whichMultiboard, count) end
 
 -- broadcast settings to all items
----@param lb multiboard
+---@param whichMultiboard multiboard
 ---@param showValues boolean
 ---@param showIcons boolean
-function MultiboardSetItemsStyle (lb, showValues, showIcons) end
----@param lb multiboard
+function MultiboardSetItemsStyle (whichMultiboard, showValues, showIcons) end
+---@param whichMultiboard multiboard
 ---@param value string
-function MultiboardSetItemsValue (lb, value) end
----@param lb multiboard
+function MultiboardSetItemsValue (whichMultiboard, value) end
+---@param whichMultiboard multiboard
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function MultiboardSetItemsValueColor (lb, red, green, blue, alpha) end
----@param lb multiboard
+function MultiboardSetItemsValueColor (whichMultiboard, red, green, blue, alpha) end
+---@param whichMultiboard multiboard
 ---@param width real
-function MultiboardSetItemsWidth (lb, width) end
----@param lb multiboard
+function MultiboardSetItemsWidth (whichMultiboard, width) end
+---@param whichMultiboard multiboard
 ---@param iconPath string
-function MultiboardSetItemsIcon (lb, iconPath) end
+function MultiboardSetItemsIcon (whichMultiboard, iconPath) end
 
 
 -- funcs for modifying individual items
----@param lb multiboard
+---@param whichMultiboard multiboard
 ---@param row integer
 ---@param column integer
 ---@return multiboarditem
-function MultiboardGetItem (lb, row, column) end
----@param mbi multiboarditem
-function MultiboardReleaseItem (mbi) end
+function MultiboardGetItem (whichMultiboard, row, column) end
+---@param whichMultiboardItem multiboarditem
+function MultiboardReleaseItem (whichMultiboardItem) end
 
----@param mbi multiboarditem
+---@param whichMultiboardItem multiboarditem
 ---@param showValue boolean
 ---@param showIcon boolean
-function MultiboardSetItemStyle (mbi, showValue, showIcon) end
----@param mbi multiboarditem
+function MultiboardSetItemStyle (whichMultiboardItem, showValue, showIcon) end
+---@param whichMultiboardItem multiboarditem
 ---@param val string
-function MultiboardSetItemValue (mbi, val) end
----@param mbi multiboarditem
+function MultiboardSetItemValue (whichMultiboardItem, val) end
+---@param whichMultiboardItem multiboarditem
 ---@param red integer
 ---@param green integer
 ---@param blue integer
 ---@param alpha integer
-function MultiboardSetItemValueColor (mbi, red, green, blue, alpha) end
----@param mbi multiboarditem
+function MultiboardSetItemValueColor (whichMultiboardItem, red, green, blue, alpha) end
+---@param whichMultiboardItem multiboarditem
 ---@param width real
-function MultiboardSetItemWidth (mbi, width) end
----@param mbi multiboarditem
+function MultiboardSetItemWidth (whichMultiboardItem, width) end
+---@param whichMultiboardItem multiboarditem
 ---@param iconFileName string
-function MultiboardSetItemIcon (mbi, iconFileName) end
+function MultiboardSetItemIcon (whichMultiboardItem, iconFileName) end
 
 -- meant to unequivocally suspend display of existing and
 -- subsequently displayed multiboards
@@ -6844,44 +6848,44 @@ function SetCameraOrientController (whichUnit, xoffset, yoffset) end
 
 ---@return camerasetup
 function CreateCameraSetup () end
----@param whichSetup camerasetup
+---@param whichCameraSetup camerasetup
 ---@param whichField camerafield
 ---@param value real
 ---@param duration real
-function CameraSetupSetField (whichSetup, whichField, value, duration) end
----@param whichSetup camerasetup
+function CameraSetupSetField (whichCameraSetup, whichField, value, duration) end
+---@param whichCameraSetup camerasetup
 ---@param whichField camerafield
 ---@return real
-function CameraSetupGetField (whichSetup, whichField) end
----@param whichSetup camerasetup
+function CameraSetupGetField (whichCameraSetup, whichField) end
+---@param whichCameraSetup camerasetup
 ---@param x real
 ---@param y real
 ---@param duration real
-function CameraSetupSetDestPosition (whichSetup, x, y, duration) end
----@param whichSetup camerasetup
+function CameraSetupSetDestPosition (whichCameraSetup, x, y, duration) end
+---@param whichCameraSetup camerasetup
 ---@return location
-function CameraSetupGetDestPositionLoc (whichSetup) end
----@param whichSetup camerasetup
+function CameraSetupGetDestPositionLoc (whichCameraSetup) end
+---@param whichCameraSetup camerasetup
 ---@return real
-function CameraSetupGetDestPositionX (whichSetup) end
----@param whichSetup camerasetup
+function CameraSetupGetDestPositionX (whichCameraSetup) end
+---@param whichCameraSetup camerasetup
 ---@return real
-function CameraSetupGetDestPositionY (whichSetup) end
----@param whichSetup camerasetup
+function CameraSetupGetDestPositionY (whichCameraSetup) end
+---@param whichCameraSetup camerasetup
 ---@param doPan boolean
 ---@param panTimed boolean
-function CameraSetupApply (whichSetup, doPan, panTimed) end
----@param whichSetup camerasetup
+function CameraSetupApply (whichCameraSetup, doPan, panTimed) end
+---@param whichCameraSetup camerasetup
 ---@param zDestOffset real
-function CameraSetupApplyWithZ (whichSetup, zDestOffset) end
----@param whichSetup camerasetup
+function CameraSetupApplyWithZ (whichCameraSetup, zDestOffset) end
+---@param whichCameraSetup camerasetup
 ---@param doPan boolean
 ---@param forceDuration real
-function CameraSetupApplyForceDuration (whichSetup, doPan, forceDuration) end
----@param whichSetup camerasetup
+function CameraSetupApplyForceDuration (whichCameraSetup, doPan, forceDuration) end
+---@param whichCameraSetup camerasetup
 ---@param zDestOffset real
 ---@param forceDuration real
-function CameraSetupApplyForceDurationWithZ (whichSetup, zDestOffset, forceDuration) end
+function CameraSetupApplyForceDurationWithZ (whichCameraSetup, zDestOffset, forceDuration) end
 
 ---@param mag real
 ---@param velocity real
@@ -6935,13 +6939,13 @@ function DisplayCineFilter (flag) end
 ---@return boolean
 function IsCineFilterDisplayed () end
 
----@param portraitUnitId integer
+---@param unitTypeId integer
 ---@param color playercolor
 ---@param speakerTitle string
 ---@param text string
 ---@param sceneDuration real
 ---@param voiceoverDuration real
-function SetCinematicScene (portraitUnitId, color, speakerTitle, text, sceneDuration, voiceoverDuration) end
+function SetCinematicScene (unitTypeId, color, speakerTitle, text, sceneDuration, voiceoverDuration) end
 function EndCinematicScene () end
 ---@param flag boolean
 function ForceCinematicSubtitles (flag) end
@@ -7144,10 +7148,10 @@ function UnregisterStackedSound (soundHandle, byPosition, rectwidth, rectheight)
 -- ============================================================================
 -- Effects API
 -- 
----@param where rect
+---@param whichRect rect
 ---@param effectID integer
 ---@return weathereffect
-function AddWeatherEffect (where, effectID) end
+function AddWeatherEffect (whichRect, effectID) end
 ---@param whichEffect weathereffect
 function RemoveWeatherEffect (whichEffect) end
 ---@param whichEffect weathereffect
@@ -7218,39 +7222,39 @@ function AddSpecialEffectTarget (modelName, targetWidget, attachPointName) end
 function DestroyEffect (whichEffect) end
 
 ---@param abilityString string
----@param t effecttype
+---@param whichEffectType effecttype
 ---@param x real
 ---@param y real
 ---@return effect
-function AddSpellEffect (abilityString, t, x, y) end
+function AddSpellEffect (abilityString, whichEffectType, x, y) end
 ---@param abilityString string
----@param t effecttype
+---@param whichEffectType effecttype
 ---@param where location
 ---@return effect
-function AddSpellEffectLoc (abilityString, t, where) end
----@param abilCode integer
----@param t effecttype
+function AddSpellEffectLoc (abilityString, whichEffectType, where) end
+---@param abilityTypeId integer
+---@param whichEffectType effecttype
 ---@param x real
 ---@param y real
 ---@return effect
-function AddSpellEffectById (abilCode, t, x, y) end
----@param abilCode integer
----@param t effecttype
+function AddSpellEffectById (abilityTypeId, whichEffectType, x, y) end
+---@param abilityTypeId integer
+---@param whichEffectType effecttype
 ---@param where location
 ---@return effect
-function AddSpellEffectByIdLoc (abilCode, t, where) end
+function AddSpellEffectByIdLoc (abilityTypeId, whichEffectType, where) end
 ---@param modelName string
----@param t effecttype
+---@param whichEffectType effecttype
 ---@param targetWidget widget
 ---@param attachPoint string
 ---@return effect
-function AddSpellEffectTarget (modelName, t, targetWidget, attachPoint) end
----@param abilCode integer
----@param t effecttype
+function AddSpellEffectTarget (modelName, whichEffectType, targetWidget, attachPoint) end
+---@param abilityTypeId integer
+---@param whichEffectType effecttype
 ---@param targetWidget widget
 ---@param attachPoint string
 ---@return effect
-function AddSpellEffectTargetById (abilCode, t, targetWidget, attachPoint) end
+function AddSpellEffectTargetById (abilityTypeId, whichEffectType, targetWidget, attachPoint) end
 
 ---@param codeName string
 ---@param checkVisibility boolean
@@ -7312,23 +7316,23 @@ function GetLightningColorB (whichBolt) end
 function SetLightningColor (whichBolt, r, g, b, a) end
 
 ---@param abilityString string
----@param t effecttype
+---@param whichEffectType effecttype
 ---@param index integer
 ---@return string
-function GetAbilityEffect (abilityString, t, index) end
----@param abilCode integer
----@param t effecttype
+function GetAbilityEffect (abilityString, whichEffectType, index) end
+---@param abilityTypeId integer
+---@param whichEffectType effecttype
 ---@param index integer
 ---@return string
-function GetAbilityEffectById (abilCode, t, index) end
+function GetAbilityEffectById (abilityTypeId, whichEffectType, index) end
 ---@param abilityString string
----@param t soundtype
+---@param whichSoundType soundtype
 ---@return string
-function GetAbilitySound (abilityString, t) end
----@param abilCode integer
----@param t soundtype
+function GetAbilitySound (abilityString, whichSoundType) end
+---@param abilityTypeId integer
+---@param whichSoundType soundtype
 ---@return string
-function GetAbilitySoundById (abilCode, t) end
+function GetAbilitySoundById (abilityTypeId, whichSoundType) end
 
 -- ============================================================================
 -- Terrain API
@@ -7361,14 +7365,14 @@ function GetTerrainVariance (x, y) end
 function SetTerrainType (x, y, terrainType, variation, area, shape) end
 ---@param x real
 ---@param y real
----@param t pathingtype
+---@param whichPathingType pathingtype
 ---@return boolean
-function IsTerrainPathable (x, y, t) end
+function IsTerrainPathable (x, y, whichPathingType) end
 ---@param x real
 ---@param y real
----@param t pathingtype
+---@param whichPathingType pathingtype
 ---@param flag boolean
-function SetTerrainPathable (x, y, t, flag) end
+function SetTerrainPathable (x, y, whichPathingType, flag) end
 
 -- ============================================================================
 -- Image API
@@ -7460,9 +7464,9 @@ function SetUbersplatRenderAlways (whichSplat, flag) end
 ---@param addBlight boolean
 function SetBlight (whichPlayer, x, y, radius, addBlight) end
 ---@param whichPlayer player
----@param r rect
+---@param whichRect rect
 ---@param addBlight boolean
-function SetBlightRect (whichPlayer, r, addBlight) end
+function SetBlightRect (whichPlayer, whichRect, addBlight) end
 ---@param whichPlayer player
 ---@param x real
 ---@param y real
@@ -7473,12 +7477,12 @@ function SetBlightPoint (whichPlayer, x, y, addBlight) end
 ---@param radius real
 ---@param addBlight boolean
 function SetBlightLoc (whichPlayer, whichLocation, radius, addBlight) end
----@param id player
+---@param whichPlayer player
 ---@param x real
 ---@param y real
----@param face real
+---@param facing real
 ---@return unit
-function CreateBlightedGoldmine (id, x, y, face) end
+function CreateBlightedGoldmine (whichPlayer, x, y, facing) end
 ---@param x real
 ---@param y real
 ---@return boolean
@@ -7495,38 +7499,38 @@ function IsPointBlighted (x, y) end
 ---@param animName string
 ---@param animRandom boolean
 function SetDoodadAnimation (x, y, radius, doodadID, nearestOnly, animName, animRandom) end
----@param r rect
+---@param whichRect rect
 ---@param doodadID integer
 ---@param animName string
 ---@param animRandom boolean
-function SetDoodadAnimationRect (r, doodadID, animName, animRandom) end
+function SetDoodadAnimationRect (whichRect, doodadID, animName, animRandom) end
 
 -- ============================================================================
 -- Computer AI interface
 -- 
----@param num player
+---@param whichPlayer player
 ---@param script string
-function StartMeleeAI (num, script) end
----@param num player
+function StartMeleeAI (whichPlayer, script) end
+---@param whichPlayer player
 ---@param script string
-function StartCampaignAI (num, script) end
----@param num player
+function StartCampaignAI (whichPlayer, script) end
+---@param whichPlayer player
 ---@param command integer
 ---@param data integer
-function CommandAI (num, command, data) end
----@param p player
+function CommandAI (whichPlayer, command, data) end
+---@param whichPlayer player
 ---@param pause boolean
-function PauseCompAI (p, pause) end
----@param num player
+function PauseCompAI (whichPlayer, pause) end
+---@param whichPlayer player
 ---@return aidifficulty
-function GetAIDifficulty (num) end
+function GetAIDifficulty (whichPlayer) end
 
----@param hUnit unit
-function RemoveGuardPosition (hUnit) end
----@param hUnit unit
-function RecycleGuardPosition (hUnit) end
----@param num player
-function RemoveAllGuardPositions (num) end
+---@param whichUnit unit
+function RemoveGuardPosition (whichUnit) end
+---@param whichUnit unit
+function RecycleGuardPosition (whichUnit) end
+---@param whichPlayer player
+function RemoveAllGuardPositions (whichPlayer) end
 
 -- ============================================================================
 ---@param cheatStr string
@@ -7588,20 +7592,20 @@ function BitwiseSetByte (i, byteIndex, byteValue) end
 ---@return integer
 function BitwiseNOT (i) end
 ---@author UjAPI
----@param bit1 integer
----@param bit2 integer
+---@param a integer
+---@param b integer
 ---@return integer
-function BitwiseAND (bit1, bit2) end
+function BitwiseAND (a, b) end
 ---@author UjAPI
----@param bit1 integer
----@param bit2 integer
+---@param a integer
+---@param b integer
 ---@return integer
-function BitwiseOR (bit1, bit2) end
+function BitwiseOR (a, b) end
 ---@author UjAPI
----@param bit1 integer
----@param bit2 integer
+---@param a integer
+---@param b integer
 ---@return integer
-function BitwiseXOR (bit1, bit2) end
+function BitwiseXOR (a, b) end
 ---@author UjAPI
 ---@param i integer
 ---@param bitsToShift integer
@@ -7677,9 +7681,9 @@ function IntegerToHandle (i) end
 function AddressToHandle (i) end
 -- Converts given handle and returns its address in game, for safety it's limited to HandleIds >= 0x100000 aka how game limits real handles from "fake".
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return integer
-function HandleToAddress (h) end
+function HandleToAddress (whichHandle) end
 -- 
 
 -- ===================================================
@@ -7694,377 +7698,377 @@ function I2C (i) end
 ---@return integer
 function C2I (c) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return handle
-function HandleToHandle (h) end
+function HandleToHandle (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return agent
-function HandleToAgent (h) end
+function HandleToAgent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return event
-function HandleToEvent (h) end
+function HandleToEvent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return widget
-function HandleToWidget (h) end
+function HandleToWidget (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return unit
-function HandleToUnit (h) end
+function HandleToUnit (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return destructable
-function HandleToDestructable (h) end
+function HandleToDestructable (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return item
-function HandleToItem (h) end
+function HandleToItem (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return ability
-function HandleToAbility (h) end
+function HandleToAbility (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return buff
-function HandleToBuff (h) end
+function HandleToBuff (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return force
-function HandleToForce (h) end
+function HandleToForce (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return group
-function HandleToGroup (h) end
+function HandleToGroup (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return trigger
-function HandleToTrigger (h) end
+function HandleToTrigger (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return triggercondition
-function HandleToTriggercondition (h) end
+function HandleToTriggercondition (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return triggeraction
-function HandleToTriggeraction (h) end
+function HandleToTriggeraction (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return timer
-function HandleToTimer (h) end
+function HandleToTimer (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return location
-function HandleToLocation (h) end
+function HandleToLocation (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return region
-function HandleToRegion (h) end
+function HandleToRegion (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return rect
-function HandleToRect (h) end
+function HandleToRect (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return boolexpr
-function HandleToBoolexpr (h) end
+function HandleToBoolexpr (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return sound
-function HandleToSound (h) end
+function HandleToSound (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return conditionfunc
-function HandleToConditionfunc (h) end
+function HandleToConditionfunc (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return filterfunc
-function HandleToFilterfunc (h) end
+function HandleToFilterfunc (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return unitpool
-function HandleToUnitpool (h) end
+function HandleToUnitpool (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return itempool
-function HandleToItempool (h) end
+function HandleToItempool (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return race
-function HandleToRace (h) end
+function HandleToRace (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return alliancetype
-function HandleToAlliancetype (h) end
+function HandleToAlliancetype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return racepreference
-function HandleToRacepreference (h) end
+function HandleToRacepreference (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return gamestate
-function HandleToGamestate (h) end
+function HandleToGamestate (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return igamestate
-function HandleToIGamestate (h) end
+function HandleToIGamestate (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return fgamestate
-function HandleToFGamestate (h) end
+function HandleToFGamestate (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return playerstate
-function HandleToPlayerstate (h) end
+function HandleToPlayerstate (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return playerscore
-function HandleToPlayerscore (h) end
+function HandleToPlayerscore (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return playergameresult
-function HandleToPlayergameresult (h) end
+function HandleToPlayergameresult (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return unitstate
-function HandleToUnitstate (h) end
+function HandleToUnitstate (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return aidifficulty
-function HandleToAIDifficulty (h) end
+function HandleToAIDifficulty (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return eventid
-function HandleToEventid (h) end
+function HandleToEventid (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return gameevent
-function HandleToGameevent (h) end
+function HandleToGameevent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return playerevent
-function HandleToPlayerevent (h) end
+function HandleToPlayerevent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return playerunitevent
-function HandleToPlayerunitevent (h) end
+function HandleToPlayerunitevent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return unitevent
-function HandleToUnitevent (h) end
+function HandleToUnitevent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return limitop
-function HandleToLimitop (h) end
+function HandleToLimitop (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return widgetevent
-function HandleToWidgetevent (h) end
+function HandleToWidgetevent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return dialogevent
-function HandleToDialogevent (h) end
+function HandleToDialogevent (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return unittype
-function HandleToUnittype (h) end
+function HandleToUnittype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return gamespeed
-function HandleToGamespeed (h) end
+function HandleToGamespeed (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return gamedifficulty
-function HandleToGamedifficulty (h) end
+function HandleToGamedifficulty (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return gametype
-function HandleToGametype (h) end
+function HandleToGametype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return mapflag
-function HandleToMapflag (h) end
+function HandleToMapflag (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return mapvisibility
-function HandleToMapvisibility (h) end
+function HandleToMapvisibility (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return mapsetting
-function HandleToMapsetting (h) end
+function HandleToMapsetting (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return mapdensity
-function HandleToMapdensity (h) end
+function HandleToMapdensity (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return mapcontrol
-function HandleToMapcontrol (h) end
+function HandleToMapcontrol (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return playerslotstate
-function HandleToPlayerslotstate (h) end
+function HandleToPlayerslotstate (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return volumegroup
-function HandleToVolumegroup (h) end
+function HandleToVolumegroup (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return camerafield
-function HandleToCamerafield (h) end
+function HandleToCamerafield (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return camerasetup
-function HandleToCamerasetup (h) end
+function HandleToCamerasetup (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return playercolor
-function HandleToPlayercolor (h) end
+function HandleToPlayercolor (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return placement
-function HandleToPlacement (h) end
+function HandleToPlacement (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return startlocprio
-function HandleToStartlocprio (h) end
+function HandleToStartlocprio (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return raritycontrol
-function HandleToRaritycontrol (h) end
+function HandleToRaritycontrol (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return blendmode
-function HandleToBlendmode (h) end
+function HandleToBlendmode (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return texmapflags
-function HandleToTexmapflags (h) end
+function HandleToTexmapflags (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return effect
-function HandleToEffect (h) end
+function HandleToEffect (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return effecttype
-function HandleToEffecttype (h) end
+function HandleToEffecttype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return weathereffect
-function HandleToWeathereffect (h) end
+function HandleToWeathereffect (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return terraindeformation
-function HandleToTerraindeformation (h) end
+function HandleToTerraindeformation (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return fogstate
-function HandleToFogstate (h) end
+function HandleToFogstate (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return fogmodifier
-function HandleToFogmodifier (h) end
+function HandleToFogmodifier (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return dialog
-function HandleToDialog (h) end
+function HandleToDialog (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return button
-function HandleToButton (h) end
+function HandleToButton (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return quest
-function HandleToQuest (h) end
+function HandleToQuest (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return questitem
-function HandleToQuestitem (h) end
+function HandleToQuestitem (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return defeatcondition
-function HandleToDefeatcondition (h) end
+function HandleToDefeatcondition (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return timerdialog
-function HandleToTimerdialog (h) end
+function HandleToTimerdialog (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return leaderboard
-function HandleToLeaderboard (h) end
+function HandleToLeaderboard (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return multiboard
-function HandleToMultiboard (h) end
+function HandleToMultiboard (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return multiboarditem
-function HandleToMultiboarditem (h) end
+function HandleToMultiboarditem (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return trackable
-function HandleToTrackable (h) end
+function HandleToTrackable (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return gamecache
-function HandleToGamecache (h) end
+function HandleToGamecache (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return version
-function HandleToVersion (h) end
+function HandleToVersion (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return itemtype
-function HandleToItemtype (h) end
+function HandleToItemtype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return texttag
-function HandleToTexttag (h) end
+function HandleToTexttag (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return attacktype
-function HandleToAttacktype (h) end
+function HandleToAttacktype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return damagetype
-function HandleToDamagetype (h) end
+function HandleToDamagetype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return weapontype
-function HandleToWeapontype (h) end
+function HandleToWeapontype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return soundtype
-function HandleToSoundtype (h) end
+function HandleToSoundtype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return lightning
-function HandleToLightning (h) end
+function HandleToLightning (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return pathingtype
-function HandleToPathingtype (h) end
+function HandleToPathingtype (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return image
-function HandleToImage (h) end
+function HandleToImage (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return ubersplat
-function HandleToUbersplat (h) end
+function HandleToUbersplat (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return hashtable
-function HandleToHashtable (h) end
+function HandleToHashtable (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return animtype
-function HandleToAnimType (h) end
+function HandleToAnimType (whichHandle) end
 ---@author UjAPI
----@param h handle
+---@param whichHandle handle
 ---@return subanimtype
-function HandleToSubAnimType (h) end
+function HandleToSubAnimType (whichHandle) end
 -- 
 
 -- ============================================================================
@@ -8822,6 +8826,9 @@ function SetWidescreenState (flag) end
 ---@return boolean
 function IsWindowActive () end
 ---@author UjAPI
+---@return boolean
+function IsWindowMode () end
+---@author UjAPI
 ---@return integer
 function GetWindowWidth () end
 ---@author UjAPI
@@ -8866,21 +8873,37 @@ function SetCursorAnimationLocked (isLock) end
 -- Mouse API
 ---@author UjAPI
 ---@return real
-function GetMouseScreenX () end
+function GetMouseScreenRelativeX () end
 ---@author UjAPI
 ---@return real
-function GetMouseScreenY () end
+function GetMouseScreenRelativeY () end
+---@author UjAPI
+---@return real
+function GetMouseScreenAbsoluteX () end
+---@author UjAPI
+---@return real
+function GetMouseScreenAbsoluteY () end
 
 ---@author UjAPI
 ---@param x real
-function SetMouseScreenX (x) end
+function SetMouseScreenRelativeX (x) end
 ---@author UjAPI
 ---@param y real
-function SetMouseScreenY (y) end
+function SetMouseScreenRelativeY (y) end
 ---@author UjAPI
 ---@param x real
 ---@param y real
-function SetMouseScreenPosition (x, y) end
+function SetMouseScreenRelativePosition (x, y) end
+---@author UjAPI
+---@param x real
+function SetMouseScreenAbsoluteX (x) end
+---@author UjAPI
+---@param y real
+function SetMouseScreenAbsoluteY (y) end
+---@author UjAPI
+---@param x real
+---@param y real
+function SetMouseScreenAbsolutePosition (x, y) end
 
 ---@author UjAPI
 ---@return integer
@@ -8995,6 +9018,12 @@ function DestroyQuestItem (whichQuestItem) end
 function AntiHackEnable (enable) end
 ---@author UjAPI
 ---@param enable boolean
+function AntiHackEnableAddressCheck (enable) end
+---@author UjAPI
+---@param enable boolean
+function AntiHackEnableBreakpointCheck (enable) end
+---@author UjAPI
+---@param enable boolean
 function AntiHackEnableProcessCheck (enable) end
 ---@author UjAPI
 ---@param enable boolean
@@ -9002,13 +9031,10 @@ function AntiHackEnableModuleCheck (enable) end
 ---@author UjAPI
 ---@param enable boolean
 function AntiHackEnableKick (enable) end
----@author UjAPI
----@param enable boolean
----@param isModuleCheck boolean
----@param isProcessCheck boolean
-function AntiHackEnableEx (enable, isModuleCheck, isProcessCheck) end
 
 -- Trigger API
+
+-- EVENT_GAME_HACK_DETECTED
 ---@author UjAPI
 ---@return integer
 function GetTriggerHackId () end
@@ -9024,175 +9050,175 @@ function GetTriggerHackLine () end
 -- Hashtable API
 -- 
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichHandle handle
 ---@return boolean
-function SaveHandle (table, parentKey, childKey, whichHandle) end
+function SaveHandle (whichHashtable, parentKey, childKey, whichHandle) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichCode code
 ---@return boolean
-function SaveCode (table, parentKey, childKey, whichCode) end
+function SaveCode (whichHashtable, parentKey, childKey, whichCode) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichAttackType attacktype
 ---@return boolean
-function SaveAttackTypeHandle (table, parentKey, childKey, whichAttackType) end
+function SaveAttackTypeHandle (whichHashtable, parentKey, childKey, whichAttackType) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichDamageType damagetype
 ---@return boolean
-function SaveDamageTypeHandle (table, parentKey, childKey, whichDamageType) end
+function SaveDamageTypeHandle (whichHashtable, parentKey, childKey, whichDamageType) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichWeaponType weapontype
 ---@return boolean
-function SaveWeaponTypeHandle (table, parentKey, childKey, whichWeaponType) end
+function SaveWeaponTypeHandle (whichHashtable, parentKey, childKey, whichWeaponType) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichBuff buff
 ---@return boolean
-function SaveBuffHandle (table, parentKey, childKey, whichBuff) end
+function SaveBuffHandle (whichHashtable, parentKey, childKey, whichBuff) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichsprite sprite
 ---@return boolean
-function SaveSpriteHandle (table, parentKey, childKey, whichsprite) end
+function SaveSpriteHandle (whichHashtable, parentKey, childKey, whichsprite) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichWar3Image war3image
 ---@return boolean
-function SaveWar3ImageHandle (table, parentKey, childKey, whichWar3Image) end
+function SaveWar3ImageHandle (whichHashtable, parentKey, childKey, whichWar3Image) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichDoodad doodad
 ---@return boolean
-function SaveDoodadHandle (table, parentKey, childKey, whichDoodad) end
+function SaveDoodadHandle (whichHashtable, parentKey, childKey, whichDoodad) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichFile textfilehandle
 ---@return boolean
-function SaveTextFileHandle (table, parentKey, childKey, whichFile) end
+function SaveTextFileHandle (whichHashtable, parentKey, childKey, whichFile) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichProjectile projectile
 ---@return boolean
-function SaveProjectileHandle (table, parentKey, childKey, whichProjectile) end
+function SaveProjectileHandle (whichHashtable, parentKey, childKey, whichProjectile) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichFrame framehandle
 ---@return boolean
-function SaveFrameHandle (table, parentKey, childKey, whichFrame) end
+function SaveFrameHandle (whichHashtable, parentKey, childKey, whichFrame) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@param whichHandleList handlelist
 ---@return boolean
-function SaveHandleList (table, parentKey, childKey, whichHandleList) end
+function SaveHandleList (whichHashtable, parentKey, childKey, whichHandleList) end
 
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return handle
-function LoadHandle (table, parentKey, childKey) end
+function LoadHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return code
-function LoadCode (table, parentKey, childKey) end
+function LoadCode (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return attacktype
-function LoadAttackTypeHandle (table, parentKey, childKey) end
+function LoadAttackTypeHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return damagetype
-function LoadDamageTypeHandle (table, parentKey, childKey) end
+function LoadDamageTypeHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return weapontype
-function LoadWeaponTypeHandle (table, parentKey, childKey) end
+function LoadWeaponTypeHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return buff
-function LoadBuffHandle (table, parentKey, childKey) end
+function LoadBuffHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return sprite
-function LoadSpriteHandle (table, parentKey, childKey) end
+function LoadSpriteHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return war3image
-function LoadWar3ImageHandle (table, parentKey, childKey) end
+function LoadWar3ImageHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return doodad
-function LoadDoodadHandle (table, parentKey, childKey) end
+function LoadDoodadHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return textfilehandle
-function LoadTextFileHandle (table, parentKey, childKey) end
+function LoadTextFileHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return projectile
-function LoadProjectileHandle (table, parentKey, childKey) end
+function LoadProjectileHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return framehandle
-function LoadFrameHandle (table, parentKey, childKey) end
+function LoadFrameHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
 ---@return handlelist
-function LoadHandleList (table, parentKey, childKey) end
+function LoadHandleList (whichHashtable, parentKey, childKey) end
 -- 
 
 -- ============================================================================
@@ -9237,8 +9263,8 @@ function IsReplay () end
 function GetFogModifierForPlayer (whichFogModifier) end
 ---@author UjAPI
 ---@param whichFogModifier fogmodifier
----@param forWhichPlayer player
-function SetFogModifierForPlayer (whichFogModifier, forWhichPlayer) end
+---@param whichPlayer player
+function SetFogModifierForPlayer (whichFogModifier, whichPlayer) end
 ---@author UjAPI
 ---@param whichFogModifier fogmodifier
 ---@param whichState fogstate
@@ -9311,8 +9337,8 @@ function SetFogModifierPositionLoc (whichFogModifier, whichLocation) end
 function GetFogModifierRect (whichFogModifier) end
 ---@author UjAPI
 ---@param whichFogModifier fogmodifier
----@param where rect
-function SetFogModifierRect (whichFogModifier, where) end
+---@param whichRect rect
+function SetFogModifierRect (whichFogModifier, whichRect) end
 ---@author UjAPI
 ---@param whichFogModifier fogmodifier
 ---@param minX real
@@ -9743,7 +9769,7 @@ function HandleListEnumDoodadsInRange (whichHandleList, x, y, radius, filter) en
 ---@param y real
 ---@param radius real
 ---@param filter boolexpr
-function HandleListEnumEffectsInRange (whichHandleList, x, y, radius, filter) end
+function HandleListEnumSpecialEffectsInRange (whichHandleList, x, y, radius, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param x real
@@ -9807,7 +9833,7 @@ function HandleListEnumDoodadsInRangeOfLoc (whichHandleList, whichLocation, radi
 ---@param whichLocation location
 ---@param radius real
 ---@param filter boolexpr
-function HandleListEnumEffectsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
+function HandleListEnumSpecialEffectsInRangeOfLoc (whichHandleList, whichLocation, radius, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param whichLocation location
@@ -9861,7 +9887,7 @@ function HandleListEnumDoodadsInRect (whichHandleList, whichRect, filter) end
 ---@param whichHandleList handlelist
 ---@param whichRect rect
 ---@param filter boolexpr
-function HandleListEnumEffectsInRect (whichHandleList, whichRect, filter) end
+function HandleListEnumSpecialEffectsInRect (whichHandleList, whichRect, filter) end
 ---@author UjAPI
 ---@param whichHandleList handlelist
 ---@param whichRect rect
@@ -10377,523 +10403,233 @@ function TimerSetCallback (whichTimer, whichFunction) end
 -- 
 
 -- ============================================================================
--- Doodad API
--- 
----@author UjAPI
----@param objectid integer
----@param x real
----@param y real
----@param face real
----@param scale real
----@param variation integer
----@return doodad
-function CreateDoodad (objectid, x, y, face, scale, variation) end
----@author UjAPI
----@param objectid integer
----@param x real
----@param y real
----@param z real
----@param face real
----@param scale real
----@param variation integer
----@return doodad
-function CreateDoodadZ (objectid, x, y, z, face, scale, variation) end
----@author UjAPI
----@param whichDoodad doodad
-function RemoveDoodad (whichDoodad) end
----@author UjAPI
----@return integer
-function GetDoodadCount () end
----@author UjAPI
----@param index integer
----@return doodad
-function GetDoodadByIndex (index) end
----@author UjAPI
----@param whichDoodad doodad
----@return integer
-function GetDoodadIndex (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@return integer
-function GetDoodadColour (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param colour integer
-function SetDoodadColour (whichDoodad, colour) end
----@author UjAPI
----@param whichDoodad doodad
----@param red integer
----@param green integer
----@param blue integer
----@param alpha integer
-function SetDoodadVertexColour (whichDoodad, red, green, blue, alpha) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadScale (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param scale real
-function SetDoodadScale (whichDoodad, scale) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadTimeScale (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param timeScale real
-function SetDoodadTimeScale (whichDoodad, timeScale) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadX (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param x real
-function SetDoodadX (whichDoodad, x) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadY (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param y real
-function SetDoodadY (whichDoodad, y) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadZ (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param z real
-function SetDoodadZ (whichDoodad, z) end
----@author UjAPI
----@param whichDoodad doodad
----@param x real
----@param y real
-function SetDoodadPosition (whichDoodad, x, y) end
----@author UjAPI
----@param whichDoodad doodad
----@param x real
----@param y real
----@param z real
-function SetDoodadPositionWithZ (whichDoodad, x, y, z) end
----@author UjAPI
----@param whichDoodad doodad
----@return location
-function GetDoodadPositionLoc (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param whichLocation location
-function SetDoodadPositionLoc (whichDoodad, whichLocation) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadScreenX (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadScreenY (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param x real
----@param y real
----@param z real
-function SetDoodadMatrixScale (whichDoodad, x, y, z) end
----@author UjAPI
----@param whichDoodad doodad
-function ResetDoodadMatrix (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param yaw real
----@param pitch real
----@param roll real
----@param eulerOrder integer
-function SetDoodadOrientationEx (whichDoodad, yaw, pitch, roll, eulerOrder) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadYaw (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param yaw real
-function SetDoodadYaw (whichDoodad, yaw) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadFacing (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param facing real
-function SetDoodadFacing (whichDoodad, facing) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadPitch (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param pitch real
-function SetDoodadPitch (whichDoodad, pitch) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadRoll (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param roll real
-function SetDoodadRoll (whichDoodad, roll) end
----@author UjAPI
----@param whichDoodad doodad
----@param yaw real
----@param pitch real
----@param roll real
-function SetDoodadOrientation (whichDoodad, yaw, pitch, roll) end
----@author UjAPI
----@param whichDoodad doodad
----@return playercolor
-function GetDoodadPlayerColour (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param color playercolor
-function SetDoodadPlayerColour (whichDoodad, color) end
----@author UjAPI
----@param whichDoodad doodad
----@return string
-function GetDoodadModel (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param modelFile string
-function SetDoodadModel (whichDoodad, modelFile) end
----@author UjAPI
----@param whichDoodad doodad
----@param modelFile string
----@param playerId integer
-function SetDoodadModelEx (whichDoodad, modelFile, playerId) end
----@author UjAPI
----@param whichDoodad doodad
----@param textureName string
----@param materialId integer
----@param textureIndex integer
-function SetDoodadMaterialTexture (whichDoodad, textureName, materialId, textureIndex) end
----@author UjAPI
----@param whichDoodad doodad
----@param textureName string
----@param textureIndex integer
-function SetDoodadTexture (whichDoodad, textureName, textureIndex) end
----@author UjAPI
----@param whichDoodad doodad
----@param textureName string
----@param textureIndex integer
-function SetDoodadReplaceableTexture (whichDoodad, textureName, textureIndex) end
----@author UjAPI
----@param whichDoodad doodad
----@return boolean
-function IsDoodadVisible (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param isShow boolean
-function ShowDoodad (whichDoodad, isShow) end
----@author UjAPI
----@param whichDoodad doodad
----@param animIndex integer
----@param rarity raritycontrol
-function SetDoodadAnimationWithRarityByIndex (whichDoodad, animIndex, rarity) end
----@author UjAPI
----@param whichDoodad doodad
----@param animationName string
----@param rarity raritycontrol
-function SetDoodadAnimationWithRarity (whichDoodad, animationName, rarity) end
----@author UjAPI
----@param whichDoodad doodad
----@param animIndex integer
-function SetDoodadAnimationByIndex (whichDoodad, animIndex) end
----@author UjAPI
----@param whichDoodad doodad
----@param animationName string
-function SetDoodadAnimationEx (whichDoodad, animationName) end
----@author UjAPI
----@param whichDoodad doodad
----@param animIndex integer
-function QueueDoodadAnimationByIndex (whichDoodad, animIndex) end
----@author UjAPI
----@param whichDoodad doodad
----@param animationName string
-function QueueDoodadAnimation (whichDoodad, animationName) end
----@author UjAPI
----@param whichDoodad doodad
----@return real
-function GetDoodadAnimationOffsetPercent (whichDoodad) end
----@author UjAPI
----@param whichDoodad doodad
----@param percent real
-function SetDoodadAnimationOffsetPercent (whichDoodad, percent) end
-
----@author UjAPI
----@return doodad
-function GetFilterDoodad () end
----@author UjAPI
----@return doodad
-function GetEnumDoodad () end
-
----@author UjAPI
----@param x real
----@param y real
----@param radius real
----@param filter boolexpr
----@param handlerFunc code
-function EnumDoodadsInRange (x, y, radius, filter, handlerFunc) end
----@author UjAPI
----@param x real
----@param y real
----@param radius real
----@param typeId integer
----@param nearestOnly boolean
----@param filter boolexpr
----@param handlerFunc code
-function EnumDoodadsInRangeEx (x, y, radius, typeId, nearestOnly, filter, handlerFunc) end
-
----@author UjAPI
----@param whichRect rect
----@param filter boolexpr
----@param handlerFunc code
-function EnumDoodadsInRect (whichRect, filter, handlerFunc) end
----@author UjAPI
----@param whichRect rect
----@param typeId integer
----@param nearestOnly boolean
----@param filter boolexpr
----@param handlerFunc code
-function EnumDoodadsInRectEx (whichRect, typeId, nearestOnly, filter, handlerFunc) end
--- 
-
--- ============================================================================
 -- Ability API
 -- 
 
 -- Base Field API
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerfield
 ---@return integer
-function GetAbilityBaseIntegerFieldById (aid, whichField) end
+function GetAbilityBaseIntegerFieldById (abilityTypeId, whichField) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerfield
 ---@param value integer
 ---@return boolean
-function SetAbilityBaseIntegerFieldById (aid, whichField, value) end
+function SetAbilityBaseIntegerFieldById (abilityTypeId, whichField, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanfield
 ---@return boolean
-function GetAbilityBaseBooleanFieldById (aid, whichField) end
+function GetAbilityBaseBooleanFieldById (abilityTypeId, whichField) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanfield
 ---@param value boolean
 ---@return boolean
-function SetAbilityBaseBooleanFieldById (aid, whichField, value) end
+function SetAbilityBaseBooleanFieldById (abilityTypeId, whichField, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityrealfield
 ---@return real
-function GetAbilityBaseRealFieldById (aid, whichField) end
+function GetAbilityBaseRealFieldById (abilityTypeId, whichField) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityrealfield
 ---@param value real
 ---@return boolean
-function SetAbilityBaseRealFieldById (aid, whichField, value) end
+function SetAbilityBaseRealFieldById (abilityTypeId, whichField, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringfield
 ---@return string
-function GetAbilityBaseStringFieldById (aid, whichField) end
+function GetAbilityBaseStringFieldById (abilityTypeId, whichField) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringfield
 ---@param value string
 ---@return boolean
-function SetAbilityBaseStringFieldById (aid, whichField, value) end
+function SetAbilityBaseStringFieldById (abilityTypeId, whichField, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerlevelfield
 ---@param level integer
 ---@return integer
-function GetAbilityBaseIntegerLevelFieldById (aid, whichField, level) end
+function GetAbilityBaseIntegerLevelFieldById (abilityTypeId, whichField, level) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerlevelfield
 ---@param level integer
 ---@param value integer
 ---@return boolean
-function SetAbilityBaseIntegerLevelFieldById (aid, whichField, level, value) end
+function SetAbilityBaseIntegerLevelFieldById (abilityTypeId, whichField, level, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanlevelfield
 ---@param level integer
 ---@return boolean
-function GetAbilityBaseBooleanLevelFieldById (aid, whichField, level) end
+function GetAbilityBaseBooleanLevelFieldById (abilityTypeId, whichField, level) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanlevelfield
 ---@param level integer
 ---@param value boolean
 ---@return boolean
-function SetAbilityBaseBooleanLevelFieldById (aid, whichField, level, value) end
+function SetAbilityBaseBooleanLevelFieldById (abilityTypeId, whichField, level, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityreallevelfield
 ---@param level integer
 ---@return real
-function GetAbilityBaseRealLevelFieldById (aid, whichField, level) end
+function GetAbilityBaseRealLevelFieldById (abilityTypeId, whichField, level) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityreallevelfield
 ---@param level integer
 ---@param value real
 ---@return boolean
-function SetAbilityBaseRealLevelFieldById (aid, whichField, level, value) end
+function SetAbilityBaseRealLevelFieldById (abilityTypeId, whichField, level, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringlevelfield
 ---@param level integer
 ---@return string
-function GetAbilityBaseStringLevelFieldById (aid, whichField, level) end
+function GetAbilityBaseStringLevelFieldById (abilityTypeId, whichField, level) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringlevelfield
 ---@param level integer
 ---@param value string
 ---@return boolean
-function SetAbilityBaseStringLevelFieldById (aid, whichField, level, value) end
+function SetAbilityBaseStringLevelFieldById (abilityTypeId, whichField, level, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerlevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@return integer
-function GetAbilityBaseIntegerLevelArrayFieldById (aid, whichField, level, index) end
+function GetAbilityBaseIntegerLevelArrayFieldById (abilityTypeId, whichField, level, index) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerlevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@param value integer
 ---@return boolean
-function SetAbilityBaseIntegerLevelArrayFieldById (aid, whichField, level, index, value) end
+function SetAbilityBaseIntegerLevelArrayFieldById (abilityTypeId, whichField, level, index, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerlevelarrayfield
 ---@param level integer
 ---@param value integer
 ---@return boolean
-function AddAbilityBaseIntegerLevelArrayFieldById (aid, whichField, level, value) end
+function AddAbilityBaseIntegerLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityintegerlevelarrayfield
 ---@param level integer
 ---@param value integer
 ---@return boolean
-function RemoveAbilityBaseIntegerLevelArrayFieldById (aid, whichField, level, value) end
+function RemoveAbilityBaseIntegerLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanlevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@return boolean
-function GetAbilityBaseBooleanLevelArrayFieldById (aid, whichField, level, index) end
+function GetAbilityBaseBooleanLevelArrayFieldById (abilityTypeId, whichField, level, index) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanlevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@param value boolean
 ---@return boolean
-function SetAbilityBaseBooleanLevelArrayFieldById (aid, whichField, level, index, value) end
+function SetAbilityBaseBooleanLevelArrayFieldById (abilityTypeId, whichField, level, index, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanlevelarrayfield
 ---@param level integer
 ---@param value boolean
 ---@return boolean
-function AddAbilityBaseBooleanLevelArrayFieldById (aid, whichField, level, value) end
+function AddAbilityBaseBooleanLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitybooleanlevelarrayfield
 ---@param level integer
 ---@param value boolean
 ---@return boolean
-function RemoveAbilityBaseBooleanLevelArrayFieldById (aid, whichField, level, value) end
+function RemoveAbilityBaseBooleanLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityreallevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@return real
-function GetAbilityBaseRealLevelArrayFieldById (aid, whichField, level, index) end
+function GetAbilityBaseRealLevelArrayFieldById (abilityTypeId, whichField, level, index) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityreallevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@param value real
 ---@return boolean
-function SetAbilityBaseRealLevelArrayFieldById (aid, whichField, level, index, value) end
+function SetAbilityBaseRealLevelArrayFieldById (abilityTypeId, whichField, level, index, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityreallevelarrayfield
 ---@param level integer
 ---@param value real
 ---@return boolean
-function AddAbilityBaseRealLevelArrayFieldById (aid, whichField, level, value) end
+function AddAbilityBaseRealLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilityreallevelarrayfield
 ---@param level integer
 ---@param value real
 ---@return boolean
-function RemoveAbilityBaseRealLevelArrayFieldById (aid, whichField, level, value) end
+function RemoveAbilityBaseRealLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringlevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@return string
-function GetAbilityBaseStringLevelArrayFieldById (aid, whichField, level, index) end
+function GetAbilityBaseStringLevelArrayFieldById (abilityTypeId, whichField, level, index) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringlevelarrayfield
 ---@param level integer
 ---@param index integer
 ---@param value string
 ---@return boolean
-function SetAbilityBaseStringLevelArrayFieldById (aid, whichField, level, index, value) end
+function SetAbilityBaseStringLevelArrayFieldById (abilityTypeId, whichField, level, index, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringlevelarrayfield
 ---@param level integer
 ---@param value string
 ---@return boolean
-function AddAbilityBaseStringLevelArrayFieldById (aid, whichField, level, value) end
+function AddAbilityBaseStringLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 ---@author UjAPI
----@param aid integer
+---@param abilityTypeId integer
 ---@param whichField abilitystringlevelarrayfield
 ---@param level integer
 ---@param value string
 ---@return boolean
-function RemoveAbilityBaseStringLevelArrayFieldById (aid, whichField, level, value) end
+function RemoveAbilityBaseStringLevelArrayFieldById (abilityTypeId, whichField, level, value) end
 -- 
 
 -- Field API
@@ -11128,20 +10864,27 @@ function RemoveAbilityStringLevelArrayField (whichAbility, whichField, level, va
 function ResetAbilityFieldData (whichAbility) end
 
 ---@author UjAPI
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param source widget
 ---@param target widget
 ---@return boolean
-function IsAbilityBaseTargetAllowed (abilCode, source, target) end
+function IsAbilityBaseTargetAllowed (abilityTypeId, source, target) end
 
 -- Normal API
 ---@author UjAPI
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return ability
-function CreateAbility (abilCode) end
+function CreateAbility (abilityTypeId) end
+---@author UjAPI
+---@param whichAbility ability
+function RemoveAbility (whichAbility) end
+
 ---@author UjAPI
 ---@return ability
 function GetTriggerAbility () end
+---@author UjAPI
+---@return integer
+function GetTriggerAbilityPreviousLevel () end
 ---@author UjAPI
 ---@param whichAbility ability
 ---@param whichAbilityType abilitytype
@@ -11331,156 +11074,156 @@ function EnumUnitAbilities (whichUnit, whichBoolexpr, whichCode) end
 
 -- Base Field API
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityintegerfield
 ---@return integer
-function GetBuffBaseIntegerFieldById (bid, whichField) end
+function GetBuffBaseIntegerFieldById (buffTypeId, whichField) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityintegerfield
 ---@param value integer
 ---@return boolean
-function SetBuffBaseIntegerFieldById (bid, whichField, value) end
+function SetBuffBaseIntegerFieldById (buffTypeId, whichField, value) end
 
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitybooleanfield
 ---@return boolean
-function GetBuffBaseBooleanFieldById (bid, whichField) end
+function GetBuffBaseBooleanFieldById (buffTypeId, whichField) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitybooleanfield
 ---@param value boolean
 ---@return boolean
-function SetBuffBaseBooleanFieldById (bid, whichField, value) end
+function SetBuffBaseBooleanFieldById (buffTypeId, whichField, value) end
 
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityrealfield
 ---@return real
-function GetBuffBaseRealFieldById (bid, whichField) end
+function GetBuffBaseRealFieldById (buffTypeId, whichField) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityrealfield
 ---@param value real
 ---@return boolean
-function SetBuffBaseRealFieldById (bid, whichField, value) end
+function SetBuffBaseRealFieldById (buffTypeId, whichField, value) end
 
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitystringfield
 ---@return string
-function GetBuffBaseStringFieldById (bid, whichField) end
+function GetBuffBaseStringFieldById (buffTypeId, whichField) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitystringfield
 ---@param value string
 ---@return boolean
-function SetBuffBaseStringFieldById (bid, whichField, value) end
+function SetBuffBaseStringFieldById (buffTypeId, whichField, value) end
 
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityintegerfield
 ---@param index integer
 ---@return integer
-function GetBuffBaseIntegerArrayFieldById (bid, whichField, index) end
+function GetBuffBaseIntegerArrayFieldById (buffTypeId, whichField, index) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityintegerfield
 ---@param index integer
 ---@param value integer
 ---@return boolean
-function SetBuffBaseIntegerArrayFieldById (bid, whichField, index, value) end
+function SetBuffBaseIntegerArrayFieldById (buffTypeId, whichField, index, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityintegerfield
 ---@param value integer
 ---@return boolean
-function AddBuffBaseIntegerArrayFieldById (bid, whichField, value) end
+function AddBuffBaseIntegerArrayFieldById (buffTypeId, whichField, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityintegerfield
 ---@param value integer
 ---@return boolean
-function RemoveBuffBaseIntegerArrayFieldById (bid, whichField, value) end
+function RemoveBuffBaseIntegerArrayFieldById (buffTypeId, whichField, value) end
 
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitybooleanfield
 ---@param index integer
 ---@return boolean
-function GetBuffBaseBooleanArrayFieldById (bid, whichField, index) end
+function GetBuffBaseBooleanArrayFieldById (buffTypeId, whichField, index) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitybooleanfield
 ---@param index integer
 ---@param value boolean
 ---@return boolean
-function SetBuffBaseBooleanArrayFieldById (bid, whichField, index, value) end
+function SetBuffBaseBooleanArrayFieldById (buffTypeId, whichField, index, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitybooleanfield
 ---@param value boolean
 ---@return boolean
-function AddBuffBaseBooleanArrayFieldById (bid, whichField, value) end
+function AddBuffBaseBooleanArrayFieldById (buffTypeId, whichField, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitybooleanfield
 ---@param value boolean
 ---@return boolean
-function RemoveBuffBaseBooleanArrayFieldById (bid, whichField, value) end
+function RemoveBuffBaseBooleanArrayFieldById (buffTypeId, whichField, value) end
 
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityrealfield
 ---@param index integer
 ---@return real
-function GetBuffBaseRealArrayFieldById (bid, whichField, index) end
+function GetBuffBaseRealArrayFieldById (buffTypeId, whichField, index) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityrealfield
 ---@param index integer
 ---@param value real
 ---@return boolean
-function SetBuffBaseRealArrayFieldById (bid, whichField, index, value) end
+function SetBuffBaseRealArrayFieldById (buffTypeId, whichField, index, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityrealfield
 ---@param value real
 ---@return boolean
-function AddBuffBaseRealArrayFieldById (bid, whichField, value) end
+function AddBuffBaseRealArrayFieldById (buffTypeId, whichField, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilityrealfield
 ---@param value real
 ---@return boolean
-function RemoveBuffBaseRealArrayFieldById (bid, whichField, value) end
+function RemoveBuffBaseRealArrayFieldById (buffTypeId, whichField, value) end
 
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitystringfield
 ---@param index integer
 ---@return string
-function GetBuffBaseStringArrayFieldById (bid, whichField, index) end
+function GetBuffBaseStringArrayFieldById (buffTypeId, whichField, index) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitystringfield
 ---@param index integer
 ---@param value string
 ---@return boolean
-function SetBuffBaseStringArrayFieldById (bid, whichField, index, value) end
+function SetBuffBaseStringArrayFieldById (buffTypeId, whichField, index, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitystringfield
 ---@param value string
 ---@return boolean
-function AddBuffBaseStringArrayFieldById (bid, whichField, value) end
+function AddBuffBaseStringArrayFieldById (buffTypeId, whichField, value) end
 ---@author UjAPI
----@param bid integer
+---@param buffTypeId integer
 ---@param whichField abilitystringfield
 ---@param value string
 ---@return boolean
-function RemoveBuffBaseStringArrayFieldById (bid, whichField, value) end
+function RemoveBuffBaseStringArrayFieldById (buffTypeId, whichField, value) end
 -- 
 
 -- Field API
@@ -11645,10 +11388,17 @@ function ResetBuffFieldData (whichBuff) end
 -- Normal API
 -- Supported buffs are available here: https://github.com/UnryzeC/UjAPI/blob/main/TypeData/WC3BuffListSupportedInBuffAPI.txt
 ---@author UjAPI
----@param buffId integer
+---@param buffTypeId integer
 ---@return buff
-function CreateBuff (buffId) end
+function CreateBuff (buffTypeId) end
+---@author UjAPI
+---@param whichBuff buff
+function RemoveBuff (whichBuff) end
 
+---@param whichBuff buff
+---@param whichAbilityType abilitytype
+---@return boolean
+function IsBuffType (whichBuff, whichAbilityType) end
 ---@author UjAPI
 ---@param whichBuff buff
 ---@return integer
@@ -11863,6 +11613,18 @@ function GetWar3ImageFacing (whichWar3Image) end
 ---@param facing real
 ---@param isInstant boolean
 function SetWar3ImageFacing (whichWar3Image, facing, isInstant) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageMatrixScaleX (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageMatrixScaleY (whichWar3Image) end
+---@author UjAPI
+---@param whichWar3Image war3image
+---@return real
+function GetWar3ImageMatrixScaleZ (whichWar3Image) end
 ---@author UjAPI
 ---@param whichWar3Image war3image
 ---@param x real
@@ -12147,6 +11909,18 @@ function SetSpriteAlpha (whichSprite, alpha) end
 function SetSpriteVertexColour (whichSprite, red, green, blue, alpha) end
 ---@author UjAPI
 ---@param whichSprite sprite
+---@return real
+function GetSpriteMatrixScaleX (whichSprite) end
+---@author UjAPI
+---@param whichSprite sprite
+---@return real
+function GetSpriteMatrixScaleY (whichSprite) end
+---@author UjAPI
+---@param whichSprite sprite
+---@return real
+function GetSpriteMatrixScaleZ (whichSprite) end
+---@author UjAPI
+---@param whichSprite sprite
 ---@param x real
 ---@param y real
 ---@param z real
@@ -12294,6 +12068,308 @@ function SetSpriteAnimationOffsetPercent (whichSprite, percent) end
 -- 
 
 -- ============================================================================
+-- Doodad API
+-- 
+---@author UjAPI
+---@param objectTypeId integer
+---@param x real
+---@param y real
+---@param facing real
+---@param scale real
+---@param variation integer
+---@return doodad
+function CreateDoodad (objectTypeId, x, y, facing, scale, variation) end
+---@author UjAPI
+---@param objectTypeId integer
+---@param x real
+---@param y real
+---@param z real
+---@param facing real
+---@param scale real
+---@param variation integer
+---@return doodad
+function CreateDoodadZ (objectTypeId, x, y, z, facing, scale, variation) end
+---@author UjAPI
+---@param whichDoodad doodad
+function RemoveDoodad (whichDoodad) end
+---@author UjAPI
+---@return integer
+function GetDoodadCount () end
+---@author UjAPI
+---@param index integer
+---@return doodad
+function GetDoodadByIndex (index) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return integer
+function GetDoodadIndex (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return integer
+function GetDoodadColour (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param colour integer
+function SetDoodadColour (whichDoodad, colour) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param red integer
+---@param green integer
+---@param blue integer
+---@param alpha integer
+function SetDoodadVertexColour (whichDoodad, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadScale (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param scale real
+function SetDoodadScale (whichDoodad, scale) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadTimeScale (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param timeScale real
+function SetDoodadTimeScale (whichDoodad, timeScale) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadX (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+function SetDoodadX (whichDoodad, x) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadY (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param y real
+function SetDoodadY (whichDoodad, y) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadZ (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param z real
+function SetDoodadZ (whichDoodad, z) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+---@param y real
+function SetDoodadPosition (whichDoodad, x, y) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+---@param y real
+---@param z real
+function SetDoodadPositionWithZ (whichDoodad, x, y, z) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return location
+function GetDoodadPositionLoc (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param whichLocation location
+function SetDoodadPositionLoc (whichDoodad, whichLocation) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadScreenX (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadScreenY (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadMatrixScaleX (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadMatrixScaleY (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadMatrixScaleZ (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param x real
+---@param y real
+---@param z real
+function SetDoodadMatrixScale (whichDoodad, x, y, z) end
+---@author UjAPI
+---@param whichDoodad doodad
+function ResetDoodadMatrix (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param yaw real
+---@param pitch real
+---@param roll real
+---@param eulerOrder integer
+function SetDoodadOrientationEx (whichDoodad, yaw, pitch, roll, eulerOrder) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadYaw (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param yaw real
+function SetDoodadYaw (whichDoodad, yaw) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadFacing (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param facing real
+function SetDoodadFacing (whichDoodad, facing) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadPitch (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param pitch real
+function SetDoodadPitch (whichDoodad, pitch) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadRoll (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param roll real
+function SetDoodadRoll (whichDoodad, roll) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param yaw real
+---@param pitch real
+---@param roll real
+function SetDoodadOrientation (whichDoodad, yaw, pitch, roll) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return playercolor
+function GetDoodadPlayerColour (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param color playercolor
+function SetDoodadPlayerColour (whichDoodad, color) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return string
+function GetDoodadModel (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param modelFile string
+function SetDoodadModel (whichDoodad, modelFile) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param modelFile string
+---@param playerId integer
+function SetDoodadModelEx (whichDoodad, modelFile, playerId) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param textureName string
+---@param materialId integer
+---@param textureIndex integer
+function SetDoodadMaterialTexture (whichDoodad, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param textureName string
+---@param textureIndex integer
+function SetDoodadTexture (whichDoodad, textureName, textureIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param textureName string
+---@param textureIndex integer
+function SetDoodadReplaceableTexture (whichDoodad, textureName, textureIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return boolean
+function IsDoodadVisible (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param isShow boolean
+function ShowDoodad (whichDoodad, isShow) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animIndex integer
+---@param rarity raritycontrol
+function SetDoodadAnimationWithRarityByIndex (whichDoodad, animIndex, rarity) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animationName string
+---@param rarity raritycontrol
+function SetDoodadAnimationWithRarity (whichDoodad, animationName, rarity) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animIndex integer
+function SetDoodadAnimationByIndex (whichDoodad, animIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animationName string
+function SetDoodadAnimationEx (whichDoodad, animationName) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animIndex integer
+function QueueDoodadAnimationByIndex (whichDoodad, animIndex) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param animationName string
+function QueueDoodadAnimation (whichDoodad, animationName) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@return real
+function GetDoodadAnimationOffsetPercent (whichDoodad) end
+---@author UjAPI
+---@param whichDoodad doodad
+---@param percent real
+function SetDoodadAnimationOffsetPercent (whichDoodad, percent) end
+
+---@author UjAPI
+---@return doodad
+function GetFilterDoodad () end
+---@author UjAPI
+---@return doodad
+function GetEnumDoodad () end
+
+---@author UjAPI
+---@param x real
+---@param y real
+---@param radius real
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRange (x, y, radius, filter, handlerFunc) end
+---@author UjAPI
+---@param x real
+---@param y real
+---@param radius real
+---@param typeId integer
+---@param nearestOnly boolean
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRangeEx (x, y, radius, typeId, nearestOnly, filter, handlerFunc) end
+
+---@author UjAPI
+---@param whichRect rect
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRect (whichRect, filter, handlerFunc) end
+---@author UjAPI
+---@param whichRect rect
+---@param typeId integer
+---@param nearestOnly boolean
+---@param filter boolexpr
+---@param handlerFunc code
+function EnumDoodadsInRectEx (whichRect, typeId, nearestOnly, filter, handlerFunc) end
+-- 
+
+-- ============================================================================
 -- SpecialEffect API
 -- 
 ---@author UjAPI
@@ -12410,6 +12486,18 @@ function SetSpecialEffectAlpha (whichEffect, alpha) end
 ---@param blue integer
 ---@param alpha integer
 function SetSpecialEffectVertexColour (whichEffect, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichEffect effect
+---@return real
+function GetSpecialEffectMatrixScaleX (whichEffect) end
+---@author UjAPI
+---@param whichEffect effect
+---@return real
+function GetSpecialEffectMatrixScaleY (whichEffect) end
+---@author UjAPI
+---@param whichEffect effect
+---@return real
+function GetSpecialEffectMatrixScaleZ (whichEffect) end
 ---@author UjAPI
 ---@param whichEffect effect
 ---@param x real
@@ -12695,10 +12783,22 @@ function SetTrackableAlpha (whichTrackable, alpha) end
 function SetTrackableVertexColour (whichTrackable, red, green, blue, alpha) end
 ---@author UjAPI
 ---@param whichTrackable trackable
+---@return real
+function GetTrackableMatrixScaleX (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@return real
+function GetTrackableMatrixScaleY (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
+---@return real
+function GetTrackableMatrixScaleZ (whichTrackable) end
+---@author UjAPI
+---@param whichTrackable trackable
 ---@param x real
 ---@param y real
 ---@param z real
-function SetTrackableEffectMatrixScale (whichTrackable, x, y, z) end
+function SetTrackableMatrixScale (whichTrackable, x, y, z) end
 ---@author UjAPI
 ---@param whichTrackable trackable
 function ResetTrackableMatrix (whichTrackable) end
@@ -13004,6 +13104,18 @@ function GetWidgetFacing (whichWidget) end
 function SetWidgetFacing (whichWidget, facing, isInstant) end
 ---@author UjAPI
 ---@param whichWidget widget
+---@return real
+function GetWidgetMatrixScaleX (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
+---@return real
+function GetWidgetMatrixScaleY (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
+---@return real
+function GetWidgetMatrixScaleZ (whichWidget) end
+---@author UjAPI
+---@param whichWidget widget
 ---@param x real
 ---@param y real
 ---@param z real
@@ -13295,6 +13407,18 @@ function GetDestructableFacing (whichDestructable) end
 function SetDestructableFacing (whichDestructable, facing, isInstant) end
 ---@author UjAPI
 ---@param whichDestructable destructable
+---@return real
+function GetDestructableMatrixScaleX (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return real
+function GetDestructableMatrixScaleY (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
+---@return real
+function GetDestructableMatrixScaleZ (whichDestructable) end
+---@author UjAPI
+---@param whichDestructable destructable
 ---@param x real
 ---@param y real
 ---@param z real
@@ -13438,52 +13562,52 @@ function EnumDestructablesInRange (x, y, radius, filter, handlerFunc) end
 
 -- Base Field API
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itemintegerfield
 ---@return integer
-function GetBaseItemIntegerFieldById (itemId, whichField) end
+function GetBaseItemIntegerFieldById (itemTypeId, whichField) end
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itemintegerfield
 ---@param value integer
 ---@return boolean
-function SetBaseItemIntegerFieldById (itemId, whichField, value) end
+function SetBaseItemIntegerFieldById (itemTypeId, whichField, value) end
 
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itembooleanfield
 ---@return boolean
-function GetBaseItemBooleanFieldById (itemId, whichField) end
+function GetBaseItemBooleanFieldById (itemTypeId, whichField) end
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itembooleanfield
 ---@param value boolean
 ---@return boolean
-function SetBaseItemBooleanFieldById (itemId, whichField, value) end
+function SetBaseItemBooleanFieldById (itemTypeId, whichField, value) end
 
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itemrealfield
 ---@return real
-function GetBaseItemRealFieldById (itemId, whichField) end
+function GetBaseItemRealFieldById (itemTypeId, whichField) end
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itemrealfield
 ---@param value real
 ---@return boolean
-function SetBaseItemRealFieldById (itemId, whichField, value) end
+function SetBaseItemRealFieldById (itemTypeId, whichField, value) end
 
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itemstringfield
 ---@return string
-function GetBaseItemStringFieldById (itemId, whichField) end
+function GetBaseItemStringFieldById (itemTypeId, whichField) end
 ---@author UjAPI
----@param itemId integer
+---@param itemTypeId integer
 ---@param whichField itemstringfield
 ---@param value string
 ---@return boolean
-function SetBaseItemStringFieldById (itemId, whichField, value) end
+function SetBaseItemStringFieldById (itemTypeId, whichField, value) end
 -- 
 
 -- Field API
@@ -13614,9 +13738,9 @@ function GetItemMaxLife (whichItem) end
 function SetItemMaxLife (whichItem, maxLife) end
 ---@author UjAPI
 ---@param whichItem item
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return ability
-function GetItemAbilityById (whichItem, abilCode) end
+function GetItemAbilityById (whichItem, abilityTypeId) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param index integer
@@ -13634,14 +13758,14 @@ function ItemAddAbility (whichItem, whichAbility) end
 function ItemRemoveAbility (whichItem, whichAbility) end
 ---@author UjAPI
 ---@param whichItem item
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return boolean
-function ItemAddAbilityById (whichItem, abilCode) end
+function ItemAddAbilityById (whichItem, abilityTypeId) end
 ---@author UjAPI
 ---@param whichItem item
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return boolean
-function ItemRemoveAbilityById (whichItem, abilCode) end
+function ItemRemoveAbilityById (whichItem, abilityTypeId) end
 ---@author UjAPI
 ---@param whichItem item
 ---@return real
@@ -13707,6 +13831,18 @@ function GetItemFacing (whichItem) end
 ---@param facing real
 ---@param isInstant boolean
 function SetItemFacing (whichItem, facing, isInstant) end
+---@author UjAPI
+---@param whichItem item
+---@return real
+function GetItemMatrixScaleX (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@return real
+function GetItemMatrixScaleY (whichItem) end
+---@author UjAPI
+---@param whichItem item
+---@return real
+function GetItemMatrixScaleZ (whichItem) end
 ---@author UjAPI
 ---@param whichItem item
 ---@param x real
@@ -14107,11 +14243,21 @@ function ResetUnitZ (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
+function GetUnitScale (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
 function GetUnitHeight (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param height real
 function SetUnitHeight (whichUnit, height) end
+---@param whichUnit unit
+---@return real
+function GetUnitStatbarHeight (whichUnit) end
+---@param whichUnit unit
+---@param height real
+function SetUnitStatbarHeight (whichUnit, height) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return real
@@ -14225,16 +14371,16 @@ function UnitApplyUpgrades (whichUnit) end
 -- Unit Ability API
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param checkForDuplicates boolean
 ---@return boolean
-function UnitAddAbilityEx (whichUnit, abilCode, checkForDuplicates) end
+function UnitAddAbilityEx (whichUnit, abilityTypeId, checkForDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param removeDuplicates boolean
 ---@return boolean
-function UnitRemoveAbilityEx (whichUnit, abilCode, removeDuplicates) end
+function UnitRemoveAbilityEx (whichUnit, abilityTypeId, removeDuplicates) end
 
 ---@author UjAPI
 ---@param whichUnit unit
@@ -14243,15 +14389,15 @@ function UnitRemoveAbilityEx (whichUnit, abilCode, removeDuplicates) end
 function CountUnitAbilities (whichUnit, alsoCountBuffs) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param aid integer
+---@param abilityTypeId integer
 ---@return ability
-function GetUnitAbility (whichUnit, aid) end
+function GetUnitAbility (whichUnit, abilityTypeId) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param aid integer
+---@param abilityTypeId integer
 ---@param id integer
 ---@return ability
-function GetUnitAbilityEx (whichUnit, aid, id) end
+function GetUnitAbilityEx (whichUnit, abilityTypeId, id) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param index integer
@@ -14259,46 +14405,46 @@ function GetUnitAbilityEx (whichUnit, aid, id) end
 function GetUnitAbilityByIndex (whichUnit, index) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return boolean
-function IsUnitAbilityVisible (whichUnit, abilCode) end
+function IsUnitAbilityVisible (whichUnit, abilityTypeId) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param show boolean
-function ShowUnitAbility (whichUnit, abilCode, show) end
+function ShowUnitAbility (whichUnit, abilityTypeId, show) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param show boolean
 ---@param checkDuplicates boolean
-function ShowUnitAbilityEx (whichUnit, abilCode, show, checkDuplicates) end
+function ShowUnitAbilityEx (whichUnit, abilityTypeId, show, checkDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param hide boolean
 ---@param disable boolean
-function DisableUnitAbility (whichUnit, abilCode, hide, disable) end
+function DisableUnitAbility (whichUnit, abilityTypeId, hide, disable) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param hide boolean
 ---@param disable boolean
 ---@param checkDuplicates boolean
-function DisableUnitAbilityEx (whichUnit, abilCode, hide, disable, checkDuplicates) end
+function DisableUnitAbilityEx (whichUnit, abilityTypeId, hide, disable, checkDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param show boolean
 ---@param enable boolean
-function EnableUnitAbility (whichUnit, abilCode, show, enable) end
+function EnableUnitAbility (whichUnit, abilityTypeId, show, enable) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param abilCode integer
+---@param abilityTypeId integer
 ---@param show boolean
 ---@param enable boolean
 ---@param checkDuplicates boolean
-function EnableUnitAbilityEx (whichUnit, abilCode, show, enable, checkDuplicates) end
+function EnableUnitAbilityEx (whichUnit, abilityTypeId, show, enable, checkDuplicates) end
 -- 
 
 -- Unit Buff API
@@ -14315,15 +14461,15 @@ function UnitAddBuff (whichUnit, whichBuff) end
 function UnitAddBuffEx (whichUnit, whichBuff, checkForDuplicates) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param buffId integer
+---@param buffTypeId integer
 ---@return boolean
-function UnitAddBuffById (whichUnit, buffId) end
+function UnitAddBuffById (whichUnit, buffTypeId) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param buffId integer
+---@param buffTypeId integer
 ---@param checkForDuplicates boolean
 ---@return boolean
-function UnitAddBuffByIdEx (whichUnit, buffId, checkForDuplicates) end
+function UnitAddBuffByIdEx (whichUnit, buffTypeId, checkForDuplicates) end
 
 ---@author UjAPI
 ---@param whichUnit unit
@@ -14331,15 +14477,15 @@ function UnitAddBuffByIdEx (whichUnit, buffId, checkForDuplicates) end
 function CountUnitBuffs (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param buffId integer
+---@param buffTypeId integer
 ---@return buff
-function GetUnitBuff (whichUnit, buffId) end
+function GetUnitBuff (whichUnit, buffTypeId) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param buffId integer
+---@param buffTypeId integer
 ---@param id integer
 ---@return buff
-function GetUnitBuffEx (whichUnit, buffId, id) end
+function GetUnitBuffEx (whichUnit, buffTypeId, id) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param index integer
@@ -14347,9 +14493,9 @@ function GetUnitBuffEx (whichUnit, buffId, id) end
 function GetUnitBuffByIndex (whichUnit, index) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param buffId integer
+---@param buffTypeId integer
 ---@return integer
-function GetUnitBuffLevel (whichUnit, buffId) end
+function GetUnitBuffLevel (whichUnit, buffTypeId) end
 -- 
 
 ---@author UjAPI
@@ -14899,12 +15045,12 @@ function GetUnitRallyPointY (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
-function GetHeroMaxLevelExperienceNeeded (whichUnit) end
+function GetHeroExperienceCurrent (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param forLevel integer
+---@param level integer
 ---@return integer
-function GetHeroExperienceNeeded (whichUnit, forLevel) end
+function GetHeroExperienceRequiredAt (whichUnit, level) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param state boolean
@@ -14955,7 +15101,7 @@ function GetUnitTargetItem (whichUnit) end
 function GetUnitTargetDestructable (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param uid integer
+---@param unitTypeId integer
 ---@param unitFlags integer
 ---@param updateHealthState boolean
 ---@param updateManaState boolean
@@ -14965,11 +15111,11 @@ function GetUnitTargetDestructable (whichUnit) end
 ---@param replaceAbilities boolean
 ---@param whichAbility ability
 ---@param resetBuildingAnimation boolean
-function MorphUnitToTypeIdEx (whichUnit, uid, unitFlags, updateHealthState, updateManaState, healthStateId, manaStateId, updateScale, replaceAbilities, whichAbility, resetBuildingAnimation) end
+function MorphUnitToTypeIdEx (whichUnit, unitTypeId, unitFlags, updateHealthState, updateManaState, healthStateId, manaStateId, updateScale, replaceAbilities, whichAbility, resetBuildingAnimation) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param uid integer
-function MorphUnitToTypeId (whichUnit, uid) end
+---@param unitTypeId integer
+function MorphUnitToTypeId (whichUnit, unitTypeId) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param whichObject string
@@ -14990,6 +15136,15 @@ function GetUnitModelObjectZ (whichUnit, whichObject) end
 ---@param whichObject string
 ---@return location
 function GetUnitModelObjectPositionLoc (whichUnit, whichObject) end
+---@author UjAPI
+---@param whichUnit unit
+---@param animIndex integer
+---@param rarity raritycontrol
+function SetUnitAnimationWithRarityByIndex (whichUnit, animIndex, rarity) end
+---@author UjAPI
+---@param whichUnit unit
+---@param animIndex integer
+function QueueUnitAnimationByIndex (whichUnit, animIndex) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
@@ -15039,6 +15194,18 @@ function GetUnitRoll (whichUnit) end
 ---@param whichUnit unit
 ---@param roll real
 function SetUnitRoll (whichUnit, roll) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitMatrixScaleX (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitMatrixScaleY (whichUnit) end
+---@author UjAPI
+---@param whichUnit unit
+---@return real
+function GetUnitMatrixScaleZ (whichUnit) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@param x real
@@ -15228,65 +15395,65 @@ function SetIllusionDamageReceived (whichUnit, multiplier) end
 -- Unit Order API
 ---@author UjAPI
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@return boolean
-function QueueImmediateOrderById (whichUnit, order) end
+function QueueImmediateOrderById (whichUnit, orderId) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param x real
 ---@param y real
 ---@return boolean
-function QueuePointOrderById (whichUnit, order, x, y) end
+function QueuePointOrderById (whichUnit, orderId, x, y) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param targetWidget widget
 ---@return boolean
-function QueueTargetOrderById (whichUnit, order, targetWidget) end
+function QueueTargetOrderById (whichUnit, orderId, targetWidget) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param x real
 ---@param y real
 ---@param instantTargetWidget widget
 ---@return boolean
-function QueueInstantPointOrderById (whichUnit, order, x, y, instantTargetWidget) end
+function QueueInstantPointOrderById (whichUnit, orderId, x, y, instantTargetWidget) end
 ---@author UjAPI
 ---@param whichUnit unit
----@param order integer
+---@param orderId integer
 ---@param targetWidget widget
 ---@param instantTargetWidget widget
 ---@return boolean
-function QueueInstantTargetOrderById (whichUnit, order, targetWidget, instantTargetWidget) end
+function QueueInstantTargetOrderById (whichUnit, orderId, targetWidget, instantTargetWidget) end
 ---@author UjAPI
 ---@param whichPeon unit
----@param unitId integer
+---@param unitTypeId integer
 ---@param x real
 ---@param y real
 ---@return boolean
-function QueueBuildOrderById (whichPeon, unitId, x, y) end
+function QueueBuildOrderById (whichPeon, unitTypeId, x, y) end
 ---@author UjAPI
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param neutralStructure unit
----@param unitId integer
+---@param unitTypeId integer
 ---@return boolean
-function QueueNeutralImmediateOrderById (forWhichPlayer, neutralStructure, unitId) end
+function QueueNeutralImmediateOrderById (whichPlayer, neutralStructure, unitTypeId) end
 ---@author UjAPI
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param neutralStructure unit
----@param unitId integer
+---@param unitTypeId integer
 ---@param x real
 ---@param y real
 ---@return boolean
-function QueueNeutralPointOrderById (forWhichPlayer, neutralStructure, unitId, x, y) end
+function QueueNeutralPointOrderById (whichPlayer, neutralStructure, unitTypeId, x, y) end
 ---@author UjAPI
----@param forWhichPlayer player
+---@param whichPlayer player
 ---@param neutralStructure unit
----@param unitId integer
+---@param unitTypeId integer
 ---@param target widget
 ---@return boolean
-function QueueNeutralTargetOrderById (forWhichPlayer, neutralStructure, unitId, target) end
+function QueueNeutralTargetOrderById (whichPlayer, neutralStructure, unitTypeId, target) end
 ---@author UjAPI
 ---@param whichUnit unit
 ---@return integer
@@ -15553,6 +15720,18 @@ function SetProjectileAlpha (whichProjectile, alpha) end
 ---@param blue integer
 ---@param alpha integer
 function SetProjectileVertexColour (whichProjectile, red, green, blue, alpha) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileMatrixScaleX (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileMatrixScaleY (whichProjectile) end
+---@author UjAPI
+---@param whichProjectile projectile
+---@return real
+function GetProjectileMatrixScaleZ (whichProjectile) end
 ---@author UjAPI
 ---@param whichProjectile projectile
 ---@param x real
@@ -16694,14 +16873,14 @@ function GetTriggerFrameTargetFrame () end
 ---@author UjAPI
 ---@param whichTrigger trigger
 ---@param whichFrame framehandle
----@param frameEvent frameeventtype
+---@param eventId frameeventtype
 ---@return event
-function TriggerRegisterFrameEvent (whichTrigger, whichFrame, frameEvent) end
+function TriggerRegisterFrameEvent (whichTrigger, whichFrame, eventId) end
 ---@author UjAPI
 ---@param whichFrame framehandle
----@param whichButton mousebuttontype
+---@param whichMouseButton mousebuttontype
 ---@param isAdd boolean
-function RegisterFrameMouseButton (whichFrame, whichButton, isAdd) end
+function RegisterFrameMouseButton (whichFrame, whichMouseButton, isAdd) end
 -- 
 
 -- Frame Sprite API
@@ -16818,6 +16997,18 @@ function SetFrameSpriteOrientation (whichFrame, yaw, pitch, roll) end
 ---@param materialId integer
 ---@param textureIndex integer
 function SetFrameSpriteMaterialTexture (whichFrame, textureName, materialId, textureIndex) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return real
+function GetFrameSpriteMatrixScaleX (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return real
+function GetFrameSpriteMatrixScaleY (whichFrame) end
+---@author UjAPI
+---@param whichFrame framehandle
+---@return real
+function GetFrameSpriteMatrixScaleZ (whichFrame) end
 ---@author UjAPI
 ---@param whichFrame framehandle
 ---@param sizeX real
@@ -16964,30 +17155,30 @@ function GetSyncSavedParentKey () end
 function GetSyncSavedChildKey () end
 
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function SyncSavedInteger (table, parentKey, childKey) end
+function SyncSavedInteger (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function SyncSavedReal (table, parentKey, childKey) end
+function SyncSavedReal (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function SyncSavedString (table, parentKey, childKey) end
+function SyncSavedString (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function SyncSavedHandle (table, parentKey, childKey) end
+function SyncSavedHandle (whichHashtable, parentKey, childKey) end
 ---@author UjAPI
----@param table hashtable
+---@param whichHashtable hashtable
 ---@param parentKey integer
 ---@param childKey integer
-function SyncSavedBoolean (table, parentKey, childKey) end
+function SyncSavedBoolean (whichHashtable, parentKey, childKey) end
 
 ---@author UjAPI
 ---@param whichTrigger trigger
@@ -17022,13 +17213,13 @@ function TriggerRegisterPlayerSyncEvent (whichTrigger, whichPlayer, prefix, from
 
 -- Key/KeyEvent API
 ---@author UjAPI
----@param key oskeytype
+---@param whichKey oskeytype
 ---@return boolean
-function IsKeyPressed (key) end
+function IsKeyPressed (whichKey) end
 ---@author UjAPI
----@param mouseKey mousebuttontype
+---@param whichMouseButton mousebuttontype
 ---@return boolean
-function IsMouseKeyPressed (mouseKey) end
+function IsMouseKeyPressed (whichMouseButton) end
 ---@author UjAPI
 ---@return boolean
 function GetTriggerPlayerIsKeyDown () end
@@ -17081,7 +17272,7 @@ function GetMouseMoveEventDelay () end
 ---@param delay integer
 function SetMouseMoveEventDelay (delay) end
 
--- EVENT_PLAYER_MOUSE_MOVE_WORLD
+-- EVENT_PLAYER_MOUSE_MOVE
 -- EVENT_PLAYER_WIDGET_TRACK
 -- EVENT_PLAYER_WIDGET_GHOST_TRACK
 -- EVENT_PLAYER_WIDGET_CLICK
@@ -17212,9 +17403,9 @@ function ParseTags (taggedString) end
 -- EVENT_COMMAND_BUTTON_CLICK
 ---@param whichTrigger trigger
 ---@param whichAbility integer
----@param order string
+---@param orderName string
 ---@return event
-function TriggerRegisterCommandEvent (whichTrigger, whichAbility, order) end
+function TriggerRegisterCommandEvent (whichTrigger, whichAbility, orderName) end
 ---@param whichTrigger trigger
 ---@param whichUpgrade integer
 ---@return event
@@ -17275,8 +17466,8 @@ function CreateMinimapIcon (x, y, red, green, blue, pingPath, fogVisibility) end
 ---@param key string
 ---@return string
 function SkinManagerGetLocalPath (key) end
----@param pingId minimapicon
-function DestroyMinimapIcon (pingId) end
+---@param whichMinimapIcon minimapicon
+function DestroyMinimapIcon (whichMinimapIcon) end
 ---@param whichMinimapIcon minimapicon
 ---@param visible boolean
 function SetMinimapIconVisible (whichMinimapIcon, visible) end
@@ -17346,16 +17537,16 @@ function AutomationTestingFinished () end
 -- native BlzFourCC2S takes integer value returns string
 -- native BlzS2FourCC takes string value returns integer
 
----@param abilCode integer
----@param order string
+---@param abilityTypeId integer
+---@param orderName string
 ---@return commandbuttoneffect
-function CreateCommandButtonEffect (abilCode, order) end
+function CreateCommandButtonEffect (abilityTypeId, orderName) end
 ---@param whichUprgade integer
 ---@return commandbuttoneffect
 function CreateUpgradeCommandButtonEffect (whichUprgade) end
----@param abilCode integer
+---@param abilityTypeId integer
 ---@return commandbuttoneffect
-function CreateLearnCommandButtonEffect (abilCode) end
+function CreateLearnCommandButtonEffect (abilityTypeId) end
 ---@param whichEffect commandbuttoneffect
 function DestroyCommandButtonEffect (whichEffect) end
 

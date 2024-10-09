@@ -54,7 +54,7 @@
 |fogstate|handle||ConvertFogState|
 |force|agent|||
 |frameeventtype|handle|✅|ConvertFrameEventType|
-|framehandle|handle|✅||
+|framehandle|agent|✅||
 |framepointtype|handle|✅|ConvertFramePointType|
 |framestate|flagtype|✅|ConvertFrameState|
 |gamecache|agent|||
@@ -65,7 +65,7 @@
 |gametype|flagtype||ConvertGameType|
 |gridstyleflag|flagtype|✅|ConvertGridStyleFlag|
 |group|agent|||
-|handlelist|handle|✅||
+|handlelist|agent|✅||
 |hashtable|agent|||
 |heroattribute|handle|✅|ConvertHeroAttribute|
 |igamestate|gamestate||ConvertIGameState|
@@ -131,14 +131,15 @@
 |terraindeformation|handle|||
 |texmapflags|handle||ConvertTexMapFlags|
 |textaligntype|handle|✅|ConvertTextAlignType|
-|textfilehandle|handle|✅||
+|textfilehandle|agent|✅||
 |texttag|handle|||
 |timer|agent|||
 |timerdialog|agent|||
 |timetype|handle|✅|ConvertTimeType|
 |trackable|war3image|||
+|tradestate|handle|✅|ConvertTradeState|
 |trigger|agent|||
-|triggeraction|handle|||
+|triggeraction|agent|||
 |triggercondition|agent|||
 |ubersplat|handle|||
 |unit|widget|||
